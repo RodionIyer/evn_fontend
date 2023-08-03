@@ -1,0 +1,123 @@
+<div class="relative eco_conntent">
+    <!--màn hình danh sách-->
+    <ng-container *ngIf="!actionClick">
+        <div class="flex items-center justify-between">
+            <h1 class="title-component">ĐỀ TÀI, NHIỆM VỤ ĐÃ HOÀN THÀNH            </h1>
+           
+        </div>
+        <div class="flex flex-row row gap-4 items-center mb-3	">
+            <div class="basic-1/5">
+                <label for="">Cấp quản lý</label>
+            </div>
+            <div class="basis-1/7">
+                <ng-select
+                    style="width: 200px;"
+                    [items]="listYears"
+                    bindLabel="NAME"
+                    bindValue="ID"
+                    placeholder="Chọn năm"
+                    [(ngModel)]="selectedYear"
+                >
+                </ng-select>
+            </div>
+            <div class="basic-1/5">
+                <label for="">Đơn vị chủ trì</label>
+            </div>
+            <div class="basis-1/5">
+                <ng-select
+                    style="width: 200px;"
+                    [items]="listYears"
+                    bindLabel="NAME"
+                    bindValue="ID"
+                    placeholder="Lựa chọn"
+                    [(ngModel)]="selectedYear"
+                >
+                </ng-select>
+            </div>
+        </div>
+
+
+        <div class="flex flex-row row gap-4 items-center">
+            <div class="basic-1/4" style="margin-right: 13px;">
+                <label for="">Tìm kiếm</label>
+            </div>
+            <div class="basis-1/2">
+                <input
+                style="width: 80%"
+                type="text"
+                class="form-control"
+                placeholder="Nhập từ khóa tìm kiếm: tên đề tài,nhiệm vụ, chủ nhiệm, đồng chủ nhiệm, thư ký"
+            />
+            </div>
+            <div class="basis-1/4">
+                <button class="add_button">
+                    <i class="fa fa-search"></i>
+                    Tìm kiếm
+                </button>
+            </div>
+        </div>
+
+
+        <div class="header-list-dinh-huong">
+            <div class="serach-box">
+              
+               
+            </div>
+        </div>
+        <table class="table table_custom">
+            <thead>
+                <tr>
+                    <th class="stt_table">STT</th>
+                    <th>Tên đề tài/ nhiệm vụ KHCN</th>
+                    <th class="text-center">Cấp quản lý</th>
+                    <th class="text-center">Chủ nhiệm đề tài</th>
+                    <th class="text-center">Đơn vị chủ trì</th>
+                    <th class="text-center">Thời gian thực hiện</th>
+                    <th class="text-center">Trạng thái</th>
+                    <th class="text-center">Năm đăng ký</th>
+                    <th class="text-center" ></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="stt_table">1</td>
+                    <td>Bản đăng ký định hướng 2023</td>
+                    <td>Cấp EVN</td>
+                    <td class="text-center">Trần Văn A</td>
+                    <td>Ban kế toán</td>
+                    <td class="text-center">01/06/2023 9:10:30</td>
+                    <td>Đang thực hiện</td>
+                    <td class="text-center">2023</td>
+                    <td class="text-center action-table" style="width: 70px;">
+                        <div class="flex justify-evenly">
+                            <i (click)="detail($event)"
+                                class="fa fa-info-circle"
+                                title="Xem chi tiết"
+                            ></i>
+                            <i class="fa fa-repeat"  title="Xem lịch sử"></i>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!-- phan trang -->
+        <mat-paginator
+            (page)="handlePageEvent($event)"
+            [length]="length"
+            [pageSize]="pageSize"
+            [showFirstLastButtons]="showFirstLastButtons"
+            [pageSizeOptions]="pageSizeOptions"
+            [pageIndex]="pageIndex"
+            aria-label="Select page"
+        >
+        </mat-paginator>
+    </ng-container>
+    <!-- details -->
+    <ng-container *ngIf="actionClick">
+        <div
+            class="flex-auto z-20 absolute inset-0 lg:static lg:inset-auto flex"
+        >
+            <router-outlet></router-outlet>
+        </div>
+    </ng-container>
+</div>

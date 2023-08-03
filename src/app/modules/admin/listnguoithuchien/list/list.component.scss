@@ -1,0 +1,16 @@
+.fuse-vertical-navigation-group-item {
+    margin-top: 6px !important;
+}
+th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type {
+    text-align: center;
+    padding: unset !important; 
+}
+th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type{
+    padding: unset !important; 
+}
+
+.change-margin-matInput{
+    .mat-form-field-wrapper {
+        margin: .5rem !important;
+    }
+}

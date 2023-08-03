@@ -1,0 +1,30 @@
+<!-- Button -->
+<div class="relative flex flex-0 items-center justify-between h-16 px-4 border-b">
+    <!-- <div>
+        <span class="relative ml-2 font-semibold text-primary text-xl uppercase whitespace-nowrap truncate">{{user.ORGDESC}}</span>
+    </div> -->
+    <div [matMenuTriggerFor]="userActions" class="h-name-user"
+        style="margin-right: 16px;flex-direction: row;display: flex; cursor: pointer; align-items: center;">
+        <span class="relative" *ngIf="user ? true : false">
+            <img mat-icon-button class="w-8 h-8 rounded-full ng-star-inserted"
+                style="width: 32px !important; height: 32px !important" *ngIf="showAvatar && user.avatar"
+                [src]="user.avatar" />
+        </span>
+        <div class="u-name ml-4">
+            <div>{{ user.userName }}</div>
+            <div style="color: #7B7B7B;">{{ user.descript }}</div>
+        </div>
+    </div>
+
+    <mat-menu [xPosition]="'before'" #userActions="matMenu">
+        <button mat-menu-item>
+            <mat-icon [svgIcon]="'heroicons_outline:cog'"></mat-icon>
+            <span>Cài đặt</span>
+        </button>
+        <mat-divider class="my-2"></mat-divider>
+        <button mat-menu-item (click)="signOut()">
+            <mat-icon [svgIcon]="'heroicons_outline:logout'"></mat-icon>
+            <span>Thoát</span>
+        </button>
+    </mat-menu>
+</div>

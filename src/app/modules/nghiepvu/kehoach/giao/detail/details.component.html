@@ -1,0 +1,93 @@
+<div [formGroup]="form" (ngSubmit)="onSubmit('CGIAO')" novalidate 
+    class="flex flex-col flex-auto overflow-y-auto lg:overflow-hidden bg-card dark:bg-default content-detail">
+    <div class="flex items-center justify-between">
+        <h1 class="title-component"><i class="fa fa-arrow-left cursor-point" (click)="backHome()" aria-hidden="true"></i> 
+            <span *ngIf="checkChiTiet !='duyet'" style="margin-left: 10px;">BẢNG TỔNG HỢP ĐĂNG KÝ ĐỊNH HƯỚNG</span>
+        </h1>
+      
+    </div>
+    <div class="header-detail">
+        <div class="row-one flex items-center">
+            <div class="view-all w-100">
+            <div class="dinhhuong-name">
+                <div style="width: 2%; float: left;display: flex;"> <label style="display: flex;height:30px;align-items: center;"  for="">Tên</label></div>
+                <div style="float: left;">
+                <input type="text" formControlName="name" placeholder="Nhập tên bảng tổng hợp đăng ký"
+                     class="form-control input-form" />
+                     <div *ngIf="submitted.check && f?.name?.errors" class="invalid-feedback">
+                        <div *ngIf="f.name.errors.required">Trường bắt buộc nhập</div>
+                      </div>
+                    </div> 
+                     <div class="statust-right" style="float: left;margin-left: 20px;">
+                        <label for="">Kỳ tổng hợp</label>
+                        <ng-select [items]="listYears" bindLabel="NAME" bindValue="ID" placeholder="Chọn năm"
+                        formControlName="year">
+                        </ng-select>
+                    </div>
+             </div>
+            <div class="pull-right" style="margin-right: 60px;">
+                <button class="add_button"  (click)="onSubmitTongHop('CGIAO','EVN')">
+                    <i class="fa fa-save" ></i> Lưu
+                </button>
+                <button class="add_button-import"  (click)="onSubmit('DGIAO')">
+                    <i class="fa fa-user"></i> Giao thực hiện
+                </button>
+                <button class="add_button-export">
+                    <i class="fa fa-plus"></i> Xuất dữ liệu biểu mẫu đăng ký
+                </button>
+            </div>
+        </div>
+           
+        </div>
+        <div class="row-tow" *ngIf="checkChiTiet =='duyet'" [class.khongthaotac]="record.isEmail==false">
+            <input  type="checkbox" formControlName="lock" checked="{{record.lock}}" (change)="onChangEmail()"
+            class="mr-1" />
+            <label for=""> Gửi email thông báo tới cán bộ đăng ký</label>
+        </div>
+        <div class="row-three flex items-center">
+            <label style="width: 7%;" for="">Văn bản đăng ký<span>(*)</span></label>
+            <label class="custom-file-upload add_button-import">
+                <input type="file" multiple  (change)="handleUpload($event)" #fileUpload2/>
+                <i class="fa fa-cloud-upload"></i> Upload file
+            </label>
+            <button class="add_button" style="margin-left: 99px;">
+                <i class="fa fa-search"></i> Tìm kiếm từ D-Office
+            </button>
+        </div>
+        <div class="list-file" *ngIf="listupload.length >0">
+            <table class="table table_custom action-table">
+                <thead>
+                    <tr>
+                        <th class="stt_table">STT</th>
+                        <th>Tên file</th>
+                        <th class="text-center">Kích thước
+                        </th>
+                        <th class="text-center">Số văn bản
+                        </th>
+                        <th style="width: 100px;"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of listupload; let i = index">
+                        <td class="stt_table">{{i+1}}</td>
+                        <td>{{item.fileName}}</td>
+                        <td>{{item.size >(1024 * 1024)?(item.size/(1024*1024)).toFixed(1)+'(MB)':item.size >1024?(item.size/(1024)).toFixed(1)+'(KB)':item.size.toFixed(1) +"K"}}</td>
+                        <td>{{item.sovanban}}</td>
+                        <td class="text-center"> 
+                            <i *ngIf="checkChiTiet =='TH_DonVi' || checkChiTiet =='TH_EVN'" style="color: red; cursor: pointer;    margin-right: 10px;" (click)="deleteItemFile(item)" class="fa fa-trash" title="Xóa bỏ"></i>
+                            <i class="fa fa-cloud-download" style="color: green; cursor: pointer;" aria-hidden="true" (click)="downLoadFile(item)" title="Download file"></i>
+                        </td>
+        
+                    </tr>
+        
+                </tbody>
+            </table>
+        </div>
+        <div class="row-for">
+            <p>
+                Lưu ý: Bản đăng ký kế hoạch phải được lãnh đạo đơn vị thông qua
+            </p>
+        </div>
+    </div>
+ <table-plans [form]="form" [submitted]="submitted" [class.khongthaotac]="checkChiTiet=='chitiet' || checkChiTiet=='duyet' "></table-plans>
+</div>

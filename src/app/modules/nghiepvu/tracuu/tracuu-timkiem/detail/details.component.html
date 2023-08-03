@@ -1,0 +1,449 @@
+<div
+    *ngIf="actionType == 'THEMMOI' || actionType == 'CHINHSUA'"
+    class="flex flex-col flex-auto overflow-y-auto bg-card dark:bg-default content-detail p-3"
+>
+    <div class="">
+        <h1 class="title-component">ĐĂNG KÝ SÁNG KIẾN</h1>
+    </div>
+
+    <div class="flex flex-row row gap-4 items-center">
+        <div class="basis-2/12">
+            <label for="">Hoạt động KHCN<span>(*)</span></label>
+        </div>
+        <div class="basis-2/5">
+            <ng-select
+                [items]="listYears"
+                bindLabel="NAME"
+                bindValue="ID"
+                placeholder="Lựa chọn"
+                [(ngModel)]="selectedYear"
+            >
+            </ng-select>
+        </div>
+        <div class="basis-2/12">
+            <label for="">Đơn vị chủ đầu tư<span>(*)</span></label>
+        </div>
+        <div class="basis-2/5">
+            <ng-select
+                [items]="listYears"
+                bindLabel="NAME"
+                bindValue="ID"
+                placeholder="Lựa chọn"
+                [(ngModel)]="selectedYear"
+            >
+            </ng-select>
+        </div>
+    </div>
+    <div class="flex flex-row row gap-4 items-center">
+        <div class="basis-2/12">
+            <label for="">Cấp độ sáng kiến<span>(*)</span></label>
+        </div>
+        <div class="basis-2/5">
+            <ng-select
+                [items]="listYears"
+                bindLabel="NAME"
+                bindValue="ID"
+                placeholder="Lựa chọn"
+                [(ngModel)]="selectedYear"
+            >
+            </ng-select>
+        </div>
+        <div class="basis-2/12">
+            <label for="">Đơn vị chủ đầu tư<span>(*)</span></label>
+        </div>
+        <div class="basis-2/5">
+            <ng-select
+                [items]="listYears"
+                bindLabel="NAME"
+                bindValue="ID"
+                placeholder="Lựa chọn"
+                [(ngModel)]="selectedYear"
+            >
+            </ng-select>
+        </div>
+    </div>
+
+    <div class="flex flex-row row gap-4">
+        <div class="basis-full">
+            <label for="">Tên giải pháp<span>(*)</span></label>
+            <textarea
+                name=""
+                class="form-control p-2 min-h-18"
+                id=""
+                cols="30"
+                rows="10"
+            ></textarea>
+        </div>
+    </div>
+
+    <label for="">Tác gỉa/Đồng tác giả của giải pháp</label>
+    <table class="table table_custom">
+        <thead>
+            <tr>
+                <th class="stt_table">STT</th>
+                <th>Họ và tên</th>
+                <th>Vai trò</th>
+                <th>Năm sinh</th>
+                <th>Nơi công tác</th>
+                <th>Trình độ chuyên môn</th>
+                <th>Nội dung tham gia</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="stt_table">1</td>
+                <td> <div class="select-cbkh flex items-center form-control">
+                    <input class="inputselect" type="text" name="" id="" />
+                    <i (click)="openAlertDialog()" class="fa fa-search"></i>
+                </div></td>
+                <td>
+                    <ng-select
+                        [items]="listYears"
+                        bindLabel="NAME"
+                        bindValue="ID"
+                        placeholder="Lựa chọn"
+                        [(ngModel)]="selectedYear"
+                    >
+                    </ng-select>
+                </td>
+                <td>EVN</td>
+                <td>EVN</td>
+                <td>EVN</td>
+                <td>EVN</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="flex flex-row row gap-4 items-center mt-3">
+        <div class="basis-1/4">
+            <label for="">Lĩnh vực áp dụng sáng kiến</label>
+        </div>
+        <div class="basis-1/4">
+            <div class="list_check">
+                <div class="item_list_check">
+                    <input type="checkbox" name="" id="" />
+                    <span>Thủy điện</span>
+                </div>
+                <div class="item_list_check">
+                    <input type="checkbox" name="" id="" />
+                    <span>Công nghệ thông tin</span>
+                </div>
+            </div>
+        </div>
+        <div class="basis-1/2 flex items-center justify-end">
+            <input type="checkbox" class="mr-1">
+            <label for="">Lĩnh vực áp dụng sáng kiến</label>
+        </div>
+    </div>
+    <div class="flex flex-row row gap-4">
+        <div class="basis-full">
+            <label for="">Ưu nhược điểm của giải pháp kỹ thuật<span>(*)</span></label>
+            <textarea
+                name=""
+                id=""
+                class="form-control p-3 min-h-30"
+            ></textarea>
+        </div>
+    </div>
+    <div class="flex flex-row row gap-4">
+        <div class="basis-full">
+            <label for="">Nội dung giải pháp<span>(*)</span></label>
+            <textarea
+                name=""
+                id=""
+                class="form-control p-3 min-h-30"
+            ></textarea>
+        </div>
+    </div>
+    <div class="flex flex-row row gap-4 items-center mt-3">
+            <label for="" class="">Ngày áp dụng chính thức (Không được ít hơn 3 tháng và không quá 1 năm)</label>
+            <input type="date" class="form-control ml-9 w-60">
+        </div>
+    <div class="flex flex-row row gap-4">
+        <div class="basis-full">
+            <label for="">Quá trình áp dụng giải pháp trên thực tiễn hoặc áp dụng thử</label>
+            <textarea
+                name=""
+                id=""
+                class="form-control p-3 min-h-30"
+            ></textarea>
+        </div>
+    </div>
+    <div class="flex flex-row row gap-4">
+        <div class="basis-full">
+            <label for="">Hiệu quả thực tế thu được khi áp dụng giải pháp</label>
+            <textarea
+                name=""
+                id=""
+                class="form-control p-3 min-h-30"
+            ></textarea>
+        </div>
+    </div>
+    <div class="flex flex-row row gap-4">
+        <div class="basis-full">
+            <label for="">Tóm tắt: Bản chất của giải pháp/sáng kiến</label>
+            <textarea
+                name=""
+                id=""
+                class="form-control p-3 min-h-30"
+            ></textarea>
+        </div>
+    </div>
+    <div class="flex flex-row row gap-4">
+        <div class="basis-full">
+            <label for="">Danh sách những người tham gia tổ chức áp dụng sáng kiến lần đầu (nếu có)</label>
+            <textarea
+                name=""
+                id=""
+                class="form-control p-3 min-h-30"
+            ></textarea>
+        </div>
+    </div>
+    <div class="flex flex-row row gap-4 items-center">
+        <label for="">Số tiền làm lợi trong năm đầu tiên áp dụng giải pháp</label>
+        <input type="text" class="form-control w-100 ml-4 mr-4" name="" id="">
+        <label for="">(Lần tháng lương cơ sơ)</label>
+    </div>
+    <div class="flex flex-row row items-center">
+        <label for="" class="w-100">Đơn đã ký<span>(*)</span></label>
+        <label for="chontep" class="bg-neutral-300 px-10 py-2 rounded-md cursor-pointer">Chọn tệp</label>
+        <input type="file" name="" id="chontep" hidden>
+    </div>
+    <div class="flex flex-row row items-center">
+        <label for="" class="w-100">Hồ sơ, tài liệu đính kèm</label>
+        <label for="chontep1" class="bg-neutral-300 px-10 py-2 rounded-md cursor-pointer">Chọn tệp</label>
+        <input type="file" name="" id="chontep1" hidden>
+    </div>
+
+    <div class="action-all-f">
+        <button class="add_button"><i class="fa fa-save"></i> Lưu</button>
+        <button class="add_button	">
+            <i class="fa fa-save"></i> Lưu và gửi
+        </button>
+        <button class="add_button bg-sky-500	">
+            <i class="fa fa-cloud-download"></i> Tải mẫu đơn
+        </button>
+    </div>
+</div>
+<!--chi tiết-->
+<div
+    *ngIf="actionType == 'CHITIET'"
+    class="flex flex-col flex-auto overflow-y-auto bg-card dark:bg-default content-detail p-3"
+>
+    <div class="">
+        <h1 class="title-component">CHI TIẾT THÔNG TIN SÁNG KIẾN        </h1>
+    </div>
+
+    <mat-tab-group class="detail_tab1">
+        <mat-tab label="Thông tin sáng kiến        ">
+            <table class="table table_custom" style="margin-top: 0">
+                <tbody>
+                    <tr>
+                        <td>Tên giải pháp                        </td>
+                        <td style="font-weight: 600; color: #2a3493">
+                            Ứng dụng chuyển đổi số trong Hóa đơn điện tử
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Cấp độ sáng kiến</td>
+                        <td>ỨCấp EVN</td>
+                    </tr>
+                    <tr>
+                        <td>Lĩnh vực áp dụng sáng kiến</td>
+                        <td>ỨCấp EVN</td>
+                    </tr>
+                    <tr>
+                        <td>Đơn vị chủ đầu tư</td>
+                        <td>ỨCấp EVN</td>
+                    </tr>
+                    <tr>
+                        <td>Ưu nhược điểm của giải pháp kỹ thuật</td>
+                        <td>ỨCấp EVN</td>
+                    </tr>
+                    <tr>
+                        <td>Năm</td>
+                        <td>ỨCấp EVN</td>
+                    </tr>
+                    <tr>
+                        <td>Nội dung giải pháp</td>
+                        <td>ỨCấp EVN</td>
+                    </tr>
+                    <tr>
+                        <td>Ngày áp dụng chính thức</td>
+                        <td>Thư ký đề tài</td>
+                    </tr>
+                    <tr>
+                        <td>Quá trình áp dụng giải pháp trên thực tiễn hoặc áp dụng thử</td>
+                        <td>ỨCấp EVN</td>
+                    </tr>
+                    <tr>
+                        <td>Hiệu quả thực tế thu được khi áp dụng giải pháp</td>
+                        <td>ỨCấp EVN</td>
+                    </tr>
+                    <tr>
+                        <td>Tóm tắt: Bản chất của giải pháp/sáng kiến</td>
+                        <td>ỨCấp EVN</td>
+                    </tr>
+                    <tr>
+                        <td>Danh sách những người tham gia tổ chức áp dụng sáng kiến lần đầu (nếu có)</td>
+                        <td>ỨCấp EVN</td>
+                    </tr>
+                    <tr>
+                        <td>Số tiền làm lợi trong năm đầu tiên áp dụng giải pháp</td>
+                        <td>ỨCấp EVN</td>
+                    </tr>
+                    <tr>
+                        <td>Tác giả là thủ trưởng đơn vị</td>
+                        <td>ỨCấp EVN</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="flex items-center mt-3">
+                <input type="text" placeholder="Đơn đăng ký" class="form-control w-100 mr-2" name="" id="">
+                <button class="bg-sky-500 color text-white px-8 py-2 rounded-md"><i class="fa fa-cloud-download"></i> Tải về</button>
+            </div>
+            <div class="flex items-center mt-3">
+                <input type="text" placeholder="Hồ sơ tài liệu đính kèm" class="form-control w-100 mr-2" name="" id="">
+                <button class="bg-sky-500 color text-white px-8 py-2 rounded-md"><i class="fa fa-cloud-download"></i> Tải về</button>
+            </div>
+        </mat-tab>
+        <mat-tab label="Thông tin tác giả">
+            <table class="table table_custom" style="margin-top: 0">
+                <thead>
+                    <tr>
+                        <th class="stt_table">STT</th>
+                        <th>Họ và tên</th>
+                        <th>Vai trò</th>
+                        <th>Nơi công tác</th>
+                        <th>Trình độ chuyên môn</th>
+                        <th>Nội dung tham gia</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="stt_table">1</td>
+                        <td>Noi dung</td>
+                        <td>Noi dung</td>
+                        <td>Noi dung</td>
+                        <td>Noi dung</td>
+                        <td>Noi dung</td>
+                    </tr>
+                </tbody>
+            </table>
+        </mat-tab>
+        <mat-tab label="Phê duyệt/công nhận">
+            <div class="flex flex-row row gap-4">
+                <div class="w-20">
+                    <label  class="tiite_lale" for="">Trạng thái</label>
+                </div>
+                <div class="w-40">
+                    <span
+                        >Đã được công nhận</span
+                    >
+                </div>
+                <div class="w-40">
+                    <label  class="tiite_lale" for="">Ngày xét duyệt</label>
+                </div>
+                <div class="w-40">
+                    <span>09/12/2020</span>
+                </div>
+            </div>
+          
+            <label class="tiite_lale flex" >Luận giải của hội đồng khoa học về kết quả đánh giá</label>
+            <label class="tiite_lale flex" >Kiến nghị của Hội đồng</label>
+            <label class="tiite_lale flex" >Thù lao cho sáng kiến</label>
+            <label
+                class="tiite_lale"
+                style="margin-top: 20px; display: block"
+                for=""
+                >Thành viên hội đồng</label
+            >
+            <table class="table table_custom" style="margin-top: 0">
+                <thead>
+                    <tr>
+                        <th class="stt_table">STT</th>
+                        <th>Thành viên hội đồng</th>
+                        <th>Vai trò</th>
+                        <th>Ghi chú</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="stt_table">1</td>
+                        <td>Noi dung</td>
+                        <td>Noi dung</td>
+                        <td>Noi dung</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table class="table table_custom mt-5">
+                <thead>
+                    <tr>
+                        <th class="stt_table">STT</th>
+                        <th>Văn bản liên quan</th>
+                        <th>Số ký hiệu</th>
+                        <th>Ngày văn bản</th>
+                        <th>File nội dung</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="stt_table">1</td>
+                        <td>Noi dung</td>
+                        <td class="text-center">Noi dung</td>
+                        <td class="text-center" >Noi dung</td>
+                        <td class="text-center">
+                            <button class="bg-sky-500 color text-white px-8 py-2 rounded-md"><i class="fa fa-cloud-download"></i> Tải về</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+           
+            <div class="flex flex-row row gap-4">
+                <div class="basis-1/6">
+                    <label for=""
+                        >Phiếu đánh giá của các thành viên hội đồng</label
+                    >
+                </div>
+                <div class="basis-1/5">
+                    <button class="bg-sky-500 color text-white px-8 py-2 rounded-md"><i class="fa fa-cloud-download"></i> Tải về</button>
+                </div>
+            </div>
+            <div class="flex flex-row row gap-4">
+                <div class="basis-1/6">
+                    <label for="">Biên bản họp hội đồng sáng kiến</label>
+                </div>
+                <div class="basis-1/5">
+                    <button class="bg-sky-500 color text-white px-8 py-2 rounded-md"><i class="fa fa-cloud-download"></i> Tải về</button>
+                </div>
+            </div>
+            <div class="flex flex-row row gap-4">
+                <div class="basis-1/6">
+                    <label for="">Quyết định công nhận sáng kiến</label>
+                </div>
+                <div class="basis-1/5">
+                    <button class="bg-sky-500 color text-white px-8 py-2 rounded-md"><i class="fa fa-cloud-download"></i> Tải về</button>
+                </div>
+            </div>
+            <div class="flex flex-row row gap-4">
+                <div class="basis-1/6">
+                    <label for="">Giấy chứng nhận sáng kiến</label>
+                </div>
+                <div class="basis-1/5">
+                    <button class="bg-sky-500 color text-white px-8 py-2 rounded-md"><i class="fa fa-cloud-download"></i> Tải về</button>
+                </div>
+            </div>
+            <div class="flex flex-row row gap-4">
+                <div class="basis-1/6">
+                    <label for="">Quyết định chi trả thù lao</label>
+                </div>
+                <div class="basis-1/5">
+                    <button class="bg-sky-500 color text-white px-8 py-2 rounded-md"><i class="fa fa-cloud-download"></i> Tải về</button>
+                </div>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+
+
+</div>

@@ -1,0 +1,1089 @@
+<div class="flex flex-col flex-auto overflow-y-auto lg:overflow-hidden bg-card dark:bg-default">
+    <div class="z-10 relative flex flex-col flex-0 w-full border-b">
+
+
+        <!-- Toolbar -->
+        <div class="flex items-center justify-between h-16 px-4 border-b bg-gray-50 dark:bg-transparent w-full">
+            <div>
+                <button mat-icon-button (click)="onCancelViewOrEdit()">
+                    <mat-icon [svgIcon]="'mat_outline:close'"></mat-icon>
+                </button>
+
+                <button mat-flat-button [color]="'primary'" *ngIf="actionSave" (click)="onSaveObject()">
+                    <mat-icon svgIcon="mat_outline:save"></mat-icon>
+                    <span class="ml-2 mr-1">Ghi</span>
+                </button>
+
+                <button mat-flat-button [color]="'warn'" class="mx-1" *ngIf="actionDelete" (click)="onDeleteObject()">
+                    <mat-icon svgIcon="mat_outline:delete"></mat-icon>
+                    <span class="ml-2 mr-1">Xóa</span>
+                </button>
+
+                <button mat-flat-button [color]="'accent'" class="mx-1" *ngIf="actionEdit" (click)="onEditObject()">
+                    <mat-icon svgIcon="mat_outline:edit"></mat-icon>
+                    <span class="ml-2 mr-1">Sửa</span>
+                </button>
+
+                <button mat-flat-button [color]="'accent'" class="mx-1" *ngIf="actionCancel" (click)="onCancelObject()">
+                    <mat-icon svgIcon="mat_outline:restore"></mat-icon>
+                    <span class="ml-2 mr-1">Hủy bỏ</span>
+                </button>
+            </div>
+
+            <!-- <button mat-flat-button class="mx-1 bg-green-500 text-white" (click)="testObj()">
+                <mat-icon svgIcon="mat_outline:check"></mat-icon>
+                <span class="ml-2 mr-1">Test</span>
+            </button> -->
+
+            <button *ngIf="!obj.TRANG_THAI_XAC_MINH&&!actionOnlyEdit" mat-flat-button
+                class="mx-1 bg-green-500 text-white" (click)="onXacMinh()">
+                <mat-icon svgIcon="mat_outline:check"></mat-icon>
+                <span class="ml-2 mr-1">Xác minh người dùng</span>
+            </button>
+            <button *ngIf="obj.TRANG_THAI_XAC_MINH&&!actionOnlyEdit" mat-flat-button class="mx-1 bg-sky-500 text-white"
+                (click)="onHuyXacMinh()">
+                <mat-icon svgIcon="mat_outline:restore"></mat-icon>
+                <span class="ml-2 mr-1">Hủy xác minh người dùng</span>
+            </button>
+            <button *ngIf="!obj.TRANG_THAI_XAC_MINH&&actionOnlyEdit" mat-flat-button
+                class="mx-1 bg-green-500 text-white" (click)="saveAndXacMinh()">
+                <mat-icon svgIcon="mat_outline:check"></mat-icon>
+                <span class="ml-2 mr-1">Lưu và xác minh người dùng</span>
+            </button>
+            <button *ngIf="obj.TRANG_THAI_XAC_MINH&&actionOnlyEdit" mat-flat-button class="mx-1 bg-sky-500 text-white"
+                (click)="saveAndHuyXacMinh()">
+                <mat-icon svgIcon="mat_outline:restore"></mat-icon>
+                <span class="ml-2 mr-1">Lưu và hủy xác minh người dùng</span>
+            </button>
+        </div>
+
+    </div>
+    <!-- Threads -->
+    <div class="flex flex-col flex-auto shrink-0 lg:shrink p-3 lg:overflow-y-auto" fuseScrollReset>
+        <!-- Thread -->
+        <div *ngIf="viewMode" class="flex flex-col flex-0 w-full">
+            <div class="grid grid-cols-2 w-full border py-5 px-6">
+                <div class="mb-1">
+                    <span class="leading-4 truncate text-xl">Tên người thực hiên: </span>
+                    <span class="leading-4 truncate text-green-500 text-lg">{{obj.TEN_NGUOI_THUC_HIEN}}</span>
+                </div>
+                <div class="mb-1">
+                    <span class="leading-4 truncate text-xl">Email: </span>
+                    <span class="leading-4 truncate text-green-500 text-lg">{{obj.EMAL}}</span>
+                </div>
+                <div class="mb-1">
+                    <span class="leading-4 truncate text-xl">Năm sinh: </span>
+                    <span class="leading-4 truncate text-green-500 text-lg">{{obj.NAM_SINH}}</span>
+                </div>
+                <div class="mb-1">
+                    <span class="leading-4 truncate text-xl">Giới tính: </span>
+                    <span
+                        class="leading-4 truncate text-green-500 text-lg">{{obj.GIO_TINH==0?"Nam":(obj.GIO_TINH==1?"Nữ":"Khác")}}</span>
+                </div>
+
+                <div class="mb-1">
+                    <span class="leading-4 truncate text-xl">Học hàm: </span>
+                    <span class="leading-4 truncate text-green-500 text-lg">{{obj.TEN_HOC_HAM}}</span>
+                </div>
+                <div class="mb-1">
+                    <span class="leading-4 truncate text-xl">Năm được phong hàm: </span>
+                    <span class="leading-4 truncate text-green-500 text-lg">{{obj.NAM_HOC_HAM}}</span>
+                </div>
+                <div class="mb-1">
+                    <span class="leading-4 truncate text-xl">Học vị: </span>
+                    <span class="leading-4 truncate text-green-500 text-lg">{{obj.TEN_HOC_VI}}</span>
+                </div>
+                <div class="mb-1">
+                    <span class="leading-4 truncate text-xl">Năm đạt học vị: </span>
+                    <span class="leading-4 truncate text-green-500 text-lg">{{obj.NAM_HOC_VI}}</span>
+                </div>
+
+                <div class="mb-1">
+                    <span class="leading-4 truncate text-xl">Sđt: </span>
+                    <span class="leading-4 truncate text-green-500 text-lg">{{obj.SDT}}</span>
+                </div>
+                <div class="mb-1">
+                    <span class="leading-4 truncate text-xl">CCCD: </span>
+                    <span class="leading-4 truncate text-green-500 text-lg">{{obj.CCCD}}</span>
+                </div>
+                <div class="mb-1">
+                    <span class="leading-4 truncate text-xl">Nơi làm việc: </span>
+                    <span class="leading-4 truncate text-green-500 text-lg">{{obj.NOI_LAM_VIEC}}</span>
+                </div>
+                <div class="mb-1">
+                    <span class="leading-4 truncate text-xl">Địa chỉ nơi làm việc: </span>
+                    <span class="leading-4 truncate text-green-500 text-lg">{{obj.DIA_CHI_NOI_LAM_VIEC}}</span>
+                </div>
+                <div class="mb-1">
+                    <span class="leading-4 truncate text-xl">Lĩnh vực nghiêm cứu: </span>
+                    <span class="leading-4 truncate text-green-500 text-lg">{{obj.TEN_LVUC_NCUU}}</span>
+                </div>
+                <div class="mb-1">
+                    <span class="leading-4 truncate text-xl">Ngoài EVN: </span>
+                    <span class="leading-4 truncate text-green-500 text-lg">{{obj.NGOAI_EVN}}</span>
+                </div>
+                <!-- <div class="mb-1">
+                    <span class="leading-4 truncate text-xl">Chuyên gia: </span>
+                    <span class="leading-4 truncate text-green-500 text-lg">{{obj.CHUYEN_GIA}}</span>
+                </div> -->
+                <div class="">
+                    <span class="leading-4 truncate text-xl">Chuyên gia trong nước: </span>
+                    <span class="leading-4 truncate text-green-500 text-lg">{{obj.IS_CHUYEN_GIA_TNUOC}}</span>
+                </div>
+                <div class="">
+                    <span class="leading-4 truncate text-xl">Chuyên gia nước ngoài: </span>
+                    <span class="leading-4 truncate text-green-500 text-lg">{{obj.IS_CHUYEN_GIA_NNUOC}}</span>
+                </div>
+            </div>
+            <div class="w-full">
+                <div class="mt-4">
+
+                    <h3 class="font-bold">Quá trình đào tạo</h3>
+                    <div class="flex flex-col flex-0 w-full">
+                        <table mat-table [dataSource]="obj.listQuaTrinhDaoTao" class="style-table w-full">
+                            <ng-container matColumnDef="HOC_VI">
+                                <th mat-header-cell *matHeaderCellDef>Học vị</th>
+                                <td mat-cell *matCellDef="let element">{{element.TEN_HOC_VI}}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="NOI_DAO_TAO">
+                                <th mat-header-cell *matHeaderCellDef>Nơi đào tạo</th>
+                                <td mat-cell *matCellDef="let element">{{element.NOI_DAO_TAO}}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="CHUYEN_MON">
+                                <th mat-header-cell *matHeaderCellDef>Chuyên môn</th>
+                                <td mat-cell *matCellDef="let element">{{element.CHUYEN_MON}}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="NAM_TOT_NGHIEP">
+                                <th mat-header-cell *matHeaderCellDef>Năm tốt nghiệp</th>
+                                <td mat-cell *matCellDef="let element">{{element.NAM_TOT_NGHIEP}}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="des">
+                                <td class="bg-slate-300" mat-footer-cell *matFooterCellDef colspan="10">
+                                    Số dòng:
+                                    {{obj.listQuaTrinhDaoTao?.length}}
+                                </td>
+                            </ng-container>
+
+                            <tr mat-header-row *matHeaderRowDef="quaTrinhDaoTaoColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: quaTrinhDaoTaoColumns;"></tr>
+                            <tr mat-footer-row *matFooterRowDef="['des']"></tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <h3 class="font-bold">Quá trình công tác</h3>
+                    <div class="flex flex-col flex-0 w-full">
+                        <table mat-table [dataSource]="obj.listQuaTrinhCongTac" class="style-table w-full">
+                            <ng-container matColumnDef="THOI_GIAN">
+                                <th mat-header-cell *matHeaderCellDef>Thời gian</th>
+                                <td mat-cell *matCellDef="let element">{{element.THOI_GIAN}}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="VI_TRI_CONG_TAC">
+                                <th mat-header-cell *matHeaderCellDef>Vị trí công tác</th>
+                                <td mat-cell *matCellDef="let element">{{element.VI_TRI_CONG_TAC}}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="TO_CHUC_CONG_TAC">
+                                <th mat-header-cell *matHeaderCellDef>Tổ chức công tác</th>
+                                <td mat-cell *matCellDef="let element">{{element.TO_CHUC_CONG_TAC}}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="DIA_CHI_TO_CHUC">
+                                <th mat-header-cell *matHeaderCellDef>Địa điểm tổ chức</th>
+                                <td mat-cell *matCellDef="let element">{{element.DIA_CHI_TO_CHUC}}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="des">
+                                <td class="bg-slate-300" mat-footer-cell *matFooterCellDef colspan="10">
+                                    Số dòng:
+                                    {{obj.listQuaTrinhCongTac?.length}}
+                                </td>
+                            </ng-container>
+
+                            <tr mat-header-row *matHeaderRowDef="quaTrinhCongTacColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: quaTrinhCongTacColumns;"></tr>
+                            <tr mat-footer-row *matFooterRowDef="['des']"></tr>
+
+                        </table>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <h3 class="font-bold">Các công trình công bố chủ yếu</h3>
+                    <div class="flex flex-col flex-0 w-full">
+                        <table mat-table [dataSource]="obj.listCongTrinh" class="style-table w-full">
+                            <ng-container matColumnDef="TEN_CONG_TRINH">
+                                <th mat-header-cell *matHeaderCellDef>Tên công trình</th>
+                                <td mat-cell *matCellDef="let element">{{element.TEN_CONG_TRINH}}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="TGIA_DTGIA">
+                                <th mat-header-cell *matHeaderCellDef>Là tác giả hoặc là đồng tác giả công trình
+                                </th>
+                                <td mat-cell *matCellDef="let element">{{element.TGIA_DTGIA}}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="NOI_CONG_BO">
+                                <th mat-header-cell *matHeaderCellDef>Nơi công bố</th>
+                                <td mat-cell *matCellDef="let element">{{element.NOI_CONG_BO}}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="NAM_CONG_BO">
+                                <th mat-header-cell *matHeaderCellDef>Năm công bố</th>
+                                <td mat-cell *matCellDef="let element">{{element.NAM_CONG_BO}}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="des">
+                                <td class="bg-slate-300" mat-footer-cell *matFooterCellDef colspan="10">
+                                    Số dòng:
+                                    {{obj.listCongTrinh?.length}}
+                                </td>
+                            </ng-container>
+
+                            <tr mat-header-row *matHeaderRowDef="congTrinhChuYeuColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: congTrinhChuYeuColumns;"></tr>
+                            <tr mat-footer-row *matFooterRowDef="['des']"></tr>
+
+                        </table>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <h3 class="font-bold">Văn bằng bảo hộ quyền sở hữu công nghiệp, thiết kế bố trí mạch tích hợp bán
+                        dẫn, giống cây trồng đã được cấp</h3>
+                    <div class="flex flex-col flex-0 w-full">
+                        <table mat-table [dataSource]="obj.listVanBang" class="style-table w-full">
+                            <ng-container matColumnDef="NOI_DUNG_VAN_BANG">
+                                <th mat-header-cell *matHeaderCellDef>Nội dung văn bằng</th>
+                                <td mat-cell *matCellDef="let element">{{element.NOI_DUNG_VAN_BANG}}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="NAM_CAP_VAN_BANG">
+                                <th mat-header-cell *matHeaderCellDef>Năm cấp văn bằng</th>
+                                <td mat-cell *matCellDef="let element">{{element.NAM_CAP_VAN_BANG}}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="des">
+                                <td class="bg-slate-300" mat-footer-cell *matFooterCellDef colspan="10">
+                                    Số dòng:
+                                    {{obj.listVanBang?.length}}
+                                </td>
+                            </ng-container>
+
+                            <tr mat-header-row *matHeaderRowDef="vanBangChuYeuColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: vanBangChuYeuColumns;"></tr>
+                            <tr mat-footer-row *matFooterRowDef="['des']"></tr>
+
+                        </table>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <h3 class="font-bold">Công trình được áp dụng trong thực tiễn</h3>
+                    <div class="flex flex-col flex-0 w-full">
+                        <table mat-table [dataSource]="obj.listCongTrinhApDung" class="style-table w-full">
+                            <ng-container matColumnDef="TEN_CONG_TRINH">
+                                <th mat-header-cell *matHeaderCellDef>Tên công trình</th>
+                                <td mat-cell *matCellDef="let element">{{element.TEN_CONG_TRINH}}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="NOI_DUNG_AP_DUNG">
+                                <th mat-header-cell *matHeaderCellDef>Nội dung áp dụng</th>
+                                <td mat-cell *matCellDef="let element">{{element.NOI_DUNG_AP_DUNG}}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="THOI_GIAN">
+                                <th mat-header-cell *matHeaderCellDef>Thời gian</th>
+                                <td mat-cell *matCellDef="let element">{{formatDate(element.THOI_GIAN_BAT_DAU)}} -
+                                    {{formatDate(element.THOI_GIAN_KET_THUC)}}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="des">
+                                <td class="bg-slate-300" mat-footer-cell *matFooterCellDef colspan="10">
+                                    Số dòng:
+                                    {{obj.listCongTrinhApDung?.length}}
+                                </td>
+                            </ng-container>
+
+                            <tr mat-header-row *matHeaderRowDef="congTrinhApDungColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: congTrinhApDungColumns;"></tr>
+                            <tr mat-footer-row *matFooterRowDef="['des']"></tr>
+
+                        </table>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <h3 class="font-bold">Các đề tài/đề án, dự án, nhiệm vụ khác đã chủ trì hoặc tham gia</h3>
+                    <div class="flex flex-col flex-0 w-full">
+                        <table mat-table [dataSource]="obj.listDeTai" class="style-table w-full">
+                            <ng-container matColumnDef="TEN_DE_TAI">
+                                <th mat-header-cell *matHeaderCellDef>Tên đề tài</th>
+                                <td mat-cell *matCellDef="let element">{{element.TEN_DE_TAI}}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="THOI_GIAN">
+                                <th mat-header-cell *matHeaderCellDef>Thời gian</th>
+                                <td mat-cell *matCellDef="let element">{{formatDate(element.THOI_GIAN_BAT_DAU)}} -
+                                    {{formatDate(element.THOI_GIAN_KET_THUC)}}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="THUOC_CHUONG_TRINH">
+                                <th mat-header-cell *matHeaderCellDef>Thuộc Chương trình</th>
+                                <td mat-cell *matCellDef="let element">{{element.THUOC_CHUONG_TRINH}}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="TINH_TRANG_DE_TAI">
+                                <th mat-header-cell *matHeaderCellDef>Tình trạng đề tài</th>
+                                <td mat-cell *matCellDef="let element">{{element.TINH_TRANG_DE_TAI != null ?
+                                    (element.TINH_TRANG_DE_TAI?"Đã nghiệm thu":"Chưa nghiệm thu"):""}}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="des">
+                                <td class="bg-slate-300" mat-footer-cell *matFooterCellDef colspan="10">
+                                    Số dòng:
+                                    {{obj.listDeTai?.length}}
+                                </td>
+                            </ng-container>
+
+                            <tr mat-header-row *matHeaderRowDef="deTaiColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: deTaiColumns;"></tr>
+                            <tr mat-footer-row *matFooterRowDef="['des']"></tr>
+
+                        </table>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <h3 class="font-bold">Giải thưởng</h3>
+                    <div class="flex flex-col flex-0 w-full">
+                        <table mat-table [dataSource]="obj.listGiaiThuong" class="style-table w-full">
+                            <ng-container matColumnDef="NOI_DUNG_GIAI_THUONG">
+                                <th mat-header-cell *matHeaderCellDef>Nội dung giải thưởng</th>
+                                <td mat-cell *matCellDef="let element">{{element.NOI_DUNG_GIAI_THUONG}}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="NAM_GIAI_THUONG">
+                                <th mat-header-cell *matHeaderCellDef>Năm giải thưởng</th>
+                                <td mat-cell *matCellDef="let element">{{element.NAM_GIAI_THUONG}}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="des">
+                                <td class="bg-slate-300" mat-footer-cell *matFooterCellDef colspan="10">
+                                    Số dòng:
+                                    {{obj.listGiaiThuong?.length}}
+                                </td>
+                            </ng-container>
+
+                            <tr mat-header-row *matHeaderRowDef="giaiThuongColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: giaiThuongColumns;"></tr>
+                            <tr mat-footer-row *matFooterRowDef="['des']"></tr>
+
+                        </table>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <h3 class="font-bold">Thành tựu hoạt động KHCN và sản xuất kinh doanh khác </h3>
+                    <p class="mt-4">{{obj.THANH_TUU}}</p>
+                </div>
+            </div>
+
+        </div>
+
+
+        <form id="dialogForm" class="flex flex-col flex-auto p-1 sm:p-1" [formGroup]="dialogForm" *ngIf="inputMode"
+            autocomplete="off">
+            <div class="py-5 px-2">
+                <div class="grid grid-cols-2 grid-flow-row gap-2 w-full">
+                    <div class="flex flex-col flex-auto">
+                        <mat-form-field>
+                            <mat-label>Tên người thực hiên</mat-label>
+                            <mat-icon svgIcon="mat_outline:person" (click)="selectUser()"></mat-icon>
+                            <input matInput [formControlName]="'TEN_NGUOI_THUC_HIEN'">
+                        </mat-form-field>
+                    </div>
+                    <div class="flex flex-col flex-auto">
+                        <mat-form-field>
+                            <mat-label>Email</mat-label>
+                            <input matInput [formControlName]="'EMAL'">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 grid-flow-row gap-2 w-full">
+                    <div class="grid grid-cols-2 grid-flow-row gap-2 w-full">
+                        <div class="flex flex-col flex-auto">
+                            <mat-form-field>
+                                <mat-label>Năm sinh</mat-label>
+                                <input matInput [formControlName]="'NAM_SINH'">
+                            </mat-form-field>
+                        </div>
+
+                        <div class="flex flex-col flex-auto">
+                            <mat-form-field>
+                                <mat-label>Giới tính</mat-label>
+                                <mat-select mat-option formControlName="GIO_TINH">
+                                    <mat-option [value]="0">Nam</mat-option>
+                                    <mat-option [value]="1">Nữ</mat-option>
+                                    <mat-option [value]="2">Khác</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="flex flex-col flex-auto">
+                        <mat-form-field>
+                            <mat-label>Lĩnh vực nghiêm cứu</mat-label>
+                            <mat-select mat-option [formControlName]="'MA_LVUC_NCUU'">
+                                <mat-option *ngFor="let x of listLvucNcuu;"
+                                    [value]="x.MA_LVUC_NCUU">{{x.TEN_LVUC_NCUU}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="grid grid-cols-4 grid-flow-row gap-2 w-full">
+
+                    <div class="flex flex-col flex-auto">
+                        <mat-form-field>
+                            <mat-label>Học hàm</mat-label>
+                            <mat-select mat-option [formControlName]="'MA_HOC_HAM'">
+                                <mat-option *ngFor="let x of listHocHam;"
+                                    [value]="x.MA_HOC_HAM">{{x.TEN_HOC_HAM}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="flex flex-col flex-auto">
+                        <mat-form-field>
+                            <mat-label>Năm được phong hàm</mat-label>
+                            <input matInput [formControlName]="'NAM_HOC_HAM'">
+                        </mat-form-field>
+                    </div>
+                    <div class="flex flex-col flex-auto">
+                        <mat-form-field>
+                            <mat-label>Học vị</mat-label>
+                            <mat-select mat-option [formControlName]="'MA_HOC_VI'">
+                                <mat-option *ngFor="let x of listHocVi;"
+                                    [value]="x.MA_HOC_VI">{{x.TEN_HOC_VI}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="flex flex-col flex-auto">
+                        <mat-form-field>
+                            <mat-label>Năm đạt học vị</mat-label>
+                            <input matInput [formControlName]="'NAM_HOC_VI'">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 grid-flow-row gap-2 w-full">
+                    <div class="flex flex-col flex-auto">
+                        <mat-form-field>
+                            <mat-label>Sđt</mat-label>
+                            <input matInput [formControlName]="'SDT'">
+                        </mat-form-field>
+                    </div>
+                    <div class="flex flex-col flex-auto">
+                        <mat-form-field>
+                            <mat-label>CCCD</mat-label>
+                            <input matInput [formControlName]="'CCCD'">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 grid-flow-row gap-2 w-full">
+
+                    <div class="flex flex-col flex-auto">
+                        <mat-form-field>
+                            <mat-label>Nơi làm việc</mat-label>
+                            <input matInput [formControlName]="'NOI_LAM_VIEC'">
+                        </mat-form-field>
+                    </div>
+                    <div class="flex flex-col flex-auto">
+                        <mat-form-field>
+                            <mat-label>Địa chỉ nơi làm việc</mat-label>
+                            <input matInput [formControlName]="'DIA_CHI_NOI_LAM_VIEC'">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="grid grid-cols-4 grid-flow-row gap-2 w-full pb-[12px]">
+                    <div class="flex flex-col flex-auto">
+                        <mat-checkbox [formControlName]="'NGOAI_EVN'">Ngoài EVN</mat-checkbox>
+                    </div>
+                    <div class="flex flex-col flex-auto">
+                        <mat-checkbox [formControlName]="'CHUYEN_GIA'">Chuyên gia</mat-checkbox>
+                    </div>
+                    <div class="flex flex-col flex-auto">
+                        <mat-checkbox [formControlName]="'IS_CHUYEN_GIA_TNUOC'">Chuyên gia trong nước</mat-checkbox>
+                    </div>
+                    <div class="flex flex-col flex-auto">
+                        <mat-checkbox [formControlName]="'IS_CHUYEN_GIA_NNUOC'">Chuyên gia nước ngoài</mat-checkbox>
+                    </div>
+                </div>
+
+            </div>
+            <div class="mt-4">
+
+                <h3 class="font-bold">Quá trình đào tạo</h3>
+                <div
+                    class="flex flex-col flex-0 w-full shadow rounded-2xl overflow-hidden bg-card dark:bg-black dark:bg-opacity-10">
+                    <table mat-table [dataSource]="listQuaTrinhDaoTaoForInputMode" class="style-table w-full">
+
+                        <ng-container matColumnDef="selection">]
+                            <th mat-header-cell *matHeaderCellDef>
+                                <mat-checkbox (change)="$event ? toggleAllRowsforDaoTao() : null"
+                                    [checked]="selection.forDaoTao.hasValue() && isAllSelectedforDaoTao()"
+                                    [indeterminate]="selection.forDaoTao.hasValue() && !isAllSelectedforDaoTao()"
+                                    [aria-label]="checkboxLabelforDaoTao()">
+                                </mat-checkbox>
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                <mat-checkbox (click)="$event.stopPropagation()"
+                                    (change)="$event ? selection.forDaoTao.toggle(row) : null"
+                                    [checked]="selection.forDaoTao.isSelected(row)"
+                                    [aria-label]="checkboxLabelforDaoTao(row)">
+                                </mat-checkbox>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="HOC_VI">
+                            <th mat-header-cell *matHeaderCellDef>Học vị</th>
+                            <td mat-cell *matCellDef="let element;let i = index;" [formGroup]="element">
+                                <mat-form-field class="w-full pr-4">
+                                    <mat-select mat-option formControlName="MA_HOC_VI">
+                                        <mat-option *ngFor="let x of listHocVi;"
+                                            [value]="x.MA_HOC_VI">{{x.TEN_HOC_VI}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="NOI_DAO_TAO">
+                            <th mat-header-cell *matHeaderCellDef>Nơi đào tạo</th>
+                            <td mat-cell *matCellDef="let element;let i = index;" [formGroup]="element">
+                                <mat-form-field class="w-full pr-4">
+                                    <input matInput placeholder="Nơi đào tạo" [value]="element.value.NOI_DAO_TAO"
+                                        formControlName="NOI_DAO_TAO">
+                                </mat-form-field>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="CHUYEN_MON">
+                            <th mat-header-cell *matHeaderCellDef>Chuyên môn</th>
+                            <td mat-cell *matCellDef="let element;let i = index;" [formGroup]="element">
+                                <mat-form-field class="w-full pr-4">
+                                    <input matInput placeholder="Chuyên môn" [value]="element.value.CHUYEN_MON"
+                                        formControlName="CHUYEN_MON">
+                                </mat-form-field>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="NAM_TOT_NGHIEP">
+                            <th mat-header-cell *matHeaderCellDef>Năm tốt nghiệp</th>
+                            <td mat-cell *matCellDef="let element;let i = index;" [formGroup]="element">
+                                <mat-form-field class="w-full pr-4">
+                                    <input matInput placeholder="Năm tốt nghiệp" [value]="element.value.NAM_TOT_NGHIEP"
+                                        formControlName="NAM_TOT_NGHIEP">
+                                </mat-form-field>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="action">
+                            <td mat-footer-cell *matFooterCellDef colspan="10">
+                                <div class="flex justify-end">
+                                    <button [disabled]="selection.forDaoTao.selected.length == 0" mat-flat-button
+                                        class="mx-1 bg-red-500 text-white" (click)="deleteRowDaoTao()">Xóa</button>
+                                    <button mat-flat-button class="mx-1 bg-green-500 text-white"
+                                        (click)="addRowDaoTao()">Thêm
+                                        mới</button>
+                                </div>
+                            </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="[].concat('selection',quaTrinhDaoTaoColumns)"></tr>
+                        <tr mat-row *matRowDef="let row; columns: [].concat('selection',quaTrinhDaoTaoColumns);"></tr>
+
+                        <tr mat-footer-row *matFooterRowDef="['action']"></tr>
+                    </table>
+                </div>
+            </div>
+            <div class="mt-4">
+
+                <h3 class="font-bold">Quá trình công tác</h3>
+                <div
+                    class="flex flex-col flex-0 w-full shadow rounded-2xl overflow-hidden bg-card dark:bg-black dark:bg-opacity-10">
+                    <table mat-table [dataSource]="listQuaTrinhCongTacForInputMode" class="style-table w-full">
+
+                        <ng-container matColumnDef="selection">]
+                            <th mat-header-cell *matHeaderCellDef>
+                                <mat-checkbox (change)="$event ? toggleAllRowsforCongTac() : null"
+                                    [checked]="selection.forCongTac.hasValue() && isAllSelectedforCongTac()"
+                                    [indeterminate]="selection.forCongTac.hasValue() && !isAllSelectedforCongTac()"
+                                    [aria-label]="checkboxLabelforCongTac()">
+                                </mat-checkbox>
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                <mat-checkbox (click)="$event.stopPropagation()"
+                                    (change)="$event ? selection.forCongTac.toggle(row) : null"
+                                    [checked]="selection.forCongTac.isSelected(row)"
+                                    [aria-label]="checkboxLabelforCongTac(row)">
+                                </mat-checkbox>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="THOI_GIAN">
+                            <th mat-header-cell *matHeaderCellDef>Thời gian</th>
+                            <td mat-cell *matCellDef="let element" [formGroup]="element">
+                                <mat-form-field class="w-full pr-4">
+                                    <input matInput placeholder="Thời gian" [value]="element.value.THOI_GIAN"
+                                        formControlName="THOI_GIAN">
+                                </mat-form-field>
+                            </td>
+                        </ng-container>
+
+
+                        <ng-container matColumnDef="VI_TRI_CONG_TAC">
+                            <th mat-header-cell *matHeaderCellDef>Vị trí công tác</th>
+                            <td mat-cell *matCellDef="let element" [formGroup]="element">
+                                <mat-form-field class="w-full pr-4">
+                                    <input matInput placeholder="Vị trí công tác"
+                                        [value]="element.value.VI_TRI_CONG_TAC" formControlName="VI_TRI_CONG_TAC">
+                                </mat-form-field>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="TO_CHUC_CONG_TAC">
+                            <th mat-header-cell *matHeaderCellDef>Tổ chức công tác</th>
+                            <td mat-cell *matCellDef="let element" [formGroup]="element">
+                                <mat-form-field class="w-full pr-4">
+                                    <input matInput placeholder="Tổ chức công tác"
+                                        [value]="element.value.TO_CHUC_CONG_TAC" formControlName="TO_CHUC_CONG_TAC">
+                                </mat-form-field>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="DIA_CHI_TO_CHUC">
+                            <th mat-header-cell *matHeaderCellDef>Địa điểm tổ chức</th>
+                            <td mat-cell *matCellDef="let element" [formGroup]="element">
+                                <mat-form-field class="w-full pr-4">
+                                    <input matInput placeholder="Địa điểm tổ chức"
+                                        [value]="element.value.DIA_CHI_TO_CHUC" formControlName="DIA_CHI_TO_CHUC">
+                                </mat-form-field>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="action">
+                            <td mat-footer-cell *matFooterCellDef colspan="10">
+                                <div class="flex justify-end">
+                                    <button [disabled]="selection.forCongTac.selected.length == 0" mat-flat-button
+                                        class="mx-1 bg-red-500 text-white" (click)="deleteRowCongTac()">Xóa</button>
+                                    <button mat-flat-button class="mx-1 bg-green-500 text-white"
+                                        (click)="addRowCongTac()">Thêm
+                                        mới</button>
+                                </div>
+                            </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="[].concat('selection',quaTrinhCongTacColumns)"></tr>
+                        <tr mat-row *matRowDef="let row; columns: [].concat('selection',quaTrinhCongTacColumns);"></tr>
+
+                        <tr mat-footer-row *matFooterRowDef="['action']"></tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="mt-4">
+
+                <h3 class="font-bold">Các công trình công bố chủ yếu</h3>
+                <i>(Liệt kê tối đa 05 công trình tiêu biểu đã công bố liên quan đến nhiệm vụ KH&CN đăng ký trong
+                    5
+                    năm
+                    gần nhất)</i>
+
+                <div
+                    class="flex flex-col flex-0 w-full shadow rounded-2xl overflow-hidden bg-card dark:bg-black dark:bg-opacity-10">
+                    <table mat-table [dataSource]="listCongTrinhForInputMode" class="style-table w-full">
+
+                        <ng-container matColumnDef="selection">]
+                            <th mat-header-cell *matHeaderCellDef>
+                                <mat-checkbox (change)="$event ? toggleAllRowsforCongTrinh() : null"
+                                    [checked]="selection.forCongTrinh.hasValue() && isAllSelectedforCongTrinh()"
+                                    [indeterminate]="selection.forCongTrinh.hasValue() && !isAllSelectedforCongTrinh()"
+                                    [aria-label]="checkboxLabelforCongTrinh()">
+                                </mat-checkbox>
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                <mat-checkbox (click)="$event.stopPropagation()"
+                                    (change)="$event ? selection.forCongTrinh.toggle(row) : null"
+                                    [checked]="selection.forCongTrinh.isSelected(row)"
+                                    [aria-label]="checkboxLabelforCongTrinh(row)">
+                                </mat-checkbox>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="TEN_CONG_TRINH">
+                            <th mat-header-cell *matHeaderCellDef>Tên công trình</th>
+                            <td mat-cell *matCellDef="let element" [formGroup]="element">
+                                <mat-form-field class="w-full pr-4">
+                                    <input matInput placeholder="Tên công trình" [value]="element.value.TEN_CONG_TRINH"
+                                        formControlName="TEN_CONG_TRINH">
+                                </mat-form-field>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="TGIA_DTGIA">
+                            <th mat-header-cell *matHeaderCellDef>Là tác giả hoặc là đồng tác giả công trình</th>
+                            <td mat-cell *matCellDef="let element" [formGroup]="element">
+                                <mat-form-field class="w-full pr-4">
+                                    <input matInput placeholder="Là tác giả hoặc là đồng tác giả công trình"
+                                        [value]="element.value.TGIA_DTGIA" formControlName="TGIA_DTGIA">
+                                </mat-form-field>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="NOI_CONG_BO">
+                            <th mat-header-cell *matHeaderCellDef>Nơi công bố</th>
+                            <td mat-cell *matCellDef="let element" [formGroup]="element">
+                                <mat-form-field class="w-full pr-4">
+                                    <input matInput placeholder="Nơi công bố" [value]="element.value.NOI_CONG_BO"
+                                        formControlName="NOI_CONG_BO">
+                                </mat-form-field>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="NAM_CONG_BO">
+                            <th mat-header-cell *matHeaderCellDef>Năm công bố</th>
+                            <td mat-cell *matCellDef="let element" [formGroup]="element">
+                                <mat-form-field class="w-full pr-4">
+                                    <input matInput placeholder="Năm tốt nghiệp" [value]="element.value.NAM_CONG_BO"
+                                        formControlName="NAM_CONG_BO">
+                                </mat-form-field>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="action">
+                            <td mat-footer-cell *matFooterCellDef colspan="10">
+                                <div class="flex justify-end">
+                                    <button [disabled]="selection.forCongTrinh.selected.length == 0" mat-flat-button
+                                        class="mx-1 bg-red-500 text-white" (click)="deleteRowCongTrinh()">Xóa</button>
+                                    <button mat-flat-button class="mx-1 bg-green-500 text-white"
+                                        (click)="addRowCongTrinh()">Thêm
+                                        mới</button>
+                                </div>
+                            </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="[].concat('selection',congTrinhChuYeuColumns)"></tr>
+                        <tr mat-row *matRowDef="let row; columns: [].concat('selection',congTrinhChuYeuColumns);"></tr>
+
+                        <tr mat-footer-row *matFooterRowDef="['action']"></tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="mt-4">
+
+                <h3 class="font-bold">Văn bằng bảo hộ quyền sở hữu công nghiệp, thiết kế bố trí mạch tích hợp
+                    bán
+                    dẫn,
+                    giống cây trồng đã được cấp</h3>
+                <i>(liên quan đến đề tài, dự án đăng ký - nếu có)</i>
+
+                <div
+                    class="flex flex-col flex-0 w-full shadow rounded-2xl overflow-hidden bg-card dark:bg-black dark:bg-opacity-10">
+                    <table mat-table [dataSource]="listVanBangForInputMode" class="style-table w-full">
+
+                        <ng-container matColumnDef="selection">]
+                            <th mat-header-cell *matHeaderCellDef>
+                                <mat-checkbox (change)="$event ? toggleAllRowsforVanBang() : null"
+                                    [checked]="selection.forVanBang.hasValue() && isAllSelectedforVanBang()"
+                                    [indeterminate]="selection.forVanBang.hasValue() && !isAllSelectedforVanBang()"
+                                    [aria-label]="checkboxLabelforVanBang()">
+                                </mat-checkbox>
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                <mat-checkbox (click)="$event.stopPropagation()"
+                                    (change)="$event ? selection.forVanBang.toggle(row) : null"
+                                    [checked]="selection.forVanBang.isSelected(row)"
+                                    [aria-label]="checkboxLabelforVanBang(row)">
+                                </mat-checkbox>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="NOI_DUNG_VAN_BANG">
+                            <th mat-header-cell *matHeaderCellDef>Nội dung văn bằng</th>
+                            <td mat-cell *matCellDef="let element" [formGroup]="element">
+                                <mat-form-field class="w-full pr-4">
+                                    <input matInput placeholder="Nội dung văn bằng"
+                                        [value]="element.value.NOI_DUNG_VAN_BANG" formControlName="NOI_DUNG_VAN_BANG">
+                                </mat-form-field>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="NAM_CAP_VAN_BANG">
+                            <th mat-header-cell *matHeaderCellDef>Năm cấp văn bằng</th>
+                            <td mat-cell *matCellDef="let element" [formGroup]="element">
+                                <mat-form-field class="w-full pr-4">
+                                    <input matInput placeholder="Năm cấp văn bằng"
+                                        [value]="element.value.NAM_CAP_VAN_BANG" formControlName="NAM_CAP_VAN_BANG">
+                                </mat-form-field>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="action">
+                            <td mat-footer-cell *matFooterCellDef colspan="10">
+                                <div class="flex justify-end">
+                                    <button [disabled]="selection.forVanBang.selected.length == 0" mat-flat-button
+                                        class="mx-1 bg-red-500 text-white" (click)="deleteRowVanBang()">Xóa</button>
+                                    <button mat-flat-button class="mx-1 bg-green-500 text-white"
+                                        (click)="addRowVanBang()">Thêm
+                                        mới</button>
+                                </div>
+                            </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="[].concat('selection',vanBangChuYeuColumns)"></tr>
+                        <tr mat-row *matRowDef="let row; columns: [].concat('selection',vanBangChuYeuColumns);"></tr>
+
+                        <tr mat-footer-row *matFooterRowDef="['action']"></tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="mt-4">
+
+                <h3 class="font-bold">Công trình được áp dụng trong thực tiễn</h3>
+                <i>(liên quan đến nhiệm vụ KH&CN đăng ký - nếu có)</i>
+                <div
+                    class="flex flex-col flex-0 w-full shadow rounded-2xl overflow-hidden bg-card dark:bg-black dark:bg-opacity-10">
+                    <table mat-table [dataSource]="listCongTrinhApDungForInputMode" class="style-table w-full">
+
+                        <ng-container matColumnDef="selection">]
+                            <th mat-header-cell *matHeaderCellDef>
+                                <mat-checkbox (change)="$event ? toggleAllRowsforCongTrinhApDung() : null"
+                                    [checked]="selection.forCongTrinhApDung.hasValue() && isAllSelectedforCongTrinhApDung()"
+                                    [indeterminate]="selection.forCongTrinhApDung.hasValue() && !isAllSelectedforCongTrinhApDung()"
+                                    [aria-label]="checkboxLabelforCongTrinhApDung()">
+                                </mat-checkbox>
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                <mat-checkbox (click)="$event.stopPropagation()"
+                                    (change)="$event ? selection.forCongTrinhApDung.toggle(row) : null"
+                                    [checked]="selection.forCongTrinhApDung.isSelected(row)"
+                                    [aria-label]="checkboxLabelforCongTrinhApDung(row)">
+                                </mat-checkbox>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="TEN_CONG_TRINH">
+                            <th mat-header-cell *matHeaderCellDef>Tên công trình</th>
+                            <td mat-cell *matCellDef="let element" [formGroup]="element">
+                                <mat-form-field class="w-full pr-4">
+                                    <input matInput placeholder="Tên công trình" [value]="element.value.TEN_CONG_TRINH"
+                                        formControlName="TEN_CONG_TRINH">
+                                </mat-form-field>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="NOI_DUNG_AP_DUNG">
+                            <th mat-header-cell *matHeaderCellDef>Nội dung áp dụng</th>
+                            <td mat-cell *matCellDef="let element" [formGroup]="element">
+                                <mat-form-field class="w-full pr-4">
+                                    <input matInput placeholder="Nội dung áp dụng"
+                                        [value]="element.value.NOI_DUNG_AP_DUNG" formControlName="NOI_DUNG_AP_DUNG">
+                                </mat-form-field>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="THOI_GIAN">
+                            <th mat-header-cell *matHeaderCellDef>Thời gian</th>
+                            <td mat-cell *matCellDef="let element" [formGroup]="element">
+                                <div class="flex">
+                                    <mat-form-field class="w-full pr-4">
+                                        <mat-date-range-input [rangePicker]="picker">
+                                            <input formControlName="THOI_GIAN_BAT_DAU" matStartDate
+                                                placeholder="Ngày bắt đầu">
+                                            <input formControlName="THOI_GIAN_KET_THUC" matEndDate
+                                                placeholder="Ngày kết thúc">
+                                        </mat-date-range-input>
+                                        <!-- <mat-hint>DD/MM/YYYY – DD/MM/YYYY</mat-hint> -->
+                                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                        <mat-date-range-picker #picker></mat-date-range-picker>
+                                    </mat-form-field>
+                                </div>
+                        </ng-container>
+                        <ng-container matColumnDef="action">
+                            <td mat-footer-cell *matFooterCellDef colspan="10">
+                                <div class="flex justify-end">
+                                    <button [disabled]="selection.forCongTrinhApDung.selected.length == 0"
+                                        mat-flat-button class="mx-1 bg-red-500 text-white"
+                                        (click)="deleteRowCongTrinhApDung()">Xóa</button>
+                                    <button mat-flat-button class="mx-1 bg-green-500 text-white"
+                                        (click)="addRowCongTrinhApDung()">Thêm
+                                        mới</button>
+                                </div>
+                            </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="[].concat('selection',congTrinhApDungColumns)"></tr>
+                        <tr mat-row *matRowDef="let row; columns: [].concat('selection',congTrinhApDungColumns);"></tr>
+
+                        <tr mat-footer-row *matFooterRowDef="['action']"></tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="mt-4">
+
+                <h3 class="font-bold">Các đề tài/đề án, dự án, nhiệm vụ khác đã chủ trì hoặc tham gia</h3>
+                <i>(trong 5 năm gần đây thuộc lĩnh vực nghiên cứu của đề tài/đề án, dự án đăng ký - nếu có)</i>
+
+                <div
+                    class="flex flex-col flex-0 w-full shadow rounded-2xl overflow-hidden bg-card dark:bg-black dark:bg-opacity-10">
+                    <table mat-table [dataSource]="listDeTaiForInputMode" class="style-table w-full">
+
+                        <ng-container matColumnDef="selection">]
+                            <th mat-header-cell *matHeaderCellDef>
+                                <mat-checkbox (change)="$event ? toggleAllRowsforDeTai() : null"
+                                    [checked]="selection.forDeTai.hasValue() && isAllSelectedforDeTai()"
+                                    [indeterminate]="selection.forDeTai.hasValue() && !isAllSelectedforDeTai()"
+                                    [aria-label]="checkboxLabelforDeTai()">
+                                </mat-checkbox>
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                <mat-checkbox (click)="$event.stopPropagation()"
+                                    (change)="$event ? selection.forDeTai.toggle(row) : null"
+                                    [checked]="selection.forDeTai.isSelected(row)"
+                                    [aria-label]="checkboxLabelforDeTai(row)">
+                                </mat-checkbox>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="TEN_DE_TAI">
+                            <th mat-header-cell *matHeaderCellDef>Tên đề tài</th>
+                            <td mat-cell *matCellDef="let element" [formGroup]="element">
+                                <mat-form-field class="w-full pr-4">
+                                    <input matInput placeholder="Tên đề tài" [value]="element.value.TEN_DE_TAI"
+                                        formControlName="TEN_DE_TAI">
+                                </mat-form-field>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="THOI_GIAN">
+                            <th mat-header-cell *matHeaderCellDef>Thời gian</th>
+                            <td mat-cell *matCellDef="let element" [formGroup]="element">
+                                <mat-form-field class="w-full pr-4">
+                                    <mat-date-range-input [rangePicker]="picker">
+                                        <input formControlName="THOI_GIAN_BAT_DAU" matStartDate
+                                            placeholder="Ngày bắt đầu">
+                                        <input formControlName="THOI_GIAN_KET_THUC" matEndDate
+                                            placeholder="Ngày kết thúc">
+                                    </mat-date-range-input>
+                                    <!-- <mat-hint>DD/MM/YYYY – DD/MM/YYYY</mat-hint> -->
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                    <mat-date-range-picker #picker></mat-date-range-picker>
+                                </mat-form-field>
+                        </ng-container>
+
+                        <ng-container matColumnDef="THUOC_CHUONG_TRINH">
+                            <th mat-header-cell *matHeaderCellDef>Thuộc Chương trình</th>
+                            <td mat-cell *matCellDef="let element" [formGroup]="element">
+                                <mat-form-field class="w-full pr-4">
+                                    <input matInput placeholder="Thuộc Chương trình"
+                                        [value]="element.value.THUOC_CHUONG_TRINH" formControlName="THUOC_CHUONG_TRINH">
+                                </mat-form-field>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="TINH_TRANG_DE_TAI">
+                            <th mat-header-cell *matHeaderCellDef>Tình trạng đề tài</th>
+                            <td mat-cell *matCellDef="let element" [formGroup]="element">
+
+                                <mat-form-field class="w-full pr-4">
+                                    <mat-select mat-option formControlName="TINH_TRANG_DE_TAI">
+                                        <mat-option [value]="1">Đã nghiệm thu</mat-option>
+                                        <mat-option [value]="0">Chưa nghiệm thu</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="action">
+                            <td mat-footer-cell *matFooterCellDef colspan="10">
+                                <div class="flex justify-end">
+                                    <button [disabled]="selection.forDeTai.selected.length == 0" mat-flat-button
+                                        class="mx-1 bg-red-500 text-white" (click)="deleteRowDeTai()">Xóa</button>
+                                    <button mat-flat-button class="mx-1 bg-green-500 text-white"
+                                        (click)="addRowDeTai()">Thêm
+                                        mới</button>
+                                </div>
+                            </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="[].concat('selection',deTaiColumns)"></tr>
+                        <tr mat-row *matRowDef="let row; columns: [].concat('selection',deTaiColumns);"></tr>
+
+                        <tr mat-footer-row *matFooterRowDef="['action']"></tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="mt-4">
+
+                <h3 class="font-bold">Giải thưởng</h3>
+                <i>(về KH&CN, về chất lượng sản phẩm,... liên quan đến đề tài/đề án, dự án đăng ký - nếu có)</i>
+
+                <div
+                    class="flex flex-col flex-0 w-full shadow rounded-2xl overflow-hidden bg-card dark:bg-black dark:bg-opacity-10">
+                    <table mat-table [dataSource]="listGiaiThuongForInputMode" class="style-table w-full">
+
+                        <ng-container matColumnDef="selection">]
+                            <th mat-header-cell *matHeaderCellDef>
+                                <mat-checkbox (change)="$event ? toggleAllRowsforGiaiThuong() : null"
+                                    [checked]="selection.forGiaiThuong.hasValue() && isAllSelectedforGiaiThuong()"
+                                    [indeterminate]="selection.forGiaiThuong.hasValue() && !isAllSelectedforGiaiThuong()"
+                                    [aria-label]="checkboxLabelforGiaiThuong()">
+                                </mat-checkbox>
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                <mat-checkbox (click)="$event.stopPropagation()"
+                                    (change)="$event ? selection.forGiaiThuong.toggle(row) : null"
+                                    [checked]="selection.forGiaiThuong.isSelected(row)"
+                                    [aria-label]="checkboxLabelforGiaiThuong(row)">
+                                </mat-checkbox>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="NOI_DUNG_GIAI_THUONG">
+                            <th mat-header-cell *matHeaderCellDef>Nội dung giải thưởng</th>
+                            <td mat-cell *matCellDef="let element" [formGroup]="element">
+                                <mat-form-field class="w-full pr-4">
+                                    <input matInput placeholder="Nội dung giải thưởng"
+                                        [value]="element.value.NOI_DUNG_GIAI_THUONG"
+                                        formControlName="NOI_DUNG_GIAI_THUONG">
+                                </mat-form-field>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="NAM_GIAI_THUONG">
+                            <th mat-header-cell *matHeaderCellDef>Năm giải thưởng</th>
+                            <td mat-cell *matCellDef="let element" [formGroup]="element">
+                                <mat-form-field class="w-full pr-4">
+                                    <input matInput placeholder="Năm giải thưởng"
+                                        [value]="element.value.NAM_GIAI_THUONG" formControlName="NAM_GIAI_THUONG">
+                                </mat-form-field>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="action">
+                            <td mat-footer-cell *matFooterCellDef colspan="10">
+                                <div class="flex justify-end">
+                                    <button [disabled]="selection.forGiaiThuong.selected.length == 0" mat-flat-button
+                                        class="mx-1 bg-red-500 text-white" (click)="deleteRowGiaiThuong()">Xóa</button>
+                                    <button mat-flat-button class="mx-1 bg-green-500 text-white"
+                                        (click)="addRowGiaiThuong()">Thêm
+                                        mới</button>
+                                </div>
+                            </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="[].concat('selection',giaiThuongColumns)"></tr>
+                        <tr mat-row *matRowDef="let row; columns: [].concat('selection',giaiThuongColumns);"></tr>
+
+                        <tr mat-footer-row *matFooterRowDef="['action']"></tr>
+                    </table>
+                </div>
+            </div>
+            <div class="mt-4">
+                <h3 class="font-bold">Thành tựu hoạt động KHCN và sản xuất kinh doanh khác </h3>
+                <i>(liên quan đến đề tài, dự án đăng ký - nếu có)</i>
+                <mat-form-field class="w-full pr-4">
+                    <textarea matInput [formControlName]="'THANH_TUU'"></textarea>
+                </mat-form-field>
+            </div>
+
+        </form>
+
+    </div>
+</div>

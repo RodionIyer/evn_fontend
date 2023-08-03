@@ -1,0 +1,47 @@
+
+<div class="relative eco_conntent">
+    <div class="bg-white px-3 content-screen">
+        <div class="flex items-center justify-between">
+            <h1 class="title-component">{{title}}</h1>
+            </div>
+         <ul class="list-lichsu">
+            <li *ngFor="let item of listLichSu; let i = index">
+                <i class="fa fa-dot-circle-o"></i>
+                <p class="font-bold" style="font-size: 20px;">{{item.tenDonVi}}</p>
+                <p class="font-bold px-10" style="font-size: 18px;">{{item.tenNguoiTao}}</p>
+                <div class="flex items-center mt-3 px-20" style="font-size: 14px;">
+                    <div class="contetn w-100 " >{{item.tenTrangThaiMoi}} thông tin bản đăng ký kế hoạch</div>
+                    <div class="time">{{item.ngayTao | date:"dd-MM-yyyy HH:mm"}}</div>
+                </div>
+            </li>
+            <!--{{item.tenDonVi}} <li>
+                <i class="fa fa-dot-circle-o"></i>
+                <p class="font-bold">Ban KHCNMT</p>
+                <p class="font-bold px-5">Nguyễn Văn B</p>
+                <div class="flex items-center mt-3 px-10">
+                    <div class="contetn w-100 ">Trả lại thông tin bản đăng ký kế hoạch</div>
+                    <div class="time">03-09-2021  13:01</div>
+                </div>
+            </li>
+            <li>
+                <i class="fa fa-dot-circle-o"></i>
+                <p class="font-bold">Ban KHCNMT</p>
+                <p class="font-bold px-5">Nguyễn Văn B</p>
+                <div class="flex items-center mt-3 px-10">
+                    <div class="contetn w-100 ">Trả lại thông tin bản đăng ký kế hoạch</div>
+                    <div class="time">03-09-2021  13:01</div>
+                </div>
+            </li>
+            <li>
+                <i class="fa fa-dot-circle-o"></i>
+                <p class="font-bold">Ban KHCNMT</p>
+                <p class="font-bold px-5">Nguyễn Văn B</p>
+                <div class="flex items-center mt-3 px-10">
+                    <div class="contetn w-100 ">Trả lại thông tin bản đăng ký kế hoạch</div>
+                    <div class="time">03-09-2021  13:01</div>
+                </div>
+            </li> -->
+
+         </ul>
+        </div>
+</div>

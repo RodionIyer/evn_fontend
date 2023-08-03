@@ -1,0 +1,57 @@
+<div class="title-popup">
+    <i class="fa fa-search"></i> Tìm kiếm DOffice
+</div>
+<div class="content-popup">
+    <div class="box-search items-center	">
+        <label for="">Trích yếu và số ký hiệu</label>
+        <input type="text" [(ngModel)]="q" class="form-control" placeholder="Nhập từ khóa cần tìm..." name="" id="">
+        <label for="">Số ký hiệu</label>
+        <input type="text" [(ngModel)]="soKyHieu" class="form-control" placeholder="Nhập từ khóa cần tìm..." name=""
+            id="">
+        <label for="">Loại tìm kiếm</label>
+        <ng-select [items]="listLoaiTK" bindLabel="NAME" bindValue="ID" placeholder="Chọn loại tìm kiếm" [(ngModel)]="loaiTK">
+        </ng-select>
+        <label for="">Năm</label>
+        <ng-select [items]="listYears" bindLabel="NAME" bindValue="ID" placeholder="Chọn năm"
+            [(ngModel)]="selectedYear">
+        </ng-select>
+
+    </div>
+    <div class="action-pop">
+        <button class="add_button" (click)="timkiemDoffice()"><i class="fa fa-plus"></i>
+            Tìm kiếm</button>
+        <button (click)="onCloseClick()" class="add_button"><i class="fa fa-times"></i>
+            Hủy</button>
+    </div>
+
+    <table class="table table_custom">
+        <thead>
+            <tr>
+                <th class="stt_table">STT</th>
+                <th>ID văn bản</th>
+                <th>Trích yếu</th>
+                <th>Ký hiệu</th>
+                <th class="text-center">Ngày văn bản</th>
+                <th>Nơi ban hành</th>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngFor="let item of listDOffice; let i = index">
+                <tr (click)="submit(item)" class="cursor-point">
+                    <td class="stt_table">{{i+1}}</td>
+                    <td>{{item.ID_VB}}</td>
+                    <td>{{item.TRICH_YEU}} </td>
+                    <td>{{item.KY_HIEU}} </td>
+                    <td>{{item.NGAY_VB | date:'dd/MM/yyyy'}} </td>
+                    <td>{{item.NOI_BAN_HANH}} </td>
+                </tr>
+            </ng-container>
+
+        </tbody>
+    </table>
+
+    <!-- <div class="action-pop">
+        <button (click)="onCloseClick()" class="add_button"><i class="fa fa-times"></i>
+            Hủy</button>
+    </div> -->
+</div>

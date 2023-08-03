@@ -1,0 +1,25 @@
+.list-lichsu li{
+    position: relative;
+    padding-left: 40px;
+    height: 100px;
+}
+.list-lichsu li i{
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    font-size: 30px;
+    z-index: 6;
+}
+.list-lichsu li::before{
+    position: absolute;
+    content: '';
+    left: 12px;
+    top: 24px;
+    height: 80px;
+    width: 1px;
+    background-color: #2a3493;
+    z-index: 1;
+}
+.list-lichsu li:last-child:before{
+    display: none;
+}

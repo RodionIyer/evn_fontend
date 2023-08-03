@@ -1,0 +1,688 @@
+<div
+    *ngIf="actionType == 'updateActionHDNT'"
+    class="flex flex-col flex-auto overflow-y-auto bg-card dark:bg-default content-detail p-3"
+>
+    <div class="">
+        <h1 class="title-component">CẬP NHẬP HỒ SƠ THỰC HIỆN</h1>
+        <div class="title-section">
+            <i class="fa fa-minus-circle"></i> Thông tin đề tài:
+        </div>
+    </div>
+
+    <div class="flex flex-row row gap-4">
+        <div class="basis-1/12">
+            <label for="">Tên đề tài/ nhiệm vụ:</label>
+        </div>
+        <div class="basis-2/5">
+            <span
+                >Nghiên cứu công nghệ chuyển đổi sổ áp dụng mã vạch trong quản
+                lý VTTB</span
+            >
+        </div>
+        <div class="basis-1/12">
+            <label for="">Cấp độ ĐT/NV:</label>
+        </div>
+        <div class="basis-1/5">
+            <span>Cấp EVN</span>
+        </div>
+    </div>
+    <div class="flex flex-row row gap-4">
+        <div class="basis-1/12">
+            <label for="">Chủ nhiệm:</label>
+        </div>
+        <div class="basis-2/5">
+            <span>Nguyễn Văn A</span>
+        </div>
+        <div class="basis-1/12">
+            <label for="">Đơn vị công tác:</label>
+        </div>
+        <div class="basis-1/5">
+            <span>Ban KHCNMT</span>
+        </div>
+    </div>
+    <div class="title-section">
+        <i class="fa fa-minus-circle"></i> Hồ sơ đề nghị tạm ứng kinh phí các
+        đợt sau:
+    </div>
+    <mat-tab-group class="detail_tab1" style="margin-top: 10px">
+        <mat-tab label="Hồ sơ nghiệm thu">
+            <table class="table table_custom" style="margin-top: 0">
+                <thead>
+                    <tr>
+                        <th class="stt_table">STT</th>
+                        <th>Tên hồ sơ</th>
+                        <th>Người cập nhập</th>
+                        <th>Ngày cập nhập</th>
+                        <th>File đính kèm</th>
+                        <th>Ghi chú</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="stt_table">1</td>
+                        <td>Noi dung</td>
+                        <td>Noi dung</td>
+                        <td>Noi dung</td>
+                        <td class="text-center">
+                            <button
+                                class="dowwnload px-6 py-1 rounded-md"
+                                style="background-color: #2a3493; color: #fff"
+                            >
+                                <i class="fa fa-cloud-download"></i> Upload
+                            </button>
+                        </td>
+                        <td>Noi dung</td>
+                    </tr>
+                </tbody>
+            </table>
+        </mat-tab>
+        <mat-tab label="Hồ sơ đề nghị tạm ứng kinh phí các đợt sau">
+            <table class="table table_custom" style="margin-top: 0">
+                <thead>
+                    <tr>
+                        <th class="stt_table">STT</th>
+                        <th>Tên hồ sơ</th>
+                        <th>Người cập nhập</th>
+                        <th>Ngày cập nhập</th>
+                        <th>File đính kèm</th>
+                        <th>Ghi chú</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="stt_table">1</td>
+                        <td>Noi dung</td>
+                        <td>Noi dung</td>
+                        <td>Noi dung</td>
+                        <td>
+                            <button class="dowwnload" style="color: #2a3493">
+                                <i class="fa fa-cloud-download"></i> Tải về
+                            </button>
+                        </td>
+                        <td>Noi dung</td>
+                    </tr>
+                </tbody>
+            </table>
+        </mat-tab>
+    </mat-tab-group>
+
+    <div style="display: flex; margin-top: 10px; align-items: center">
+        <label for="" style="margin-right: 10px"
+            >Trạng thái <span>(*)</span></label
+        >
+        <ng-select
+            [items]="listYears"
+            bindLabel="NAME"
+            bindValue="ID"
+            placeholder="Lựa chọn"
+            [(ngModel)]="selectedYear"
+            style="width: 200px"
+        >
+        </ng-select>
+    </div>
+
+    <div
+        class="flex items-center"
+        style="margin-bottom: 10px; margin-top: 10px"
+    >
+        <input type="checkbox" name="" id="" />
+        <span style="margin-left: 5px">
+            Gửi email thông báo đến chủ nhiệm và các bên liên quan</span
+        >
+    </div>
+
+    <label class="title_labe" for="">Nội dung gửi mail</label>
+    <textarea
+        class="form-control"
+        name=""
+        id=""
+        cols="30"
+        rows="10"
+        style="padding: 10px; min-height: 100px"
+    ></textarea>
+
+    <div class="action-all-f">
+        <button class="add_button"><i class="fa fa-save"></i> Lưu</button>
+    </div>
+</div>
+<div
+    *ngIf="actionType == 'updateActionKQNT'"
+    class="flex flex-col flex-auto overflow-y-auto bg-card dark:bg-default content-detail p-3"
+>
+    <div class="">
+        <h1 class="title-component">Cập nhập thông tin gia hạn ĐT/NV</h1>
+    </div>
+
+    <div class="flex flex-row row gap-4">
+        <div class="basis-1/12">
+            <label for="">Tên đề tài/ nhiệm vụ:</label>
+        </div>
+        <div class="basis-2/5">
+            <span
+                >Nghiên cứu công nghệ chuyển đổi sổ áp dụng mã vạch trong quản
+                lý VTTB</span
+            >
+        </div>
+        <div class="basis-1/12">
+            <label for="">Cấp độ ĐT/NV:</label>
+        </div>
+        <div class="basis-1/5">
+            <span>Cấp EVN</span>
+        </div>
+    </div>
+    <div class="flex flex-row row gap-4">
+        <div class="basis-1/12">
+            <label for="">Chủ nhiệm:</label>
+        </div>
+        <div class="basis-2/5">
+            <span>Nguyễn Văn A</span>
+        </div>
+        <div class="basis-1/12">
+            <label for="">Đơn vị công tác:</label>
+        </div>
+        <div class="basis-1/5">
+            <span>Ban KHCNMT</span>
+        </div>
+    </div>
+    <mat-tab-group class="detail_tab1" style="margin-top: 10px">
+        <mat-tab label="Hồ sơ nghiệm thu">
+            <div style="display: flex; margin-top: 10px; align-items: center">
+                <div class="basis-60">
+                    <label for="">Quyết định thành lập hội đồng</label>
+                </div>
+                <div class="basis-40">
+                    <label for="">173/QĐ-EVN</label>
+                </div>
+                <div class="basis-40">
+                    <label for="">dd/mm/yyyy</label>
+                </div>
+                <div class="basis-40">
+                    <button style="color: #02a7f0">
+                        <i class="fa fa-cloud-download"></i> Tải về
+                    </button>
+                </div>
+            </div>
+            <div class="flex mt-2 items-center">
+                <div class="basis-1/12">
+                    <label for="">Địa điểm họp</label>
+                </div>
+                <div class="basis-11/12">
+                    <input type="text" class="form-control" name="" id="" />
+                </div>
+            </div>
+
+            <div class="flex mt-2 items-center flex-row row gap-4">
+                <div class="basis-1/4">
+                    <label for="">Thời gian họp</label>
+                    <input type="date" class="form-control" name="" id="" />
+                </div>
+                <div class="basis-1/4">
+                    <label for="">Kết quả phiếu đánh giá</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Phiếu, tổng số phiếu"
+                        name=""
+                        id=""
+                    />
+                </div>
+                <div class="basis-1/4">
+                    <label for="">Điểm đánh giá</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        placeholder=""
+                        name=""
+                        id=""
+                    />
+                </div>
+                <div class="basis-1/4">
+                    <label for="">Kết quả đánh giá</label>
+                    <ng-select
+                        [items]="listYears"
+                        bindLabel="NAME"
+                        bindValue="ID"
+                        placeholder="Lựa chọn"
+                        [(ngModel)]="selectedYear"
+                        style="width: 100%"
+                    >
+                    </ng-select>
+                </div>
+            </div>
+            <label class="title_labe mt-1 mb-4" for=""
+                >Kết quả thực tế đạt được của đề tài</label
+            >
+            <textarea
+                class="form-control"
+                name=""
+                id=""
+                cols="30"
+                rows="10"
+                style="padding: 10px; min-height: 100px"
+            ></textarea>
+
+            <label class="title_labe mt-1 mb-4" for=""
+                >Các tồn tại và đề xuất hướng/biện pháp giải quyết</label
+            >
+            <textarea
+                class="form-control"
+                name=""
+                id=""
+                cols="30"
+                rows="10"
+                style="padding: 10px; min-height: 100px"
+            ></textarea>
+        </mat-tab>
+        <mat-tab label="Cập nhập KQNT cấp EVN">
+            <div style="display: flex; margin-top: 10px; align-items: center">
+                <div class="basis-60">
+                    <label for="">Quyết định thành lập hội đồng</label>
+                </div>
+                <div class="basis-40">
+                    <label for="">173/QĐ-EVN</label>
+                </div>
+                <div class="basis-40">
+                    <label for="">dd/mm/yyyy</label>
+                </div>
+                <div class="basis-40">
+                    <button style="color: #02a7f0">
+                        <i class="fa fa-cloud-download"></i> Tải về
+                    </button>
+                </div>
+            </div>
+            <div class="flex mt-2 items-center">
+                <div class="basis-1/12">
+                    <label for="">Địa điểm họp</label>
+                </div>
+                <div class="basis-11/12">
+                    <input type="text" class="form-control" name="" id="" />
+                </div>
+            </div>
+
+            <div class="flex mt-2 items-center flex-row row gap-4">
+                <div class="basis-1/4">
+                    <label for="">Thời gian họp</label>
+                    <input type="date" class="form-control" name="" id="" />
+                </div>
+                <div class="basis-1/4">
+                    <label for="">Kết quả phiếu đánh giá</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Phiếu, tổng số phiếu"
+                        name=""
+                        id=""
+                    />
+                </div>
+                <div class="basis-1/4">
+                    <label for="">Điểm đánh giá</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        placeholder=""
+                        name=""
+                        id=""
+                    />
+                </div>
+                <div class="basis-1/4">
+                    <label for="">Kết quả đánh giá</label>
+                    <ng-select
+                        [items]="listYears"
+                        bindLabel="NAME"
+                        bindValue="ID"
+                        placeholder="Lựa chọn"
+                        [(ngModel)]="selectedYear"
+                        style="width: 100%"
+                    >
+                    </ng-select>
+                </div>
+            </div>
+            <label class="title_labe mt-1 mb-4" for=""
+                >Kết quả thực tế đạt được của đề tài</label
+            >
+            <textarea
+                class="form-control"
+                name=""
+                id=""
+                cols="30"
+                rows="10"
+                style="padding: 10px; min-height: 100px"
+            ></textarea>
+
+            <label class="title_labe mt-1 mb-4" for=""
+                >Các tồn tại và đề xuất hướng/biện pháp giải quyết</label
+            >
+            <textarea
+                class="form-control"
+                name=""
+                id=""
+                cols="30"
+                rows="10"
+                style="padding: 10px; min-height: 100px"
+            ></textarea>
+        </mat-tab>
+    </mat-tab-group>
+
+
+    <label class="title_labe" for="">Lý do</label>
+    <textarea
+        class="form-control mb-3"
+        name=""
+        id=""
+        cols="30"
+        rows="10"
+        style="padding: 10px; min-height: 100px"
+    ></textarea>
+
+    <div class="flex flex-row row gap-4">
+        <div class="basis-1/5">
+            <label for="">Biên bản họp hội đồng nghiệm thu</label>
+        </div>
+        <div class="basis-2/5">
+           <input type="file" placeholder="Chọn tệp" name="" id="">
+        </div>
+    </div>
+
+    <div class="flex flex-row row gap-4">
+        <div class="basis-1/5">
+            <label for="">Phiếu đánh giá và tài liệu khác</label>
+        </div>
+        <div class="basis-2/5">
+           <input type="file" placeholder="Chọn tệp" name="" id="">
+        </div>
+    </div>
+
+    <div
+        class="flex items-center"
+        style="margin-bottom: 10px; margin-top: 10px"
+    >
+        <input type="checkbox" name="" id="" />
+        <span style="margin-left: 5px">
+            Gửi email thông báo đến chủ nhiệm và các bên liên quan</span
+        >
+    </div>
+
+   
+    <div style="display: flex; margin-top: 10px; align-items: center">
+        <label for="" style="margin-right: 10px"
+            >Trạng thái<span>(*)</span></label
+        >
+        <ng-select
+            [items]="listYears"
+            bindLabel="NAME"
+            bindValue="ID"
+            placeholder="Lựa chọn"
+            [(ngModel)]="selectedYear"
+            style="width: 200px"
+        >
+        </ng-select>
+    </div>
+
+    <div class="action-all-f">
+        <button class="add_button"><i class="fa fa-save"></i> Lưu</button>
+    </div>
+</div>
+
+<div
+    *ngIf="actionType == 'CHINHSUA'"
+    class="flex flex-col flex-auto overflow-y-auto bg-card dark:bg-default content-detail p-3"
+>
+    <div class="">
+        <h1 class="title-component">
+            CẬP NHẬP HỒ SƠ NGHIỆM THU
+        </h1>
+        <div class="title-section">
+            <i class="fa fa-minus-circle"></i> Thông tin đề tài:
+        </div>
+    </div>
+
+
+    <div class="flex flex-row row gap-4"> 
+        <div class="basis-1/12">
+            <label for="">Tên đề tài/ nhiệm vụ:</label>
+        </div>
+        <div class="basis-2/5">
+            <span
+                >Nghiên cứu công nghệ chuyển đổi sổ áp dụng mã vạch trong quản
+                lý VTTB</span
+            >
+        </div>
+        <div class="basis-1/12">
+            <label for="">Cấp độ ĐT/NV:</label>
+        </div>
+        <div class="basis-1/5">
+            <span>Cấp EVN</span>
+        </div>
+    </div>
+    <div class="flex flex-row row gap-4">
+        <div class="basis-1/12">
+            <label for="">Chủ nhiệm:</label>
+        </div>
+        <div class="basis-2/5">
+            <span>Nguyễn Văn A</span>
+        </div>
+        <div class="basis-1/12">
+            <label for="">Đơn vị công tác:</label>
+        </div>
+        <div class="basis-1/5">
+            <span>Ban KHCNMT</span>
+        </div>
+    </div>
+    <div class="title-section">
+        <i class="fa fa-minus-circle"></i> Hồ sơ đề nghị tạm ứng kinh phí các đợt sau:
+    </div>
+    <mat-tab-group class="detail_tab1" style="margin-top: 10px;">
+        <mat-tab label="Hồ sơ nghiệm thu">
+            <table class="table table_custom" style="margin-top: 0">
+                <thead>
+                    <tr>
+                        <th class="stt_table">STT</th>
+                        <th>Tên hồ sơ</th>
+                        <th>Người cập nhập</th>
+                        <th>Ngày cập nhập</th>
+                        <th>File đính kèm</th>
+                        <th>Ghi chú</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="stt_table">1</td>
+                        <td>Noi dung</td>
+                        <td>Noi dung</td>
+                        <td>Noi dung</td>
+                        <td> 
+                            <button class="dowwnload" style="color: #2a3493">
+                            <i class="fa fa-cloud-upload"></i> Upload
+                        </button></td>
+                        <td>Noi dung</td>
+                    </tr>
+                </tbody>
+            </table>
+        </mat-tab>
+        <mat-tab label="Hồ sơ đề nghị tạm ứng kinh phí các đợt sau">
+            <table class="table table_custom" style="margin-top: 0">
+                <thead>
+                    <tr>
+                        <th class="stt_table">STT</th>
+                        <th>Tên hồ sơ</th>
+                        <th>Người cập nhập</th>
+                        <th>Ngày cập nhập</th>
+                        <th>File đính kèm</th>
+                        <th>Ghi chú</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="stt_table">1</td>
+                        <td>Noi dung</td>
+                        <td>Noi dung</td>
+                        <td>Noi dung</td>
+                        <td> 
+                            <button class="dowwnload" style="color: #2a3493">
+                            <i class="fa fa-cloud-download"></i> Tải về
+                        </button></td>
+                        <td>Noi dung</td>
+                    </tr>
+                </tbody>
+            </table>
+        </mat-tab>
+    </mat-tab-group>
+
+
+    <div style="display: flex; margin-top: 10px; align-items: center">
+        <label for="" style="margin-right: 10px">Trạng thái <span>(*)</span></label>
+        <ng-select
+            [items]="listYears"
+            bindLabel="NAME"
+            bindValue="ID"
+            placeholder="Lựa chọn"
+            [(ngModel)]="selectedYear"
+            style="width: 200px"
+        >
+        </ng-select>
+    </div>
+
+    <div class="flex items-center" style="margin-bottom: 10px; margin-top: 10px;">
+        <input type="checkbox" name="" id="">
+        <span style="margin-left: 5px;"> Gửi email thông báo đến chủ nhiệm và các bên liên quan</span>
+    </div>
+
+    <label class="title_labe" for="">Nội dung gửi mail</label>
+    <textarea class="form-control" name="" id="" cols="30" rows="10" style="padding: 10px; min-height: 100px;"></textarea>
+
+    <div class="action-all-f">
+        <button class="add_button"><i class="fa fa-save"></i> Lưu</button>
+    </div>
+</div>
+
+<div
+    *ngIf="actionType == 'updateActionHSQT'"
+    class="flex flex-col flex-auto overflow-y-auto bg-card dark:bg-default content-detail p-3"
+>
+    <div class="">
+        <h1 class="title-component">
+            CẬP NHẬP HỒ SƠ THANH QUYẾT TOÁN
+        </h1>
+        <div class="title-section">
+            <i class="fa fa-minus-circle"></i> Thông tin đề tài:
+        </div>
+    </div>
+
+
+    <div class="flex flex-row row gap-4"> 
+        <div class="basis-1/12">
+            <label for="">Tên đề tài/ nhiệm vụ:</label>
+        </div>
+        <div class="basis-2/5">
+            <span
+                >Nghiên cứu công nghệ chuyển đổi sổ áp dụng mã vạch trong quản
+                lý VTTB</span
+            >
+        </div>
+        <div class="basis-1/12">
+            <label for="">Cấp độ ĐT/NV:</label>
+        </div>
+        <div class="basis-1/5">
+            <span>Cấp EVN</span>
+        </div>
+    </div>
+    <div class="flex flex-row row gap-4">
+        <div class="basis-1/12">
+            <label for="">Chủ nhiệm:</label>
+        </div>
+        <div class="basis-2/5">
+            <span>Nguyễn Văn A</span>
+        </div>
+        <div class="basis-1/12">
+            <label for="">Đơn vị công tác:</label>
+        </div>
+        <div class="basis-1/5">
+            <span>Ban KHCNMT</span>
+        </div>
+    </div>
+    <div class="title-section">
+        <i class="fa fa-minus-circle"></i> Hồ sơ đề nghị tạm ứng kinh phí các đợt sau:
+    </div>
+    <mat-tab-group class="detail_tab1" style="margin-top: 10px;">
+        <mat-tab label="Hồ sơ nghiệm thu">
+            <table class="table table_custom" style="margin-top: 0">
+                <thead>
+                    <tr>
+                        <th class="stt_table">STT</th>
+                        <th>Tên hồ sơ</th>
+                        <th>Người cập nhập</th>
+                        <th>Ngày cập nhập</th>
+                        <th>File đính kèm</th>
+                        <th>Ghi chú</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="stt_table">1</td>
+                        <td>Noi dung</td>
+                        <td>Noi dung</td>
+                        <td>Noi dung</td>
+                        <td> 
+                            <button class="dowwnload" style="color: #2a3493">
+                            <i class="fa fa-cloud-upload"></i> Upload
+                        </button></td>
+                        <td>Noi dung</td>
+                    </tr>
+                </tbody>
+            </table>
+        </mat-tab>
+        <mat-tab label="Hồ sơ đề nghị tạm ứng kinh phí các đợt sau">
+            <table class="table table_custom" style="margin-top: 0">
+                <thead>
+                    <tr>
+                        <th class="stt_table">STT</th>
+                        <th>Tên hồ sơ</th>
+                        <th>Người cập nhập</th>
+                        <th>Ngày cập nhập</th>
+                        <th>File đính kèm</th>
+                        <th>Ghi chú</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="stt_table">1</td>
+                        <td>Noi dung</td>
+                        <td>Noi dung</td>
+                        <td>Noi dung</td>
+                        <td> 
+                            <button class="dowwnload" style="color: #2a3493">
+                            <i class="fa fa-cloud-download"></i> Tải về
+                        </button></td>
+                        <td>Noi dung</td>
+                    </tr>
+                </tbody>
+            </table>
+        </mat-tab>
+    </mat-tab-group>
+
+
+    <div style="display: flex; margin-top: 10px; align-items: center">
+        <label for="" style="margin-right: 10px">Trạng thái <span>(*)</span></label>
+        <ng-select
+            [items]="listYears"
+            bindLabel="NAME"
+            bindValue="ID"
+            placeholder="Lựa chọn"
+            [(ngModel)]="selectedYear"
+            style="width: 200px"
+        >
+        </ng-select>
+    </div>
+
+    <div class="flex items-center" style="margin-bottom: 10px; margin-top: 10px;">
+        <input type="checkbox" name="" id="">
+        <span style="margin-left: 5px;"> Gửi email thông báo đến chủ nhiệm và các bên liên quan</span>
+    </div>
+
+    <label class="title_labe" for="">Nội dung gửi mail</label>
+    <textarea class="form-control" name="" id="" cols="30" rows="10" style="padding: 10px; min-height: 100px;"></textarea>
+
+    <div class="action-all-f">
+        <button class="add_button"><i class="fa fa-save"></i> Lưu</button>
+    </div>
+</div>

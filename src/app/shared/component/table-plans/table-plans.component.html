@@ -1,0 +1,188 @@
+<div class="body-detail" [formGroup]="form">
+    <table class="table table_custom">
+        <thead>
+            <tr>
+                <th class="stt_table">STT</th>
+                <th>Nội dung đăng ký</th>
+                <th class="text-center">
+                    Nguồn kinh phí (EVN hoặc Đơn vị)
+                </th>
+                <th class="text-center">Dự toán (Triệu đồng)</th>
+                <th class="text-center">Đơn vị chủ trì</th>
+                <th class="text-center">Chủ nhiệm nhiệm vụ</th>
+                <th>Nội dung hoạt động</th>
+                <th>
+                    Thời gian dự kiến thực hiện (Từ tháng/năm đến tháng/năm)
+                </th>
+                <!-- <th>Ý kiến người phê duyệt</th> -->
+                <th class="text-center action-table actiom-table-detail"></th>
+            </tr>
+        </thead>
+        <tbody *ngIf=" form.get('listNhiemVu') != undefined && form.get('listNhiemVu').value != undefined && form.get('listNhiemVu').value.length >0" formArrayName="listNhiemVu">
+            <ng-container *ngFor="let item of form.get('listNhiemVu')['controls']; let i = index;">
+                <ng-container [formGroupName]="i">
+                    <tr  *ngIf="item.get('action').value=='view'" class="font-semibold text-2xl">
+                        <td class="text-center">{{i+1}}</td>
+                        <td class="">{{item.get('noiDungDangKy').value}}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="text-center action-table actiom-table-detail">
+                            <div class="flex justify-evenly" *ngIf="item.get('chiTiet').value==1">
+                                <i class="fa fa-plus" (click)="addCap1(item)" title="Thêm mới"></i>
+                            </div>
+                        </td>
+                        <!-- <td></td> -->
+                    </tr>
+                    <ng-container formArrayName="listNhiemVu_cap2">
+                        <ng-container
+                            *ngFor="let itemc of item.get('listNhiemVu_cap2')['controls']; let c = index;">
+                            <ng-container  *ngIf="item.get('action').value=='add'"  [formGroupName]="c">
+                                <tr class="">
+                                    <td class="text-center"></td>
+                                    <td><input type="text" class="form-control" formControlName="noiDungDangKy" />
+                                        <div *ngIf="submitted.check && itemc.get('noiDungDangKy').errors" class="invalid-feedback">
+                                            <div *ngIf="itemc.get('noiDungDangKy').errors.required">Trường bắt buộc nhập</div>
+                                          </div>
+                                    </td>
+                                    <td>
+                                         <!-- <input type="text" class="form-control" formControlName="NguonKinhPhi" /> -->
+                                          <ng-select [items]="listNguonKinhPhi" bindLabel="TEN_NGUON_KINH_PHI" bindValue="MA_NGUON_KINH_PHI" placeholder="Lựa chọn"
+                                        formControlName="nguonKinhPhi">
+                                    </ng-select>  
+                                </td>
+                                    <td><input type="text" class="form-control" formControlName="duToan" /></td>
+                                    <td><input type="text" class="form-control" formControlName="donViChuTri" /></td>
+                                    <td><input type="text" class="form-control" formControlName="chuNhiemNhiemVu" /></td>
+                                    <td><input type="text" class="form-control" formControlName="noiDungHoatDong" /></td>
+                                    <td><input type="text" class="form-control" formControlName="thoiGianDuKien" /></td><!--{{itemc.get('thoiGianDuKien').value}}-->
+                                    <!-- <td><input type="text" class="form-control" formControlName="YKienNguoiPheDuyet" /></td> -->
+                                    <td class="text-center action-table actiom-table-detail">
+                                        <div class="flex justify-evenly" *ngIf="itemc.get('chiTiet').value ==0">
+                                            <i (click)="removeItem(item,c,3)" class="fa fa-times"
+                                                title="Xóa bỏ"></i>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </ng-container>
+                        </ng-container>
+                    </ng-container>
+                  
+                    <ng-container *ngIf="item.get('listNhiemVu_cap2').value.length > 0" formArrayName="listNhiemVu_cap2">
+                        <ng-container *ngFor="let items of item.get('listNhiemVu_cap2')['controls']; let j = index;">
+                            <ng-container *ngIf="items.get('action').value=='view'" [formGroupName]="j">
+                                <tr class="italic font-semibold">
+                                    <td class="text-center">{{i+1}}.{{j+1}}</td>
+                                    <td class="">{{items.get('noiDungDangKy').value}}</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <!-- <td></td> -->
+                                    <td class="text-center action-table actiom-table-detail">
+                                        <div class="flex justify-evenly" *ngIf="items.get('chiTiet').value==1">
+                                            <i class="fa fa-plus" (click)="addCap2(items)" title="Thêm mới"></i>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <ng-container formArrayName="listNhiemVu_cap3">
+                                    <ng-container
+                                        *ngFor="let itemc of items.get('listNhiemVu_cap3')['controls']; let c = index;">
+                                        <ng-container *ngIf="itemc.get('action').value=='add'"  [formGroupName]="c">
+                                            <tr class="">
+                                                <td class="text-center"></td>
+                                                <td><input type="text" class="form-control" formControlName="noiDungDangKy" />
+                                                    <div *ngIf="submitted.check && itemc.get('noiDungDangKy').errors" class="invalid-feedback">
+                                                        <div *ngIf="itemc.get('noiDungDangKy').errors.required">Trường bắt buộc nhập</div>
+                                                      </div>
+                                                </td>
+                                                <td>
+                                                     <!-- <input type="text" class="form-control" formControlName="NguonKinhPhi" /> -->
+                                                      <ng-select [items]="listNguonKinhPhi" bindLabel="TEN_NGUON_KINH_PHI" bindValue="MA_NGUON_KINH_PHI" placeholder="Lựa chọn"
+                                                    formControlName="nguonKinhPhi">
+                                                </ng-select>  
+                                            </td>
+                                                <td><input type="text" class="form-control" formControlName="duToan" /></td>
+                                                <td><input type="text" class="form-control" formControlName="donViChuTri" /></td>
+                                                <td><input type="text" class="form-control" formControlName="chuNhiemNhiemVu" /></td>
+                                                <td><input type="text" class="form-control" formControlName="noiDungHoatDong" /></td>
+                                                <td><input type="text" class="form-control" formControlName="thoiGianDuKien" /></td><!--{{itemc.get('thoiGianDuKien').value}}-->
+                                                <!-- <td><input type="text" class="form-control" formControlName="YKienNguoiPheDuyet" /></td> -->
+                                                <td class="text-center action-table actiom-table-detail">
+                                                    <div class="flex justify-evenly">
+                                                        <i (click)="removeItem(items,c,3)" class="fa fa-times"
+                                                            title="Xóa bỏ"></i>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </ng-container>
+                                    </ng-container>
+                                </ng-container>
+                                <ng-container  *ngIf="items.get('listNhiemVu_cap3') != null  && items.get('listNhiemVu_cap3').value.length > 0" formArrayName="listNhiemVu_cap3">
+                                    <ng-container *ngFor="let items2 of items.get('listNhiemVu_cap3')['controls']; let k = index;">
+                                        <ng-container *ngIf="items2.get('action').value=='view'" [formGroupName]="k">
+                                            <tr class="italic font-semibold">
+                                                <td class="text-center">{{i+1}}.{{j+1}}.{{k+1}}</td>
+                                                <td class="">{{items2.get('noiDungDangKy').value}}</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <!-- <td></td> -->
+                                                <td class="text-center action-table actiom-table-detail">
+                                                    <div class="flex justify-evenly" *ngIf="items2.get('chiTiet').value==1">
+                                                        <i class="fa fa-plus" (click)="addCap3(items2)" title="Thêm mới"></i>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <ng-container *ngIf="items2.get('listNhiemVu_cap4') != null  && items2.get('listNhiemVu_cap4').value.length > 0" formArrayName="listNhiemVu_cap4">
+                                                <ng-container
+                                                    *ngFor="let itemc of items2.get('listNhiemVu_cap4')['controls']; let c = index;">
+                                                    <ng-container *ngIf="itemc.get('action').value=='add'" [formGroupName]="c">
+                                                        <tr class="">
+                                                            <td class="text-center"></td>
+                                                            <td><input type="text" class="form-control" formControlName="noiDungDangKy" />
+                                                                <div *ngIf="submitted.check && itemc.get('noiDungDangKy').errors" class="invalid-feedback">
+                                                                    <div *ngIf="itemc.get('noiDungDangKy').errors.required">Trường bắt buộc nhập</div>
+                                                                  </div>
+                                                            </td>
+                                                            <td>
+                                                                 <!-- <input type="text" class="form-control" formControlName="NguonKinhPhi" /> -->
+                                                                  <ng-select [items]="listNguonKinhPhi"  bindLabel="TEN_NGUON_KINH_PHI" bindValue="MA_NGUON_KINH_PHI" placeholder="Lựa chọn"
+                                                                formControlName="nguonKinhPhi">
+                                                            </ng-select>  
+                                                        </td>
+                                                            <td><input type="text" class="form-control" formControlName="duToan" /></td>
+                                                            <td><input type="text" class="form-control" formControlName="donViChuTri" /></td>
+                                                            <td><input type="text" class="form-control" formControlName="chuNhiemNhiemVu" /></td>
+                                                            <td><input type="text" class="form-control" formControlName="noiDungHoatDong" /></td>
+                                                            <td><input type="text" class="form-control" formControlName="thoiGianDuKien" /></td><!--{{itemc.get('thoiGianDuKien').value}}-->
+                                                            <!-- <td><input type="text" class="form-control" formControlName="YKienNguoiPheDuyet" /></td> -->
+                                                            <td class="text-center action-table actiom-table-detail">
+                                                                <div class="flex justify-evenly">
+                                                                    <i (click)="removeItem(items2,c,4)" class="fa fa-times"
+                                                                        title="Xóa bỏ"></i>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </ng-container>
+                                                </ng-container>
+                                            </ng-container>
+                                        </ng-container>
+                                    </ng-container>
+                                </ng-container>
+                            </ng-container>
+                        </ng-container>
+                    </ng-container>
+                </ng-container>
+            </ng-container>
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,98 @@
+<div class="flex w-full bg-card dark:bg-transparent">
+  <!--  list -->
+  <ng-container>
+    <div class="flex flex-auto flex-col h-full border-r z-10" [ngClass]=" !isSelect ? 'w-full' : 'w-1/3' ">
+
+      <!-- Header -->
+      <div class="flex flex-0 items-center justify-between h-16 px-4 border-b bg-gray-50 dark:bg-transparent">
+        <div class="flex items-center w-full">
+          <!-- Sidebar toggle button -->
+          <button mat-icon-button (click)="listNguoiThucHienComponent.drawer.toggle()">
+            <mat-icon [svgIcon]="'heroicons_outline:menu'"></mat-icon>
+          </button>
+
+          <div class="ml-2 font-semibold uppercase whitespace-nowrap truncate">{{group?.ORGDESC}}</div>
+          <span style="flex: 1 1 auto;"></span>
+
+        </div>
+
+      </div>
+
+      <div class="h-full">
+        <div class="flex justify-between items-center">
+          <div class="flex flex-col flex-auto">
+            <mat-form-field class="change-margin-matInput">
+              <input matInput type="text" (keyup)="doFilter($event.target)" placeholder="Tìm kiếm">
+            </mat-form-field>
+          </div>
+
+          <button mat-icon-button (click)="addNewNguoiThucHien()">
+            <mat-icon [svgIcon]="'mat_outline:add'"></mat-icon>
+          </button>
+
+        </div>
+
+        <table mat-table [dataSource]="dataSource" class="w-full">
+          <ng-container matColumnDef="STT">
+            <th mat-header-cell *matHeaderCellDef> STT </th>
+            <td mat-cell *matCellDef="let element; let i = index;">{{i+1}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="TEN_NGUOI_THUC_HIEN">
+            <th mat-header-cell *matHeaderCellDef>Họ và tên</th>
+            <td mat-cell *matCellDef="let element">{{element.TEN_NGUOI_THUC_HIEN}}</td>
+          </ng-container>
+
+          <ng-container *ngIf="!isSelect" matColumnDef="TEN_HOC_HAM">
+            <th mat-header-cell *matHeaderCellDef>Học hàm</th>
+            <td mat-cell *matCellDef="let element">{{element.TEN_HOC_HAM}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="TEN_HOC_VI">
+            <th mat-header-cell *matHeaderCellDef>Học vị</th>
+            <td mat-cell *matCellDef="let element">{{element.TEN_HOC_VI}}</td>
+          </ng-container>
+
+          <ng-container *ngIf="!isSelect" matColumnDef="EMAL">
+            <th mat-header-cell *matHeaderCellDef>EMAL</th>
+            <td mat-cell *matCellDef="let element">{{element.EMAL}}</td>
+          </ng-container>
+
+          <ng-container *ngIf="!isSelect" matColumnDef="SDT">
+            <th mat-header-cell *matHeaderCellDef>SDT</th>
+            <td mat-cell *matCellDef="let element">{{element.SDT}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="TEN_LVUC_NCUU">
+            <th mat-header-cell *matHeaderCellDef>Lĩnh vực nghiên cứu</th>
+            <td mat-cell *matCellDef="let element">{{element.TEN_LVUC_NCUU}}</td>
+          </ng-container>
+
+          <ng-container *ngIf="isSelect"  matColumnDef="TRANG_THAI">
+            <th mat-header-cell *matHeaderCellDef>Trạng thái</th>
+            <td mat-cell *matCellDef="let element">
+              <span *ngIf="element.SYS_ACTION==State.edit" class="text-red-500">
+                [Đang sửa] </span>
+                <span *ngIf="element.SYS_ACTION==State.create" class="text-red-500">
+                  [Đang thêm mới] </span>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="(!isSelect ? displayedColumns : _displayedColumns)"></tr>
+          <tr mat-row *matRowDef="let row; columns: (!isSelect ? displayedColumns : _displayedColumns);"
+            [routerLink]="row.MA_NGUOI_THUC_HIEN" routerLinkActive="bg-primary-50" (click)="isSelect = true"></tr>
+
+        </table>
+      </div>
+
+    </div>
+
+  </ng-container>
+  <!--  details -->
+  <ng-container *ngIf="isSelect" class="box-border">
+    <div class="flex-auto flex w-2/3">
+
+      <router-outlet></router-outlet>
+    </div>
+  </ng-container>
+</div>

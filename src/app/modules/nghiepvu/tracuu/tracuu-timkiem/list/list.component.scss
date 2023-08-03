@@ -1,0 +1,22 @@
+.fuse-vertical-navigation-group-item {
+    margin-top: 6px !important;
+}
+
+table {
+    color: #000;
+}
+
+.serach-box {
+    display: flex;
+    min-width: 1000px;
+
+    button {
+        background: #2A3493;
+        color: #fff;
+        height: 30px;
+        padding: 6px 10px;
+        border-radius: 5px;
+        width: 110px;
+        margin-left: 10px;
+    }
+}

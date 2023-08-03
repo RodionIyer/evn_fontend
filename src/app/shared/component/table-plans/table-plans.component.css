@@ -1,0 +1,30 @@
+.actiom-table-detail{
+    width: 40px;
+    .fa-plus{
+        color: #56BEEA;
+        &:hover {
+            border-color: #56BEEA;
+        }
+    }
+    .fa-times{
+        color: red;
+        &:hover {
+            border-color: red;
+        }
+    }
+}
+
+.body-detail table{
+    color: #000;
+}
+
+#table-list table.table.table_custom th {
+    border: 0;
+   padding: 10px;
+   border-bottom-color: #e2e8f0;
+}
+
+#table-list table.table.table_custom td {
+   border: 0;
+   padding: 5px 10px;
+}

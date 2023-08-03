@@ -1,0 +1,15 @@
+.style-table th.mat-header-cell:first-of-type,
+.style-table td.mat-cell:first-of-type,
+.style-table td.mat-footer-cell:first-of-type {
+    text-align: left;
+    padding: 1rem !important;
+}
+
+.style-table .mat-form-field.w-full.pr-4  {
+    display: flex;
+}
+
+.style-table .mat-form-field.w-full.pr-4>.mat-form-field-wrapper{
+    margin-bottom: 0px;
+    width: 100%;
+}
