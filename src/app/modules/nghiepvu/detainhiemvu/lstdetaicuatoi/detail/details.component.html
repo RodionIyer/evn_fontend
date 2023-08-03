@@ -546,21 +546,21 @@
                                 <td>
                                     <div class="list-file" *ngIf="item.get('listFile').value.length >0">
                                         <table class="table table_custom action-table">
-                                            <thead>
-                                                <tr>
-                                                    <th class="stt_table">STT</th>
-                                                    <th>Tên file</th>
-                                                    <th class="text-center">Kích thước
-                                                    </th>
-                                                    <th class="text-center">Số văn bản
-                                                    </th>
-                                                    <th style="width: 100px;"></th>
-                                                </tr>
-                                            </thead>
+<!--                                            <thead>-->
+<!--                                                <tr>-->
+<!--                                                    <th class="stt_table">STT</th>-->
+<!--                                                    <th>Tên file</th>-->
+<!--                                                    <th class="text-center">Kích thước-->
+<!--                                                    </th>-->
+<!--                                                    <th class="text-center">Số văn bản-->
+<!--                                                    </th>-->
+<!--                                                    <th style="width: 100px;"></th>-->
+<!--                                                </tr>-->
+<!--                                            </thead>-->
                                             <tbody formArrayName="listFile">
 
                                                 <tr *ngFor="let item2 of item.get('listFile')['controls']; let k = index">
-                                                    <td class="stt_table">{{k+1}}</td>
+<!--                                                    <td class="stt_table">{{k+1}}</td>-->
                                                     <td>{{item2.get('fileName').value}}</td>
                                                     <td>
                                                         {{item2.get('size').value >(1024 *
@@ -615,21 +615,21 @@
                                 <td>
                                     <div class="list-file" *ngIf="item.get('listFile').value.length >0">
                                         <table class="table table_custom action-table">
-                                            <thead>
-                                                <tr>
-                                                    <th class="stt_table">STT</th>
-                                                    <th>Tên file</th>
-                                                    <th class="text-center">Kích thước
-                                                    </th>
-                                                    <th class="text-center">Số văn bản
-                                                    </th>
-                                                    <th style="width: 100px;"></th>
-                                                </tr>
-                                            </thead>
+<!--                                            <thead>-->
+<!--                                                <tr>-->
+<!--                                                    <th class="stt_table">STT</th>-->
+<!--                                                    <th>Tên file</th>-->
+<!--                                                    <th class="text-center">Kích thước-->
+<!--                                                    </th>-->
+<!--                                                    <th class="text-center">Số văn bản-->
+<!--                                                    </th>-->
+<!--                                                    <th style="width: 100px;"></th>-->
+<!--                                                </tr>-->
+<!--                                            </thead>-->
                                             <tbody formArrayName="listFile">
 
                                                 <tr *ngFor="let item2 of item.get('listFile')['controls']; let k = index">
-                                                    <td class="stt_table">{{k+1}}</td>
+<!--                                                    <td class="stt_table">{{k+1}}</td>-->
                                                     <td>{{item2.get('fileName').value}}</td>
                                                     <td>
                                                         {{item2.get('size').value >(1024 *
@@ -668,40 +668,40 @@
                 </mat-tab>
                 <mat-tab label="Hồ sơ đề nghị tạm ứng kinh phí các đợt sau">
                     <table class="table table_custom" style="margin-top: 0">
-                        <thead>
-                            <tr>
-                                <th class="stt_table">STT</th>
-                                <th>Tên hồ sơ</th>
-                                <th>Người cập nhập</th>
-                                <th>Ngày cập nhập</th>
-                                <th>File đính kèm</th>
-                                <th>Ghi chú</th>
-                            </tr>
-                        </thead>
+<!--                        <thead>-->
+<!--                            <tr>-->
+<!--                                <th class="stt_table">STT</th>-->
+<!--                                <th>Tên hồ sơ</th>-->
+<!--                                <th>Người cập nhập</th>-->
+<!--                                <th>Ngày cập nhập</th>-->
+<!--                                <th>File đính kèm</th>-->
+<!--                                <th>Ghi chú</th>-->
+<!--                            </tr>-->
+<!--                        </thead>-->
                         <tbody formArrayName="listFolderFileTamUng" *ngIf="form.get('listFolderFileTamUng').value.length >0">
                         <tr *ngFor="let item of form.get('listFolderFileTamUng')['controls']; let i = index">
-                            <td class="stt_table">{{i+1}}</td>
+<!--                            <td class="stt_table">{{i+1}}</td>-->
                             <td>{{item.get('fileName').value}}</td>
                             <td></td>
                             <td></td>
                             <td>
                                 <div class="list-file" *ngIf="item.get('listFile').value.length >0">
                                     <table class="table table_custom action-table">
-                                        <thead>
-                                            <tr>
-                                                <th class="stt_table">STT</th>
-                                                <th>Tên file</th>
-                                                <th class="text-center">Kích thước
-                                                </th>
-                                                <th class="text-center">Số văn bản
-                                                </th>
-                                                <th style="width: 100px;"></th>
-                                            </tr>
-                                        </thead>
+<!--                                        <thead>-->
+<!--                                            <tr>-->
+<!--                                                <th class="stt_table">STT</th>-->
+<!--                                                <th>Tên file</th>-->
+<!--                                                <th class="text-center">Kích thước-->
+<!--                                                </th>-->
+<!--                                                <th class="text-center">Số văn bản-->
+<!--                                                </th>-->
+<!--                                                <th style="width: 100px;"></th>-->
+<!--                                            </tr>-->
+<!--                                        </thead>-->
                                         <tbody formArrayName="listFile">
 
                                             <tr *ngFor="let item2 of item.get('listFile')['controls']; let k = index">
-                                                <td class="stt_table">{{k+1}}</td>
+<!--                                                <td class="stt_table">{{k+1}}</td>-->
                                                 <td>{{item2.get('fileName').value}}</td>
                                                 <td>
                                                     {{item2.get('size').value >(1024 *
@@ -759,21 +759,21 @@
                                 <td>
                                     <div class="list-file" *ngIf="item.get('listFile').value.length >0">
                                         <table class="table table_custom action-table">
-                                            <thead>
-                                                <tr>
-                                                    <th class="stt_table">STT</th>
-                                                    <th>Tên file</th>
-                                                    <th class="text-center">Kích thước
-                                                    </th>
-                                                    <th class="text-center">Số văn bản
-                                                    </th>
-                                                    <th style="width: 100px;"></th>
-                                                </tr>
-                                            </thead>
+<!--                                            <thead>-->
+<!--                                                <tr>-->
+<!--                                                    <th class="stt_table">STT</th>-->
+<!--                                                    <th>Tên file</th>-->
+<!--                                                    <th class="text-center">Kích thước-->
+<!--                                                    </th>-->
+<!--                                                    <th class="text-center">Số văn bản-->
+<!--                                                    </th>-->
+<!--                                                    <th style="width: 100px;"></th>-->
+<!--                                                </tr>-->
+<!--                                            </thead>-->
                                             <tbody formArrayName="listFile">
 
                                                 <tr *ngFor="let item2 of item.get('listFile')['controls']; let k = index">
-                                                    <td class="stt_table">{{k+1}}</td>
+<!--                                                    <td class="stt_table">{{k+1}}</td>-->
                                                     <td>{{item2.get('fileName').value}}</td>
                                                     <td>
                                                         {{item2.get('size').value >(1024 *
@@ -831,21 +831,21 @@
                                 <td>
                                     <div class="list-file" *ngIf="item.get('listFile').value.length >0">
                                         <table class="table table_custom action-table">
-                                            <thead>
-                                                <tr>
-                                                    <th class="stt_table">STT</th>
-                                                    <th>Tên file</th>
-                                                    <th class="text-center">Kích thước
-                                                    </th>
-                                                    <th class="text-center">Số văn bản
-                                                    </th>
-                                                    <th style="width: 100px;"></th>
-                                                </tr>
-                                            </thead>
+<!--                                            <thead>-->
+<!--                                                <tr>-->
+<!--                                                    <th class="stt_table">STT</th>-->
+<!--                                                    <th>Tên file</th>-->
+<!--                                                    <th class="text-center">Kích thước-->
+<!--                                                    </th>-->
+<!--                                                    <th class="text-center">Số văn bản-->
+<!--                                                    </th>-->
+<!--                                                    <th style="width: 100px;"></th>-->
+<!--                                                </tr>-->
+<!--                                            </thead>-->
                                             <tbody formArrayName="listFile">
 
                                                 <tr *ngFor="let item2 of item.get('listFile')['controls']; let k = index">
-                                                    <td class="stt_table">{{k+1}}</td>
+<!--                                                    <td class="stt_table">{{k+1}}</td>-->
                                                     <td>{{item2.get('fileName').value}}</td>
                                                     <td>
                                                         {{item2.get('size').value >(1024 *
@@ -903,21 +903,21 @@
                                 <td>
                                     <div class="list-file" *ngIf="item.get('listFile').value.length >0">
                                         <table class="table table_custom action-table">
-                                            <thead>
-                                                <tr>
-                                                    <th class="stt_table">STT</th>
-                                                    <th>Tên file</th>
-                                                    <th class="text-center">Kích thước
-                                                    </th>
-                                                    <th class="text-center">Số văn bản
-                                                    </th>
-                                                    <th style="width: 100px;"></th>
-                                                </tr>
-                                            </thead>
+<!--                                            <thead>-->
+<!--                                                <tr>-->
+<!--                                                    <th class="stt_table">STT</th>-->
+<!--                                                    <th>Tên file</th>-->
+<!--                                                    <th class="text-center">Kích thước-->
+<!--                                                    </th>-->
+<!--                                                    <th class="text-center">Số văn bản-->
+<!--                                                    </th>-->
+<!--                                                    <th style="width: 100px;"></th>-->
+<!--                                                </tr>-->
+<!--                                            </thead>-->
                                             <tbody formArrayName="listFile">
 
                                                 <tr *ngFor="let item2 of item.get('listFile')['controls']; let k = index">
-                                                    <td class="stt_table">{{k+1}}</td>
+<!--                                                    <td class="stt_table">{{k+1}}</td>-->
                                                     <td>{{item2.get('fileName').value}}</td>
                                                     <td>
                                                         {{item2.get('size').value >(1024 *
@@ -1060,21 +1060,21 @@
                         <td>
                             <div class="list-file" *ngIf="item.get('listFile').value.length >0">
                                 <table class="table table_custom action-table">
-                                    <thead>
-                                        <tr>
-                                            <th class="stt_table">STT</th>
-                                            <th>Tên file</th>
-                                            <th class="text-center">Kích thước
-                                            </th>
-                                            <th class="text-center">Số văn bản
-                                            </th>
-                                            <th style="width: 100px;"></th>
-                                        </tr>
-                                    </thead>
+<!--                                    <thead>-->
+<!--                                        <tr>-->
+<!--                                            <th class="stt_table">STT</th>-->
+<!--                                            <th>Tên file</th>-->
+<!--                                            <th class="text-center">Kích thước-->
+<!--                                            </th>-->
+<!--                                            <th class="text-center">Số văn bản-->
+<!--                                            </th>-->
+<!--                                            <th style="width: 100px;"></th>-->
+<!--                                        </tr>-->
+<!--                                    </thead>-->
                                     <tbody formArrayName="listFile">
 
                                         <tr *ngFor="let item2 of item.get('listFile')['controls']; let k = index">
-                                            <td class="stt_table">{{k+1}}</td>
+<!--                                            <td class="stt_table">{{k+1}}</td>-->
                                             <td>{{item2.get('fileName').value}}</td>
                                             <td>
                                                 {{item2.get('size').value >(1024 *
@@ -1225,21 +1225,21 @@
                         <td>
                             <div class="list-file" *ngIf="item.get('listFile').value.length >0">
                                 <table class="table table_custom action-table">
-                                    <thead>
-                                        <tr>
-                                            <th class="stt_table">STT</th>
-                                            <th>Tên file</th>
-                                            <th class="text-center">Kích thước
-                                            </th>
-                                            <th class="text-center">Số văn bản
-                                            </th>
-                                            <th style="width: 100px;"></th>
-                                        </tr>
-                                    </thead>
+<!--                                    <thead>-->
+<!--                                        <tr>-->
+<!--                                            <th class="stt_table">STT</th>-->
+<!--                                            <th>Tên file</th>-->
+<!--                                            <th class="text-center">Kích thước-->
+<!--                                            </th>-->
+<!--                                            <th class="text-center">Số văn bản-->
+<!--                                            </th>-->
+<!--                                            <th style="width: 100px;"></th>-->
+<!--                                        </tr>-->
+<!--                                    </thead>-->
                                     <tbody formArrayName="listFile">
 
                                         <tr *ngFor="let item2 of item.get('listFile')['controls']; let k = index">
-                                            <td class="stt_table">{{k+1}}</td>
+<!--                                            <td class="stt_table">{{k+1}}</td>-->
                                             <td>{{item2.get('fileName').value}}</td>
                                             <td>
                                                 {{item2.get('size').value >(1024 *
@@ -1477,21 +1477,21 @@
                             <ng-container  formArrayName="listFile">
                             <div class="list-file" *ngIf="item.get('listFile').value.length > 0">
                                 <table class="table table_custom action-table">
-                                    <thead>
-                                        <tr>
-                                            <th class="stt_table">STT</th>
-                                            <th>Tên file</th>
-                                            <th class="text-center">Kích thước
-                                            </th>
-                                            <th class="text-center">Số văn bản
-                                            </th>
-                                            <th style="width: 100px;"></th>
-                                        </tr>
-                                    </thead>
+<!--                                    <thead>-->
+<!--                                        <tr>-->
+<!--                                            <th class="stt_table">STT</th>-->
+<!--                                            <th>Tên file</th>-->
+<!--                                            <th class="text-center">Kích thước-->
+<!--                                            </th>-->
+<!--                                            <th class="text-center">Số văn bản-->
+<!--                                            </th>-->
+<!--                                            <th style="width: 100px;"></th>-->
+<!--                                        </tr>-->
+<!--                                    </thead>-->
                                     <tbody>
 
                                         <tr *ngFor="let item2 of item.get('listFile')['controls']; let k = index"   formGroupName="{{k}}">
-                                            <td class="stt_table">{{k+1}}</td>
+<!--                                            <td class="stt_table">{{k+1}}</td>-->
                                             <td>{{item2.get('fileName').value}}</td>
                                             <td>
                                                 {{item2.get('size').value >(1024 *
@@ -1567,21 +1567,21 @@
                         <td>
                             <div class="list-file" *ngIf="item.get('listFile').value.length >0">
                                 <table class="table table_custom action-table">
-                                    <thead>
-                                        <tr>
-                                            <th class="stt_table">STT</th>
-                                            <th>Tên file</th>
-                                            <th class="text-center">Kích thước
-                                            </th>
-                                            <th class="text-center">Số văn bản
-                                            </th>
-                                            <th style="width: 100px;"></th>
-                                        </tr>
-                                    </thead>
+<!--                                    <thead>-->
+<!--                                        <tr>-->
+<!--                                            <th class="stt_table">STT</th>-->
+<!--                                            <th>Tên file</th>-->
+<!--                                            <th class="text-center">Kích thước-->
+<!--                                            </th>-->
+<!--                                            <th class="text-center">Số văn bản-->
+<!--                                            </th>-->
+<!--                                            <th style="width: 100px;"></th>-->
+<!--                                        </tr>-->
+<!--                                    </thead>-->
                                     <tbody formArrayName="listFile">
 
                                         <tr *ngFor="let item2 of item.get('listFile')['controls']; let k = index">
-                                            <td class="stt_table">{{k+1}}</td>
+<!--                                            <td class="stt_table">{{k+1}}</td>-->
                                             <td>{{item2.get('fileName').value}}</td>
                                             <td>
                                                 {{item2.get('size').value >(1024 *
@@ -1715,21 +1715,21 @@
                         <td>
                             <div formArrayName="listFile" class="list-file" *ngIf="item.get('listFile').value.length >0">
                                 <table class="table table_custom action-table">
-                                    <thead>
-                                        <tr>
-                                            <th class="stt_table">STT</th>
-                                            <th>Tên file</th>
-                                            <th class="text-center">Kích thước
-                                            </th>
-                                            <th class="text-center">Số văn bản
-                                            </th>
-                                            <th style="width: 100px;"></th>
-                                        </tr>
-                                    </thead>
+<!--                                    <thead>-->
+<!--                                        <tr>-->
+<!--                                            <th class="stt_table">STT</th>-->
+<!--                                            <th>Tên file</th>-->
+<!--                                            <th class="text-center">Kích thước-->
+<!--                                            </th>-->
+<!--                                            <th class="text-center">Số văn bản-->
+<!--                                            </th>-->
+<!--                                            <th style="width: 100px;"></th>-->
+<!--                                        </tr>-->
+<!--                                    </thead>-->
                                     <tbody >
 
                                         <tr *ngFor="let item2 of item.get('listFile')['controls']; let k = index">
-                                            <td class="stt_table">{{k+1}}</td>
+<!--                                            <td class="stt_table">{{k+1}}</td>-->
                                             <td>{{item2.get('fileName').value}}</td>
                                             <td>
                                                 {{item2.get('size').value >(1024 *
@@ -1810,21 +1810,21 @@
                         <td>
                             <div class="list-file" *ngIf="item.get('listFile').value.length >0">
                                 <table class="table table_custom action-table">
-                                    <thead>
-                                        <tr>
-                                            <th class="stt_table">STT</th>
-                                            <th>Tên file</th>
-                                            <th class="text-center">Kích thước
-                                            </th>
-                                            <th class="text-center">Số văn bản
-                                            </th>
-                                            <th style="width: 100px;"></th>
-                                        </tr>
-                                    </thead>
+<!--                                    <thead>-->
+<!--                                        <tr>-->
+<!--                                            <th class="stt_table">STT</th>-->
+<!--                                            <th>Tên file</th>-->
+<!--                                            <th class="text-center">Kích thước-->
+<!--                                            </th>-->
+<!--                                            <th class="text-center">Số văn bản-->
+<!--                                            </th>-->
+<!--                                            <th style="width: 100px;"></th>-->
+<!--                                        </tr>-->
+<!--                                    </thead>-->
                                     <tbody formArrayName="listFile">
 
                                         <tr *ngFor="let item2 of item.get('listFile')['controls']; let k = index"  [formGroupName]="k">
-                                            <td class="stt_table">{{k+1}}</td>
+<!--                                            <td class="stt_table">{{k+1}}</td>-->
                                             <td>{{item2.get('fileName').value}}</td>
                                             <td>
                                                 {{item2.get('size').value >(1024 *
@@ -1972,23 +1972,23 @@
                 <td>
                     <div class="list-file" *ngIf="item.get('listFile').value.length >0">
                         <table class="table table_custom action-table">
-                            <thead>
-                                <tr>
-                                    <th class="stt_table">STT</th>
-                                    <th>Tên file</th>
-                                    <th class="text-center">Kích thước
-                                    </th>
-                                    <th class="text-center">Số văn bản
-                                    </th>
-                                    <th style="width: 100px;"></th>
+<!--                            <thead>-->
+<!--                                <tr>-->
+<!--                                    <th class="stt_table">STT</th>-->
+<!--                                    <th>Tên file</th>-->
+<!--                                    <th class="text-center">Kích thước-->
+<!--                                    </th>-->
+<!--                                    <th class="text-center">Số văn bản-->
+<!--                                    </th>-->
+<!--                                    <th style="width: 100px;"></th>-->
 
-                                </tr>
-                            </thead>
+<!--                                </tr>-->
+<!--                            </thead>-->
                             <tbody formArrayName="listFile">
 
 
                                 <tr *ngFor="let item2 of item.get('listFile')['controls']; let k = index"  formGroupName="{{k}}">
-                                    <td class="stt_table">{{k+1}}</td>
+<!--                                    <td class="stt_table">{{k+1}}</td>-->
                                     <td>{{item2.get('fileName').value}}</td>
                                     <td>
                                         {{item2.get('size').value >(1024 *
