@@ -30,6 +30,7 @@ import { MatSort } from '@angular/material/sort';
 import { ServiceService } from 'app/shared/service/service.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PopupCbkhComponent } from './popup-cbkh/popup-cbkh.component';
+import {MatDatepickerToggleIcon} from "@angular/material/datepicker";
 
 @Component({
     selector: 'component-details',
@@ -37,7 +38,11 @@ import { PopupCbkhComponent } from './popup-cbkh/popup-cbkh.component';
     styleUrls: ['./details.component.css'],
     encapsulation: ViewEncapsulation.None,
 })
-export class LstdetaicuatoiDetailsComponent implements OnInit {
+export class LstdetaicuatoiDetailsComponent implements OnInit, MatDatepickerToggleIcon {
+    iconName: string = 'calendar'
+    format() {
+        return 'MM/YYYY';
+    }
     public selectedYear: number;
     public getYearSubscription: Subscription;
     public listYears = [];
@@ -420,7 +425,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                     }
                 }
 
-                
+
                 // danh sách thành viên
                 if (data.data.danhSachThanhVien != null) {
                     let formThanhVien = this.form.get(
@@ -455,7 +460,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                     let formDocParentHSDK = this.form.get(
                         'listFolderHSDK'
                     ) as FormArray;
-                   
+
                     let formDocParentHSXD = this.form.get(
                         'listFolderHSXD'
                     ) as FormArray;
@@ -477,10 +482,10 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                     ) as FormArray;
 
 
-                    
 
-                    
-                     
+
+
+
                 if (data.data.listFolderAll != null) {
                     //Hồ sơ đăng ký
                     let listHSDK = data.data.listFolderAll.filter(c => c.dangKy==true);
@@ -490,7 +495,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                             formDocParentHSDK.push(
                                 this.addListDocParent(listHSDK[i])
                             );
-                           
+
                             if (
                                 listFile != null &&
                                 listFile.length > 0
@@ -520,7 +525,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                             formDocParentHSXD.push(
                                 this.addListDocParent(listHSXD[i])
                             );
-                           
+
                             if (
                                 listFile != null &&
                                 listFile.length > 0
@@ -551,7 +556,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                              formDocParentTamUng.push(
                                  this.addListDocParent(listHSTamUng[i])
                              );
-                            
+
                              if (
                                  listFile != null &&
                                  listFile.length > 0
@@ -582,7 +587,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                               formDocParentHSNT.push(
                                   this.addListDocParent(listHSNT[i])
                               );
-                             
+
                               if (
                                   listFile != null &&
                                   listFile.length > 0
@@ -613,7 +618,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                               formDocParentBanGiaoKQ.push(
                                   this.addListDocParent(listBanGiaoKetQua[i])
                               );
-                             
+
                               if (
                                   listFile != null &&
                                   listFile.length > 0
@@ -644,7 +649,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                                formDocParentQuyetToan.push(
                                    this.addListDocParent(listQuyetToan[i])
                                );
-                              
+
                                if (
                                    listFile != null &&
                                    listFile.length > 0
@@ -666,13 +671,13 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                                }
                            }
                        }
-                 
+
                 }
-    
+
                 // this.listFolderAll = data.data.listFolderAll;
                    // this.listFolderDK = data.data.listFolderAll.filter(c  => c.maFolder=='VBDANGKY');
                   //  this.listFolderDK.listFile = data.data.listFile;
-                  //  this.listFileDK = 
+                  //  this.listFileDK =
                 }
             });
     }
@@ -937,6 +942,8 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
             .execServiceLogin('D3F0F915-DCA5-49D2-9A5B-A36EBF8CA5D1', null)
             .subscribe((data) => {
                 this.listDonViChuTri = data.data || [];
+                var obj = {ID: '0', NAME: '--Đơn vị chủ trì--'}
+                this.listDonViChuTri.unshift(obj);
                 this.listDonViCongTac = data.data || [];
             });
     }
@@ -946,6 +953,8 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
             .execServiceLogin('1B009679-0ABB-4DBE-BBCF-E70CBE239042', null)
             .subscribe((data) => {
                 this.listHocHam = data.data || [];
+                var obj = {ID: '0', NAME: '--Chọn--'};
+                this.listHocHam.unshift(obj);
             });
     }
 
@@ -954,6 +963,8 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
             .execServiceLogin('654CB6D4-9DD7-48B7-B3FD-8FDAC07FE950', null)
             .subscribe((data) => {
                 this.listHocVi = data.data || [];
+                var obj = {ID: '0', NAME: '--Chọn--'};
+                this.listHocVi.unshift(obj);
             });
     }
 
@@ -961,7 +972,11 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
         this._serviceApi
             .execServiceLogin('942181CC-FD57-42FE-8010-59B6FF1D26DB', null)
             .subscribe((data) => {
-                this.listNguonKinhPhi = data.data || [];
+                this.listNguonKinhPhi = data.data.sort(function(a, b){
+                    if(a.NAME < b.NAME) { return -1; }
+                    if(a.NAME > b.NAME) { return 1; }
+                    return 0;
+                }) || [];
             });
     }
 
@@ -982,7 +997,9 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
     }
 
     getListGioiTinh() {
-        var obj = { ID: 1, NAME: 'Nam' };
+        var obj = { ID: 0, NAME: '--Chọn--'};
+        this.listGioiTinh.push(obj);
+        obj = { ID: 1, NAME: 'Nam' };
         this.listGioiTinh.push(obj);
         obj = { ID: 2, NAME: 'Nữ' };
         this.listGioiTinh.push(obj);

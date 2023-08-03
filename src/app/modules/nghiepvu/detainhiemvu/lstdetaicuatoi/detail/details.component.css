@@ -17,6 +17,10 @@ label {
     border-radius: 3px !important;
 }
 
+.ng-select .ng-clear-wrapper{
+    display: none;
+}
+
 .select-cbkh {
     position: relative;
 
