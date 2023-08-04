@@ -45,9 +45,18 @@
         </div>
         <div class="basis-1/2">
             <label for="">Lĩnh vực nghiên cứu</label>
-            <ng-select [items]="listLinhVucNghienCuu" bindLabel="NAME" bindValue="ID" placeholder="Lĩnh vực nghiên cứu"
-                [multiple]="true" formControlName="linhVucNghienCuu">
-            </ng-select>
+            <div class="checkbox-container"  (scroll)="onScroll()">
+                <div class="checkbox-list">
+                    <div class="checkbox-item" *ngFor="let item of listLinhVucNghienCuu">
+                        <input type="checkbox" [(ngModel)]="item.checked" (change)="onChange(item)">
+                        {{ item.NAME }}
+                    </div>
+                </div>
+            </div>
+
+<!--            <ng-select [items]="listLinhVucNghienCuu" bindLabel="NAME" bindValue="ID" placeholder="Lĩnh vực nghiên cứu"-->
+<!--                [multiple]="true" formControlName="linhVucNghienCuu">-->
+<!--            </ng-select>-->
         </div>
         <!-- <div class="basis-1/4">
             <ng-select [items]="listLinhVucNghienCuu" bindLabel="NAME" bindValue="ID" placeholder="Chọn năm" [multiple]="true"
@@ -87,7 +96,20 @@
         <div class="basis-3/4 flex date-customt">
             <!-- <input class="form-control" type="date" name="" id="" formControlName="thoiGianThucHienTu" /> -->
            <div class="form-date">
-            <input matInput [matDatepicker]="picker" formControlName="thoiGianThucHienTu" >
+               <input matInput [matDatepicker]="picker" formControlName="thoiGianThucHienTu" >
+<!--            <input formControlName="thoiGianThucHienTu" >-->
+<!--               <mat-form-field>-->
+<!--                   <mat-label>Month and Year</mat-label>-->
+<!--                   <input matInput [matDatepicker]="dp" [formControl]="date">-->
+<!--                   <mat-hint>MM/YYYY</mat-hint>-->
+<!--                   <mat-datepicker-toggle matIconSuffix [for]="dp"></mat-datepicker-toggle>-->
+<!--                   <mat-datepicker #dp-->
+<!--                                   startView="multi-year"-->
+<!--                                   (monthSelected)="setMonthAndYear($event, dp)"-->
+<!--                                   panelClass="example-month-picker">-->
+<!--                   </mat-datepicker>-->
+<!--               </mat-form-field>-->
+
             <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
            </div>
@@ -128,7 +150,8 @@
         </div>
         <div class="basis-2/12">
             <label for="">Học hàm</label>
-            <ng-select [items]="listHocHam" bindLabel="NAME" bindValue="ID" placeholder="Chọn học hàm"
+            <ng-select [items]="listHocHam"
+                        bindLabel="NAME" bindValue="ID" placeholder="Chọn học hàm"
                 formControlName="hocHam">
             </ng-select>
         </div>

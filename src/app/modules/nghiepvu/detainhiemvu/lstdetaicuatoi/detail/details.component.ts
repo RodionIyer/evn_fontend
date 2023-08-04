@@ -1,6 +1,6 @@
 import {
     Component,
-    ElementRef,
+    ElementRef, HostListener,
     OnDestroy,
     OnInit,
     ViewChild,
@@ -12,6 +12,7 @@ import {
     AbstractControl,
     FormArray,
     FormBuilder,
+    FormControl,
     FormGroup,
     UntypedFormBuilder,
     UntypedFormGroup,
@@ -30,7 +31,12 @@ import { MatSort } from '@angular/material/sort';
 import { ServiceService } from 'app/shared/service/service.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PopupCbkhComponent } from './popup-cbkh/popup-cbkh.component';
-import {MatDatepickerToggleIcon} from "@angular/material/datepicker";
+import {MatDatepicker} from "@angular/material/datepicker";
+import * as _moment from 'moment';
+// tslint:disable-next-line:no-duplicate-imports
+import {default as _rollupMoment, Moment} from 'moment';
+const moment = _rollupMoment || _moment;
+
 
 @Component({
     selector: 'component-details',
@@ -38,10 +44,16 @@ import {MatDatepickerToggleIcon} from "@angular/material/datepicker";
     styleUrls: ['./details.component.css'],
     encapsulation: ViewEncapsulation.None,
 })
-export class LstdetaicuatoiDetailsComponent implements OnInit, MatDatepickerToggleIcon {
-    iconName: string = 'calendar'
-    format() {
-        return 'MM/YYYY';
+export class LstdetaicuatoiDetailsComponent implements OnInit {
+    selectedItems: any[] = [];
+    date = new FormControl(moment());
+
+    setMonthAndYear(normalizedMonthAndYear: Moment, datepicker: MatDatepicker<Moment>) {
+        const ctrlValue = this.date.value!;
+        ctrlValue.month(normalizedMonthAndYear.month());
+        ctrlValue.year(normalizedMonthAndYear.year());
+        this.date.setValue(ctrlValue);
+        datepicker.close();
     }
     public selectedYear: number;
     public getYearSubscription: Subscription;
@@ -106,7 +118,8 @@ export class LstdetaicuatoiDetailsComponent implements OnInit, MatDatepickerTogg
         public _messageService: MessageService,
         public _router: Router,
         private _serviceApi: ServiceService,
-        public dialog: MatDialog
+        public dialog: MatDialog,
+        private elementRef: ElementRef,
     ) {
         this.initForm();
         this.idParam = this._activatedRoute.snapshot.paramMap.get('id');
@@ -178,22 +191,22 @@ export class LstdetaicuatoiDetailsComponent implements OnInit, MatDatepickerTogg
             chuNhiemDeTaiInfo: '',
             chuNhiemDeTai: [null, [Validators.required]],
             gioiTinh: 0,
-            hocHam: [null],
-            hocVi: [null],
-            donViCongTac: [null],
+            hocHam: [0],
+            hocVi: [0],
+            donViCongTac: [0],
 
             dongChuNhiemDeTaiInfo: '',
             dongChuNhiemDeTai: [null, [Validators.required]],
             gioiTinhDongChuNhiem: 0,
-            hocHamDongChuNhiem: [null],
-            hocViDongChuNhiem: [null],
+            hocHamDongChuNhiem: [0],
+            hocViDongChuNhiem: [0],
             donViCongTacDongChuNhiem: [null],
 
             thuKyDeTaiInfo: '',
             thuKyDeTai: [null],
             gioiTinhThuKy: 0,
-            hocHamThuKy: [null],
-            hocViThuKy: [null],
+            hocHamThuKy: [0],
+            hocViThuKy: [0],
             donViCongTacThuKy: [null],
 
             danhSachThanhVien: this._formBuilder.array([]),
@@ -942,7 +955,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit, MatDatepickerTogg
             .execServiceLogin('D3F0F915-DCA5-49D2-9A5B-A36EBF8CA5D1', null)
             .subscribe((data) => {
                 this.listDonViChuTri = data.data || [];
-                var obj = {ID: '0', NAME: '--Đơn vị chủ trì--'}
+                var obj = {ID: 0, NAME: '--Đơn vị chủ trì--'}
                 this.listDonViChuTri.unshift(obj);
                 this.listDonViCongTac = data.data || [];
             });
@@ -953,7 +966,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit, MatDatepickerTogg
             .execServiceLogin('1B009679-0ABB-4DBE-BBCF-E70CBE239042', null)
             .subscribe((data) => {
                 this.listHocHam = data.data || [];
-                var obj = {ID: '0', NAME: '--Chọn--'};
+                var obj = {ID: 0, NAME: '--Chọn--'};
                 this.listHocHam.unshift(obj);
             });
     }
@@ -963,7 +976,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit, MatDatepickerTogg
             .execServiceLogin('654CB6D4-9DD7-48B7-B3FD-8FDAC07FE950', null)
             .subscribe((data) => {
                 this.listHocVi = data.data || [];
-                var obj = {ID: '0', NAME: '--Chọn--'};
+                var obj = {ID: 0, NAME: '--Chọn--'};
                 this.listHocVi.unshift(obj);
             });
     }
@@ -993,7 +1006,33 @@ export class LstdetaicuatoiDetailsComponent implements OnInit, MatDatepickerTogg
             .execServiceLogin('FF1D2502-E182-4242-A754-BCCC29B70C61', null)
             .subscribe((data) => {
                 this.listLinhVucNghienCuu = data.data || [];
+                this.listLinhVucNghienCuu.forEach(n => {
+                    n.checked = false;
+                })
             });
+    }
+    onChange(item?){
+        let lstCheck = [];
+        item.checked = !item.checked;
+        if(item.checked == true){
+            lstCheck.push(item);
+        }
+    }
+
+    onScroll(): void {
+        const container = this.elementRef.nativeElement.querySelector('.checkbox-container');
+        const list = this.elementRef.nativeElement.querySelector('.checkbox-list');
+
+        const scrollBottom = container.scrollHeight - (container.scrollTop + container.clientHeight);
+        const listHeight = list.clientHeight;
+
+        // Khoảng cách nhỏ để kiểm tra dừng cuộn
+        const threshold = 5;
+
+        if (scrollBottom < threshold) {
+            // Dừng cuộn bằng cách đặt scrollTop cho container
+            container.scrollTop = container.scrollHeight - listHeight;
+        }
     }
 
     getListGioiTinh() {

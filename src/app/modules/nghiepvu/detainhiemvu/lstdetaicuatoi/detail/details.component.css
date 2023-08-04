@@ -75,3 +75,16 @@ label {
         text-align: center;
     }
 }
+
+.checkbox-list {
+    height: 70px; /* Độ cao tối đa của danh sách */
+    overflow-y: auto; /* Tạo thanh cuộn khi nội dung vượt quá độ cao */
+}
+
+.checkbox-item {
+    margin: 5px;
+}
+.checkbox-container {
+    border: 1px solid #e2e6d8;
+    height: 70px; /* Độ cao tối đa của khung chứa danh sách */
+}

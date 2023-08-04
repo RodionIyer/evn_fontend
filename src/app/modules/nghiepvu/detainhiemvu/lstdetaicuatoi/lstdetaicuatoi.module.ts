@@ -15,7 +15,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatListModule } from '@angular/material/list';
 import { MatInputModule } from '@angular/material/input';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -34,12 +34,26 @@ import { SharedModule } from 'app/shared/shared.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { PopupCbkhComponent } from './detail/popup-cbkh/popup-cbkh.component';
 import {
-    MatDatepicker,
     MatDatepickerModule,
 } from '@angular/material/datepicker';
-import { MatMomentDateModule } from '@angular/material-moment-adapter';
-import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
-
+import {
+    MAT_MOMENT_DATE_ADAPTER_OPTIONS,
+    MatMomentDateModule,
+    MomentDateAdapter
+} from '@angular/material-moment-adapter';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
+import {MatFormFieldModule} from "@angular/material/form-field";
+// export const MY_FORMATS = {
+//     parse: {
+//         dateInput: 'MM/YYYY',
+//     },
+//     display: {
+//         dateInput: 'MM/YYYY',
+//         monthYearLabel: 'MMM YYYY',
+//         dateA11yLabel: 'LL',
+//         monthYearA11yLabel: 'MMMM YYYY',
+//     },
+// };
 @NgModule({
     imports: [
         SharedModule,
@@ -73,6 +87,12 @@ import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
         FuseAlertModule,
         FuseNavigationModule,
         HighlightPlusModule,
+        // MatFormFieldModule,
+        // MatInputModule,
+        // MatDatepickerModule,
+        // FormsModule,
+        // ReactiveFormsModule,
+        // FormControl
     ],
     declarations: [
         LstdetaicuatoiListComponent,
@@ -81,6 +101,14 @@ import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
         ApiGiaoEmptyDetailsComponent,
         PopupCbkhComponent,
     ],
-    providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' }],
+    providers: [
+            // {
+            //     provide: DateAdapter,
+            //     useClass: MomentDateAdapter,
+            //     deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+            // },
+        { provide: MAT_DATE_LOCALE, useValue: 'en-GB'}
+        // { provide: MAT_DATE_LOCALE, useValue: MY_FORMATS}
+    ],
 })
 export class DetaicuatoiModule {}
