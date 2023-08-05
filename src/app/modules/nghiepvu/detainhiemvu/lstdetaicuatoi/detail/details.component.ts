@@ -469,7 +469,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                     }
                 }
 
-                
+
                 // danh sách thành viên
                 if (data.data.danhSachThanhVien != null) {
                     let formThanhVien = this.form.get(
@@ -504,7 +504,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                     let formDocParentHSDK = this.form.get(
                         'listFolderHSDK'
                     ) as FormArray;
-                   
+
                     let formDocParentHSXD = this.form.get(
                         'listFolderHSXD'
                     ) as FormArray;
@@ -526,10 +526,10 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                     ) as FormArray;
 
 
-                    
 
-                    
-                     
+
+
+
                 if (data.data.listFolderAll != null) {
                     //Hồ sơ đăng ký
                     let listHSDK = data.data.listFolderAll.filter(c => c.dangKy==true);
@@ -539,7 +539,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                             formDocParentHSDK.push(
                                 this.addListDocParent(listHSDK[i])
                             );
-                           
+
                             if (
                                 listFile != null &&
                                 listFile.length > 0
@@ -569,7 +569,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                             formDocParentHSXD.push(
                                 this.addListDocParent(listHSXD[i])
                             );
-                           
+
                             if (
                                 listFile != null &&
                                 listFile.length > 0
@@ -600,7 +600,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                              formDocParentTamUng.push(
                                  this.addListDocParent(listHSTamUng[i])
                              );
-                            
+
                              if (
                                  listFile != null &&
                                  listFile.length > 0
@@ -631,7 +631,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                               formDocParentHSNT.push(
                                   this.addListDocParent(listHSNT[i])
                               );
-                             
+
                               if (
                                   listFile != null &&
                                   listFile.length > 0
@@ -662,7 +662,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                               formDocParentBanGiaoKQ.push(
                                   this.addListDocParent(listBanGiaoKetQua[i])
                               );
-                             
+
                               if (
                                   listFile != null &&
                                   listFile.length > 0
@@ -693,7 +693,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                                formDocParentQuyetToan.push(
                                    this.addListDocParent(listQuyetToan[i])
                                );
-                              
+
                                if (
                                    listFile != null &&
                                    listFile.length > 0
@@ -715,13 +715,13 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                                }
                            }
                        }
-                 
+
                 }
-    
+
                 // this.listFolderAll = data.data.listFolderAll;
                    // this.listFolderDK = data.data.listFolderAll.filter(c  => c.maFolder=='VBDANGKY');
                   //  this.listFolderDK.listFile = data.data.listFile;
-                  //  this.listFileDK = 
+                  //  this.listFileDK =
                 }
             });
     }
@@ -836,6 +836,9 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
         this.submitted.check = true;
         if (this.form.invalid) {
             return;
+        }
+        if(this.form.value.thuKyDeTaiInfo === ''){
+            this.form.value.thuKyDeTaiInfo = {};
         }
         console.log(this.form.value);
         this.form.get('method').setValue(method);
