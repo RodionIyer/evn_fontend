@@ -6,8 +6,8 @@ import {
     ViewChild,
     ViewEncapsulation,
 } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription, takeUntil } from 'rxjs';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Subscription, takeUntil} from 'rxjs';
 import {
     AbstractControl,
     FormArray,
@@ -17,19 +17,19 @@ import {
     UntypedFormGroup,
     Validators,
 } from '@angular/forms';
-import { MessageService } from 'app/shared/message.services';
-import { SnotifyToast } from 'ng-alt-snotify';
-import { State } from 'app/shared/commons/conmon.types';
-import { BaseDetailInterface } from 'app/shared/commons/basedetail.interface';
-import { UserService } from 'app/core/user/user.service';
-import { BaseComponent } from 'app/shared/commons/base.component';
-import { FunctionService } from 'app/core/function/function.service';
-import { lstdetaicuatoiService } from '../lstsangkiencuatoi.service';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatSort } from '@angular/material/sort';
-import { ServiceService } from 'app/shared/service/service.service';
-import { MatDialog } from '@angular/material/dialog';
-import { PopupCbkhComponent } from './popup-cbkh/popup-cbkh.component';
+import {MessageService} from 'app/shared/message.services';
+import {SnotifyToast} from 'ng-alt-snotify';
+import {State} from 'app/shared/commons/conmon.types';
+import {BaseDetailInterface} from 'app/shared/commons/basedetail.interface';
+import {UserService} from 'app/core/user/user.service';
+import {BaseComponent} from 'app/shared/commons/base.component';
+import {FunctionService} from 'app/core/function/function.service';
+import {lstdetaicuatoiService} from '../lstsangkiencuatoi.service';
+import {MatTableDataSource} from '@angular/material/table';
+import {MatSort} from '@angular/material/sort';
+import {ServiceService} from 'app/shared/service/service.service';
+import {MatDialog} from '@angular/material/dialog';
+import {PopupCbkhComponent} from './popup-cbkh/popup-cbkh.component';
 
 @Component({
     selector: 'component-details',
@@ -45,7 +45,7 @@ export class DetailsComponent implements OnInit {
     public form: FormGroup;
     public idParam: string = null;
     public method = null;
-    public submitted = { check: false };
+    public submitted = {check: false};
     public listChucDanh = [];
     public listLinhVucNghienCuu;
     public listDonViChuDauTu = [];
@@ -84,20 +84,23 @@ export class DetailsComponent implements OnInit {
         this.getListChucDanh();
         if (this.actionType == 'THEMMOI') {
             this.getListFolderFile();
+        } else if (this.actionType == 'CHINHSUA') {
+            this.getEditerIdea('CAPNHAT');
         }
     }
 
     geListYears() {
-        var obj = { NAME: 0, ID: 0 };
+        var obj = {NAME: 0, ID: 0};
         var year = new Date().getFullYear();
         var yearStart = year - 4;
         var yearEnd = yearStart + 10;
         for (let i = yearStart; i <= yearEnd; i++) {
-            obj = { NAME: i, ID: i };
+            obj = {NAME: i, ID: i};
             this.listYears.push(obj);
         }
         this.form.get('nam').setValue(new Date().getFullYear());
     }
+
     getListFolderFile() {
         this._serviceApi
             .execServiceLogin('EEB9967E-0EEB-43AC-A2F7-1CB64C51377B', null)
@@ -110,6 +113,18 @@ export class DetailsComponent implements OnInit {
                 }
             });
     }
+
+    getEditerIdea(method?) {
+        this._serviceApi
+            .execServiceLogin('0CCBA90A-07BA-482E-85AA-A129FD4B7EE5', [
+                {name: 'MA_SANGKIEN', value: this.idParam},
+                {name: 'METHOD_BUTTON', value: method},
+            ])
+            .subscribe((data) => {
+                this.form.patchValue(data.data);
+            });
+    }
+
     newFolder(item?: any) {
         return this._formBuilder.group({
             maFolder: item?.maFolder,
@@ -204,20 +219,21 @@ export class DetailsComponent implements OnInit {
     }
 
     detail(method) {
-        this._serviceApi
-            .execServiceLogin('F360054F-7458-443A-B90E-50DB237B5642', [
-                { name: 'MA_DE_TAI', value: this.idParam },
-                { name: 'METHOD_BUTTON', value: method },
-            ])
-            .subscribe((data) => {
-                this.form.patchValue(data.data);
-            });
+            this._serviceApi
+                .execServiceLogin('0CCBA90A-07BA-482E-85AA-A129FD4B7EE5', [
+                    {name: 'MA_SANGKIEN', value: this.idParam},
+                    {name: 'METHOD_BUTTON', value: method},
+                ])
+                .subscribe((data) => {
+                    this.form.patchValue(data.data);
+                });
     }
 
     addTacGia() {
         let ar = this.form.get('tacGiaGiaiPhap') as FormArray;
         ar.push(this.addMember());
     }
+
     addMember() {
         return this._formBuilder.group({
             maThanhVien: '',
@@ -279,6 +295,7 @@ export class DetailsComponent implements OnInit {
             }
         });
     }
+
     getListChucDanh() {
         this._serviceApi
             .execServiceLogin('AF87AA00-EC9C-4B1E-9443-CE0D6E88F1C6', null)
@@ -286,6 +303,7 @@ export class DetailsComponent implements OnInit {
                 this.listChucDanh = data.data || [];
             });
     }
+
     removeItem(items, i) {
         // remove address from the list
         const control = items.get('tacGiaGiaiPhap');
@@ -310,8 +328,8 @@ export class DetailsComponent implements OnInit {
         var token = localStorage.getItem('accessToken');
         this._serviceApi
             .execServiceLogin('09E301E6-9C2E-424C-A3C3-FD46CE8CB18C', [
-                { name: 'SANG_KIEN', value: JSON.stringify(this.form.value) },
-                { name: 'TOKEN_LINK', value: token },
+                {name: 'SANG_KIEN', value: JSON.stringify(this.form.value)},
+                {name: 'TOKEN_LINK', value: token},
             ])
             .subscribe((data) => {
                 if (data.status == 1) {
@@ -319,12 +337,12 @@ export class DetailsComponent implements OnInit {
                         'Thông báo',
                         data.message
                     );
-                    if(this.screen){
+                    if (this.screen) {
                         this._router.navigateByUrl(this.screen);
-                    }else{
+                    } else {
                         this._router.navigateByUrl('nghiepvu/sangkien/lstsangkiencuatoi');
                     }
-                   
+
                 } else {
                     this._messageService.showErrorMessage(
                         'Thông báo',
@@ -338,7 +356,7 @@ export class DetailsComponent implements OnInit {
         if (this.idParam != undefined && this.idParam != null) {
             this._serviceApi
                 .execServiceLogin('FC95C3F7-942F-4C7E-88D7-46E12BFE9185', [
-                    { name: 'MA_KE_HOACH', value: this.idParam },
+                    {name: 'MA_KE_HOACH', value: this.idParam},
                 ])
                 .subscribe((data) => {
                     this.downloadTempExcel(
@@ -353,10 +371,12 @@ export class DetailsComponent implements OnInit {
             );
         }
     }
+
     deleteItemFile(items, i) {
-        const control = items.get('listFile');
-        control.removeAt(i);
+        // const control = items.get('listFile');
+        items.get('listFile').removeAt(i);
     }
+
     downloadTempExcel(userInp, fileName) {
         var mediaType =
             'data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,';
@@ -367,6 +387,7 @@ export class DetailsComponent implements OnInit {
         downloadLink.download = fileName;
         downloadLink.click();
     }
+
     downLoadFile(item) {
         if (item.base64 != undefined && item.base64 != '') {
             let link = item.base64.split(',');
@@ -381,8 +402,8 @@ export class DetailsComponent implements OnInit {
             var token = localStorage.getItem('accessToken');
             this._serviceApi
                 .execServiceLogin('2269B72D-1A44-4DBB-8699-AF9EE6878F89', [
-                    { name: 'DUONG_DAN', value: item.duongdan },
-                    { name: 'TOKEN_LINK', value: 'Bearer ' + token },
+                    {name: 'DUONG_DAN', value: item.duongdan},
+                    {name: 'TOKEN_LINK', value: 'Bearer ' + token},
                 ])
                 .subscribe((data) => {
                     console.log('downloadFile:' + JSON.stringify(data));

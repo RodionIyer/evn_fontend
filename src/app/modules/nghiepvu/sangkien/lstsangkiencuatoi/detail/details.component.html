@@ -31,7 +31,7 @@
         </div>
         <div class="basis-1/4">
             <label for="">Năm<span>(*)</span></label>
-     
+
             <ng-select
                 [items]="listYears"
                 bindLabel="NAME"
@@ -51,7 +51,7 @@
         </div>
         <div class="basis-1/4">
             <label for="">Đơn vị chủ đầu tư<span>(*)</span></label>
-        
+
             <ng-select
                 [items]="listDonViChuDauTu"
                 bindLabel="name"
@@ -71,7 +71,7 @@
         </div>
         <div class="basis-1/4">
             <label for="">Đơn vị đăng ký/áp dụng<span>(*)</span></label>
-        <div class=" select-cbkh flex items-center form-control"> 
+        <div class=" select-cbkh flex items-center form-control">
             <input
             class="inputselect"
             type="text"
@@ -83,7 +83,7 @@
             (click)="openAlertDialog('DKAPDUNGSK', form)"
             class="fa fa-search"
         ></i>
-    </div>   
+    </div>
         </div>
     </div>
 
@@ -413,7 +413,7 @@
             <label for="" class="w-100">{{item.get('fileName').value}}<span *ngIf="item.get('maFolder').value=='VBDANGKY'">(*)</span></label>
 
                     <div class="list-file" *ngIf="item.get('listFile').value.length > 0">
-                        <table class="table table_custom action-table">
+                        <table class="table table_custom action-table" style="height: auto !important;">
                             <thead>
                                 <tr>
                                     <th class="stt_table">STT</th>
@@ -426,7 +426,7 @@
                                 </tr>
                             </thead>
                             <tbody  formArrayName="listFile">
-                                <ng-container 
+                                <ng-container
                                     *ngFor="let item2 of item.get('listFile')['controls']; let k = index">
                                     <tr [formGroupName]="k">
                                         <td class="stt_table">{{k+1}}</td>
@@ -453,7 +453,7 @@
                             </tbody>
                         </table>
                     </div>
-               
+
                     <label class="custom-file-upload add_button-import">
                         <input type="file" multiple (change)="handleUpload($event,item,i)" #fileUpload2 />
                         <i class="fa fa-cloud-upload"></i> Upload file

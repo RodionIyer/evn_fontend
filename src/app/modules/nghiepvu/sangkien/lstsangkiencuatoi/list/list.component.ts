@@ -57,7 +57,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
             this.actionClick = null
           }
           console.log(this.actionClick);
-          
+
         }
       );
     }
@@ -103,7 +103,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
     pageIndex = 0;
     pageSizeOptions = [10, 20, 50,100];
     showFirstLastButtons = true;
-  
+
     handlePageEvent(event: PageEvent) {
       this.length = event.length;
       this.pageSize = event.pageSize;
@@ -125,16 +125,16 @@ export class ListItemComponent implements OnInit, OnDestroy {
             }
         });
     }
-    
+
    detail(item){
     this._router.navigate(
-        ['/nghiepvu/sangkien/lstsangkiencuatoi'],
-        { queryParams: { type: 'CHITIET' } }
+        ['/nghiepvu/sangkien/lstsangkiencuatoi/' + item.maSangKien],
+        { queryParams: { type: 'CHITIET' ,screen:"/nghiepvu/sangkien/lstsangkiencuatoi/"} }
       );
    }
    editer(item){
     this._router.navigate(
-        ['/nghiepvu/sangkien/lstsangkiencuatoi'],
+        ['/nghiepvu/sangkien/lstsangkiencuatoi/' + item.maSangKien],
         { queryParams: { type: 'CHINHSUA' } }
       );
    }
