@@ -54,7 +54,14 @@
                 <i class="fa fa-search"></i> Tìm kiếm từ D-Office
             </button>
         </div>
-        <div class="list-file" *ngIf="listupload.length >0">
+        <div class="list-file  mt-3" *ngIf="listupload.length >0">
+            <div class="flex" *ngFor="let item of listupload; let i = index">
+                <label  class="wp-15" style="margin-right: 55px;"  for=""></label>
+                <div>{{item.fileName}} ({{item.size >(1024 * 1024)?(item.size/(1024*1024)).toFixed(1)+' MB':item.size >1024?(item.size/(1024)).toFixed(1)+' KB':item.size.toFixed(1) +" K"}})</div>
+                <div> <i style="color: red; cursor: pointer;    margin-left: 20px;" (click)="deleteItemFile(item)" class="fa fa-trash cursor-point" title="Xóa bỏ"></i></div>
+            </div>
+        </div>
+        <!-- <div class="list-file" *ngIf="listupload.length >0">
             <table class="table table_custom action-table">
                 <thead>
                     <tr>
@@ -82,7 +89,7 @@
         
                 </tbody>
             </table>
-        </div>
+        </div> -->
         <div class="row-for">
             <p>
                 Lưu ý: Bản đăng ký kế hoạch phải được lãnh đạo đơn vị thông qua

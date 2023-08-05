@@ -9,7 +9,7 @@
     <div class="header-detail">
         <div class="row-one flex items-center">
             <div class="dinhhuong-name"  [class.khongthaotac]="checkChiTiet=='CHITIET'">
-                <label  class="wp-15" style="margin-right: 83px; width: 48%;"  for="">Tên<span>(*)</span></label>
+                <label  class="wp-15 title-dinhhuong w-50 inline-block"  for="">Tên<span>(*)</span></label>
                 <input type="text" formControlName="name" placeholder="Tên bản đăng ký định hướng"
                     class="form-control input-form" />
                 <div *ngIf="submitted.check && f?.name?.errors" class="invalid-feedback">
@@ -22,7 +22,7 @@
             <!-- <button class="add_button mg-left">
                 <i class="fa fa-cloud-upload"></i> Import kế hoạch từ Excel
             </button> -->
-            <div class="pull-right">
+            <div class="pull-right ml-auto">
                 <label class="custom-file-upload add_button-import cursor-point" *ngIf="checkChiTiet !='CHITIET'">
                     <input type="file"  (change)="importFile($event)" #fileUpload/>
                     <i class="fa fa-cloud-upload"></i> Import
@@ -44,13 +44,13 @@
            
         </div>
         <div class="row-tow flex items-center"  [class.khongthaotac]="checkChiTiet=='CHITIET'">
-            <label  style="width: 7%;"  for="">Kế hoạch năm</label>
+            <label  class="w-50 inline-block"  for="">Kế hoạch năm</label>
             <ng-select [items]="listYears" bindLabel="NAME" bindValue="ID" placeholder="Chọn năm"
                 formControlName="year">
             </ng-select>
         </div>
         <div class="row-three flex items-center" *ngIf="checkChiTiet !='CHITIET'">
-            <label style="width: 7%;" for="">Văn bản đăng ký<span>(*)</span></label>
+            <label class="w-50 inline-block" for="">Văn bản đăng ký<span>(*)</span></label>
             <!-- <button class="add_button" (click)="handleUpload($event)">
                 <i class="fa fa-cloud-upload"></i> Upload file
             </button> -->
@@ -85,7 +85,10 @@
             <div class="flex" *ngFor="let item of listupload; let i = index">
                 <label  class="wp-15" style="margin-right: 55px;"  for=""></label>
                 <div>{{item.fileName}} ({{item.size >(1024 * 1024)?(item.size/(1024*1024)).toFixed(1)+' MB':item.size >1024?(item.size/(1024)).toFixed(1)+' KB':item.size.toFixed(1) +" K"}})</div>
-                <div> <i style="color: red; cursor: pointer;    margin-left: 20px;" (click)="deleteItemFile(item)" class="fa fa-trash cursor-point" title="Xóa bỏ"></i></div>
+                <div> <i *ngIf="actionType == 'THEMMOI' || actionType == 'CHINHSUA'" style="color: red; cursor: pointer;    margin-left: 20px;" (click)="deleteItemFile(item)" class="fa fa-trash cursor-point" title="Xóa bỏ"></i>
+                    <i class="fa fa-cloud-download" *ngIf="actionType == 'CHITIET'"
+                    style="color: green; cursor: pointer;" aria-hidden="true"
+                    (click)="downLoadFile(item)" title="Download file"></i></div>
             </div>
         </div>
         <div class="row-for">

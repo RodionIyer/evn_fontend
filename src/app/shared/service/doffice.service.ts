@@ -26,7 +26,6 @@ export class DOfficeService {
      * tìm kiem Doffice
      */
     execTimKiem(link,q, soKyHieu,loaiTK,nam,maDv): any {
-        debugger;
         let exeParameter = { "MainKeyWord": q,'KY_HIEU':soKyHieu, "LoaiVB": loaiTK,'NAM':nam };
         let option={
             headers:{

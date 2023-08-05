@@ -1,31 +1,27 @@
 <div
-    *ngIf="actionType == 'updateActionHSTH'" [formGroup]="form"
+    *ngIf="actionType == 'updateActionHSTH'"
+    [formGroup]="form"
     class="flex flex-col flex-auto overflow-y-auto bg-card dark:bg-default content-detail p-3"
 >
     <div class="">
-        <h1 class="title-component">
-            CẬP NHẬP HỒ SƠ THỰC HIỆN
-        </h1>
+        <h1 class="title-component">CẬP NHẬP HỒ SƠ THỰC HIỆN</h1>
         <div class="title-section">
             <i class="fa fa-minus-circle"></i> Thông tin đề tài:
         </div>
     </div>
 
-
-    <div class="flex flex-row row gap-4"> 
+    <div class="flex flex-row row gap-4">
         <div class="basis-1/12">
             <label for="">Tên đề tài/ nhiệm vụ:</label>
         </div>
         <div class="basis-2/5">
-            <span
-                >{{form.get('tenDeTai').value}}</span
-            >
+            <span>{{ form.get("tenDeTai").value }}</span>
         </div>
         <div class="basis-1/12">
             <label for="">Cấp độ ĐT/NV:</label>
         </div>
         <div class="basis-1/5">
-            <span>{{form.get('tenCapQuanLy').value}}</span>
+            <span>{{ form.get("tenCapQuanLy").value }}</span>
         </div>
     </div>
     <div class="flex flex-row row gap-4">
@@ -33,19 +29,20 @@
             <label for="">Chủ nhiệm:</label>
         </div>
         <div class="basis-2/5">
-            <span>{{form.get('chuNhiemDeTai').value}}</span>
+            <span>{{ form.get("chuNhiemDeTai").value }}</span>
         </div>
         <div class="basis-1/12">
             <label for="">Đơn vị công tác:</label>
         </div>
         <div class="basis-1/5">
-            <span>{{form.get('donViCongTac').value}}</span>
+            <span>{{ form.get("donViCongTac").value }}</span>
         </div>
     </div>
     <div class="title-section">
-        <i class="fa fa-minus-circle"></i> Hồ sơ đề nghị tạm ứng kinh phí các đợt sau:
+        <i class="fa fa-minus-circle"></i> Hồ sơ đề nghị tạm ứng kinh phí các
+        đợt sau:
     </div>
-    <mat-tab-group class="detail_tab1" style="margin-top: 10px;">
+    <mat-tab-group class="detail_tab1" style="margin-top: 10px">
         <mat-tab label="Hồ sơ nghiệm thu">
             <table class="table table_custom" style="margin-top: 0">
                 <thead>
@@ -64,10 +61,11 @@
                         <td>Noi dung</td>
                         <td>Noi dung</td>
                         <td>Noi dung</td>
-                        <td> 
+                        <td>
                             <button class="dowwnload" style="color: #2a3493">
-                            <i class="fa fa-cloud-download"></i> Tải về
-                        </button></td>
+                                <i class="fa fa-cloud-download"></i> Tải về
+                            </button>
+                        </td>
                         <td>Noi dung</td>
                     </tr>
                 </tbody>
@@ -91,10 +89,11 @@
                         <td>Noi dung</td>
                         <td>Noi dung</td>
                         <td>Noi dung</td>
-                        <td> 
+                        <td>
                             <button class="dowwnload" style="color: #2a3493">
-                            <i class="fa fa-cloud-upload"></i> Upload
-                        </button></td>
+                                <i class="fa fa-cloud-upload"></i> Upload
+                            </button>
+                        </td>
                         <td>Noi dung</td>
                     </tr>
                 </tbody>
@@ -102,9 +101,10 @@
         </mat-tab>
     </mat-tab-group>
 
-
     <div style="display: flex; margin-top: 10px; align-items: center">
-        <label for="" style="margin-right: 10px">Trạng thái <span>(*)</span></label>
+        <label for="" style="margin-right: 10px"
+            >Trạng thái <span>(*)</span></label
+        >
         <ng-select
             [items]="listYears"
             bindLabel="NAME"
@@ -116,26 +116,37 @@
         </ng-select>
     </div>
 
-    <div class="flex items-center" style="margin-bottom: 10px; margin-top: 10px;">
-        <input type="checkbox" name="" id="">
-        <span style="margin-left: 5px;"> Gửi email thông báo đến chủ nhiệm và các bên liên quan</span>
+    <div
+        class="flex items-center"
+        style="margin-bottom: 10px; margin-top: 10px"
+    >
+        <input type="checkbox" name="" id="" />
+        <span style="margin-left: 5px">
+            Gửi email thông báo đến chủ nhiệm và các bên liên quan</span
+        >
     </div>
 
     <label class="title_labe" for="">Nội dung gửi mail</label>
-    <textarea class="form-control" name="" id="" cols="30" rows="10" style="padding: 10px; min-height: 100px;"></textarea>
+    <textarea
+        class="form-control"
+        name=""
+        id=""
+        cols="30"
+        rows="10"
+        style="padding: 10px; min-height: 100px"
+    ></textarea>
 
     <div class="action-all-f">
         <button class="add_button"><i class="fa fa-save"></i> Lưu</button>
     </div>
 </div>
 <div
-    *ngIf="actionType == 'updateActionGH'" [formGroup]="form"
+    *ngIf="actionType == 'updateActionGH'"
+    [formGroup]="form"
     class="flex flex-col flex-auto overflow-y-auto bg-card dark:bg-default content-detail p-3"
 >
     <div class="">
-        <h1 class="title-component">
-            Cập nhập thông tin gia hạn ĐT/NV
-        </h1>
+        <h1 class="title-component">Cập nhập thông tin gia hạn ĐT/NV</h1>
     </div>
 
     <div class="flex flex-row row gap-4">
@@ -143,24 +154,21 @@
             <label for="">Tên đề tài/ nhiệm vụ:</label>
         </div>
         <div class="basis-2/5">
-            <span
-                >{{form.get('tenDeTai').value}}</span
-            >
+            <span>{{ form.get("tenDeTai").value }}</span>
         </div>
-        
     </div>
     <div class="flex flex-row row gap-4">
         <div class="basis-1/12">
             <label for="">Chủ nhiệm:</label>
         </div>
         <div class="basis-2/5">
-            <span>{{form.get('chuNhiemDeTai').value}}</span>
+            <span>{{ form.get("chuNhiemDeTai").value }}</span>
         </div>
         <div class="basis-1/12">
             <label for="">Số lần gia hạn:</label>
         </div>
         <div class="basis-1/5">
-            {{form.get('soLanGiaHan').value}}
+            {{ form.get("soLanGiaHan").value }}
             <!-- <input type="text"   formControlName="soLanGiaHan"  class="form-control" name="" id=""> -->
         </div>
     </div>
@@ -169,40 +177,55 @@
             <label for="">Thời gian thực hiện từ</label>
         </div>
         <div class="basis-1/5">
-            {{form.get('thoiGianThucHienTu').value | date:'dd/MM/yyyy'}} -  {{form.get('thoiGianThucHienDen').value | date:'dd/MM/yyyy'}}
+            {{ form.get("thoiGianThucHienTu").value | date : "dd/MM/yyyy" }} -
+            {{ form.get("thoiGianThucHienDen").value | date : "dd/MM/yyyy" }}
             <!-- <input type="date" class="form-control" formControlName="thoiGianThucHienTu" name="" id="" /> -->
         </div>
     </div>
     <div class="flex items-center mt-1 mb-1">
         <div class="basis-1/12">
-            <label for="">Thời gian gian hạn thêm (tháng)<span>(*)</span></label>
+            <label for=""
+                >Thời gian gian hạn thêm (tháng)<span>(*)</span></label
+            >
         </div>
         <div class="basis-1/5">
             <ng-select
-            [items]="listThang"
-            bindLabel="NAME"
-            bindValue="ID"
-            placeholder="Lựa chọn"
-            formControlName="thang" 
-            style="width: 100%"
-        >
-        </ng-select>
+                [items]="listThang"
+                bindLabel="NAME"
+                bindValue="ID"
+                placeholder="Lựa chọn"
+                formControlName="thang"
+                style="width: 100%"
+            >
+            </ng-select>
         </div>
     </div>
 
-    <div  class="flex items-center">
+    <div class="flex items-center">
         <div class="basis-1/12">
             <label for="">Lần gia hạn thứ</label>
         </div>
-        <div  class="basis-1/5">
-            <input type="text"  formControlName="lanGiaHanThu" class="form-control" name="" id="" />
+        <div class="basis-1/5">
+            <input
+                type="text"
+                formControlName="lanGiaHanThu"
+                class="form-control"
+                name=""
+                id=""
+            />
         </div>
     </div>
 
-    <label class="title_labe" for=""
-        >Lý do</label
-    >
-    <textarea class="form-control mb-3" formControlName="lyDo" name="" id="" cols="30" rows="10" style="padding: 10px; min-height: 100px;"></textarea>
+    <label class="title_labe" for="">Lý do</label>
+    <textarea
+        class="form-control mb-3"
+        formControlName="lyDo"
+        name=""
+        id=""
+        cols="30"
+        rows="10"
+        style="padding: 10px; min-height: 100px"
+    ></textarea>
 
     <table class="table table_custom" style="margin-top: 0">
         <thead>
@@ -216,14 +239,23 @@
             </tr>
         </thead>
         <tbody formArrayName="listFolderFile">
-            <tr *ngFor="let item of form.get('listFolderFile')['controls']; let i = index" formGroupName="{{i}}">
-                <td class="stt_table">{{i+1}}</td>
-                <td>{{item.get('fileName').value}}</td>
+            <tr
+                *ngFor="
+                    let item of form.get('listFolderFile')['controls'];
+                    let i = index
+                "
+                formGroupName="{{ i }}"
+            >
+                <td class="stt_table">{{ i + 1 }}</td>
+                <td class="font-medium">{{ item.get("fileName").value }}</td>
                 <td></td>
-                <td >
-                    <div class="list-file" *ngIf="item.get('listFile').value.length >0">
+                <td>
+                    <div
+                        class="list-file"
+                        *ngIf="item.get('listFile').value.length > 0"
+                    >
                         <table class="table table_custom action-table">
-                            <thead>
+                            <!-- <thead>
                                 <tr> 
                                     <th class="stt_table">STT</th>
                                     <th>Tên file</th>
@@ -235,39 +267,101 @@
                                     </th>
                                     <th style="width: 100px;"></th>
                                 </tr>
-                            </thead>
+                            </thead> -->
                             <tbody>
-                             
-                                <ng-container  formArrayName="listFile">
-                                <tr *ngFor="let item2 of item.get('listFile')['controls']; let k = index" formGroupName="{{k}}">
-                                    <td class="stt_table">{{k+1}}</td>
-                                    <td>{{item2.get('fileName').value}}</td>
-                                    <td>
-                                        {{item2.get('size').value >(1024 * 1024)?(item2.get('size').value/(1024*1024)).toFixed(1)+'(MB)':item2.get('size').value >1024?(item2.get('size').value/(1024)).toFixed(1)+'(KB)':item2.get('size').value.toFixed(1) +"K"}}</td>
-                                    
-                                     <td>{{item2.get('sovanban').value}}</td>
-                                    <td class="text-center">  <i style="color: red; cursor: pointer;    margin-right: 10px;" (click)="deleteItemFile(item,k)" class="fa fa-trash" title="Xóa bỏ"></i>
-                                        <i class="fa fa-cloud-download" style="color: green; cursor: pointer;" aria-hidden="true" (click)="downLoadFile(item2)" title="Download file"></i>
-                                    </td>  
-                    
-                                </tr>
+                                <ng-container
+                                    formArrayName="listFile"
+                                    class="table_listfile"
+                                >
+                                    <tr
+                                        *ngFor="
+                                            let item2 of item.get('listFile')[
+                                                'controls'
+                                            ];
+                                            let k = index
+                                        "
+                                        formGroupName="{{ k }}"
+                                    >
+                                        <td>
+                                            <i
+                                                class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
+                                            ></i>
+                                            {{ item2.get("fileName").value }}
+                                        </td>
+                                        <td>
+                                            {{
+                                                item2.get("size").value >
+                                                1024 * 1024
+                                                    ? (
+                                                          item2.get("size")
+                                                              .value /
+                                                          (1024 * 1024)
+                                                      ).toFixed(1) + "(MB)"
+                                                    : item2.get("size").value >
+                                                      1024
+                                                    ? (
+                                                          item2.get("size")
+                                                              .value / 1024
+                                                      ).toFixed(1) + "(KB)"
+                                                    : item2
+                                                          .get("size")
+                                                          .value.toFixed(1) +
+                                                      "K"
+                                            }}
+                                        </td>
+
+                                        <td>
+                                            {{ item2.get("sovanban").value }}
+                                        </td>
+                                        <td class="text-right">
+                                            <i
+                                                style="
+                                                    color: red;
+                                                    cursor: pointer;
+                                                    margin-right: 3px;
+                                                "
+                                                (click)="
+                                                    deleteItemFile(item, k)
+                                                "
+                                                class="fa fa-trash"
+                                                title="Xóa bỏ"
+                                            ></i>
+                                            <i
+                                                class="fa fa-cloud-download"
+                                                style="
+                                                    color: green;
+                                                    cursor: pointer;
+                                                "
+                                                aria-hidden="true"
+                                                (click)="downLoadFile(item2)"
+                                                title="Download file"
+                                            ></i>
+                                        </td>
+                                    </tr>
                                 </ng-container>
                             </tbody>
                         </table>
-                    </div> 
+                    </div>
                 </td>
                 <td class="text-center">
                     <label class="custom-file-upload add_button-import">
-                        <input type="file" multiple  (change)="handleUpload($event,item,i)" #fileUpload2/>
+                        <input
+                            type="file"
+                            multiple
+                            (change)="handleUpload($event, item, i)"
+                            #fileUpload2
+                        />
                         <i class="fa fa-cloud-upload"></i> Upload file
                     </label>
                     <!-- <button class="add_button">
                         <i class="fa fa-link"></i> Upload file
                     </button> -->
                 </td>
-                <td><button class="add_button" style="margin-left: 99px;">
-                    <i class="fa fa-search"></i> Tìm kiếm từ D-Office
-                </button></td>
+                <td>
+                    <button class="add_button" style="margin-left: 99px">
+                        <i class="fa fa-search"></i> Tìm kiếm từ D-Office
+                    </button>
+                </td>
             </tr>
         </tbody>
         <!-- <tbody>
@@ -290,17 +384,35 @@
         </tbody> -->
     </table>
 
-    <div class="flex items-center" style="margin-bottom: 10px; margin-top: 10px;">
-        <input  type="checkbox" formControlName="isEmail" [checked]="form.get('isEmail').value" class="mr-1" />
-        <span style="margin-left: 5px;"> Gửi email thông báo đến chủ nhiệm và các bên liên quan</span>
+    <div
+        class="flex items-center"
+        style="margin-bottom: 10px; margin-top: 10px"
+    >
+        <input
+            type="checkbox"
+            formControlName="isEmail"
+            [checked]="form.get('isEmail').value"
+            class="mr-1"
+        />
+        <span style="margin-left: 5px">
+            Gửi email thông báo đến chủ nhiệm và các bên liên quan</span
+        >
     </div>
-
 
     <label class="title_labe" for="">Nội dung gửi mail</label>
-    <textarea class="form-control" formControlName="noiDungGuiMail" name="" id="" cols="30" rows="10" style="padding: 10px; min-height: 100px;"></textarea>
+    <textarea
+        class="form-control"
+        formControlName="noiDungGuiMail"
+        name=""
+        id=""
+        cols="30"
+        rows="10"
+        style="padding: 10px; min-height: 100px"
+    ></textarea>
 
     <div class="action-all-f">
-        <button class="add_button" (click)="onSubmit('LUU','GIAHAN')"><i class="fa fa-save"></i> Lưu</button>
+        <button class="add_button" (click)="onSubmit('LUU', 'GIAHAN')">
+            <i class="fa fa-save"></i> Lưu
+        </button>
     </div>
 </div>
-

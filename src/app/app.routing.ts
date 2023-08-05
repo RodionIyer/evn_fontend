@@ -50,6 +50,15 @@ export const appRoutes: Route[] = [
                     { path: 'dashboard', loadChildren: () => import('app/modules/admin/dashboards/dashboard/dashboard.module').then(m => m.DashboardModule) },
                 ]
             },
+            {
+                path: 'tracuu', children: [
+                    { path: 'tracuu-timkiem', loadChildren: () => import('app/modules/nghiepvu/tracuu/tracuu-timkiem/tracuu-timkiem.module').then(m => m.TraCuuTimKiemModule) },
+                    { path: 'capnhat-dtnv', loadChildren: () => import('app/modules/nghiepvu/tracuu/capnhat-dtnv/capnhat-dtnv.module').then(m => m.CapnhatDtnvModule) }                     ],
+            },
+            {
+                path: 'baocao', children: [
+                    { path: 'thongke', loadChildren: () => import('app/modules/nghiepvu/thongke/baocao/baocao-thongke.module').then(m => m.BaoCaoThongKeModule) },                        ],
+            },
         ]
     },
     {

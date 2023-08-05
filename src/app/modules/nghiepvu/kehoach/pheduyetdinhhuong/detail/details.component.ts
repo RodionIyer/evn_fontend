@@ -66,7 +66,10 @@ export class ApiPheDuyetDinhHuongDetailsComponent implements OnInit {
             } else {
                 this.actionType = null;
             }
-            this.initForm()
+            //if( this.idParam != null &&  this.idParam != ''){
+                this.initForm()
+            //}
+           
 
           //  console.log('this.idParam2',JSON.stringify(params));
         }
@@ -93,27 +96,67 @@ export class ApiPheDuyetDinhHuongDetailsComponent implements OnInit {
     }
 
     updateFile(){
-        let typeRecord =  this.form.value.typeRecord;
-        if(typeRecord !=undefined && (typeRecord=="TH_DonVi" || typeRecord=="TH_EVN")){
-            this._serviceApi.dataKeHoach.subscribe((data)=>{
-                if(data != null && data.listFile.length >0){
-                            this.listFile = data.listFile
-                            if(this.listFile != null && this.listFile.length >0){
-                                for(let i =0 ; i< this.listFile.length;i++){
-                                    this.listupload.push({
-                                        maLoaiFile:this.listFile[i].maLoaiFile,
-                                        fileName:this.listFile[i].fileName,
-                                        base64:this.listFile[i].base64,
-                                        duongdan:this.listFile[i].duongDan,
-                                        size: this.listFile[i].size,
-                                        sovanban:this.listFile[i].sovanban,
-                                        mafile:this.listFile[i].mafile
-                                   });
-                                }
+        this._serviceApi.dataTongHop.subscribe((arr)=>{
+            let listKeHoach = [];
+            let listFile = [];
+            if (arr != undefined && arr.length > 0) {
+                    for (let i = 0; i < arr.length; i++) {
+                        if (
+                            arr[i] != undefined &&
+                            arr[i].listKeHoach != undefined &&
+                            arr[i].listKeHoach.length > 0
+                        ) {
+                            for (let j = 0; j < arr[i].listKeHoach.length; j++) {
+                                let chitiet = arr[i].listKeHoach[j];
+                                chitiet.maDonVi = arr[i].maDonVi;
+                                listKeHoach.push(arr[i].listKeHoach[j]);
                             }
+                        }
+                        if( arr[i] != undefined &&
+                          arr[i].listFile != undefined &&
+                          arr[i].listFile.length > 0){
+                            for (let j = 0; j < arr[i].listFile.length; j++) {
+                              listFile.push(arr[i].listFile[j]);
+                              this.listupload.push({
+                                                            maLoaiFile:arr[i].listFile[j].maLoaiFile,
+                                                            fileName:arr[i].listFile[j].fileName,
+                                                            base64:arr[i].listFile[j].base64,
+                                                            duongdan:arr[i].listFile[j].duongDan,
+                                                            size: arr[i].listFile[j].size,
+                                                            sovanban:arr[i].listFile[j].sovanban,
+                                                            mafile:arr[i].listFile[j].mafile
+                                                       });
+                          }
+                        }
+                    }
                 }
-            })
-        }
+                debugger;
+                let kehoach = { listKeHoach: listKeHoach, capTao: 'TCT',listFile :listFile };
+                this._serviceApi.dataKeHoach.next(kehoach);
+        })
+
+      //  debugger;
+        //let typeRecord =  this.form.value.typeRecord;
+       // if(typeRecord !=undefined && (typeRecord=="TH_DonVi" || typeRecord=="TH_EVN")){
+            // this._serviceApi.dataKeHoach.subscribe((data)=>{
+            //     if(data != null && data.listFile !=null && data.listFile.length >0){
+            //                 this.listFile = data.listFile
+            //                 if(this.listFile != null && this.listFile.length >0){
+            //                     for(let i =0 ; i< this.listFile.length;i++){
+            //                         this.listupload.push({
+            //                             maLoaiFile:this.listFile[i].maLoaiFile,
+            //                             fileName:this.listFile[i].fileName,
+            //                             base64:this.listFile[i].base64,
+            //                             duongdan:this.listFile[i].duongDan,
+            //                             size: this.listFile[i].size,
+            //                             sovanban:this.listFile[i].sovanban,
+            //                             mafile:this.listFile[i].mafile
+            //                        });
+            //                     }
+            //                 }
+            //     }
+            // })
+       // }
     }
 
 
@@ -155,7 +198,7 @@ export class ApiPheDuyetDinhHuongDetailsComponent implements OnInit {
                 typeRecord:this.checkChiTiet,
                 yKienNguoiPheDuyet:'',
                 year: [(new Date()).getFullYear(), [Validators.required]],
-                listNhiemVu:this._formBuilder.group([])
+                listNhiemVu:this._formBuilder.array([])
             }
             )
         // }
@@ -370,26 +413,36 @@ export class ApiPheDuyetDinhHuongDetailsComponent implements OnInit {
         for (let i = 0; i < this.form.value.listNhiemVu.length; i++) {
             for (let j = 0; j < this.form.value.listNhiemVu[i].listNhiemVu_cap2.length; j++) {
                 let chitiet2 = this.form.value.listNhiemVu[i].listNhiemVu_cap2[j];
-                if (this.listDonvi != undefined && this.listDonvi.length > 0) {
+                if(chitiet2 != null && chitiet2.action=="add"){
+                    listChiTiet.push(chitiet2);
+                }
+               // if (this.listDonvi != undefined && this.listDonvi.length > 0) {
                     for (let k = 0; k < chitiet2.listNhiemVu_cap3.length; k++) {
+                        
                         let itemChiTiet = chitiet2.listNhiemVu_cap3[k];
+                        if(itemChiTiet != null && itemChiTiet.action=="add"){
+                            listChiTiet.push(itemChiTiet);
+                        }
 
                         if (itemChiTiet.listNhiemVu_cap4 != undefined && itemChiTiet.listNhiemVu_cap4.length > 0) {
-                            for(let i=0;i<itemChiTiet.listNhiemVu_cap4.length;i++){
-
-                                listChiTiet.push(itemChiTiet.listNhiemVu_cap4[i]);
+                            for(let n=0;n<itemChiTiet.listNhiemVu_cap4.length;n++){
+                                let itemChiTiet4 = itemChiTiet.listNhiemVu_cap4[n];
+                                if(itemChiTiet4 != null && itemChiTiet4.action=="add"){
+                                    listChiTiet.push(itemChiTiet4);
+                                }
+                                // listChiTiet.push(itemChiTiet.listNhiemVu_cap4[i]);
                             }
                         }
                     }
-                } else {
+                // } else {
 
-                    if (chitiet2.listNhiemVu_cap3 != undefined && chitiet2.listNhiemVu_cap3.length > 0) {
-                        for(let i=0;i<chitiet2.listNhiemVu_cap3.length;i++){
+                //     if (chitiet2.listNhiemVu_cap3 != undefined && chitiet2.listNhiemVu_cap3.length > 0) {
+                //         for(let i=0;i<chitiet2.listNhiemVu_cap3.length;i++){
 
-                            listChiTiet.push(chitiet2.listNhiemVu_cap3[i]);
-                        }
-                    }
-                }
+                //             listChiTiet.push(chitiet2.listNhiemVu_cap3[i]);
+                //         }
+                //     }
+                // }
 
 
             }
@@ -397,7 +450,12 @@ export class ApiPheDuyetDinhHuongDetailsComponent implements OnInit {
         var token = localStorage.getItem("accessToken");
         this._serviceApi.execServiceLogin("404ABE65-3B92-448F-A8F0-9543503AE1E3", [{ "name": "LIST_FILE", "value": JSON.stringify(listFile) }, { "name": "LIST_KE_HOACH_CHI_TIET", "value": JSON.stringify(listChiTiet) }, {"name":"TOKEN_LINK","value":"Bearer "+token},{ "name": "KE_HOACH", "value": JSON.stringify(kehoach) }]).subscribe((data) => {
             this._messageService.showSuccessMessage("Thông báo", data.message);
-            this._router.navigateByUrl('nghiepvu/kehoach/dinhhuong');
+            if(status=='CGIAO'){
+            this._router.navigateByUrl('nghiepvu/kehoach/giao');
+            }else{
+                this._router.navigateByUrl('nghiepvu/kehoach/dinhhuong');
+            }
+  
         })
    
     }

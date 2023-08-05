@@ -108,12 +108,12 @@ table.table.table_custom td {
    border-bottom-color: #e2e8f0;
    color: #2a3493;
 }
-.dinhhuong-name{
+/* .dinhhuong-name{
     width: 54%;
 }
 .dinhhuong-name.khongthaotac{
     width: 86%;
-}
+} */
 
 .list-file {
     width: 30%;
@@ -124,3 +124,19 @@ h1.title-component {
     margin: 15px 0px;
     font-weight: 600;
 }
+/* .title-dinhhuong{
+    margin-right: 9%;
+}
+
+@media only screen and (min-width: 1441px) {
+    .title-dinhhuong{
+        margin-right: 10%;
+    }
+}
+@media only screen and (max-width: 1440px) {
+    .title-dinhhuong{
+        margin-right: 7%;
+    }
+} */
+
+

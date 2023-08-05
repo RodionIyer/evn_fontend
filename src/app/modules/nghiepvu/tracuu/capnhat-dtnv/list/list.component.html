@@ -2,128 +2,798 @@
     <div class="bg-white p-3">
     <!--màn hình danh sách-->
     <ng-container *ngIf="!actionClick">
-        <div class="flex items-center justify-between">
-            <h1 class="title-component">THÔNG TIN ĐỀ TÀI, NHIỆM VỤ            </h1>
-           
-        </div> 
-
-        <label class="title_labe" for="">Tên đề tài, nhiệm vụ KHCN<span>(*)</span></label>
-        <textarea
-            class="form-control"
-            name=""
-            id=""
-            cols="30"
-            rows="10"
-            style="padding: 10px; min-height: 100px"
-            formControlName="tenDeTai" 
-        ></textarea>
-        <div *ngIf="submitted.check && f?.tenDeTai?.errors" class="invalid-feedback">
-            <div *ngIf="f.tenDeTai.errors.required">Trường bắt buộc nhập</div>
-          </div>
-
-
-        <div class="flex flex-row gap-4 items-center mb-3 mt-3	">
-            <div class="basis-1/2">
-                <label for="">Cấp quản lý</label>
-                <ng-select
-                style="width: 100%;"
-                [items]="listYears"
-                bindLabel="NAME"
-                bindValue="ID"
-                placeholder="Chọn năm"
-                formControlName="capQuanLy" 
-            >
-            </ng-select>
-            </div>
-
-            <div class="basis-1/2">
-                <label for="">Lĩnh vực nghiên cứu</label>
-                <ng-select
-                style="width: 100%"
-                [items]="listYears"
-                bindLabel="NAME"
-                bindValue="ID"
-                placeholder="Lựa chọn"
-                formControlName="linhVucNghienCuu" 
-            >
-            </ng-select>
+        <div
+        class="flex flex-col flex-auto overflow-y-auto bg-card dark:bg-default content-detail p-3" [formGroup]="form"
+        novalidate>
+        <div class="">
+            <h1 class="title-component">THÔNG TIN ĐỀ TÀI, NHIỆM VỤ</h1>
+            <div class="title-section">
+                <i class="fa fa-minus-circle"></i> Thông tin đề tài:
             </div>
         </div>
-
-        <div class="flex flex-row gap-4 items-center mb-3 mt-3	">
-
+        <div class="flex flex-row row gap-4">
             <div class="basis-1/2">
-                <label for="">Thời gian thực hiện từ</label>
-                <input class="form-control" type="date" name="" id="" formControlName="thoiGianThucHienTu" >
+                <label for="">Tên đề tài, nhiệm vụ KHCN<span>(*)</span></label>
+                <input type="text" placeholder="Nhập tên đề tài" class="form-control" name="" id=""
+                    formControlName="tenDeTai" /> 
+    
+                    <div *ngIf="submitted.check && f?.tenDeTai?.errors" class="invalid-feedback">
+                        <div *ngIf="f.tenDeTai.errors.required">Trường bắt buộc nhập</div>
+                      </div>
             </div>
-            <div  class="basis-1/2">
-                <label for="">Đến</label>
-                <input class="form-control" type="date" name="" id="" formControlName="thoiGianThucHienDen" >
+            <div class="basis-1/2">
+                <label for="">Căn cứ thực hiện (từ bản định hướng)</label>
+                <div class="select-cbkh flex items-center form-control">
+                    <input class="inputselect" type="text" name="" id="" formControlName="canCuThucHien" />
+                    <i (click)="openAlertDialog('KEHOACH')" class="fa fa-search"></i>
+                </div>
             </div>
+        </div>
+        <div class="flex flex-row row gap-4">
+            <div class="basis-1/4">
+                <label for="">Cấp quản lý<span>(*)</span></label>
+                <ng-select [items]="listCapQuanLy" bindLabel="NAME" bindValue="ID" placeholder="Cấp quản lý"
+                    formControlName="capQuanLy">
+                </ng-select>
+    
+                <div *ngIf="submitted.check && f?.capQuanLy?.errors" class="invalid-feedback">
+                    <div *ngIf="f.capQuanLy.errors.required">Trường bắt buộc nhập</div>
+                  </div>
             </div>
-
-            <div class="flex flex-row gap-4 items-center mb-3 mt-3	">
-
-                <div class="basis-1/2">
-                    <label for="">Đơn vị chủ trì</label>
-                    <ng-select
-                    style="width: 100%"
-                    [items]="listYears"
+            <div class="basis-1/4">
+                <label for="">Văn bản chỉ đạo số</label>
+                <input class="form-control" placeholder="Nhập văn bản chỉ đạo số..." type="text" name=""
+                    formControlName="vanBanChiDaoSo" id="" />
+            </div>
+            <div class="basis-1/2">
+                <label for="">Lĩnh vực nghiên cứu</label>
+                <ng-select [items]="listLinhVucNghienCuu" bindLabel="NAME" bindValue="ID" placeholder="Lĩnh vực nghiên cứu"
+                    [multiple]="true" formControlName="linhVucNghienCuu">
+                </ng-select>
+            </div>
+            <!-- <div class="basis-1/4">
+                <ng-select [items]="listLinhVucNghienCuu" bindLabel="NAME" bindValue="ID" placeholder="Chọn năm" [multiple]="true"
+                formControlName="linhVucNghienCuu" >
+            </ng-select>
+                <div class="list_check">
+                    <div class="item_list_check">
+                        <input type="checkbox" name="" id="" />
+                        <span>Thủy điện</span>
+                    </div>
+                    <div class="item_list_check">
+                        <input type="checkbox" name="" id="" />
+                        <span>Công nghệ thông tin</span>
+                    </div>
+                </div> 
+            </div> -->
+        </div>
+        <div class="flex flex-row row gap-4">
+            <div class="basis-1/4">
+                <label for="">Đơn vị chủ trì<span>(*)</span></label>
+                <ng-select [items]="listDonViChuTri" bindLabel="NAME" bindValue="ID" placeholder="Chọn đơn vị chủ trì"
+                    formControlName="donViChuTri">
+                </ng-select>
+                <div *ngIf="submitted.check && f?.donViChuTri?.errors" class="invalid-feedback">
+                    <div *ngIf="f.donViChuTri.errors.required">Trường bắt buộc nhập</div>
+                  </div>
+            </div>
+            <div class="basis-1/4"></div>
+            <div class="basis-1/4"></div>
+            <div class="basis-1/4"></div>
+        </div>
+        <div class="flex flex-row row gap-4">
+            <div class="basis-1/4 flex justify-between items-center">
+                <label for="">Thời gian thực hiện từ<span>(*)</span></label>
+                <label style="margin-right: 10px">Từ</label>
+            </div>
+            <div class="basis-3/4 flex date-customt">
+                <!-- <input class="form-control" type="date" name="" id="" formControlName="thoiGianThucHienTu" /> -->
+               <div class="form-date">
+                <input matInput [matDatepicker]="picker" formControlName="thoiGianThucHienTu"  >
+                <mat-datepicker-toggle matIconSuffix [for]="picker" ></mat-datepicker-toggle>
+                <mat-datepicker  startView="multi-year"  #picker
+                (monthSelected)="setMonthAndYear($event, picker,'thoiGianThucHienTu')"
+                ></mat-datepicker>
+               </div>
+               <div *ngIf="submitted.check && f?.thoiGianThucHienTu?.errors" class="invalid-feedback">
+                <div *ngIf="f.thoiGianThucHienTu.errors.required">Trường bắt buộc nhập</div>
+              </div>
+    
+                <label class="dem-pading">đến</label>
+                <!-- <input class="form-control" type="date" name="" id="" formControlName="thoiGianThucHienDen" /> -->
+                <div class="form-date">
+                    <input matInput [matDatepicker]="picker1" formControlName="thoiGianThucHienDen"  >
+                    <mat-datepicker-toggle matIconSuffix [for]="picker1" ></mat-datepicker-toggle>
+                    <mat-datepicker  startView="multi-year"  #picker1
+                    (monthSelected)="setMonthAndYear($event, picker1,'thoiGianThucHienDen')"
+                    ></mat-datepicker>
+                   </div>
+                   <div *ngIf="submitted.check && f?.thoiGianThucHienDen?.errors" class="invalid-feedback">
+                    <div *ngIf="f.thoiGianThucHienDen.errors.required">Trường bắt buộc nhập</div>
+                  </div>
+            </div>
+        </div>
+    
+        <div class="flex flex-row row gap-4">
+            <div class="basis-1/4">
+                <label for="">Chủ nhiệm đề tài<span>(*)</span></label>
+                <div class="select-cbkh flex items-center form-control">
+                    <input class="inputselect" type="text" name="" id="" formControlName="chuNhiemDeTai" />
+                    <i (click)="openAlertDialog('CHUNHIEM')" class="fa fa-search"></i>
+                </div>
+                <div *ngIf="submitted.check && f?.chuNhiemDeTai?.errors" class="invalid-feedback">
+                    <div *ngIf="f.chuNhiemDeTai.errors.required">Trường bắt buộc nhập</div>
+                  </div>
+            </div>
+            <div class="basis-1/12">
+                <label for="">Giới tính</label>
+                <ng-select [items]="listGioiTinh" bindLabel="NAME" bindValue="ID" placeholder="Chọn giới tính"
+                    formControlName="gioiTinh">
+                </ng-select>
+            </div>
+            <div class="basis-2/12">
+                <label for="">Học hàm</label>
+                <ng-select [items]="listHocHam" bindLabel="NAME" bindValue="ID" placeholder="Chọn học hàm"
+                    formControlName="hocHam">
+                </ng-select>
+            </div>
+            <div class="basis-1/4">
+                <label for="">Học vị</label>
+                <ng-select [items]="listHocVi" bindLabel="NAME" bindValue="ID" placeholder="Chọn học vị"
+                    formControlName="hocVi">
+                </ng-select>
+            </div>
+            <div class="basis-1/4">
+                <label for="">Đơn vị công tác</label>
+                <input class="form-control" type="text" name="" id="" formControlName="donViCongTac" />
+                <!-- <ng-select
+                    [items]="listDonViCongTac"
                     bindLabel="NAME"
                     bindValue="ID"
-                    placeholder="Lựa chọn"
-                    formControlName="donViChuTri" 
+                    placeholder="Chọn đơn vị"
+                    formControlName="donViCongTac" 
                 >
+                </ng-select> -->
+            </div>
+        </div>
+        <div class="flex flex-row row gap-4">
+            <div class="basis-1/4">
+                <label for="">Đồng chủ nhiệm đề tài<span>(*)</span></label>
+                <div class="select-cbkh flex items-center form-control">
+                    <input class="inputselect" type="text" name="" id="" formControlName="dongChuNhiemDeTai" />
+                    <i (click)="openAlertDialog('DONGCHUNHIEM')" class="fa fa-search"></i>
+                </div>
+                <div *ngIf="submitted.check && f?.dongChuNhiemDeTai?.errors" class="invalid-feedback">
+                    <div *ngIf="f.dongChuNhiemDeTai.errors.required">Trường bắt buộc nhập</div>
+                  </div>
+            </div>
+            <div class="basis-1/12">
+                <label for="">Giới tính</label>
+                <ng-select [items]="listGioiTinh" bindLabel="NAME" bindValue="ID" placeholder="Chọn giới tính"
+                    formControlName="gioiTinhDongChuNhiem">
                 </ng-select>
+            </div>
+            <div class="basis-2/12">
+                <label for="">Học hàm</label>
+                <ng-select [items]="listHocHam" bindLabel="NAME" bindValue="ID" placeholder="Chọn học hàm"
+                    formControlName="hocHamDongChuNhiem">
+                </ng-select>
+            </div>
+            <div class="basis-1/4">
+                <label for="">Học vị</label>
+                <ng-select [items]="listHocVi" bindLabel="NAME" bindValue="ID" placeholder="Chọn học vị"
+                    formControlName="hocViDongChuNhiem">
+                </ng-select>
+            </div>
+            <div class="basis-1/4">
+                <label for="">Đơn vị công tác</label>
+                <input class="form-control" type="text" name="" id="" formControlName="donViCongTacDongChuNhiem" />
+                <!-- <ng-select
+                    [items]="listDonViCongTac"
+                    bindLabel="NAME"
+                    bindValue="ID"
+                    placeholder="Chọn đơn vị"
+                    formControlName="donViCongTacDongChuNhiem" 
+                >
+                </ng-select> -->
+            </div>
+        </div>
+        <div class="flex flex-row row gap-4">
+            <div class="basis-1/4">
+                <label for="">Thư ký đề tài</label>
+                <div class="select-cbkh flex items-center form-control">
+                    <input class="inputselect" type="text" name="" id="" formControlName="thuKyDeTai" />
+                    <i (click)="openAlertDialog('THUKY')" class="fa fa-search"></i>
                 </div>
-                <div  class="basis-1/2">
-                    <label for="">Kinh phí thực hiện</label>
-                    <input class="form-control" type="text" name="" id="" formControlName="kinhPhiThucHien" >
-                </div>
-                </div>
-
-                <div class="flex flex-row gap-4 items-center mb-3 mt-3 items-center	">
-
-                    <div class="basis-1/2">
-                        <label for="">Tác giả</label>
-                        <ng-select
-                        style="width: 100%"
-                        [items]="listYears"
-                        bindLabel="NAME"
-                        bindValue="ID"
-                        placeholder="Lựa chọn"
-                        formControlName="tacGia"
-                    >
-                    </ng-select>
-                    </div>
-                    <div  class="basis-1/2 flex items-center pt-4">
-                        <label for="">Tài liệu đính kèm</label>
-                        <button
-                        class="dowwnload px-6 py-1 rounded-md bg-sky-500 text-white ml-3"
-                       
-                    >
-                        <i class="fa fa-cloud-download"></i> Upload
-                    </button>
-                    </div>
-                    </div>
-
-                    <label class="title_labe" for="">Nội dung của đề tài, nhiệm vụ</label>
-                    <textarea
-                        class="form-control"
-                        name=""
-                        id=""
-                        cols="30"
-                        rows="10"
-                        style="padding: 10px; min-height: 100px"
-                        formControlName="noiDung"
-                    ></textarea>
-
-                    <div class="action-all-f mt-3">
-                        <button class="add_button" (click)="onSubmit()"><i class="fa fa-save"></i> Lưu</button>
-                    </div>
-
-
-
+            </div>
+            <div class="basis-1/12">
+                <label for="">Giới tính</label>
+                <ng-select [items]="listGioiTinh" bindLabel="NAME" bindValue="ID" placeholder="Chọn giới tính"
+                    formControlName="gioiTinhThuKy">
+                </ng-select>
+            </div>
+            <div class="basis-2/12">
+                <label for="">Học hàm</label>
+                <ng-select [items]="listHocHam" bindLabel="NAME" bindValue="ID" placeholder="Chọn học hàm"
+                    formControlName="hocHamThuKy">
+                </ng-select>
+            </div>
+            <div class="basis-1/4">
+                <label for="">Học vị</label>
+                <ng-select [items]="listHocVi" bindLabel="NAME" bindValue="ID" placeholder="Chọn học vị"
+                    formControlName="hocViThuKy">
+                </ng-select>
+            </div>
+            <div class="basis-1/4">
+                <label for="">Đơn vị công tác</label>
+                <input class="form-control" type="text" name="" id="" formControlName="donViCongTacThuKy" />
+                <!-- <ng-select
+                    [items]="listDonViCongTac"
+                    bindLabel="NAME"
+                    bindValue="ID"
+                    placeholder="Chọn đơn vị"
+                    formControlName="donViCongTacThuKy" 
+                >
+                </ng-select> -->
+            </div>
+        </div>
+        <div class="flex flex-row row gap-4">
+            <div class="basis-full">
+                <label for="">Thành viên tham gia</label>
+                <table class="table table_custom" style="margin-top: 3px">
+                    <thead>
+                        <tr>
+                            <th class="stt_table">STT</th>
+                            <th>Họ và tên</th>
+                            <th>Chức danh thực hiện đề tài</th>
+                            <th>Số điện thoại</th>
+                            <th>Email</th>
+                            <th>Đơn vị công tác</th>
+                            <th><button class="pull-right add_button" (click)="addThanhVien()">+Thêm thành viên</button>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let thanhvien of $any(form.get('danhSachThanhVien')).controls;let i = index"
+                            [formGroup]="thanhvien">
+                            <td class="stt_table">{{i+1}}</td>
+                            <td>
+                                <div class="select-cbkh flex items-center form-control">
+                                    <input class="inputselect" type="text" name="" id="" formControlName="ten" />
+                                    <i (click)="openAlertDialog('THANHVIEN',thanhvien)" class="fa fa-search"></i>
+                                </div>
+                                <!-- <input style="border:1px solid #ccc; border-radius: 5px;" type="text" name="" formControlName="ten" id=""> <i (click)="openAlertDialog('THANHVIEN',thanhvien.get('ten'))" class="fa fa-search"></i> -->
+                            </td>
+                            <td> <ng-select [items]="listChucDanh" bindLabel="NAME" bindValue="ID" placeholder="Chọn chức"
+                                    formControlName="chucDanh">
+                                </ng-select></td>
+                            <!-- {{thanhvien.get('chucDanh').value}} -->
+                            <td><input style="border:1px solid #ccc; border-radius: 5px;width: 100%; height: 30px;"
+                                    class="inputselect" type="text" name="" id="" formControlName="soDienThoai" /></td>
+                            <td><input style="border:1px solid #ccc; border-radius: 5px;width: 100%; height: 30px;"
+                                    class="inputselect" type="text" name="" id="" formControlName="email" /></td>
+                            <td><input style="border:1px solid #ccc; border-radius: 5px;width: 100%; height: 30px;"
+                                    class="inputselect" type="text" name="" id="" formControlName="donViCongTac" /></td>
+                            <td class="text-center action-table"> <i (click)="removeItem(form,i)" class="fa fa-trash"
+                                    title="Xóa bỏ"></i></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="title-section kinhphi">
+            <i class="fa fa-minus-circle"></i> Kinh phí:
+        </div>
+        <div class="flex flex-row row gap-4">
+            <div class="basis-1/5">
+                <label for="">Nguồn kinh phí<span>(*)</span></label>
+                <ng-select [items]="listNguonKinhPhi" bindLabel="NAME" bindValue="ID" placeholder="Nguồn kinh phí"
+                    formControlName="nguonKinhPhi">
+                </ng-select>
+                <div *ngIf="submitted.check && f?.nguonKinhPhi?.errors" class="invalid-feedback">
+                    <div *ngIf="f.nguonKinhPhi.errors.required">Trường bắt buộc nhập</div>
+                  </div>
+            </div>
+            <div class="basis-1/5">
+                <label for="">Tổng kinh phí</label>
+                <input class="form-control" placeholder="VNĐ" formControlName="tongKinhPhi" type="text" name="" id="" />
+            </div>
+            <div class="basis-1/5">
+                <label for="">Phương thức khoán chi</label>
+                <ng-select [items]="listKhoanChi" bindLabel="NAME" bindValue="ID" placeholder="Chọn phương thức"
+                    formControlName="phuongThucKhoanChi">
+                </ng-select>
+            </div>
+            <div class="basis-1/5">
+                <label for="">Khinh phí khoán</label>
+                <input class="form-control" placeholder="VNĐ" type="text" name="" formControlName="kinhPhiKhoan" id="" />
+            </div>
+            <div class="basis-1/5">
+                <label for="">Khinh phí không khoán</label>
+                <input class="form-control" placeholder="VNĐ" type="text" name="" formControlName="kinhPhiKhongKhoan"
+                    id="" />
+            </div>
+        </div>
+        <div class="flex flex-row row gap-4">
+            <div class="basis-full">
+                <label for="">Tính cấp thiết của đề tài, nhiệm vụ KHCN</label>
+                <textarea name="" id="" formControlName="tinhCapThietCuaDeTaiNhiemVu"
+                    class="form-control p-3 min-h-30"></textarea>
+            </div>
+        </div>
+        <div class="flex flex-row row gap-4">
+            <div class="basis-full">
+                <label for="">Mục tiêu</label>
+                <textarea formControlName="mucTieu" name="" id="" class="form-control p-3 min-h-30"></textarea>
+            </div>
+        </div>
+        <div class="flex flex-row row gap-4">
+            <div class="basis-full">
+                <label for="">Nhiệm vụ và phạm vi nghiên cứu, thực hiện</label>
+                <textarea name="" formControlName="nhiemVuVaPhamViNghienCuu" id=""
+                    class="form-control p-3 min-h-30"></textarea>
+            </div>
+        </div>
+        <div class="flex flex-row row gap-4">
+            <div class="basis-full">
+                <label for="">Kết quả dự kiến</label>
+                <textarea formControlName="ketQuaDuKien" name="" id="" class="form-control p-3 min-h-30"></textarea>
+            </div>
+        </div>
+        <div class="flex flex-row row gap-4">
+            <div class="basis-full">
+                <label for="">Kiến nghị, đề xuất</label>
+                <textarea formControlName="kienNghiDeXuat" name="" id="" class="form-control p-3 min-h-30"></textarea>
+            </div>
+        </div>
+    
+       
+        <div class="">
+            <h1 class="title-component">Tài liệu đính kèm của đề tài, nhiệm vụ</h1>
+        </div>
+    
+        <mat-tab-group class="detail_tab1">
+            <mat-tab label="Hồ sơ đăng ký">
+                <table class="table table_custom" style="margin-top: 0">
+                    <thead>
+                        <tr>
+                            <th class="stt_table">STT</th>
+                            <th>Tên hồ sơ</th>
+                            <th>Người cập nhập</th>
+                            <th>Ngày cập nhập</th>
+                            <th>File đính kèm</th>
+                            <th>Ghi chú</th>
+                        </tr>
+                    </thead>
+                    <tbody formArrayName="listFolderHSDK" *ngIf="form.get('listFolderHSDK').value.lenght >0">
+                        <tr *ngFor="let item of form.get('listFolderHSDK')['controls']; let i = index">
+                            <td class="stt_table">{{i+1}}</td>
+                            <td>{{item.get('fileName').value}}</td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <div class="list-file" *ngIf="item.get('listFile').value.length >0">
+                                    <table class="table table_custom action-table">
+                                        <thead>
+                                            <tr>
+                                                <th class="stt_table">STT</th>
+                                                <th>Tên file</th>
+                                                <th class="text-center">Kích thước
+                                                </th>
+                                                <th class="text-center">Số văn bản
+                                                </th>
+                                                <th style="width: 100px;"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody formArrayName="listFile">
+    
+                                            <tr *ngFor="let item2 of item.get('listFile')['controls']; let k = index">
+                                                <td class="stt_table">{{k+1}}</td>
+                                                <td>{{item2.get('fileName').value}}</td>
+                                                <td>
+                                                    {{item2.get('size').value >(1024 *
+                                                    1024)?(item2.get('size').value/(1024*1024)).toFixed(1)+'(MB)':item2.get('size').value
+                                                    >1024?(item2.get('size').value/(1024)).toFixed(1)+'(KB)':item2.get('size').value.toFixed(1)
+                                                    +"K"}}</td>
+    
+                                                <td>{{item2.get('sovanban').value}}</td>
+                                                <td class="text-center"> <i
+                                                        style="color: red; cursor: pointer;    margin-right: 10px;"
+                                                        (click)="deleteItemFile(item,k)" class="fa fa-trash"
+                                                        title="Xóa bỏ"></i>
+                                                    <i class="fa fa-cloud-download" style="color: green; cursor: pointer;"
+                                                        aria-hidden="true" (click)="downLoadFile(item2)"
+                                                        title="Download file"></i>
+                                                </td>
+    
+                                            </tr>
+    
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <label class="custom-file-upload add_button-import">
+                                    <input type="file" multiple (change)="handleUpload($event,item,i)" #fileUpload2 />
+                                    <i class="fa fa-cloud-upload"></i> Upload file
+                                </label>
+                                <!-- <button class="add_button">
+                                    <i class="fa fa-link"></i> Upload file
+                                </button> -->
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </mat-tab>
+            <mat-tab label="Hồ sơ xét duyệt, giao, ký hợp đồng thực hiện">
+                <table class="table table_custom" style="margin-top: 0">
+                    <thead>
+                        <tr>
+                            <th class="stt_table">STT</th>
+                            <th>Tên hồ sơ</th>
+                            <th>Người cập nhập</th>
+                            <th>Ngày cập nhập</th>
+                            <th>File đính kèm</th>
+                            <th>Ghi chú</th>
+                        </tr>
+                    </thead>
+                  <tbody formArrayName="listFolderHSXD" *ngIf="form.get('listFolderHSXD').value.lenght >0">
+                        <tr *ngFor="let item of form.get('listFolderHSXD')['controls']; let i = index">
+                            <td class="stt_table">{{i+1}}</td>
+                            <td>{{item.get('fileName').value}}</td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <div class="list-file" *ngIf="item.get('listFile').value.length >0">
+                                    <table class="table table_custom action-table">
+                                        <thead>
+                                            <tr>
+                                                <th class="stt_table">STT</th>
+                                                <th>Tên file</th>
+                                                <th class="text-center">Kích thước
+                                                </th>
+                                                <th class="text-center">Số văn bản
+                                                </th>
+                                                <th style="width: 100px;"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody formArrayName="listFile">
+    
+                                            <tr *ngFor="let item2 of item.get('listFile')['controls']; let k = index">
+                                                <td class="stt_table">{{k+1}}</td>
+                                                <td>{{item2.get('fileName').value}}</td>
+                                                <td>
+                                                    {{item2.get('size').value >(1024 *
+                                                    1024)?(item2.get('size').value/(1024*1024)).toFixed(1)+'(MB)':item2.get('size').value
+                                                    >1024?(item2.get('size').value/(1024)).toFixed(1)+'(KB)':item2.get('size').value.toFixed(1)
+                                                    +"K"}}</td>
+    
+                                                <td>{{item2.get('sovanban').value}}</td>
+                                                <td class="text-center"> <i
+                                                        style="color: red; cursor: pointer;    margin-right: 10px;"
+                                                        (click)="deleteItemFile(item,k)" class="fa fa-trash"
+                                                        title="Xóa bỏ"></i>
+                                                    <i class="fa fa-cloud-download" style="color: green; cursor: pointer;"
+                                                        aria-hidden="true" (click)="downLoadFile(item2)"
+                                                        title="Download file"></i>
+                                                </td>
+    
+                                            </tr>
+    
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <!-- <label class="custom-file-upload add_button-import">
+                                    <input type="file" multiple (change)="handleUpload($event,item,i)" #fileUpload2 />
+                                    <i class="fa fa-cloud-upload"></i> Upload file
+                                </label> -->
+                                <!-- <button class="add_button">
+                                    <i class="fa fa-link"></i> Upload file
+                                </button> -->
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </mat-tab>
+            <mat-tab label="Hồ sơ đề nghị tạm ứng kinh phí các đợt sau">
+                <table class="table table_custom" style="margin-top: 0">
+                    <thead>
+                        <tr>
+                            <th class="stt_table">STT</th>
+                            <th>Tên hồ sơ</th>
+                            <th>Người cập nhập</th>
+                            <th>Ngày cập nhập</th>
+                            <th>File đính kèm</th>
+                            <th>Ghi chú</th>
+                        </tr>
+                    </thead>
+                    <tbody formArrayName="listFolderFileTamUng" *ngIf="form.get('listFolderFileTamUng').value.lenght >0">
+                    <tr *ngFor="let item of form.get('listFolderFileTamUng')['controls']; let i = index">
+                        <td class="stt_table">{{i+1}}</td>
+                        <td>{{item.get('fileName').value}}</td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <div class="list-file" *ngIf="item.get('listFile').value.length >0">
+                                <table class="table table_custom action-table">
+                                    <thead>
+                                        <tr>
+                                            <th class="stt_table">STT</th>
+                                            <th>Tên file</th>
+                                            <th class="text-center">Kích thước
+                                            </th>
+                                            <th class="text-center">Số văn bản
+                                            </th>
+                                            <th style="width: 100px;"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody formArrayName="listFile">
+    
+                                        <tr *ngFor="let item2 of item.get('listFile')['controls']; let k = index">
+                                            <td class="stt_table">{{k+1}}</td>
+                                            <td>{{item2.get('fileName').value}}</td>
+                                            <td>
+                                                {{item2.get('size').value >(1024 *
+                                                1024)?(item2.get('size').value/(1024*1024)).toFixed(1)+'(MB)':item2.get('size').value
+                                                >1024?(item2.get('size').value/(1024)).toFixed(1)+'(KB)':item2.get('size').value.toFixed(1)
+                                                +"K"}}</td>
+    
+                                            <td>{{item2.get('sovanban').value}}</td>
+                                            <td class="text-center"> <i
+                                                    style="color: red; cursor: pointer;    margin-right: 10px;"
+                                                    (click)="deleteItemFile(item,k)" class="fa fa-trash"
+                                                    title="Xóa bỏ"></i>
+                                                <i class="fa fa-cloud-download" style="color: green; cursor: pointer;"
+                                                    aria-hidden="true" (click)="downLoadFile(item2)"
+                                                    title="Download file"></i>
+                                            </td>
+    
+                                        </tr>
+    
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <!-- <label class="custom-file-upload add_button-import">
+                                <input type="file" multiple (change)="handleUpload($event,item,i)" #fileUpload2 />
+                                <i class="fa fa-cloud-upload"></i> Upload file
+                            </label> -->
+                            <!-- <button class="add_button">
+                                <i class="fa fa-link"></i> Upload file
+                            </button> -->
+                        </td>
+                    </tr>
+                </tbody>
+                </table>
+            </mat-tab>
+            <mat-tab label="Hồ sơ nghiệm thu">
+                <table class="table table_custom" style="margin-top: 0">
+                    <thead>
+                        <tr>
+                            <th class="stt_table">STT</th>
+                            <th>Tên hồ sơ</th>
+                            <th>Người cập nhập</th>
+                            <th>Ngày cập nhập</th>
+                            <th>File đính kèm</th>
+                            <th>Ghi chú</th>
+                        </tr>
+                    </thead>
+                    <tbody formArrayName="listFolderHSNT"  *ngIf="form.get('listFolderHSNT').value.lenght >0">
+                        <tr *ngFor="let item of form.get('listFolderHSNT')['controls']; let i = index">
+                            <td class="stt_table">{{i+1}}</td>
+                            <td>{{item.get('fileName').value}}</td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <div class="list-file" *ngIf="item.get('listFile').value.length >0">
+                                    <table class="table table_custom action-table">
+                                        <thead>
+                                            <tr>
+                                                <th class="stt_table">STT</th>
+                                                <th>Tên file</th>
+                                                <th class="text-center">Kích thước
+                                                </th>
+                                                <th class="text-center">Số văn bản
+                                                </th>
+                                                <th style="width: 100px;"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody formArrayName="listFile">
+        
+                                            <tr *ngFor="let item2 of item.get('listFile')['controls']; let k = index">
+                                                <td class="stt_table">{{k+1}}</td>
+                                                <td>{{item2.get('fileName').value}}</td>
+                                                <td>
+                                                    {{item2.get('size').value >(1024 *
+                                                    1024)?(item2.get('size').value/(1024*1024)).toFixed(1)+'(MB)':item2.get('size').value
+                                                    >1024?(item2.get('size').value/(1024)).toFixed(1)+'(KB)':item2.get('size').value.toFixed(1)
+                                                    +"K"}}</td>
+        
+                                                <td>{{item2.get('sovanban').value}}</td>
+                                                <td class="text-center"> <i
+                                                        style="color: red; cursor: pointer;    margin-right: 10px;"
+                                                        (click)="deleteItemFile(item,k)" class="fa fa-trash"
+                                                        title="Xóa bỏ"></i>
+                                                    <i class="fa fa-cloud-download" style="color: green; cursor: pointer;"
+                                                        aria-hidden="true" (click)="downLoadFile(item2)"
+                                                        title="Download file"></i>
+                                                </td>
+        
+                                            </tr>
+        
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <!-- <label class="custom-file-upload add_button-import">
+                                    <input type="file" multiple (change)="handleUpload($event,item,i)" #fileUpload2 />
+                                    <i class="fa fa-cloud-upload"></i> Upload file
+                                </label> -->
+                                <!-- <button class="add_button">
+                                    <i class="fa fa-link"></i> Upload file
+                                </button> -->
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </mat-tab>
+            <mat-tab label="Bàn giao, lưu trữ kết quả thực hiện">
+                <table class="table table_custom" style="margin-top: 0">
+                    <thead>
+                        <tr>
+                            <th class="stt_table">STT</th>
+                            <th>Tên hồ sơ</th>
+                            <th>Người cập nhập</th>
+                            <th>Ngày cập nhập</th>
+                            <th>File đính kèm</th>
+                            <th>Ghi chú</th>
+                        </tr>
+                    </thead>
+                    <tbody formArrayName="listFolderBanGiao"  *ngIf="form.get('listFolderBanGiao').value.lenght >0">
+                        <tr *ngFor="let item of form.get('listFolderBanGiao')['controls']; let i = index">
+                            <td class="stt_table">{{i+1}}</td>
+                            <td>{{item.get('fileName').value}}</td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <div class="list-file" *ngIf="item.get('listFile').value.length >0">
+                                    <table class="table table_custom action-table">
+                                        <thead>
+                                            <tr>
+                                                <th class="stt_table">STT</th>
+                                                <th>Tên file</th>
+                                                <th class="text-center">Kích thước
+                                                </th>
+                                                <th class="text-center">Số văn bản
+                                                </th>
+                                                <th style="width: 100px;"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody formArrayName="listFile">
+        
+                                            <tr *ngFor="let item2 of item.get('listFile')['controls']; let k = index">
+                                                <td class="stt_table">{{k+1}}</td>
+                                                <td>{{item2.get('fileName').value}}</td>
+                                                <td>
+                                                    {{item2.get('size').value >(1024 *
+                                                    1024)?(item2.get('size').value/(1024*1024)).toFixed(1)+'(MB)':item2.get('size').value
+                                                    >1024?(item2.get('size').value/(1024)).toFixed(1)+'(KB)':item2.get('size').value.toFixed(1)
+                                                    +"K"}}</td>
+        
+                                                <td>{{item2.get('sovanban').value}}</td>
+                                                <td class="text-center"> <i
+                                                        style="color: red; cursor: pointer;    margin-right: 10px;"
+                                                        (click)="deleteItemFile(item,k)" class="fa fa-trash"
+                                                        title="Xóa bỏ"></i>
+                                                    <i class="fa fa-cloud-download" style="color: green; cursor: pointer;"
+                                                        aria-hidden="true" (click)="downLoadFile(item2)"
+                                                        title="Download file"></i>
+                                                </td>
+        
+                                            </tr>
+        
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <!-- <label class="custom-file-upload add_button-import">
+                                    <input type="file" multiple (change)="handleUpload($event,item,i)" #fileUpload2 />
+                                    <i class="fa fa-cloud-upload"></i> Upload file
+                                </label> -->
+                                <!-- <button class="add_button">
+                                    <i class="fa fa-link"></i> Upload file
+                                </button> -->
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </mat-tab>
+            <mat-tab label="Hồ sơ thanh quyết toán">
+                <table class="table table_custom" style="margin-top: 0">
+                    <thead>
+                        <tr>
+                            <th class="stt_table">STT</th>
+                            <th>Tên hồ sơ</th>
+                            <th>Người cập nhập</th>
+                            <th>Ngày cập nhập</th>
+                            <th>File đính kèm</th>
+                            <th>Ghi chú</th>
+                        </tr>
+                    </thead>
+                    <tbody formArrayName="listFolderQuyetToan" *ngIf="form.get('listFolderQuyetToan').value.lenght >0">
+                        <tr *ngFor="let item of form.get('listFolderQuyetToan')['controls']; let i = index">
+                            <td class="stt_table">{{i+1}}</td>
+                            <td>{{item.get('fileName').value}}</td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <div class="list-file" *ngIf="item.get('listFile').value.length >0">
+                                    <table class="table table_custom action-table">
+                                        <thead>
+                                            <tr>
+                                                <th class="stt_table">STT</th>
+                                                <th>Tên file</th>
+                                                <th class="text-center">Kích thước
+                                                </th>
+                                                <th class="text-center">Số văn bản
+                                                </th>
+                                                <th style="width: 100px;"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody formArrayName="listFile">
+        
+                                            <tr *ngFor="let item2 of item.get('listFile')['controls']; let k = index">
+                                                <td class="stt_table">{{k+1}}</td>
+                                                <td>{{item2.get('fileName').value}}</td>
+                                                <td>
+                                                    {{item2.get('size').value >(1024 *
+                                                    1024)?(item2.get('size').value/(1024*1024)).toFixed(1)+'(MB)':item2.get('size').value
+                                                    >1024?(item2.get('size').value/(1024)).toFixed(1)+'(KB)':item2.get('size').value.toFixed(1)
+                                                    +"K"}}</td>
+        
+                                                <td>{{item2.get('sovanban').value}}</td>
+                                                <td class="text-center"> <i
+                                                        style="color: red; cursor: pointer;    margin-right: 10px;"
+                                                        (click)="deleteItemFile(item,k)" class="fa fa-trash"
+                                                        title="Xóa bỏ"></i>
+                                                    <i class="fa fa-cloud-download" style="color: green; cursor: pointer;"
+                                                        aria-hidden="true" (click)="downLoadFile(item2)"
+                                                        title="Download file"></i>
+                                                </td>
+        
+                                            </tr>
+        
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <!-- <label class="custom-file-upload add_button-import">
+                                    <input type="file" multiple (change)="handleUpload($event,item,i)" #fileUpload2 />
+                                    <i class="fa fa-cloud-upload"></i> Upload file
+                                </label> -->
+                                <!-- <button class="add_button">
+                                    <i class="fa fa-link"></i> Upload file
+                                </button> -->
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </mat-tab>
+        </mat-tab-group>
+        
+        <div class="action-all-f">
+            <button class="add_button" (click)="onSubmit('LUU','CAPNHAT')"><i class="fa fa-save"></i> Lưu</button>
+            <button class="add_button"  (click)="onSubmit('LUUGUI','CAPNHAT')">
+                <i class="fa fa-save"></i> Lưu và gửi
+            </button>
+        </div>
+    </div>
     </ng-container>
 </div>
     <!-- details -->

@@ -1,6 +1,6 @@
 import {
     Component,
-    ElementRef, HostListener,
+    ElementRef,
     OnDestroy,
     OnInit,
     ViewChild,
@@ -12,7 +12,6 @@ import {
     AbstractControl,
     FormArray,
     FormBuilder,
-    FormControl,
     FormGroup,
     UntypedFormBuilder,
     UntypedFormGroup,
@@ -31,30 +30,50 @@ import { MatSort } from '@angular/material/sort';
 import { ServiceService } from 'app/shared/service/service.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PopupCbkhComponent } from './popup-cbkh/popup-cbkh.component';
-import {MatDatepicker} from "@angular/material/datepicker";
+import {
+    DateAdapter,
+    MAT_DATE_FORMATS,
+    MAT_DATE_LOCALE,
+} from '@angular/material/core';
+import {
+    MAT_MOMENT_DATE_ADAPTER_OPTIONS,
+    MomentDateAdapter,
+} from '@angular/material-moment-adapter';
+
 import * as _moment from 'moment';
 // tslint:disable-next-line:no-duplicate-imports
-import {default as _rollupMoment, Moment} from 'moment';
+import { default as _rollupMoment, Moment } from 'moment';
+import { MatDatepicker } from '@angular/material/datepicker';
 const moment = _rollupMoment || _moment;
 
+export const MY_FORMATS = {
+    parse: {
+        dateInput: 'MM/YYYY',
+    },
+    display: {
+        dateInput: 'MM/YYYY',
+        monthYearLabel: 'MMM YYYY',
+        dateA11yLabel: 'LL',
+        monthYearA11yLabel: 'MMMM YYYY',
+    },
+};
 
 @Component({
     selector: 'component-details',
     templateUrl: './details.component.html',
     styleUrls: ['./details.component.css'],
     encapsulation: ViewEncapsulation.None,
+    providers: [
+        {
+            provide: DateAdapter,
+            useClass: MomentDateAdapter,
+            deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+        },
+
+        { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+    ],
 })
 export class LstdetaicuatoiDetailsComponent implements OnInit {
-    selectedItems: any[] = [];
-    date = new FormControl(moment());
-
-    setMonthAndYear(normalizedMonthAndYear: Moment, datepicker: MatDatepicker<Moment>) {
-        const ctrlValue = this.date.value!;
-        ctrlValue.month(normalizedMonthAndYear.month());
-        ctrlValue.year(normalizedMonthAndYear.year());
-        this.date.setValue(ctrlValue);
-        datepicker.close();
-    }
     public selectedYear: number;
     public getYearSubscription: Subscription;
     public listYears = [];
@@ -118,8 +137,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
         public _messageService: MessageService,
         public _router: Router,
         private _serviceApi: ServiceService,
-        public dialog: MatDialog,
-        private elementRef: ElementRef,
+        public dialog: MatDialog
     ) {
         this.initForm();
         this.idParam = this._activatedRoute.snapshot.paramMap.get('id');
@@ -185,28 +203,28 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
             //LINHVUCNGHIENCUU: this._formBuilder.array([]),
             tenDonViChuTri: [null],
             donViChuTri: [null, [Validators.required]],
-            thoiGianThucHienTu: [null, [Validators.required]],
-            thoiGianThucHienDen: [null, [Validators.required]],
+            thoiGianThucHienTu: [moment(), [Validators.required]],
+            thoiGianThucHienDen: [moment(), [Validators.required]],
 
             chuNhiemDeTaiInfo: '',
             chuNhiemDeTai: [null, [Validators.required]],
             gioiTinh: 0,
-            hocHam: [0],
-            hocVi: [0],
-            donViCongTac: [0],
+            hocHam: [null],
+            hocVi: [null],
+            donViCongTac: [null],
 
             dongChuNhiemDeTaiInfo: '',
             dongChuNhiemDeTai: [null, [Validators.required]],
             gioiTinhDongChuNhiem: 0,
-            hocHamDongChuNhiem: [0],
-            hocViDongChuNhiem: [0],
+            hocHamDongChuNhiem: [null],
+            hocViDongChuNhiem: [null],
             donViCongTacDongChuNhiem: [null],
 
             thuKyDeTaiInfo: '',
             thuKyDeTai: [null],
             gioiTinhThuKy: 0,
-            hocHamThuKy: [0],
-            hocViThuKy: [0],
+            hocHamThuKy: [null],
+            hocViThuKy: [null],
             donViCongTacThuKy: [null],
 
             danhSachThanhVien: this._formBuilder.array([]),
@@ -250,6 +268,19 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
     get f(): { [key: string]: AbstractControl } {
         return this.form.controls;
     }
+
+    setMonthAndYear(
+        normalizedMonthAndYear: Moment,
+        datepicker: MatDatepicker<Moment>,
+        name
+    ) {
+        const ctrlValue = this.form.get(name).value!;
+        ctrlValue.month(normalizedMonthAndYear.month());
+        ctrlValue.year(normalizedMonthAndYear.year());
+        this.form.get(name).setValue(ctrlValue);
+        datepicker.close();
+    }
+
     ngOnInit(): void {
         if (this.actionType == 'updateActionHSTH') {
             this.getListTrangThaiHSThucHien();
@@ -438,7 +469,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                     }
                 }
 
-
+                
                 // danh sách thành viên
                 if (data.data.danhSachThanhVien != null) {
                     let formThanhVien = this.form.get(
@@ -473,7 +504,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                     let formDocParentHSDK = this.form.get(
                         'listFolderHSDK'
                     ) as FormArray;
-
+                   
                     let formDocParentHSXD = this.form.get(
                         'listFolderHSXD'
                     ) as FormArray;
@@ -495,10 +526,10 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                     ) as FormArray;
 
 
+                    
 
-
-
-
+                    
+                     
                 if (data.data.listFolderAll != null) {
                     //Hồ sơ đăng ký
                     let listHSDK = data.data.listFolderAll.filter(c => c.dangKy==true);
@@ -508,7 +539,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                             formDocParentHSDK.push(
                                 this.addListDocParent(listHSDK[i])
                             );
-
+                           
                             if (
                                 listFile != null &&
                                 listFile.length > 0
@@ -538,7 +569,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                             formDocParentHSXD.push(
                                 this.addListDocParent(listHSXD[i])
                             );
-
+                           
                             if (
                                 listFile != null &&
                                 listFile.length > 0
@@ -569,7 +600,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                              formDocParentTamUng.push(
                                  this.addListDocParent(listHSTamUng[i])
                              );
-
+                            
                              if (
                                  listFile != null &&
                                  listFile.length > 0
@@ -600,7 +631,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                               formDocParentHSNT.push(
                                   this.addListDocParent(listHSNT[i])
                               );
-
+                             
                               if (
                                   listFile != null &&
                                   listFile.length > 0
@@ -631,7 +662,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                               formDocParentBanGiaoKQ.push(
                                   this.addListDocParent(listBanGiaoKetQua[i])
                               );
-
+                             
                               if (
                                   listFile != null &&
                                   listFile.length > 0
@@ -662,7 +693,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                                formDocParentQuyetToan.push(
                                    this.addListDocParent(listQuyetToan[i])
                                );
-
+                              
                                if (
                                    listFile != null &&
                                    listFile.length > 0
@@ -684,13 +715,13 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                                }
                            }
                        }
-
+                 
                 }
-
+    
                 // this.listFolderAll = data.data.listFolderAll;
                    // this.listFolderDK = data.data.listFolderAll.filter(c  => c.maFolder=='VBDANGKY');
                   //  this.listFolderDK.listFile = data.data.listFile;
-                  //  this.listFileDK =
+                  //  this.listFileDK = 
                 }
             });
     }
@@ -955,8 +986,6 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
             .execServiceLogin('D3F0F915-DCA5-49D2-9A5B-A36EBF8CA5D1', null)
             .subscribe((data) => {
                 this.listDonViChuTri = data.data || [];
-                var obj = {ID: 0, NAME: '--Đơn vị chủ trì--'}
-                this.listDonViChuTri.unshift(obj);
                 this.listDonViCongTac = data.data || [];
             });
     }
@@ -966,8 +995,6 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
             .execServiceLogin('1B009679-0ABB-4DBE-BBCF-E70CBE239042', null)
             .subscribe((data) => {
                 this.listHocHam = data.data || [];
-                var obj = {ID: 0, NAME: '--Chọn--'};
-                this.listHocHam.unshift(obj);
             });
     }
 
@@ -976,8 +1003,6 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
             .execServiceLogin('654CB6D4-9DD7-48B7-B3FD-8FDAC07FE950', null)
             .subscribe((data) => {
                 this.listHocVi = data.data || [];
-                var obj = {ID: 0, NAME: '--Chọn--'};
-                this.listHocVi.unshift(obj);
             });
     }
 
@@ -985,11 +1010,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
         this._serviceApi
             .execServiceLogin('942181CC-FD57-42FE-8010-59B6FF1D26DB', null)
             .subscribe((data) => {
-                this.listNguonKinhPhi = data.data.sort(function(a, b){
-                    if(a.NAME < b.NAME) { return -1; }
-                    if(a.NAME > b.NAME) { return 1; }
-                    return 0;
-                }) || [];
+                this.listNguonKinhPhi = data.data || [];
             });
     }
 
@@ -1006,33 +1027,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
             .execServiceLogin('FF1D2502-E182-4242-A754-BCCC29B70C61', null)
             .subscribe((data) => {
                 this.listLinhVucNghienCuu = data.data || [];
-                this.listLinhVucNghienCuu.forEach(n => {
-                    n.checked = false;
-                })
             });
-    }
-    onChange(item?){
-        let lstCheck = [];
-        item.checked = !item.checked;
-        if(item.checked == true){
-            lstCheck.push(item);
-        }
-    }
-
-    onScroll(): void {
-        const container = this.elementRef.nativeElement.querySelector('.checkbox-container');
-        const list = this.elementRef.nativeElement.querySelector('.checkbox-list');
-
-        const scrollBottom = container.scrollHeight - (container.scrollTop + container.clientHeight);
-        const listHeight = list.clientHeight;
-
-        // Khoảng cách nhỏ để kiểm tra dừng cuộn
-        const threshold = 5;
-
-        if (scrollBottom < threshold) {
-            // Dừng cuộn bằng cách đặt scrollTop cho container
-            container.scrollTop = container.scrollHeight - listHeight;
-        }
     }
 
     getListGioiTinh() {

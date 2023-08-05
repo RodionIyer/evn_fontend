@@ -22,14 +22,37 @@ import { PopupFileComponent } from 'app/shared/component/popup-file/popup-fileco
 import { PopupConfirmComponent } from 'app/shared/component/popup-confirm/popup-confirmcomponent';
 import {
     AbstractControl,
+    FormArray,
     UntypedFormBuilder,
     Validators,
 } from '@angular/forms';
+import moment, { Moment } from 'moment';
+import { MatDatepicker } from '@angular/material/datepicker';
+import {
+    DateAdapter,
+    MAT_DATE_FORMATS,
+    MAT_DATE_LOCALE,
+} from '@angular/material/core';
+import {
+    MAT_MOMENT_DATE_ADAPTER_OPTIONS,
+    MomentDateAdapter,
+} from '@angular/material-moment-adapter';
+import { MY_FORMATS } from 'app/modules/nghiepvu/detainhiemvu/lstdetaicuatoi/detail/details.component';
+import { PopupCbkhComponent } from 'app/modules/nghiepvu/detainhiemvu/lstdetaicuatoi/detail/popup-cbkh/popup-cbkh.component';
 
 @Component({
     selector: 'component-list',
     templateUrl: './list.component.html',
     styleUrls: ['./list.component.scss'],
+    providers: [
+        {
+            provide: DateAdapter,
+            useClass: MomentDateAdapter,
+            deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+        },
+
+        { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+    ],
 })
 export class ListItemComponent implements OnInit, OnDestroy {
     public selectedYear: number;
@@ -72,16 +95,80 @@ export class ListItemComponent implements OnInit, OnDestroy {
 
     initForm() {
         this.form = this._formBuilder.group({
+            maDeTai: [null],
+            method: [null],
             tenDeTai: [null, [Validators.required]],
-            capQuanLy: [null],
-            linhVucNghienCuu: [null],
-            thoiGianThucHienTu: [null],
-            thoiGianThucHienDen: [null],
-            donViChuTri: [null],
-            kinhPhiThucHien: [null],
-            tacGia: [null],
-            taiLieuDinhKem: [null],
+            maTrangThai: [null],
+            tenCapQuanLy: [null],
+            isEmail: false,
+            canCuThucHien: [null],
+            keHoach: [null],
+            capQuanLy: [null, [Validators.required]],
+            vanBanChiDaoSo: [null],
+            tenLinhVucNghienCuu: [null],
+            linhVucNghienCuu: [],
+            noiDungGuiMail: [null],
             noiDung: [null],
+            keHoachTiepTheo: [null],
+            dexuatKienNghi: [null],
+            thang: [null],
+            soLanGiaHan: [null],
+            nam: new Date().getFullYear(),
+            //LINHVUCNGHIENCUU: this._formBuilder.array([]),
+            tenDonViChuTri: [null],
+            donViChuTri: [null, [Validators.required]],
+            thoiGianThucHienTu: [moment(), [Validators.required]],
+            thoiGianThucHienDen: [moment(), [Validators.required]],
+
+            chuNhiemDeTaiInfo: '',
+            chuNhiemDeTai: [null, [Validators.required]],
+            gioiTinh: 0,
+            hocHam: [null],
+            hocVi: [null],
+            donViCongTac: [null],
+
+            dongChuNhiemDeTaiInfo: '',
+            dongChuNhiemDeTai: [null, [Validators.required]],
+            gioiTinhDongChuNhiem: 0,
+            hocHamDongChuNhiem: [null],
+            hocViDongChuNhiem: [null],
+            donViCongTacDongChuNhiem: [null],
+
+            thuKyDeTaiInfo: '',
+            thuKyDeTai: [null],
+            gioiTinhThuKy: 0,
+            hocHamThuKy: [null],
+            hocViThuKy: [null],
+            donViCongTacThuKy: [null],
+
+            danhSachThanhVien: this._formBuilder.array([]),
+            danhSachThanhVienHD: this._formBuilder.array([]),
+            danhSachThanhVienHDXT: this._formBuilder.array([]),
+            tenNguonKinhPhi: [null],
+            nguonKinhPhi: [null, [Validators.required]],
+            tongKinhPhi: [null],
+            phuongThucKhoanChi: [null],
+            kinhPhiKhoan: [null],
+            kinhPhiKhongKhoan: [null],
+
+            tinhCapThietCuaDeTaiNhiemVu: [null],
+            mucTieu: [null],
+            nhiemVuVaPhamViNghienCuu: [null],
+            ketQuaDuKien: [null],
+            kienNghiDeXuat: [null],
+
+            listFolderFile: this._formBuilder.array([]),
+
+            listFolderFileThucHien: this._formBuilder.array([]),
+            listFolderFileTamUng: this._formBuilder.array([]),
+            listTienDoCongViec: this._formBuilder.array([]),
+            listHDXD: this._formBuilder.array([]),
+            listHDNT: this._formBuilder.array([]),
+            listFolderHSDK: this._formBuilder.array([]),
+            listFolderHSXD: this._formBuilder.array([]),
+            listFolderBanGiao: this._formBuilder.array([]),
+            listFolderQuyetToan: this._formBuilder.array([]),
+            listFolderHSNT: this._formBuilder.array([]),
         });
     }
 
@@ -89,11 +176,76 @@ export class ListItemComponent implements OnInit, OnDestroy {
         return this.form.controls;
     }
 
+    listKhoanChi = [];
+    getListKhoanChi() {
+        this._serviceApi
+            .execServiceLogin('89191345-88FF-4C2E-B3CF-6FE315D6A631', null)
+            .subscribe((data) => {
+                this.listKhoanChi = data.data || [];
+            });
+    }
+
+    setMonthAndYear(
+        normalizedMonthAndYear: Moment,
+        datepicker: MatDatepicker<Moment>,
+        name
+    ) {
+        const ctrlValue = this.form.get(name).value!;
+        ctrlValue.month(normalizedMonthAndYear.month());
+        ctrlValue.year(normalizedMonthAndYear.year());
+        this.form.get(name).setValue(ctrlValue);
+        datepicker.close();
+    }
+
     ngOnInit(): void {
         this.geListYears();
         this.getListDinhHuong();
+        this.getListKhoanChi();
+        this.getListNguonKinhPhi();
+        this.getListChucDanh();
+        this.getListHocVi();
+        this.getListHocHam();
+        this.getListGioiTinh();
+        this.getListDonViChuTri();
+        this.getListLinhVucNghienCuu();
+        this.getListCapQuanLy();
     }
 
+    listCapQuanLy = [];
+    getListCapQuanLy() {
+        this._serviceApi
+            .execServiceLogin('2977F0EA-A6C6-4A32-A36B-8617898B710D', null)
+            .subscribe((data) => {
+                this.listCapQuanLy = data.data || [];
+            });
+    }
+
+    listLinhVucNghienCuu = [];
+    getListLinhVucNghienCuu() {
+        this._serviceApi
+            .execServiceLogin('FF1D2502-E182-4242-A754-BCCC29B70C61', null)
+            .subscribe((data) => {
+                this.listLinhVucNghienCuu = data.data || [];
+            });
+    }
+    listDonViChuTri = [];
+    listDonViCongTac = [];
+    getListDonViChuTri() {
+        this._serviceApi
+            .execServiceLogin('D3F0F915-DCA5-49D2-9A5B-A36EBF8CA5D1', null)
+            .subscribe((data) => {
+                this.listDonViChuTri = data.data || [];
+                this.listDonViCongTac = data.data || [];
+            });
+    }
+    listNguonKinhPhi = [];
+    getListNguonKinhPhi() {
+        this._serviceApi
+            .execServiceLogin('942181CC-FD57-42FE-8010-59B6FF1D26DB', null)
+            .subscribe((data) => {
+                this.listNguonKinhPhi = data.data || [];
+            });
+    }
     geListYears() {
         this.getYearSubscription = this._serviceApi
             .execServiceLogin('E5050E10-799D-4F5F-B4F2-E13AFEA8543B', null)
@@ -101,10 +253,108 @@ export class ListItemComponent implements OnInit, OnDestroy {
                 this.listYears = data.data || [];
             });
     }
+    listChucDanh = [];
+    getListChucDanh() {
+        this._serviceApi
+            .execServiceLogin('AF87AA00-EC9C-4B1E-9443-CE0D6E88F1C6', null)
+            .subscribe((data) => {
+                this.listChucDanh = data.data || [];
+            });
+    }
 
     addNew(): void {
         this._router.navigate(['/nghiepvu/detainhiemvu/lstdetaicuatoi'], {
             queryParams: { type: 'THEMMOI' },
+        });
+    }
+    listHocHam = [];
+    getListHocHam() {
+        this._serviceApi
+            .execServiceLogin('1B009679-0ABB-4DBE-BBCF-E70CBE239042', null)
+            .subscribe((data) => {
+                this.listHocHam = data.data || [];
+            });
+    }
+
+    listGioiTinh = [];
+    getListGioiTinh() {
+        var obj = { ID: 1, NAME: 'Nam' };
+        this.listGioiTinh.push(obj);
+        obj = { ID: 2, NAME: 'Nữ' };
+        this.listGioiTinh.push(obj);
+    }
+
+    listHocVi = [];
+    getListHocVi() {
+        this._serviceApi
+            .execServiceLogin('654CB6D4-9DD7-48B7-B3FD-8FDAC07FE950', null)
+            .subscribe((data) => {
+                this.listHocVi = data.data || [];
+            });
+    }
+
+    removeItem(items, i) {
+        // remove address from the list
+        const control = items.get('danhSachThanhVien');
+        control.removeAt(i);
+    }
+
+    openAlertDialog(type, item?: any) {
+        let data = this.dialog.open(PopupCbkhComponent, {
+            data: {
+                type: type,
+                message: 'HelloWorld',
+                buttonText: {
+                    cancel: 'Done',
+                },
+            },
+            width: '800px',
+            panelClass: 'custom-PopupCbkh',
+            position: {
+                top: '100px',
+            },
+        });
+
+        data.afterClosed().subscribe((data) => {
+            if (type == 'KEHOACH') {
+                this.form.get('canCuThucHien').setValue(data.data.name);
+                this.form.get('keHoach').setValue(data.data);
+            } else if (type == 'CHUNHIEM') {
+                this.form.get('chuNhiemDeTai').setValue(data.data.username);
+                this.form.get('chuNhiemDeTaiInfo').setValue(data.data);
+                this.form.get('gioiTinh').setValue(data.data.gioiTinh);
+                this.form.get('hocHam').setValue(data.data.maHocHam);
+                this.form.get('hocVi').setValue(data.data.maHocVi);
+                this.form.get('donViCongTac').setValue(data.data.noiLamViec);
+            } else if (type == 'DONGCHUNHIEM') {
+                this.form.get('dongChuNhiemDeTai').setValue(data.data.username);
+                this.form.get('dongChuNhiemDeTaiInfo').setValue(data.data);
+                this.form
+                    .get('gioiTinhDongChuNhiem')
+                    .setValue(data.data.gioiTinh);
+                this.form
+                    .get('hocHamDongChuNhiem')
+                    .setValue(data.data.maHocHam);
+                this.form.get('hocViDongChuNhiem').setValue(data.data.maHocVi);
+                this.form
+                    .get('donViCongTacDongChuNhiem')
+                    .setValue(data.data.noiLamViec);
+            } else if (type == 'THUKY') {
+                this.form.get('thuKyDeTai').setValue(data.data.username);
+                this.form.get('thuKyDeTaiInfo').setValue(data.data);
+                this.form.get('gioiTinhThuKy').setValue(data.data.gioiTinh);
+                this.form.get('hocHamThuKy').setValue(data.data.maHocHam);
+                this.form.get('hocViThuKy').setValue(data.data.maHocVi);
+                this.form
+                    .get('donViCongTacThuKy')
+                    .setValue(data.data.noiLamViec);
+            } else if (type == 'THANHVIEN') {
+                item.get('ten').setValue(data.data.username);
+                item.get('soDienThoai').setValue(data.data.sdt);
+                item.get('email').setValue(data.data.email);
+                item.get('donViCongTac').setValue(data.data.noiLamViec);
+                item.get('maThanhVien').setValue(data.data.userId);
+            }
         });
     }
 
@@ -134,7 +384,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
     }
 
     // mo popup file
-    openAlertDialog() {
+    openAlertDialog1() {
         this.dialog.open(PopupFileComponent, {
             data: {
                 listFile: this.ListFleDemo,
@@ -147,6 +397,21 @@ export class ListItemComponent implements OnInit, OnDestroy {
         });
     }
 
+    addMember() {
+        return this._formBuilder.group({
+            maThanhVien: '',
+            ten: '',
+            chucDanh: '',
+            soDienThoai: '',
+            email: '',
+            donViCongTac: '',
+        });
+    }
+
+    addThanhVien() {
+        let ar = this.form.get('danhSachThanhVien') as FormArray;
+        ar.push(this.addMember());
+    }
     editer(item) {
         this._router.navigate(['/nghiepvu/detainhiemvu/nghiemthu'], {
             queryParams: { type: 'CHINHSUA' },
@@ -176,7 +441,67 @@ export class ListItemComponent implements OnInit, OnDestroy {
         });
     }
 
-    onSubmit() {
+    downloadTempExcel(userInp, fileName) {
+        var mediaType =
+            'data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,';
+
+        const downloadLink = document.createElement('a');
+
+        downloadLink.href = mediaType + userInp;
+        downloadLink.download = fileName;
+        downloadLink.click();
+    }
+
+    deleteItemFile(items, i) {
+        const control = items.get('listFile');
+        control.removeAt(i);
+    }
+
+    downLoadFile(item) {
+        if (item.base64 != undefined && item.base64 != '') {
+            let link = item.base64.split(',');
+            let url = '';
+            if (link.length > 1) {
+                url = link[1];
+            } else {
+                url = link[0];
+            }
+            this.downloadTempExcel(url, item.fileName);
+        } else {
+            var token = localStorage.getItem('accessToken');
+            this._serviceApi
+                .execServiceLogin('2269B72D-1A44-4DBB-8699-AF9EE6878F89', [
+                    { name: 'DUONG_DAN', value: item.duongdan },
+                    { name: 'TOKEN_LINK', value: 'Bearer ' + token },
+                ])
+                .subscribe((data) => {});
+        }
+    }
+
+    addFile(item, itemVal, base64) {
+        return this._formBuilder.group({
+            fileName: itemVal?.name || null,
+            base64: base64 || null,
+            size: itemVal?.size || null,
+            sovanban: '',
+            mafile: '',
+        });
+    }
+
+    listupload = [];
+    handleUpload(event, item, index) {
+        let arr = item.get('listFile') as FormArray;
+        for (var i = 0; i < event.target.files.length; i++) {
+            const reader = new FileReader();
+            let itemVal = event.target.files[i];
+            reader.readAsDataURL(event.target.files[i]);
+            reader.onload = () => {
+                arr.push(this.addFile(item, itemVal, reader.result));
+            };
+        }
+    }
+
+    onSubmit(status, method) {
         this.submitted.check = true;
         if (this.form.invalid) {
             return;

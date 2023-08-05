@@ -24,7 +24,7 @@ import { CommonModule } from '@angular/common';
 import { FuseAlertModule } from '@fuse/components/alert';
 import { FuseNavigationModule } from '@fuse/components/navigation';
 import { HighlightPlusModule } from 'ngx-highlightjs/plus';
-import { CapnhatDtnvRoutes} from './capnhat-dtnv.routing';
+import { CapnhatDtnvRoutes } from './capnhat-dtnv.routing';
 import { ListItemComponent } from './list/list.component';
 import { CapnhatDtnvComponent } from './capnhat-dtnv.component';
 import { DetailsComponent } from './detail/details.component';
@@ -33,17 +33,16 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { SharedModule } from 'app/shared/shared.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { PopupCbkhComponent } from './detail/popup-cbkh/popup-cbkh.component';
-
-
-
-
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 @NgModule({
     imports: [
         SharedModule,
-        RouterModule.forChild(CapnhatDtnvRoutes), MatButtonModule,
+        RouterModule.forChild(CapnhatDtnvRoutes),
+        MatButtonModule,
         MatButtonToggleModule,
         MatDividerModule,
+        MatDatepickerModule,
         MatIconModule,
         MatMenuModule,
         MatProgressBarModule,
@@ -54,9 +53,20 @@ import { PopupCbkhComponent } from './detail/popup-cbkh/popup-cbkh.component';
         MatTableModule,
         FormsModule,
         MatDialogModule,
-        MatTabsModule, MatToolbarModule, MatPaginatorModule, MatListModule,
-        MatInputModule, ReactiveFormsModule, MatSelectModule, MatAutocompleteModule, MatSlideToggleModule,
-        CommonModule, NgxMatSelectSearchModule, FuseAlertModule, FuseNavigationModule, HighlightPlusModule
+        MatTabsModule,
+        MatToolbarModule,
+        MatPaginatorModule,
+        MatListModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        MatSelectModule,
+        MatAutocompleteModule,
+        MatSlideToggleModule,
+        CommonModule,
+        NgxMatSelectSearchModule,
+        FuseAlertModule,
+        FuseNavigationModule,
+        HighlightPlusModule,
     ],
     declarations: [
         DetailsComponent,
@@ -64,7 +74,7 @@ import { PopupCbkhComponent } from './detail/popup-cbkh/popup-cbkh.component';
         DetailsComponent,
         CapnhatDtnvComponent,
         ApiGiaoEmptyDetailsComponent,
-        PopupCbkhComponent
-    ]
+        PopupCbkhComponent,
+    ],
 })
-export class CapnhatDtnvModule { }
+export class CapnhatDtnvModule {}

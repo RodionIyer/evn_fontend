@@ -108,44 +108,56 @@ export class ApiPheduyetdinhhuongListComponent implements OnInit {
         );
      }
 
-    tonghop(status){
-        this.addNew();
-        let arr = this.listDinhHuong.filter(c => c.state==true);
-        let listKeHoach =[];
-        let listFile =[];
-        if(arr !=undefined && arr.length >0){
-          for(let i=0;i< arr.length;i++){
-            if(arr[i] !=undefined && arr[i].listKeHoach !=undefined && arr[i].listKeHoach.length >0){
-              for(let j=0;j<arr[i].listKeHoach.length;j++){
-                let chitiet = arr[i].listKeHoach[j];
-                //chitiet.maDonVi = arr[i].maDonVi;
-                listKeHoach.push(arr[i].listKeHoach[j]);
-              }
-            }
-            if(arr[i] !=undefined && arr[i].listFile !=undefined && arr[i].listFile.length >0){
-              for(let j=0;j<arr[i].listFile.length;j++){
-                listFile.push(arr[i].listFile[j]);
-              }
-            }
-            
-          }
-        }
-        if(listKeHoach != null && listKeHoach.length >0){
-          let kehoach = {listKeHoach:listKeHoach,capTao:'TCT', listFile:listFile}
-          this._serviceApi.dataKeHoach.next(kehoach);
-          this._router.navigateByUrl('nghiepvu/kehoach/pheduyetdinhhuong?type='+status);
-        }
-        
-    }
+     async tonghop(status) {
+  
+      this.addNew();
+      let arr = this.listDinhHuong.filter((c) => c.state == true);
+      // let listKeHoach = [];
+      // let listFile = [];
+      // if (arr != undefined && arr.length > 0) {
+      //     for (let i = 0; i < arr.length; i++) {
+      //         if (
+      //             arr[i] != undefined &&
+      //             arr[i].listKeHoach != undefined &&
+      //             arr[i].listKeHoach.length > 0
+      //         ) {
+      //             for (let j = 0; j < arr[i].listKeHoach.length; j++) {
+      //                 let chitiet = arr[i].listKeHoach[j];
+      //                 chitiet.maDonVi = arr[i].maDonVi;
+      //                 listKeHoach.push(arr[i].listKeHoach[j]);
+      //             }
+      //         }
+      //         if( arr[i] != undefined &&
+      //           arr[i].listFile != undefined &&
+      //           arr[i].listFile.length > 0){
+      //             for (let j = 0; j < arr[i].listFile.length; j++) {
+      //               listFile.push(arr[i].listFile[j]);
+      //           }
+      //         }
+      //     }
+      // }
+      // await this.delays(2000);
+
+     // let kehoach = { listKeHoach: listKeHoach, capTao: 'TCT',listFile :listFile };
+      this._serviceApi.dataTongHop.next(arr);
+    //  setTimeout(function(){
+        this._router.navigateByUrl(
+          'nghiepvu/kehoach/pheduyetdinhhuong?type=' + status
+       );
+      // },100);
+    
+  }
+
+  delays(times) {
+      return new Promise((resolve) => setTimeout(resolve, times));
+  }
 
     checkAll(ev) {
-        this.listDinhHuong.filter(c => c.tongHop==false).forEach(x => x.state = ev.target.checked);
-        
-        console.log(this.listDinhHuong);
+        this.listDinhHuong.forEach(x => x.state = ev.target.checked);
       }
       
       isAllChecked() {
-        return this.listDinhHuong.filter(c => c.tongHop==false).every(_ => _.state);
+        return this.listDinhHuong.every(_ => _.state);
       }
 
     // getListDinhHuong() {

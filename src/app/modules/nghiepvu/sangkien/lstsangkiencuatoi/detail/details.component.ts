@@ -293,7 +293,6 @@ export class DetailsComponent implements OnInit {
     }
 
     onSubmit(status, method) {
-        debugger;
         // this.submitted.check = true;
         // if (this.form.invalid) {
         //     return;

@@ -48,4 +48,5 @@ export class ServiceService {
     public dataImport = new BehaviorSubject<any>(null);
     public dataGrid = new BehaviorSubject<any>(null);
     public dataKeHoach = new BehaviorSubject<any>(null);
+    public dataTongHop = new BehaviorSubject<any>(null);
 }

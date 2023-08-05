@@ -26,3 +26,77 @@ table {
 input{
     background-color: #fff;
 }
+
+.title-section {
+    color: #2a3493;
+    font-size: 18px;
+    text-decoration: underline;
+}
+
+label {
+    font-weight: 600;
+}
+
+.row {
+    margin: 6px 0px;
+}
+
+.custom-PopupCbkh mat-dialog-container {
+    padding: 0px !important;
+    border-radius: 3px !important;
+}
+
+.select-cbkh {
+    position: relative;
+
+    .inputselect {
+        width: 100%;
+    }
+
+    .fa-search {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        background: #ccc;
+        height: 100%;
+        width: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #000;
+        cursor: pointer;
+    }
+}
+
+.list_check {
+    height: 50px;
+    overflow-y: scroll;
+}
+
+.item_list_check {
+    display: flex;
+    align-items: center;
+}
+
+.item_list_check span {
+    margin-left: 3px;
+}
+.dem-pading{
+    padding: 0px 20px;
+    padding-top: 6px;
+}
+.date-customt .form-control{
+    max-width: 200px;
+}
+.content-detail{
+    height: calc(100vh - 80px);
+}
+.action-all-f{
+    margin-bottom: 20px;
+    margin-top: 20px;
+    .add_button{
+        margin-right: 20px;
+        min-width: 150px;
+        text-align: center;
+    }
+}
