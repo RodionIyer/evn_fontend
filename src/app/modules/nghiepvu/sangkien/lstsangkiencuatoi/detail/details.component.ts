@@ -70,6 +70,8 @@ export class DetailsComponent implements OnInit {
             }
             if (this.actionType == 'updateActionHSTH') {
                 this.method = 'CAPNHATHSTHUCHIEN';
+            } else if (this.actionType == 'CHINHSUA') {
+                this.method = 'CAPNHAT';
             }
             this.initForm(this.method);
             this.detail(this.method);
@@ -84,8 +86,6 @@ export class DetailsComponent implements OnInit {
         this.getListChucDanh();
         if (this.actionType == 'THEMMOI') {
             this.getListFolderFile();
-        } else if (this.actionType == 'CHINHSUA') {
-            this.getEditerIdea('CAPNHAT');
         }
     }
 
@@ -111,17 +111,6 @@ export class DetailsComponent implements OnInit {
                 for (let i = 0; i < this.listFolderFile.length; i++) {
                     val.push(this.newFolder(this.listFolderFile[i]));
                 }
-            });
-    }
-
-    getEditerIdea(method?) {
-        this._serviceApi
-            .execServiceLogin('0CCBA90A-07BA-482E-85AA-A129FD4B7EE5', [
-                {name: 'MA_SANGKIEN', value: this.idParam},
-                {name: 'METHOD_BUTTON', value: method},
-            ])
-            .subscribe((data) => {
-                this.form.patchValue(data.data);
             });
     }
 
@@ -219,14 +208,90 @@ export class DetailsComponent implements OnInit {
     }
 
     detail(method) {
-            this._serviceApi
-                .execServiceLogin('0CCBA90A-07BA-482E-85AA-A129FD4B7EE5', [
-                    {name: 'MA_SANGKIEN', value: this.idParam},
-                    {name: 'METHOD_BUTTON', value: method},
-                ])
-                .subscribe((data) => {
-                    this.form.patchValue(data.data);
-                });
+        this._serviceApi
+            .execServiceLogin('0CCBA90A-07BA-482E-85AA-A129FD4B7EE5', [
+                {name: 'MA_SANGKIEN', value: this.idParam},
+                {name: 'METHOD_BUTTON', value: method},
+            ])
+            .subscribe((data) => {
+                this.form.patchValue(data.data);
+                let formDocParent = this.form.get(
+                    'listFolderFile'
+                ) as FormArray;
+                // listFolderFile
+                if (data.data.listFolderFile != null) {
+                    for (let i = 0; i < data.data.listFolderFile.length; i++) {
+                        formDocParent.push(
+                            this.addListDocParent(data.data.listFolderFile[i])
+                        );
+                        if (
+                            data.data.listFolderFile[i].listFile != null &&
+                            data.data.listFolderFile[i].listFile.length > 0
+                        ) {
+                            let formChild = formDocParent
+                                .at(i)
+                                .get('listFile') as FormArray;
+                            for (
+                                let j = 0;
+                                j < data.data.listFolderFile[i].listFile.length;
+                                j++
+                            ) {
+                                formChild.push(
+                                    this.addListDocChild(
+                                        data.data.listFolderFile[i].listFile[j]
+                                    )
+                                );
+                            }
+                        }
+                    }
+                }
+
+                let linhVucNghienCuu = this.form.get('linhVucNghienCuu').value;
+                if (linhVucNghienCuu) {
+                    this.form
+                        .get('linhVucNghienCuu')
+                        .setValue(linhVucNghienCuu);
+                };
+
+                // danh sách thành viên
+                if (data.data.tacGiaGiaiPhap != null) {
+                    let formThanhVien = this.form.get(
+                        'tacGiaGiaiPhap'
+                    ) as FormArray;
+
+                    for (
+                        let i = 0;
+                        i < data.data.tacGiaGiaiPhap.length;
+                        i++
+                    ) {
+                        formThanhVien.push(
+                            this.THEM_THANHVIEN(data.data.tacGiaGiaiPhap[i])
+                        );
+                    }
+                }
+                this.selectedYear = parseInt(data.data.nam);
+                debugger
+            });
+    }
+
+    addListDocParent(item?: any) {
+        return this._formBuilder.group({
+            fileName: item?.fileName || null,
+            maFolder: item?.maFolder || null,
+            listFile: this._formBuilder.array([]),
+        });
+    }
+
+    addListDocChild(item?: any) {
+        return this._formBuilder.group({
+            fileName: item?.fileName || null,
+            base64: item?.base64 || null,
+            size: item?.size || 0,
+            sovanban: item?.sovanban || null,
+            mafile: item?.mafile || null,
+            maFolder: item?.maFolder || null,
+            tenFolder: item?.tenFolder || null,
+        });
     }
 
     addTacGia() {
@@ -238,13 +303,26 @@ export class DetailsComponent implements OnInit {
         return this._formBuilder.group({
             maThanhVien: '',
             ten: '',
-            namSinh: '',
+            namSinh: null,
             chucDanh: '',
             soDienThoai: '',
             email: '',
             donViCongTac: '',
             trinhDoChuyenMon: '',
             noiDung: '',
+        });
+    }
+    THEM_THANHVIEN(item?: any): FormGroup {
+        return this._formBuilder.group({
+            maThanhVien: item?.maThanhVien || null,
+            ten: item?.ten || null,
+            namSinh: item?.namSinh || null,
+            chucDanh: item?.chucDanh || null,
+            soDienThoai: item?.soDienThoai || null,
+            email: item?.email || null,
+            donViCongTac: item?.donViCongTac || null,
+            trinhDoChuyenMon: item?.trinhDoChuyenMon || null,
+            noiDung: item?.noiDung || null,
         });
     }
 
@@ -290,8 +368,8 @@ export class DetailsComponent implements OnInit {
                 console.log('data1', data);
                 //   console.log(item);
                 //  item.get('ten').setValue(data.data.username);
-                item.get('donViApDungInfo').setValue(data.data);
                 item.get('donViApDung').setValue(data.data.name);
+                item.get('donViApDungInfo').setValue(data.data);
             }
         });
     }
