@@ -155,6 +155,7 @@ export class DetailsComponent implements OnInit {
     initForm(actionType) {
         this.form = this._formBuilder.group({
             method: actionType,
+            maSangKien: [null],
             maTrangThai: [null],
             nam: new Date().getFullYear(),
             capDoSangKien: [null, [Validators.required]],
@@ -397,6 +398,7 @@ export class DetailsComponent implements OnInit {
         this.form.get('method').setValue(method);
         //this.form.get('nam').setValue(new Date().getFullYear());
         if (method == 'SUA') {
+            this.form.get('maSangKien').setValue(this.idParam);
             if (status == 'LUU') {
                 this.form.get('maTrangThai').setValue('SOAN');
             } else if (status == 'LUUGUI') {
