@@ -7,7 +7,7 @@
     <div class="">
         <h1 class="title-component">THÔNG TIN ĐỀ TÀI, NHIỆM VỤ</h1>
         <div class="title-section">
-            <i class="fa fa-minus-circle"></i> Thông tin đề tài: 
+            <i class="fa fa-minus-circle"></i> Thông tin đề tài:
         </div>
     </div>
     <div class="flex flex-row row gap-4">
@@ -137,7 +137,7 @@
             <label for="">Thời gian thực hiện từ<span>(*)</span></label>
             <label style="margin-right: 10px">Từ</label>
         </div>
-        <div class="basis-3/4 flex date-customt">
+        <div class="basis-3/4 flex date-customt" style="margin-left: -7px">
             <!-- <input class="form-control" type="date" name="" id="" formControlName="thoiGianThucHienTu" /> -->
             <div class="form-date">
                 <input
@@ -149,7 +149,17 @@
                     matIconSuffix
                     [for]="picker"
                 ></mat-datepicker-toggle>
+<<<<<<< HEAD
+                <mat-datepicker
+                    startView="multi-year"
+                    #picker
+                    (monthSelected)="
+                        setMonthAndYear($event, picker, 'thoiGianThucHienTu')
+                    "
+                ></mat-datepicker>
+=======
                 <mat-datepicker #picker></mat-datepicker>
+>>>>>>> de407bb6de60060308db8f3f54a20421a6849613
             </div>
             <div
                 *ngIf="submitted.check && f?.thoiGianThucHienTu?.errors"
@@ -172,7 +182,17 @@
                     matIconSuffix
                     [for]="picker1"
                 ></mat-datepicker-toggle>
+<<<<<<< HEAD
+                <mat-datepicker
+                    startView="multi-year"
+                    #picker1
+                    (monthSelected)="
+                        setMonthAndYear($event, picker1, 'thoiGianThucHienDen')
+                    "
+                ></mat-datepicker>
+=======
                 <mat-datepicker #picker1></mat-datepicker>
+>>>>>>> de407bb6de60060308db8f3f54a20421a6849613
             </div>
             <div
                 *ngIf="submitted.check && f?.thoiGianThucHienDen?.errors"
@@ -549,7 +569,11 @@
             </div>
         </div>
         <div class="basis-1/5">
+<<<<<<< HEAD
+            <label for="">Tổng kinh phí<span>(*)</span></label>
+=======
             <label for="">Tổng kinh phí</label>
+>>>>>>> de407bb6de60060308db8f3f54a20421a6849613
             <input
                 class="form-control"
                 placeholder="VNĐ"
@@ -558,6 +582,17 @@
                 name=""
                 id=""
             />
+<<<<<<< HEAD
+            <div
+                *ngIf="submitted.check && f?.tongKinhPhi?.errors"
+                class="invalid-feedback"
+            >
+                <div *ngIf="f.tongKinhPhi.errors.required">
+                    Trường bắt buộc nhập
+                </div>
+            </div>
+=======
+>>>>>>> de407bb6de60060308db8f3f54a20421a6849613
         </div>
         <div class="basis-1/5">
             <label for="">Phương thức khoán chi</label>
@@ -700,9 +735,15 @@
                                             >
                                                 <tr [formGroupName]="k">
                                                     <td>
+<<<<<<< HEAD
+                                                        <!-- <i
+                                                            class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
+                                                        ></i> -->
+=======
                                                         <i
                                                             class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
                                                         ></i>
+>>>>>>> de407bb6de60060308db8f3f54a20421a6849613
                                                         {{
                                                             item2.get(
                                                                 "fileName"
@@ -945,6 +986,7 @@
                                     ];
                                     let i = index
                                 "
+                                [formGroup]="item"
                             >
                                 <td class="stt_table">{{ i + 1 }}</td>
                                 <td class="font-medium">
@@ -976,9 +1018,15 @@
                                                     "
                                                 >
                                                     <td>
+<<<<<<< HEAD
+                                                        <!-- <i
+                                                            class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
+                                                        ></i> -->
+=======
                                                         <i
                                                             class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
                                                         ></i>
+>>>>>>> de407bb6de60060308db8f3f54a20421a6849613
                                                         {{
                                                             item2.get(
                                                                 "fileName"
@@ -1092,6 +1140,7 @@
                                     ];
                                     let i = index
                                 "
+                                [formGroup]="item"
                             >
                                 <td class="stt_table">{{ i + 1 }}</td>
                                 <td class="font-medium">
@@ -1123,9 +1172,15 @@
                                                     "
                                                 >
                                                     <td>
+<<<<<<< HEAD
+                                                        <!-- <i
+                                                            class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
+                                                        ></i> -->
+=======
                                                         <i
                                                             class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
                                                         ></i>
+>>>>>>> de407bb6de60060308db8f3f54a20421a6849613
                                                         {{
                                                             item2.get(
                                                                 "fileName"
@@ -1247,6 +1302,7 @@
                                     )['controls'];
                                     let i = index
                                 "
+                                [formGroup]="item"
                             >
                                 <td class="stt_table">{{ i + 1 }}</td>
                                 <td class="font-medium">
@@ -1278,9 +1334,15 @@
                                                     "
                                                 >
                                                     <td>
+<<<<<<< HEAD
+                                                        <!-- <i
+                                                            class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
+                                                        ></i> -->
+=======
                                                         <i
                                                             class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
                                                         ></i>
+>>>>>>> de407bb6de60060308db8f3f54a20421a6849613
                                                         {{
                                                             item2.get(
                                                                 "fileName"
@@ -1399,6 +1461,7 @@
                                     ];
                                     let i = index
                                 "
+                                [formGroup]="item"
                             >
                                 <td class="stt_table">{{ i + 1 }}</td>
                                 <td class="font-medium">
@@ -1447,9 +1510,15 @@
                                                     "
                                                 >
                                                     <td>
+<<<<<<< HEAD
+                                                        <!-- <i
+                                                            class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
+                                                        ></i> -->
+=======
                                                         <i
                                                             class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
                                                         ></i>
+>>>>>>> de407bb6de60060308db8f3f54a20421a6849613
                                                         {{
                                                             item2.get(
                                                                 "fileName"
@@ -1570,6 +1639,7 @@
                                     ];
                                     let i = index
                                 "
+                                [formGroup]="item"
                             >
                                 <td class="stt_table">{{ i + 1 }}</td>
                                 <td class="font-medium">
@@ -1618,9 +1688,15 @@
                                                     "
                                                 >
                                                     <td>
+<<<<<<< HEAD
+                                                        <!-- <i
+                                                            class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
+                                                        ></i> -->
+=======
                                                         <i
                                                             class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
                                                         ></i>
+>>>>>>> de407bb6de60060308db8f3f54a20421a6849613
                                                         {{
                                                             item2.get(
                                                                 "fileName"
@@ -1741,6 +1817,7 @@
                                     ];
                                     let i = index
                                 "
+                                [formGroup]="item"
                             >
                                 <td class="stt_table">{{ i + 1 }}</td>
                                 <td class="font-medium">
@@ -1789,9 +1866,15 @@
                                                     "
                                                 >
                                                     <td>
+<<<<<<< HEAD
+                                                        <!-- <i
+                                                            class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
+                                                        ></i> -->
+=======
                                                         <i
                                                             class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
                                                         ></i>
+>>>>>>> de407bb6de60060308db8f3f54a20421a6849613
                                                         {{
                                                             item2.get(
                                                                 "fileName"
@@ -2048,9 +2131,15 @@
                                                 {{ k + 1 }}
                                             </td> -->
                                             <td>
+<<<<<<< HEAD
+                                                <!-- <i
+                                                    class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
+                                                ></i> -->
+=======
                                                 <i
                                                     class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
                                                 ></i>
+>>>>>>> de407bb6de60060308db8f3f54a20421a6849613
                                                 {{
                                                     item2.get("fileName").value
                                                 }}
@@ -2300,9 +2389,15 @@
                                             "
                                         >
                                             <td>
+<<<<<<< HEAD
+                                                <!-- <i
+                                                    class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
+                                                ></i> -->
+=======
                                                 <i
                                                     class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
                                                 ></i>
+>>>>>>> de407bb6de60060308db8f3f54a20421a6849613
                                                 {{
                                                     item2.get("fileName").value
                                                 }}
@@ -2432,6 +2527,7 @@
                         bindValue="ID"
                         placeholder="Chọn kết quả"
                         [(ngModel)]="selectedYear"
+                        [ngModelOptions]="{ standalone: true }"
                     >
                     </ng-select>
                 </div>
@@ -2697,9 +2793,15 @@
                                                 formGroupName="{{ k }}"
                                             >
                                                 <td>
+<<<<<<< HEAD
+                                                    <!-- <i
+                                                        class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
+                                                    ></i> -->
+=======
                                                     <i
                                                         class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
                                                     ></i>
+>>>>>>> de407bb6de60060308db8f3f54a20421a6849613
                                                     {{
                                                         item2.get("fileName")
                                                             .value
@@ -2878,9 +2980,15 @@
                                             "
                                         >
                                             <td>
+<<<<<<< HEAD
+                                                <!-- <i
+                                                    class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
+                                                ></i> -->
+=======
                                                 <i
                                                     class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
                                                 ></i>
+>>>>>>> de407bb6de60060308db8f3f54a20421a6849613
                                                 {{
                                                     item2.get("fileName").value
                                                 }}
@@ -3123,9 +3231,15 @@
                                             "
                                         >
                                             <td>
+<<<<<<< HEAD
+                                                <!-- <i
+                                                    class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
+                                                ></i> -->
+=======
                                                 <i
                                                     class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
                                                 ></i>
+>>>>>>> de407bb6de60060308db8f3f54a20421a6849613
                                                 {{
                                                     item2.get("fileName").value
                                                 }}
@@ -3301,9 +3415,15 @@
                                             [formGroupName]="k"
                                         >
                                             <td>
+<<<<<<< HEAD
+                                                <!-- <i
+                                                    class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
+                                                ></i> -->
+=======
                                                 <i
                                                     class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
                                                 ></i>
+>>>>>>> de407bb6de60060308db8f3f54a20421a6849613
                                                 {{
                                                     item2.get("fileName").value
                                                 }}
@@ -3554,9 +3674,15 @@
                                     formGroupName="{{ k }}"
                                 >
                                     <td>
+<<<<<<< HEAD
+                                        <!-- <i
+                                            class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
+                                        ></i> -->
+=======
                                         <i
                                             class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
                                         ></i>
+>>>>>>> de407bb6de60060308db8f3f54a20421a6849613
                                         {{ item2.get("fileName").value }}
                                     </td>
                                     <td>

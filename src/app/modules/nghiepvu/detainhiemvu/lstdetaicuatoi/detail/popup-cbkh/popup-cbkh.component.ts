@@ -1,13 +1,26 @@
-import { Component, Inject, ElementRef, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import {
+    Component,
+    Inject,
+    ElementRef,
+    OnDestroy,
+    OnInit,
+    ViewChild,
+    ViewEncapsulation,
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription, takeUntil } from 'rxjs';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+    UntypedFormBuilder,
+    UntypedFormGroup,
+    Validators,
+} from '@angular/forms';
 import { MessageService } from 'app/shared/message.services';
 import { ServiceService } from 'app/shared/service/service.service';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-
-
-
+import {
+    MatDialog,
+    MatDialogRef,
+    MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
 
 @Component({
     selector: 'component-popup-cbkh',
@@ -15,21 +28,18 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
     styleUrls: ['./popup-cbkh.component.css'],
     encapsulation: ViewEncapsulation.None,
 })
-
 export class PopupCbkhComponent implements OnInit {
-
-
-    message: string = "Are you sure?"
-    confirmButtonText = "Yes"
-    cancelButtonText = "Cancel"
-    public tenKeHoach="";
-    public checkType=""
+    message: string = 'Are you sure?';
+    confirmButtonText = 'Yes';
+    cancelButtonText = 'Cancel';
+    public tenKeHoach = '';
+    public checkType = '';
     public listKehoach = [];
     public listChuNhiem = [];
     public listDongChuNhiem = [];
     public listThuKy = [];
     public listThanhVien = [];
-    public q="";
+    public q = '';
     public getDinhHuongSubcription: Subscription;
     constructor(
         @Inject(MAT_DIALOG_DATA) private data: any,
@@ -39,68 +49,68 @@ export class PopupCbkhComponent implements OnInit {
         public _router: Router,
         private _serviceApi: ServiceService,
         public dialog: MatDialog,
-        
+
         private dialogRef: MatDialogRef<PopupCbkhComponent>
     ) {
         if (data) {
-            this.checkType=data.type;
+            this.checkType = data.type;
             this.message = data.message || this.message;
             if (data.buttonText) {
-                this.confirmButtonText = data.buttonText.ok || this.confirmButtonText;
-                this.cancelButtonText = data.buttonText.cancel || this.cancelButtonText;
+                this.confirmButtonText =
+                    data.buttonText.ok || this.confirmButtonText;
+                this.cancelButtonText =
+                    data.buttonText.cancel || this.cancelButtonText;
             }
         }
     }
 
-
     ngOnInit(): void {
         // this._messageService.showSuccessMessage("Thông báo", "Thành công")
-        if(this.checkType=="KEHOACH"){
+        if (this.checkType == 'KEHOACH') {
             this.timkiemKehoach();
-        }else{
+        } else {
             this.timkiemNguoi(this.checkType);
         }
-       
-       
     }
-
 
     onCloseClick(): void {
         this.dialogRef.close(true);
     }
 
-    submit(item){
-
+    submit(item) {
         this.dialogRef.close({
-           data:item
-          });
+            data: item,
+        });
     }
 
-    timkiemKehoach(){
-        this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("34A59664-4613-482F-95CA-CCF346E2140A", [{"name":"TEN_KE_HOACH","value":this.q}]).subscribe((data) => {
-            console.log(data.data);
-            this.listKehoach = data.data || [];
-              
-           })
+    timkiemKehoach() {
+        this.getDinhHuongSubcription = this._serviceApi
+            .execServiceLogin('34A59664-4613-482F-95CA-CCF346E2140A', [
+                { name: 'TEN_KE_HOACH', value: this.q },
+            ])
+            .subscribe((data) => {
+                console.log(data.data);
+                this.listKehoach = data.data;
+            });
     }
-    timkiemNguoi(type){
-        this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("395A68D9-587F-4603-9E1D-DCF1987517B4", [{"name":"TEN_NGUOI_THUC_HIEN","value":this.q}]).subscribe((data) => {
-            if(type=="CHUNHIEM"){
-                this.listChuNhiem = data.data || [];
-            }else if(type=="DONGCHUNHIEM"){
-                this.listDongChuNhiem = data.data || [];
-            }else if(type=="THUKY"){
-                this.listThuKy = data.data || [];
-            }else if(type=="THANHVIEN"){
-                this.listThanhVien = data.data || [];
-            }
-              
-           })
+    timkiemNguoi(type) {
+        this.getDinhHuongSubcription = this._serviceApi
+            .execServiceLogin('395A68D9-587F-4603-9E1D-DCF1987517B4', [
+                { name: 'TEN_NGUOI_THUC_HIEN', value: this.q },
+            ])
+            .subscribe((data) => {
+                if (type == 'CHUNHIEM') {
+                    this.listChuNhiem = data.data || [];
+                } else if (type == 'DONGCHUNHIEM') {
+                    this.listDongChuNhiem = data.data || [];
+                } else if (type == 'THUKY') {
+                    this.listThuKy = data.data || [];
+                } else if (type == 'THANHVIEN') {
+                    this.listThanhVien = data.data || [];
+                }
+            });
     }
     // ngOnDestroy() {
     //     this.getDinhHuongSubcription.unsubscribe()
     // }
-
-
-
 }

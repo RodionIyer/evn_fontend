@@ -145,17 +145,24 @@ export class ListItemComponent implements OnInit, OnDestroy {
         );
     }
 
-    updateActionHSTH(item){
+    updateActionHSTH(item) {
         this._router.navigate(
-            ['/nghiepvu/detainhiemvu/lstdetaicuatoi/'+item.maDeTai],
+            ['/nghiepvu/detainhiemvu/lstdetaicuatoi/' + item.maDeTai],
             { queryParams: { type: 'updateActionHSTH' } }
-          );
+        );
     }
 
     updateActionGH(item) {
         this._router.navigate(
             ['/nghiepvu/detainhiemvu/dangthuchien/' + item.maDeTai],
             { queryParams: { type: 'updateActionGH' } }
+        );
+    }
+
+    lichsu(item) {
+        this._router.navigate(
+            ['/nghiepvu/detainhiemvu/lstdetaicuatoi/' + item.maDeTai],
+            { queryParams: { type: 'LICHSU' } }
         );
     }
 }

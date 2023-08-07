@@ -1,217 +1,240 @@
-<ng-container *ngIf="checkType=='KEHOACH'">
-<div class="title-popup">
-    <i class="fa fa-search"></i> Tìm kiếm Căn cứ thực hiện (từ bản định hướng)
-</div>
-<div class="content-popup">
-    <div class="box-search flex items-center	">
-        <label for="">Tìm kiếm</label>
-        <input type="text" class="form-control" [(ngModel)]="q" (ngModelChange)="timkiemKehoach()" placeholder="Nhập từ khóa cần tìm..." name="" id="">
+<ng-container *ngIf="checkType == 'KEHOACH'">
+    <div class="title-popup">
+        <i class="fa fa-search"></i> Tìm kiếm Căn cứ thực hiện (từ bản định
+        hướng)
     </div>
+    <div class="content-popup">
+        <div class="box-search flex items-center">
+            <label for="">Tìm kiếm</label>
+            <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="q"
+                (keyup)="timkiemKehoach()"
+                placeholder="Nhập từ khóa cần tìm..."
+                name=""
+                id=""
+            />
+        </div>
 
-    <table class="table table_custom">
-        <thead>
-            <tr>
-                <th class="stt_table">STT</th>
-                <th>Tên định hướng</th>
-                <th class="text-center">Người gửi
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            <ng-container  *ngFor="let item of listKehoach; let i = index">
-            <tr (click)="submit(item)" class="cursor-point">
-                <td class="stt_table">{{i+1}}</td>
-                <td>{{item.name}}</td>
-                <td>{{item.nguoiGui}} </td>
-            </tr>
-            </ng-container>
-            
-        </tbody>
-    </table>
+        <table class="table table_custom">
+            <thead>
+                <tr>
+                    <th class="stt_table">STT</th>
+                    <th>Tên định hướng</th>
+                    <th class="text-center">Người gửi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngFor="let item of listKehoach; let i = index">
+                    <tr (click)="submit(item)" class="cursor-point">
+                        <td class="stt_table">{{ i + 1 }}</td>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.nguoiGui }}</td>
+                    </tr>
+                </ng-container>
+            </tbody>
+        </table>
 
-    <div class="action-pop">
-        <!-- <button class="add_button"><i class="fa fa-plus"></i>
+        <div class="action-pop">
+            <!-- <button class="add_button"><i class="fa fa-plus"></i>
             Tìm kiếm</button>
         <button class="add_button selectbtn"><i class="fa fa-plus"></i>
             Chọn</button> -->
-        <button (click)="onCloseClick()" class="add_button"><i class="fa fa-times"></i>
-            Hủy</button>
+            <button (click)="onCloseClick()" class="add_button">
+                <i class="fa fa-times"></i> Hủy
+            </button>
+        </div>
     </div>
-</div>
 </ng-container>
 
-<ng-container *ngIf="checkType=='CHUNHIEM'">
-    <div class="title-popup">
-        <i class="fa fa-search"></i> Tìm kiếm
-    </div>
+<ng-container *ngIf="checkType == 'CHUNHIEM'">
+    <div class="title-popup"><i class="fa fa-search"></i> Tìm kiếm</div>
     <div class="content-popup">
-        <div class="box-search flex items-center	">
+        <div class="box-search flex items-center">
             <label for="">Tìm kiếm</label>
-            <input type="text" class="form-control"  [(ngModel)]="q" (ngModelChange)="timkiemNguoi(checkType)" placeholder="Nhập từ khóa cần tìm..." name="" id="">
+            <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="q"
+                (keyup)="timkiemNguoi(checkType)"
+                placeholder="Nhập từ khóa cần tìm..."
+                name=""
+                id=""
+            />
         </div>
-    
+
         <table class="table table_custom">
             <thead>
                 <tr>
                     <th class="stt_table">STT</th>
                     <th>Họ và tên</th>
-                    <th class="text-center">Đơn vị
-                    </th>
+                    <th class="text-center">Đơn vị</th>
                 </tr>
             </thead>
             <tbody>
-             
-                <ng-container  *ngFor="let item of listChuNhiem; let i = index">
-
-               
-                <tr (click)="submit(item)"  class="cursor-point">
-                    <td class="stt_table">{{i+1}}</td>
-                    <td>{{item.username}}</td>
-                    <td>{{item.orgName}} </td>
-                </tr>
-            </ng-container>
-    
+                <ng-container *ngFor="let item of listChuNhiem; let i = index">
+                    <tr (click)="submit(item)" class="cursor-point">
+                        <td class="stt_table">{{ i + 1 }}</td>
+                        <td>{{ item.username }}</td>
+                        <td>{{ item.orgName }}</td>
+                    </tr>
+                </ng-container>
             </tbody>
         </table>
-    
+
         <div class="action-pop">
             <!-- <button class="add_button"><i class="fa fa-plus"></i>
                 Tìm kiếm</button>
             <button class="add_button selectbtn"><i class="fa fa-plus"></i>
                 Chọn</button> -->
-            <button (click)="onCloseClick()" class="add_button"><i class="fa fa-times"></i>
-                Hủy</button>
+            <button (click)="onCloseClick()" class="add_button">
+                <i class="fa fa-times"></i> Hủy
+            </button>
         </div>
     </div>
-    </ng-container>
-    <ng-container *ngIf="checkType=='DONGCHUNHIEM'">
-        <div class="title-popup">
-            <i class="fa fa-search"></i> Tìm kiếm Chu nhiệm
+</ng-container>
+<ng-container *ngIf="checkType == 'DONGCHUNHIEM'">
+    <div class="title-popup">
+        <i class="fa fa-search"></i> Tìm kiếm Chu nhiệm
+    </div>
+    <div class="content-popup">
+        <div class="box-search flex items-center">
+            <label for="">Tìm kiếm</label>
+            <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="q"
+                (keyup)="timkiemNguoi(checkType)"
+                placeholder="Nhập từ khóa cần tìm..."
+                name=""
+                id=""
+            />
         </div>
-        <div class="content-popup">
-            <div class="box-search flex items-center	">
-                <label for="">Tìm kiếm</label>
-                <input type="text" class="form-control"  [(ngModel)]="q" (ngModelChange)="timkiemNguoi(checkType)" placeholder="Nhập từ khóa cần tìm..." name="" id="">
-            </div>
-        
-            <table class="table table_custom">
-                <thead>
-                    <tr>
-                        <th class="stt_table">STT</th>
-                        <th>Họ và tên</th>
-                        <th class="text-center">Đơn vị
-                        </th>
+
+        <table class="table table_custom">
+            <thead>
+                <tr>
+                    <th class="stt_table">STT</th>
+                    <th>Họ và tên</th>
+                    <th class="text-center">Đơn vị</th>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container
+                    *ngFor="let item of listDongChuNhiem; let i = index"
+                >
+                    <tr (click)="submit(item)" class="cursor-point">
+                        <td class="stt_table">{{ i + 1 }}</td>
+                        <td>{{ item.username }}</td>
+                        <td>{{ item.orgName }}</td>
                     </tr>
-                </thead>
-                <tbody>
-                 
-                    <ng-container  *ngFor="let item of listDongChuNhiem; let i = index">
-    
-                   
-                        <tr (click)="submit(item)"  class="cursor-point">
-                            <td class="stt_table">{{i+1}}</td>
-                            <td>{{item.username}}</td>
-                            <td>{{item.orgName}} </td>
-                        </tr>
                 </ng-container>
-        
-                </tbody>
-            </table>
-        
-            <div class="action-pop">
-                <!-- <button class="add_button"><i class="fa fa-plus"></i>
+            </tbody>
+        </table>
+
+        <div class="action-pop">
+            <!-- <button class="add_button"><i class="fa fa-plus"></i>
                     Tìm kiếm</button>
                 <button class="add_button selectbtn"><i class="fa fa-plus"></i>
                     Chọn</button> -->
-                <button (click)="onCloseClick()" class="add_button"><i class="fa fa-times"></i>
-                    Hủy</button>
-            </div>
+            <button (click)="onCloseClick()" class="add_button">
+                <i class="fa fa-times"></i> Hủy
+            </button>
         </div>
-        </ng-container>
-        <ng-container *ngIf="checkType=='THUKY'">
-            <div class="title-popup">
-                <i class="fa fa-search"></i> Tìm kiếm Chu nhiệm
-            </div>
-            <div class="content-popup">
-                <div class="box-search flex items-center	">
-                    <label for="">Tìm kiếm</label>
-                    <input type="text" class="form-control"  [(ngModel)]="q" (ngModelChange)="timkiemNguoi(checkType)" placeholder="Nhập từ khóa cần tìm..." name="" id="">
-                </div>
-            
-                <table class="table table_custom">
-                    <thead>
-                        <tr>
-                            <th class="stt_table">STT</th>
-                            <th>Họ và tên</th>
-                            <th class="text-center">Đơn vị
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                     
-                        <ng-container  *ngFor="let item of listThuKy; let i = index">
-        
-                       
-                            <tr (click)="submit(item)"  class="cursor-point">
-                                <td class="stt_table">{{i+1}}</td>
-                                <td>{{item.username}}</td>
-                                <td>{{item.orgName}} </td>
-                            </tr>
-                    </ng-container>
-            
-                    </tbody>
-                </table>
-            
-                <div class="action-pop">
-                    <!-- <button class="add_button"><i class="fa fa-plus"></i>
+    </div>
+</ng-container>
+<ng-container *ngIf="checkType == 'THUKY'">
+    <div class="title-popup">
+        <i class="fa fa-search"></i> Tìm kiếm Chu nhiệm
+    </div>
+    <div class="content-popup">
+        <div class="box-search flex items-center">
+            <label for="">Tìm kiếm</label>
+            <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="q"
+                (keyup)="timkiemNguoi(checkType)"
+                placeholder="Nhập từ khóa cần tìm..."
+                name=""
+                id=""
+            />
+        </div>
+
+        <table class="table table_custom">
+            <thead>
+                <tr>
+                    <th class="stt_table">STT</th>
+                    <th>Họ và tên</th>
+                    <th class="text-center">Đơn vị</th>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngFor="let item of listThuKy; let i = index">
+                    <tr (click)="submit(item)" class="cursor-point">
+                        <td class="stt_table">{{ i + 1 }}</td>
+                        <td>{{ item.username }}</td>
+                        <td>{{ item.orgName }}</td>
+                    </tr>
+                </ng-container>
+            </tbody>
+        </table>
+
+        <div class="action-pop">
+            <!-- <button class="add_button"><i class="fa fa-plus"></i>
                         Tìm kiếm</button>
                     <button class="add_button selectbtn"><i class="fa fa-plus"></i>
                         Chọn</button> -->
-                    <button (click)="onCloseClick()" class="add_button"><i class="fa fa-times"></i>
-                        Hủy</button>
-                </div>
-            </div>
-            </ng-container>
-    <ng-container *ngIf="checkType=='THANHVIEN'">
-        <div class="title-popup">
-            <i class="fa fa-search"></i> Tìm kiếm
+            <button (click)="onCloseClick()" class="add_button">
+                <i class="fa fa-times"></i> Hủy
+            </button>
         </div>
-        <div class="content-popup">
-            <div class="box-search flex items-center	">
-                <label for="">Tìm kiếm</label>
-                <input type="text" class="form-control"  [(ngModel)]="q" (ngModelChange)="timkiemNguoi(checkType)" placeholder="Nhập từ khóa cần tìm..." name="" id="">
-            </div>
-        
-            <table class="table table_custom">
-                <thead>
-                    <tr>
-                        <th class="stt_table">STT</th>
-                        <th>Họ và tên</th>
-                        <th class="text-center">Đơn vị
-                        </th>
+    </div>
+</ng-container>
+<ng-container *ngIf="checkType == 'THANHVIEN'">
+    <div class="title-popup"><i class="fa fa-search"></i> Tìm kiếm</div>
+    <div class="content-popup">
+        <div class="box-search flex items-center">
+            <label for="">Tìm kiếm</label>
+            <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="q"
+                (keyup)="timkiemNguoi(checkType)"
+                placeholder="Nhập từ khóa cần tìm..."
+                name=""
+                id=""
+            />
+        </div>
+
+        <table class="table table_custom">
+            <thead>
+                <tr>
+                    <th class="stt_table">STT</th>
+                    <th>Họ và tên</th>
+                    <th class="text-center">Đơn vị</th>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngFor="let item of listThanhVien; let i = index">
+                    <tr (click)="submit(item)" class="cursor-point">
+                        <td class="stt_table">{{ i + 1 }}</td>
+                        <td>{{ item.username }}</td>
+                        <td>{{ item.orgName }}</td>
                     </tr>
-                </thead>
-                <tbody>
-                    <ng-container  *ngFor="let item of listThanhVien; let i = index">
-    
-                   
-                        <tr (click)="submit(item)"  class="cursor-point">
-                            <td class="stt_table">{{i+1}}</td>
-                            <td>{{item.username}}</td>
-                            <td>{{item.orgName}} </td>
-                        </tr>
                 </ng-container>
-        
-                </tbody>
-            </table>
-        
-            <div class="action-pop">
-                <!-- <button class="add_button"><i class="fa fa-plus"></i>
+            </tbody>
+        </table>
+
+        <div class="action-pop">
+            <!-- <button class="add_button"><i class="fa fa-plus"></i>
                     Tìm kiếm</button>
                 <button class="add_button selectbtn"><i class="fa fa-plus"></i>
                     Chọn</button> -->
-                <button (click)="onCloseClick()" class="add_button"><i class="fa fa-times"></i>
-                    Hủy</button>
-            </div>
+            <button (click)="onCloseClick()" class="add_button">
+                <i class="fa fa-times"></i> Hủy
+            </button>
         </div>
-        </ng-container>
+    </div>
+</ng-container>
