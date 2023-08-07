@@ -64,7 +64,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         //this.geListYears();
-        this.timKiem()
+        this.timKiem();
     }
 
     geListYears() {
@@ -142,8 +142,8 @@ export class ListItemComponent implements OnInit, OnDestroy {
    xoa(item){
     this._messageService.showConfirm("Thông báo", "Bạn chắc chắn muốn xóa \"" + item.tenGiaiPhap + "\"", (toast: SnotifyToast) => {
       this._messageService.notify().remove(toast.id);
-      this._serviceApi.execServiceLogin("36A4A979-FDB3-4F60-8C5E-3B11EA084039", [{"name":"MA_SANGKIEN","value":item.tenGiaiPhap},{"name":"USERID","value":"STR"}]).subscribe((data) => {
-        switch (data.data) {
+      this._serviceApi.execServiceLogin("36A4A979-FDB3-4F60-8C5E-3B11EA084039", [{"name":"MA_SANGKIEN","value":item.maSangKien},{"name":"USERID","value":"STR"}]).subscribe((data) => {
+        switch (data.status) {
                           case 1:
                               this._messageService.showSuccessMessage("Thông báo", "Xóa bản đăng ký thành công");
                               break;
@@ -154,6 +154,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
                               this._messageService.showErrorMessage("Thông báo", "Xảy ra lỗi khi thực hiện xóa bản đăng ký");
                               break;
                       }
+                      this.timKiem();
        })
     })
    }

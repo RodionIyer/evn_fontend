@@ -271,7 +271,6 @@ export class DetailsComponent implements OnInit {
                     }
                 }
                 this.selectedYear = parseInt(data.data.nam);
-                debugger
             });
     }
 
@@ -422,7 +421,6 @@ export class DetailsComponent implements OnInit {
                     } else {
                         this._router.navigateByUrl('nghiepvu/sangkien/lstsangkiencuatoi');
                     }
-
                 } else {
                     this._messageService.showErrorMessage(
                         'Thông báo',
