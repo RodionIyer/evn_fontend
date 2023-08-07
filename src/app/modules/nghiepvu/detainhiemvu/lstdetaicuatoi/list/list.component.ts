@@ -59,7 +59,7 @@ export class LstdetaicuatoiListComponent implements OnInit, OnDestroy {
             this.actionClick = null
           }
           console.log(this.actionClick);
-          
+
         }
       );
     }
@@ -106,7 +106,7 @@ export class LstdetaicuatoiListComponent implements OnInit, OnDestroy {
      pageIndex = 0;
      pageSizeOptions = [10, 20, 50,100];
      showFirstLastButtons = true;
-   
+
      handlePageEvent(event: PageEvent) {
        this.length = event.length;
        this.pageSize = event.pageSize;
@@ -168,9 +168,9 @@ updateActionTIENDO(item){
    xoa(item){
     this._messageService.showConfirm("Thông báo", "Bạn chắc chắn muốn xóa \"" + item.tenDeTai + "\"", (toast: SnotifyToast) => {
       this._messageService.notify().remove(toast.id);
-      this._serviceApi.execServiceLogin("9A2E2C8E-72F8-41E1-BEF7-A14E4FF5DF62", [{"name":"MA_DE_TAI","value":item.tenDeTai},{"name":"USERID","value":"STR"}]).subscribe((data) => {
+      this._serviceApi.execServiceLogin("9A2E2C8E-72F8-41E1-BEF7-A14E4FF5DF62", [{"name":"MA_DE_TAI","value":item.maDeTai},{"name":"USERID","value":"STR"}]).subscribe((data) => {
         console.log(data);
-        switch (data.data) {
+        switch (data.status) {
                           case 1:
                               this._messageService.showSuccessMessage("Thông báo", "Xóa bản đăng ký thành công");
                               break;
@@ -181,8 +181,9 @@ updateActionTIENDO(item){
                               this._messageService.showErrorMessage("Thông báo", "Xảy ra lỗi khi thực hiện xóa bản đăng ký");
                               break;
                       }
+                      this.timKiem();
        })
     })
    }
-   
+
 }
