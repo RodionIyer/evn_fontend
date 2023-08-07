@@ -7,7 +7,7 @@ import {
     ViewEncapsulation,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription, takeUntil } from 'rxjs';
+import { Subscription, takeUntil, timeout, Subject } from 'rxjs';
 import {
     AbstractControl,
     FormArray,
@@ -30,6 +30,7 @@ import { MatSort } from '@angular/material/sort';
 import { ServiceService } from 'app/shared/service/service.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PopupCbkhComponent } from './popup-cbkh/popup-cbkh.component';
+
 import {
     DateAdapter,
     MAT_DATE_FORMATS,
@@ -131,12 +132,15 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
         'BBAN_GIAO_LUUTRU',
         'HDON_THUE_TNCN',
     ];
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
     constructor(
         private _formBuilder: FormBuilder,
         public _activatedRoute: ActivatedRoute,
         public _messageService: MessageService,
         public _router: Router,
         private _serviceApi: ServiceService,
+        private _userService: UserService,
+
         public dialog: MatDialog
     ) {
         this.initForm();
@@ -469,7 +473,6 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                     }
                 }
 
-
                 // danh sách thành viên
                 if (data.data.danhSachThanhVien != null) {
                     let formThanhVien = this.form.get(
@@ -500,7 +503,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                 }
 
                 console.log('form,', this.form);
-                if(method=='DETAIL'){
+                if (method == 'DETAIL') {
                     let formDocParentHSDK = this.form.get(
                         'listFolderHSDK'
                     ) as FormArray;
@@ -525,203 +528,175 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                         'listFolderQuyetToan'
                     ) as FormArray;
 
+                    if (data.data.listFolderAll != null) {
+                        //Hồ sơ đăng ký
+                        let listHSDK = data.data.listFolderAll.filter(
+                            (c) => c.dangKy == true
+                        );
+                        if (listHSDK != null && listHSDK.length > 0) {
+                            for (let i = 0; i < listHSDK.length; i++) {
+                                let listFile = data.data.listFile.filter(
+                                    (c) => listHSDK[i].maFolder == c.maLoaiFile
+                                );
+                                formDocParentHSDK.push(
+                                    this.addListDocParent(listHSDK[i])
+                                );
 
+                                if (listFile != null && listFile.length > 0) {
+                                    let formChild = formDocParentHSDK
+                                        .at(i)
+                                        .get('listFile') as FormArray;
+                                    for (let j = 0; j < listFile.length; j++) {
+                                        formChild.push(
+                                            this.addListDocChild(listFile[j])
+                                        );
+                                    }
+                                }
+                            }
+                        }
+                        //Hồ sơ xét duyệt, giao, ký hợp đồng thực hiện
+                        let listHSXD = data.data.listFolderAll.filter(
+                            (c) => c.hoiDongXetDuyet == true
+                        );
+                        if (listHSXD != null && listHSXD.length > 0) {
+                            for (let i = 0; i < listHSXD.length; i++) {
+                                let listFile = data.data.listFile.filter(
+                                    (c) => listHSXD[i].maFolder == c.maLoaiFile
+                                );
+                                formDocParentHSXD.push(
+                                    this.addListDocParent(listHSXD[i])
+                                );
 
+                                if (listFile != null && listFile.length > 0) {
+                                    let formChild = formDocParentHSXD
+                                        .at(i)
+                                        .get('listFile') as FormArray;
+                                    for (let j = 0; j < listFile.length; j++) {
+                                        formChild.push(
+                                            this.addListDocChild(listFile[j])
+                                        );
+                                    }
+                                }
+                            }
+                        }
 
+                        //Hồ sơ đề nghị tạm ứng kinh phí các đợt sau
+                        let listHSTamUng = data.data.listFolderAll.filter(
+                            (c) => c.thucHienTamUng == true
+                        );
+                        if (listHSTamUng != null && listHSTamUng.length > 0) {
+                            for (let i = 0; i < listHSTamUng.length; i++) {
+                                let listFile = data.data.listFile.filter(
+                                    (c) =>
+                                        listHSTamUng[i].maFolder == c.maLoaiFile
+                                );
+                                formDocParentTamUng.push(
+                                    this.addListDocParent(listHSTamUng[i])
+                                );
 
+                                if (listFile != null && listFile.length > 0) {
+                                    let formChild = formDocParentTamUng
+                                        .at(i)
+                                        .get('listFile') as FormArray;
+                                    for (let j = 0; j < listFile.length; j++) {
+                                        formChild.push(
+                                            this.addListDocChild(listFile[j])
+                                        );
+                                    }
+                                }
+                            }
+                        }
 
-                if (data.data.listFolderAll != null) {
-                    //Hồ sơ đăng ký
-                    let listHSDK = data.data.listFolderAll.filter(c => c.dangKy==true);
-                    if(listHSDK != null && listHSDK.length >0){
-                        for (let i = 0; i < listHSDK.length; i++) {
-                            let listFile = data.data.listFile.filter(c => listHSDK[i].maFolder == c.maLoaiFile);
-                            formDocParentHSDK.push(
-                                this.addListDocParent(listHSDK[i])
-                            );
+                        //Hồ sơ nghiệm thu
+                        let listHSNT = data.data.listFolderAll.filter(
+                            (c) => c.thucHienTamUng == true
+                        );
+                        if (listHSNT != null && listHSNT.length > 0) {
+                            for (let i = 0; i < listHSNT.length; i++) {
+                                let listFile = data.data.listFile.filter(
+                                    (c) => listHSNT[i].maFolder == c.maLoaiFile
+                                );
+                                formDocParentHSNT.push(
+                                    this.addListDocParent(listHSNT[i])
+                                );
 
-                            if (
-                                listFile != null &&
-                                listFile.length > 0
-                            ) {
-                                let formChild = formDocParentHSDK
-                                    .at(i)
-                                    .get('listFile') as FormArray;
-                                for (
-                                    let j = 0;
-                                    j < listFile.length;
-                                    j++
-                                ) {
-                                    formChild.push(
-                                        this.addListDocChild(
-                                            listFile[j]
-                                        )
-                                    );
+                                if (listFile != null && listFile.length > 0) {
+                                    let formChild = formDocParentHSNT
+                                        .at(i)
+                                        .get('listFile') as FormArray;
+                                    for (let j = 0; j < listFile.length; j++) {
+                                        formChild.push(
+                                            this.addListDocChild(listFile[j])
+                                        );
+                                    }
+                                }
+                            }
+                        }
+
+                        //Bàn giao, lưu trữ kết quả thực hiện
+                        let listBanGiaoKetQua = data.data.listFolderAll.filter(
+                            (c) => c.nghiemThuBgiaoKetQua == true
+                        );
+                        if (
+                            listBanGiaoKetQua != null &&
+                            listBanGiaoKetQua.length > 0
+                        ) {
+                            for (let i = 0; i < listBanGiaoKetQua.length; i++) {
+                                let listFile = data.data.listFile.filter(
+                                    (c) =>
+                                        listBanGiaoKetQua[i].maFolder ==
+                                        c.maLoaiFile
+                                );
+                                formDocParentBanGiaoKQ.push(
+                                    this.addListDocParent(listBanGiaoKetQua[i])
+                                );
+
+                                if (listFile != null && listFile.length > 0) {
+                                    let formChild = formDocParentBanGiaoKQ
+                                        .at(i)
+                                        .get('listFile') as FormArray;
+                                    for (let j = 0; j < listFile.length; j++) {
+                                        formChild.push(
+                                            this.addListDocChild(listFile[j])
+                                        );
+                                    }
+                                }
+                            }
+                        }
+
+                        //Hồ sơ thanh quyết toán
+                        let listQuyetToan = data.data.listFolderAll.filter(
+                            (c) => c.quyetToan == true
+                        );
+                        if (listQuyetToan != null && listQuyetToan.length > 0) {
+                            for (let i = 0; i < listQuyetToan.length; i++) {
+                                let listFile = data.data.listFile.filter(
+                                    (c) =>
+                                        listQuyetToan[i].maFolder ==
+                                        c.maLoaiFile
+                                );
+                                formDocParentQuyetToan.push(
+                                    this.addListDocParent(listQuyetToan[i])
+                                );
+
+                                if (listFile != null && listFile.length > 0) {
+                                    let formChild = formDocParentQuyetToan
+                                        .at(i)
+                                        .get('listFile') as FormArray;
+                                    for (let j = 0; j < listFile.length; j++) {
+                                        formChild.push(
+                                            this.addListDocChild(listFile[j])
+                                        );
+                                    }
                                 }
                             }
                         }
                     }
-                    //Hồ sơ xét duyệt, giao, ký hợp đồng thực hiện
-                    let listHSXD = data.data.listFolderAll.filter(c => c.hoiDongXetDuyet==true);
-                    if(listHSXD != null && listHSXD.length >0){
-                        for (let i = 0; i < listHSXD.length; i++) {
-                            let listFile = data.data.listFile.filter(c => listHSXD[i].maFolder == c.maLoaiFile);
-                            formDocParentHSXD.push(
-                                this.addListDocParent(listHSXD[i])
-                            );
 
-                            if (
-                                listFile != null &&
-                                listFile.length > 0
-                            ) {
-                                let formChild = formDocParentHSXD
-                                    .at(i)
-                                    .get('listFile') as FormArray;
-                                for (
-                                    let j = 0;
-                                    j < listFile.length;
-                                    j++
-                                ) {
-                                    formChild.push(
-                                        this.addListDocChild(
-                                            listFile[j]
-                                        )
-                                    );
-                                }
-                            }
-                        }
-                    }
-
-                     //Hồ sơ đề nghị tạm ứng kinh phí các đợt sau
-                     let listHSTamUng = data.data.listFolderAll.filter(c => c.thucHienTamUng==true);
-                     if(listHSTamUng != null && listHSTamUng.length >0){
-                         for (let i = 0; i < listHSTamUng.length; i++) {
-                             let listFile = data.data.listFile.filter(c => listHSTamUng[i].maFolder == c.maLoaiFile);
-                             formDocParentTamUng.push(
-                                 this.addListDocParent(listHSTamUng[i])
-                             );
-
-                             if (
-                                 listFile != null &&
-                                 listFile.length > 0
-                             ) {
-                                 let formChild = formDocParentTamUng
-                                     .at(i)
-                                     .get('listFile') as FormArray;
-                                 for (
-                                     let j = 0;
-                                     j < listFile.length;
-                                     j++
-                                 ) {
-                                     formChild.push(
-                                         this.addListDocChild(
-                                             listFile[j]
-                                         )
-                                     );
-                                 }
-                             }
-                         }
-                     }
-
-                      //Hồ sơ nghiệm thu
-                      let listHSNT = data.data.listFolderAll.filter(c => c.thucHienTamUng==true);
-                      if(listHSNT != null && listHSNT.length >0){
-                          for (let i = 0; i < listHSNT.length; i++) {
-                              let listFile = data.data.listFile.filter(c => listHSNT[i].maFolder == c.maLoaiFile);
-                              formDocParentHSNT.push(
-                                  this.addListDocParent(listHSNT[i])
-                              );
-
-                              if (
-                                  listFile != null &&
-                                  listFile.length > 0
-                              ) {
-                                  let formChild = formDocParentHSNT
-                                      .at(i)
-                                      .get('listFile') as FormArray;
-                                  for (
-                                      let j = 0;
-                                      j < listFile.length;
-                                      j++
-                                  ) {
-                                      formChild.push(
-                                          this.addListDocChild(
-                                              listFile[j]
-                                          )
-                                      );
-                                  }
-                              }
-                          }
-                      }
-
-                      //Bàn giao, lưu trữ kết quả thực hiện
-                      let listBanGiaoKetQua = data.data.listFolderAll.filter(c => c.nghiemThuBgiaoKetQua==true);
-                      if(listBanGiaoKetQua != null && listBanGiaoKetQua.length >0){
-                          for (let i = 0; i < listBanGiaoKetQua.length; i++) {
-                              let listFile = data.data.listFile.filter(c => listBanGiaoKetQua[i].maFolder == c.maLoaiFile);
-                              formDocParentBanGiaoKQ.push(
-                                  this.addListDocParent(listBanGiaoKetQua[i])
-                              );
-
-                              if (
-                                  listFile != null &&
-                                  listFile.length > 0
-                              ) {
-                                  let formChild = formDocParentBanGiaoKQ
-                                      .at(i)
-                                      .get('listFile') as FormArray;
-                                  for (
-                                      let j = 0;
-                                      j < listFile.length;
-                                      j++
-                                  ) {
-                                      formChild.push(
-                                          this.addListDocChild(
-                                              listFile[j]
-                                          )
-                                      );
-                                  }
-                              }
-                          }
-                      }
-
-                       //Hồ sơ thanh quyết toán
-                       let listQuyetToan = data.data.listFolderAll.filter(c => c.quyetToan==true);
-                       if(listQuyetToan != null && listQuyetToan.length >0){
-                           for (let i = 0; i < listQuyetToan.length; i++) {
-                               let listFile = data.data.listFile.filter(c => listQuyetToan[i].maFolder == c.maLoaiFile);
-                               formDocParentQuyetToan.push(
-                                   this.addListDocParent(listQuyetToan[i])
-                               );
-
-                               if (
-                                   listFile != null &&
-                                   listFile.length > 0
-                               ) {
-                                   let formChild = formDocParentQuyetToan
-                                       .at(i)
-                                       .get('listFile') as FormArray;
-                                   for (
-                                       let j = 0;
-                                       j < listFile.length;
-                                       j++
-                                   ) {
-                                       formChild.push(
-                                           this.addListDocChild(
-                                               listFile[j]
-                                           )
-                                       );
-                                   }
-                               }
-                           }
-                       }
-
-                }
-
-                // this.listFolderAll = data.data.listFolderAll;
-                   // this.listFolderDK = data.data.listFolderAll.filter(c  => c.maFolder=='VBDANGKY');
-                  //  this.listFolderDK.listFile = data.data.listFile;
-                  //  this.listFileDK =
+                    // this.listFolderAll = data.data.listFolderAll;
+                    // this.listFolderDK = data.data.listFolderAll.filter(c  => c.maFolder=='VBDANGKY');
+                    //  this.listFolderDK.listFile = data.data.listFile;
+                    //  this.listFileDK =
                 }
             });
     }
@@ -837,7 +812,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
         if (this.form.invalid) {
             return;
         }
-        if(this.form.value.thuKyDeTaiInfo === ''){
+        if (this.form.value.thuKyDeTaiInfo === '') {
             this.form.value.thuKyDeTaiInfo = {};
         }
         console.log(this.form.value);
@@ -991,6 +966,11 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                 this.listDonViChuTri = data.data || [];
                 this.listDonViCongTac = data.data || [];
             });
+        this._userService.user$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((user: any) => {
+                this.form.get('donViChuTri').setValue(user.ORGID);
+            });
     }
 
     getListHocHam() {
@@ -1034,7 +1014,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
     }
 
     getListGioiTinh() {
-        var obj = { ID: 0, NAME: '--Chọn--'};
+        var obj = { ID: 0, NAME: '--Chọn--' };
         this.listGioiTinh.push(obj);
         obj = { ID: 1, NAME: 'Nam' };
         this.listGioiTinh.push(obj);

@@ -29,6 +29,7 @@ export class PopupCbkhComponent implements OnInit {
     public listDongChuNhiem = [];
     public listThuKy = [];
     public listThanhVien = [];
+    public listHoiDong = [];
     public getDinhHuongSubcription: Subscription;
     constructor(
         @Inject(MAT_DIALOG_DATA) private data: any,
@@ -54,6 +55,9 @@ export class PopupCbkhComponent implements OnInit {
 
     ngOnInit(): void {
         // this._messageService.showSuccessMessage("Thông báo", "Thành công")
+        if(this.checkType=="HOIDONG"){
+            this.timkiemHoiDong();
+        }else
         if(this.checkType=="KEHOACH"){
             this.timkiemKehoach();
         }else{
@@ -80,6 +84,11 @@ export class PopupCbkhComponent implements OnInit {
             console.log(data.data);
             this.listKehoach = data.data || [];
               
+           })
+    }
+    timkiemHoiDong(){
+        this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("D5738375-3591-4986-94FC-E523F645A858", [{"name":"TEN_NGUOI_THUC_HIEN","value":""},{"name":"MA_DON_VI","value":"124"}]).subscribe((data) => {
+                this.listHoiDong = data.data || [];
            })
     }
     timkiemNguoi(type){

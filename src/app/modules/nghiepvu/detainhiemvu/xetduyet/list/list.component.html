@@ -13,11 +13,11 @@
             <div class="basis-1/2">
                 <ng-select
                     style="width: 200px;"
-                    [items]="listYears"
+                    [items]="listCapQuanLy"
                     bindLabel="NAME"
                     bindValue="ID"
-                    placeholder="Chọn năm"
-                    [(ngModel)]="selectedYear"
+                    placeholder="--Tất cả--"
+                    [(ngModel)]="capQuanLy"
                 >
                 </ng-select>
             </div>
@@ -38,11 +38,12 @@
                 style="width: 80%"
                 type="text"
                 class="form-control"
+                [(ngModel)]="q"
                 placeholder="Nhập từ khóa tìm kiếm: tên đề tài,nhiệm vụ, chủ nhiệm, đồng chủ nhiệm, thư ký"
             />
             </div>
             <div class="basis-1/4">
-                <button class="add_button">
+                <button class="add_button" (click)="timKiem()">
                     <i class="fa fa-search"></i>
                     Tìm kiếm
                 </button>
