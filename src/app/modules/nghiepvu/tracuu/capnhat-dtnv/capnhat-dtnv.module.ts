@@ -34,6 +34,7 @@ import { SharedModule } from 'app/shared/shared.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { PopupCbkhComponent } from './detail/popup-cbkh/popup-cbkh.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import {CapNhatSangKienModule} from "../capnhat-sangkien/capnhat-sangkien.module";
 
 @NgModule({
     imports: [
