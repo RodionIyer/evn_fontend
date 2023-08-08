@@ -56,6 +56,9 @@ export class DetailsComponent implements OnInit {
     public listFileVB: any[] = [];
     public listFileOther: any[] = [];
     public listAuthor: any[] = [];
+    public madeTaiSK;
+    public typeLichSu;
+    public title_lichsu;
 
     constructor(
         private _formBuilder: UntypedFormBuilder,
@@ -72,6 +75,9 @@ export class DetailsComponent implements OnInit {
             } else {
                 this.actionType = null;
             }
+            if (params?.title) {
+                this.title_lichsu = params?.title;
+            }
             if (this.actionType == 'updateActionHSTH') {
                 this.method = 'CAPNHATHSTHUCHIEN';
             } else if (this.actionType == 'CHINHSUA') {
@@ -80,6 +86,8 @@ export class DetailsComponent implements OnInit {
                 this.method = 'DETAIL';
             }
             this.initForm(this.method);
+            this.madeTaiSK = this.idParam;
+            this.typeLichSu = 'SANGKIEN';
             this.detail(this.method);
         });
     }

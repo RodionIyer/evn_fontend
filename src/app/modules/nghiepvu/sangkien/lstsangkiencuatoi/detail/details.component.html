@@ -842,3 +842,16 @@
         </mat-tab>
     </mat-tab-group>
 </div>
+
+<!--LICH SU-->
+<div
+    *ngIf="actionType == 'LICHSU'"
+    class="flex flex-col flex-auto overflow-y-auto bg-card dark:bg-default content-detail p-3"
+    [formGroup]="form"
+>
+    <app-lichsu
+        title_lichsu=""
+        [typeLichSu]="typeLichSu"
+        [madeTaiSK]="madeTaiSK"
+    ></app-lichsu>
+</div>
