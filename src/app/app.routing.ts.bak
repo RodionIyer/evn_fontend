@@ -53,8 +53,7 @@ export const appRoutes: Route[] = [
             {
                 path: 'tim-kiem', children: [
                     { path: 'tracuu-timkiem', loadChildren: () => import('app/modules/nghiepvu/tracuu/tracuu-timkiem/tracuu-timkiem.module').then(m => m.TraCuuTimKiemModule) },
-                    { path: 'capnhat-dtnv', loadChildren: () => import('app/modules/nghiepvu/tracuu/capnhat-dtnv/capnhat-dtnv.module').then(m => m.CapnhatDtnvModule) }      
-					{ path: 'capnhat-sangkien', loadChildren: () => import('app/modules/nghiepvu/tracuu/capnhat-sangkien/capnhat-sangkien.module').then(m => m.CapnhatDtnvModule) }  					],
+                    { path: 'capnhat-dtnv', loadChildren: () => import('app/modules/nghiepvu/tracuu/capnhat-dtnv/capnhat-dtnv.module').then(m => m.CapnhatDtnvModule) }                     ],
             },
             {
                 path: 'tim-kiem', children: [

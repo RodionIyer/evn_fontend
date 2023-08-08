@@ -472,7 +472,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                         }
                     }
                 }
-
+                debugger;
                 // danh sách thành viên
                 if (data.data.danhSachThanhVien != null) {
                     let formThanhVien = this.form.get(
