@@ -38,7 +38,7 @@
                 bindValue="ID"
                 placeholder="Lựa chọn"
                 formControlName="nam"
-                [(ngModel)] = 'selectedYear'
+                [(ngModel)]='selectedYear'
             >
             </ng-select>
             <div
@@ -72,19 +72,19 @@
         </div>
         <div class="basis-1/4">
             <label for="">Đơn vị đăng ký/áp dụng<span>(*)</span></label>
-        <div class=" select-cbkh flex items-center form-control">
-            <input
-            class="inputselect"
-            type="text"
-            name=""
-            id=""
-            formControlName="donViApDung"
-        />
-        <i
-            (click)="openAlertDialog('DKAPDUNGSK', form)"
-            class="fa fa-search"
-        ></i>
-    </div>
+            <div class=" select-cbkh flex items-center form-control">
+                <input
+                    class="inputselect"
+                    type="text"
+                    name=""
+                    id=""
+                    formControlName="donViApDung"
+                />
+                <i
+                    (click)="openAlertDialog('DKAPDUNGSK', form)"
+                    class="fa fa-search"
+                ></i>
+            </div>
         </div>
     </div>
 
@@ -113,126 +113,126 @@
     <label for="">Tác giả/Đồng tác giả của giải pháp</label>
     <table class="table table_custom">
         <thead>
-            <tr>
-                <th class="stt_table">STT</th>
-                <th>Họ và tên</th>
-                <th>Vai trò</th>
-                <th>Năm sinh</th>
-                <th>Nơi công tác</th>
-                <th>Trình độ chuyên môn</th>
-                <th>Nội dung tham gia</th>
-                <th>
-                    <button class="pull-right add_button" (click)="addTacGia()">
-                        +Thêm thành viên
-                    </button>
-                </th>
-            </tr>
+        <tr>
+            <th class="stt_table">STT</th>
+            <th>Họ và tên</th>
+            <th>Vai trò</th>
+            <th>Năm sinh</th>
+            <th>Nơi công tác</th>
+            <th>Trình độ chuyên môn</th>
+            <th>Nội dung tham gia</th>
+            <th>
+                <button class="pull-right add_button" (click)="addTacGia()">
+                    +Thêm thành viên
+                </button>
+            </th>
+        </tr>
         </thead>
         <tbody formArrayName="tacGiaGiaiPhap">
-            <ng-container
-                *ngFor="
+        <ng-container
+            *ngFor="
                     let tacgia of $any(form.get('tacGiaGiaiPhap')).controls;
                     let i = index
                 "
-            >
-                <tr [formGroup]="tacgia">
-                    <td class="stt_table">{{ i + 1 }}</td>
-                    <td>
-                        <div class="select-cbkh flex items-center form-control">
-                            <input
-                                class="inputselect"
-                                type="text"
-                                name=""
-                                id=""
-                                formControlName="ten"
-                            />
-                            <i
-                                (click)="openAlertDialog('THANHVIEN', tacgia)"
-                                class="fa fa-search"
-                            ></i>
-                        </div>
-                        <!-- <input style="border:1px solid #ccc; border-radius: 5px;" type="text" name="" formControlName="ten" id=""> <i (click)="openAlertDialog('THANHVIEN',thanhvien.get('ten'))" class="fa fa-search"></i> -->
-                    </td>
-                    <td>
-                        <ng-select
-                            [items]="listChucDanh"
-                            bindLabel="NAME"
-                            bindValue="ID"
-                            placeholder="Chọn chức"
-                            formControlName="chucDanh"
-                        >
-                        </ng-select>
-                    </td>
-                    <!-- {{thanhvien.get('chucDanh').value}} -->
-                    <td>
+        >
+            <tr [formGroup]="tacgia">
+                <td class="stt_table">{{ i + 1 }}</td>
+                <td>
+                    <div class="select-cbkh flex items-center form-control">
                         <input
-                            style="
-                                border: 1px solid #ccc;
-                                border-radius: 5px;
-                                width: 100%;
-                                height: 30px;
-                            "
                             class="inputselect"
                             type="text"
                             name=""
                             id=""
-                            formControlName="namSinh"
+                            formControlName="ten"
                         />
-                    </td>
-                    <td>
-                        <input
-                            style="
-                                border: 1px solid #ccc;
-                                border-radius: 5px;
-                                width: 100%;
-                                height: 30px;
-                            "
-                            class="inputselect"
-                            type="text"
-                            name=""
-                            id=""
-                            formControlName="donViCongTac"
-                        />
-                    </td>
-                    <td>
-                        <input
-                            style="
-                                border: 1px solid #ccc;
-                                border-radius: 5px;
-                                width: 100%;
-                                height: 30px;
-                            "
-                            class="inputselect"
-                            type="text"
-                            name=""
-                            id=""
-                            formControlName="trinhDoChuyenMon"
-                        />
-                    </td>
-                    <td>
-                        <input
-                            style="
-                                border: 1px solid #ccc;
-                                border-radius: 5px;
-                                width: 100%;
-                                height: 30px;
-                            "
-                            class="inputselect"
-                            type="text"
-                            name=""
-                            id=""
-                            formControlName="noiDung"
-                        />
-                    </td>
-                    <td class="text-center action-table">
                         <i
-                            (click)="removeItem(form, i)"
-                            class="fa fa-trash"
-                            title="Xóa bỏ"
+                            (click)="openAlertDialog('THANHVIEN', tacgia)"
+                            class="fa fa-search"
                         ></i>
-                    </td>
-                </tr>
-            </ng-container>
+                    </div>
+                    <!-- <input style="border:1px solid #ccc; border-radius: 5px;" type="text" name="" formControlName="ten" id=""> <i (click)="openAlertDialog('THANHVIEN',thanhvien.get('ten'))" class="fa fa-search"></i> -->
+                </td>
+                <td>
+                    <ng-select
+                        [items]="listChucDanh"
+                        bindLabel="NAME"
+                        bindValue="ID"
+                        placeholder="Chọn chức danh"
+                        formControlName="chucDanh"
+                    >
+                    </ng-select>
+                </td>
+                <!-- {{thanhvien.get('chucDanh').value}} -->
+                <td>
+                    <input
+                        style="
+                                border: 1px solid #ccc;
+                                border-radius: 5px;
+                                width: 100%;
+                                height: 30px;
+                            "
+                        class="inputselect"
+                        type="text"
+                        name=""
+                        id=""
+                        formControlName="namSinh"
+                    />
+                </td>
+                <td>
+                    <input
+                        style="
+                                border: 1px solid #ccc;
+                                border-radius: 5px;
+                                width: 100%;
+                                height: 30px;
+                            "
+                        class="inputselect"
+                        type="text"
+                        name=""
+                        id=""
+                        formControlName="diaChiNoiLamViec"
+                    />
+                </td>
+                <td>
+                    <input
+                        style="
+                                border: 1px solid #ccc;
+                                border-radius: 5px;
+                                width: 100%;
+                                height: 30px;
+                            "
+                        class="inputselect"
+                        type="text"
+                        name=""
+                        id=""
+                        formControlName="thanhTuu"
+                    />
+                </td>
+                <td>
+                    <input
+                        style="
+                                border: 1px solid #ccc;
+                                border-radius: 5px;
+                                width: 100%;
+                                height: 30px;
+                            "
+                        class="inputselect"
+                        type="text"
+                        name=""
+                        id=""
+                        formControlName="noiDungThamGia"
+                    />
+                </td>
+                <td class="text-center action-table">
+                    <i
+                        (click)="removeItem(form, i)"
+                        class="fa fa-trash"
+                        title="Xóa bỏ"
+                    ></i>
+                </td>
+            </tr>
+        </ng-container>
         </tbody>
     </table>
 
@@ -277,7 +277,7 @@
     <div class="flex flex-row row gap-4">
         <div class="basis-full">
             <label for=""
-                >Ưu nhược điểm của giải pháp kỹ thuật<span>(*)</span></label
+            >Ưu nhược điểm của giải pháp kỹ thuật<span>(*)</span></label
             >
             <textarea
                 name=""
@@ -316,7 +316,7 @@
     </div>
     <div class="flex flex-row row gap-4 items-center mt-3">
         <label for="" class=""
-            >Ngày áp dụng chính thức (Không được ít hơn 3 tháng và không quá 1
+        >Ngày áp dụng chính thức (Không được ít hơn 3 tháng và không quá 1
             năm)</label
         >
         <input type="date" class="form-control ml-9 w-60" formControlName="ngayApDung"/>
@@ -324,7 +324,7 @@
     <div class="flex flex-row row gap-4">
         <div class="basis-full">
             <label for=""
-                >Quá trình áp dụng giải pháp trên thực tiễn hoặc áp dụng
+            >Quá trình áp dụng giải pháp trên thực tiễn hoặc áp dụng
                 thử</label
             >
             <textarea
@@ -338,7 +338,7 @@
     <div class="flex flex-row row gap-4">
         <div class="basis-full">
             <label for=""
-                >Hiệu quả thực tế thu được khi áp dụng giải pháp</label
+            >Hiệu quả thực tế thu được khi áp dụng giải pháp</label
             >
             <textarea
                 name=""
@@ -362,7 +362,7 @@
     <div class="flex flex-row row gap-4">
         <div class="basis-full">
             <label for=""
-                >Danh sách những người tham gia tổ chức áp dụng sáng kiến lần
+            >Danh sách những người tham gia tổ chức áp dụng sáng kiến lần
                 đầu (nếu có)</label
             >
             <textarea
@@ -375,7 +375,7 @@
     </div>
     <div class="flex flex-row row gap-4 items-center">
         <label for=""
-            >Số tiền làm lợi trong năm đầu tiên áp dụng giải pháp</label
+        >Số tiền làm lợi trong năm đầu tiên áp dụng giải pháp</label
         >
         <input
             type="text"
@@ -409,56 +409,57 @@
         >
         <input type="file" name="" id="chontep1" hidden />
     </div> -->
-    <div class="flex flex-row row items-center" formArrayName="listFolderFile"   *ngFor="let item of form.get('listFolderFile')['controls']; let i = index">
+    <div class="flex flex-row row items-center" formArrayName="listFolderFile"
+         *ngFor="let item of form.get('listFolderFile')['controls']; let i = index">
 
-            <label for="" class="w-100">{{item.get('fileName').value}}<span *ngIf="item.get('maFolder').value=='VBDANGKY'">(*)</span></label>
+        <label for="" class="w-100">{{item.get('fileName').value}}<span *ngIf="item.get('maFolder').value=='VBDANGKY'">(*)</span></label>
 
-                    <div class="list-file" *ngIf="item.get('listFile').value.length > 0">
-                        <table class="table table_custom action-table" style="height: auto !important;">
-                            <thead>
-                                <tr>
-                                    <th class="stt_table">STT</th>
-                                    <th>Tên file</th>
-                                    <th class="text-center">Kích thước
-                                    </th>
-                                    <th class="text-center">Số văn bản
-                                    </th>
-                                    <th style="width: 100px;"></th>
-                                </tr>
-                            </thead>
-                            <tbody  formArrayName="listFile">
-                                <ng-container
-                                    *ngFor="let item2 of item.get('listFile')['controls']; let k = index">
-                                    <tr [formGroupName]="k">
-                                        <td class="stt_table">{{k+1}}</td>
-                                        <td>{{item2.get('fileName').value}}</td>
-                                        <td>
-                                            {{item2.get('size').value >(1024 *
-                                            1024)?(item2.get('size').value/(1024*1024)).toFixed(1)+'(MB)':item2.get('size').value
-                                            >1024?(item2.get('size').value/(1024)).toFixed(1)+'(KB)':item2.get('size').value.toFixed(1)
-                                            +"K"}}</td>
+        <div class="list-file" *ngIf="item.get('listFile').value.length > 0">
+            <table class="table table_custom action-table" style="height: auto !important;">
+                <thead>
+                <tr>
+                    <th class="stt_table">STT</th>
+                    <th>Tên file</th>
+                    <th class="text-center">Kích thước
+                    </th>
+                    <th class="text-center">Số văn bản
+                    </th>
+                    <th style="width: 100px;"></th>
+                </tr>
+                </thead>
+                <tbody formArrayName="listFile">
+                <ng-container
+                    *ngFor="let item2 of item.get('listFile')['controls']; let k = index">
+                    <tr [formGroupName]="k">
+                        <td class="stt_table">{{k + 1}}</td>
+                        <td>{{item2.get('fileName').value}}</td>
+                        <td>
+                            {{item2.get('size').value > (1024 *
+                            1024) ? (item2.get('size').value / (1024 * 1024)).toFixed(1) + '(MB)' : item2.get('size').value
+                        > 1024 ? (item2.get('size').value / (1024)).toFixed(1) + '(KB)' : item2.get('size').value.toFixed(1)
+                            + "K"}}</td>
 
-                                        <td>{{item2.get('sovanban').value}}</td>
-                                        <td class="text-center"> <i
-                                                style="color: red; cursor: pointer;    margin-right: 10px;"
-                                                (click)="deleteItemFile(item,k)" class="fa fa-trash"
-                                                title="Xóa bỏ"></i>
-                                            <i class="fa fa-cloud-download"
-                                                style="color: green; cursor: pointer;" aria-hidden="true"
-                                                (click)="downLoadFile(item2)" title="Download file"></i>
-                                        </td>
+                        <td>{{item2.get('sovanban').value}}</td>
+                        <td class="text-center"><i
+                            style="color: red; cursor: pointer;    margin-right: 10px;"
+                            (click)="deleteItemFile(item,k)" class="fa fa-trash"
+                            title="Xóa bỏ"></i>
+                            <i class="fa fa-cloud-download"
+                               style="color: green; cursor: pointer;" aria-hidden="true"
+                               (click)="downLoadFile(item2)" title="Download file"></i>
+                        </td>
 
-                                    </tr>
-                                </ng-container>
+                    </tr>
+                </ng-container>
 
-                            </tbody>
-                        </table>
-                    </div>
+                </tbody>
+            </table>
+        </div>
 
-                    <label class="custom-file-upload add_button-import">
-                        <input type="file" multiple (change)="handleUpload($event,item,i)" #fileUpload2 />
-                        <i class="fa fa-cloud-upload"></i> Upload file
-                    </label>
+        <label class="custom-file-upload add_button-import">
+            <input type="file" multiple (change)="handleUpload($event,item,i)" #fileUpload2/>
+            <i class="fa fa-cloud-upload"></i> Upload file
+        </label>
     </div>
 
     <div class="action-all-f">
@@ -486,124 +487,220 @@
         <mat-tab label="Thông tin sáng kiến        ">
             <table class="table table_custom" style="margin-top: 0">
                 <tbody>
-                    <tr>
-                        <td>Tên giải pháp</td>
-                        <td style="font-weight: 600; color: #2a3493">
-                            Ứng dụng chuyển đổi số trong Hóa đơn điện tử
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Cấp độ sáng kiến</td>
-                        <td>ỨCấp EVN</td>
-                    </tr>
-                    <tr>
-                        <td>Lĩnh vực áp dụng sáng kiến</td>
-                        <td>ỨCấp EVN</td>
-                    </tr>
-                    <tr>
-                        <td>Đơn vị chủ đầu tư</td>
-                        <td>ỨCấp EVN</td>
-                    </tr>
-                    <tr>
-                        <td>Ưu nhược điểm của giải pháp kỹ thuật</td>
-                        <td>ỨCấp EVN</td>
-                    </tr>
-                    <tr>
-                        <td>Năm</td>
-                        <td>ỨCấp EVN</td>
-                    </tr>
-                    <tr>
-                        <td>Nội dung giải pháp</td>
-                        <td>ỨCấp EVN</td>
-                    </tr>
-                    <tr>
-                        <td>Ngày áp dụng chính thức</td>
-                        <td>Thư ký đề tài</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Quá trình áp dụng giải pháp trên thực tiễn hoặc áp
-                            dụng thử
-                        </td>
-                        <td>ỨCấp EVN</td>
-                    </tr>
-                    <tr>
-                        <td>Hiệu quả thực tế thu được khi áp dụng giải pháp</td>
-                        <td>ỨCấp EVN</td>
-                    </tr>
-                    <tr>
-                        <td>Tóm tắt: Bản chất của giải pháp/sáng kiến</td>
-                        <td>ỨCấp EVN</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Danh sách những người tham gia tổ chức áp dụng sáng
-                            kiến lần đầu (nếu có)
-                        </td>
-                        <td>ỨCấp EVN</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Số tiền làm lợi trong năm đầu tiên áp dụng giải pháp
-                        </td>
-                        <td>ỨCấp EVN</td>
-                    </tr>
-                    <tr>
-                        <td>Tác giả là thủ trưởng đơn vị</td>
-                        <td>ỨCấp EVN</td>
-                    </tr>
+                <tr>
+                    <td>Tên giải pháp</td>
+                    <td style="font-weight: 600; color: #2a3493">
+                        {{data.tenGiaiPhap}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>Cấp độ sáng kiến</td>
+                    <td>{{data.capDoSangKien}}</td>
+                </tr>
+                <tr>
+                    <td>Lĩnh vực áp dụng sáng kiến</td>
+                    <td>{{data.linhVucNghienCuu}}</td>
+                </tr>
+                <tr>
+                    <td>Đơn vị chủ đầu tư</td>
+                    <td>{{data.donViChuDauTu}}</td>
+                </tr>
+                <tr>
+                    <td>Ưu nhược điểm của giải pháp kỹ thuật</td>
+                    <td>{{data.uuNhuocDiem}}</td>
+                </tr>
+                <tr>
+                    <td>Năm</td>
+                    <td>{{data.nam}}</td>
+                </tr>
+                <tr>
+                    <td>Nội dung giải pháp</td>
+                    <td>{{data.noiDungGiaiPhap}}</td>
+                </tr>
+                <tr>
+                    <td>Ngày áp dụng chính thức</td>
+                    <td>{{data.ngayApDung}}</td>
+                </tr>
+                <tr>
+                    <td>
+                        Quá trình áp dụng giải pháp trên thực tiễn hoặc áp
+                        dụng thử
+                    </td>
+                    <td>{{data.quaTrinhApDung}}</td>
+                </tr>
+                <tr>
+                    <td>Hiệu quả thực tế thu được khi áp dụng giải pháp</td>
+                    <td>{{data.hieuQuaThucTe}}</td>
+                </tr>
+                <tr>
+                    <td>Tóm tắt: Bản chất của giải pháp/sáng kiến</td>
+                    <td>{{data.tomTat}}</td>
+                </tr>
+                <tr>
+                    <td>
+                        Danh sách những người tham gia tổ chức áp dụng sáng
+                        kiến lần đầu (nếu có)
+                    </td>
+                    <td>
+                        <table>
+                            <thead>
+                            <th>STT</th>
+                            <th>Họ và tên</th>
+                            <th>Vai trò</th>
+                            <th>Năm sinh</th>
+                            <th>Nơi công tác</th>
+                            <th>Trình độ chuyên môn</th>
+                            <th>Nội dung tham gia</th>
+                            </thead>
+                            <tbody>
+                            <ng-container *ngFor="let item of data.danhSachThanhVien; let i = index">
+                                <tr>
+                                    <td>{{i + 1}}</td>
+                                    <td>{{item.ten}}</td>
+                                    <td>{{item.chucDanh}}</td>
+                                    <td>{{item.namSinh}}</td>
+                                    <td>{{item.diaChiNoiLamViec}}</td>
+                                    <td>{{item.thanhTuu}}</td>
+                                    <td>{{item.noiDungThamGia}}</td>
+                                    <td></td>
+                                </tr>
+                            </ng-container>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Số tiền làm lợi trong năm đầu tiên áp dụng giải pháp
+                    </td>
+                    <td>{{data.soTienLamLoi}}</td>
+                </tr>
+                <tr>
+                    <td>Tác giả là thủ trưởng đơn vị</td>
+                    <td>{{data.thuTruongDonVi}}</td>
+                </tr>
                 </tbody>
             </table>
             <div class="flex items-center mt-3">
-                <input
-                    type="text"
-                    placeholder="Đơn đăng ký"
-                    class="form-control w-100 mr-2"
-                    name=""
-                    id=""
-                />
-                <button
-                    class="bg-sky-500 color text-white px-8 py-2 rounded-md"
+                <div style="width: 200px;"><label>Đơn đăng ký : </label></div><br>
+                <div
+                    class="list-file"
+                    *ngIf="listFileVB.length > 0"
                 >
-                    <i class="fa fa-cloud-download"></i> Tải về
-                </button>
+                    <table class="table table_custom action-table" style="width: auto; padding: 10px; text-align: center">
+<!--                        formArrayName="listFile"-->
+                        <tbody
+
+                            class="table_listfile"
+                        >
+                        <tr
+                            *ngFor="let item2 of listFileVB;let k = index"
+                        >
+                            <td style="width: auto;">
+                                <i
+                                    class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
+                                ></i>
+                                {{item2.fileName}}
+                            </td>
+                            <td style="width: 70px;  text-align: center">
+                                {{
+                                item2.size > 1024 * 1024 ?
+                                    (item2.size / (1024 * 1024)).toFixed(1) + "(MB)"
+                                    : item2.size > 1024
+                                    ? (item2.size / 1024).toFixed(1) +
+                                    "(KB)"
+                                    : item2.size.toFixed(1) + "K"
+                                }}
+                            </td>
+
+                            <td>
+                                {{item2.sovanban}}
+                            </td>
+                            <td class="text-right">
+                                <i
+                                    class="fa fa-cloud-download"
+                                    style=" color: green;cursor: pointer; font-size: 20px;"
+                                    aria-hidden="true"
+                                    (click)="downLoadFile(item2)"
+                                    title="Download file"
+                                ></i>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <div class="flex items-center mt-3">
-                <input
-                    type="text"
-                    placeholder="Hồ sơ tài liệu đính kèm"
-                    class="form-control w-100 mr-2"
-                    name=""
-                    id=""
-                />
-                <button
-                    class="bg-sky-500 color text-white px-8 py-2 rounded-md"
+                <div style="width: 200px;"><label>Hồ sơ tài liệu đính kèm: </label></div><br>
+                <div
+                    class="list-file"
+                    *ngIf="listFileOther.length > 0"
                 >
-                    <i class="fa fa-cloud-download"></i> Tải về
-                </button>
+                    <table class="table table_custom action-table"  style="width: auto; padding: 10px;">
+<!--                        formArrayName="listFile"-->
+                        <tbody
+
+                            class="table_listfile"
+                        >
+                        <tr
+                            *ngFor="let item3 of listFileOther;let l = index"
+                        >
+                            <td  style="width: auto;">
+                                <i
+                                    class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
+                                ></i>
+                                {{item3.fileName}}
+                            </td>
+                            <td  style="width: 70px;  text-align: center">
+                                {{
+                                item3.size > 1024 * 1024 ?
+                                    (item3.size / (1024 * 1024)).toFixed(1) + "(MB)"
+                                    : item3.size > 1024
+                                    ? (item3.size / 1024).toFixed(1) +
+                                    "(KB)"
+                                    : item3.size.toFixed(1) + "K"
+                                }}
+                            </td>
+
+                            <td>
+                                {{item3.sovanban}}
+                            </td>
+                            <td class="text-right">
+                                <i
+                                    class="fa fa-cloud-download"
+                                    style=" color: green;cursor: pointer; font-size: 20px;"
+                                    aria-hidden="true"
+                                    (click)="downLoadFile(item3)"
+                                    title="Download file"
+                                ></i>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </mat-tab>
         <mat-tab label="Thông tin tác giả">
             <table class="table table_custom" style="margin-top: 0">
                 <thead>
-                    <tr>
-                        <th class="stt_table">STT</th>
-                        <th>Họ và tên</th>
-                        <th>Vai trò</th>
-                        <th>Nơi công tác</th>
-                        <th>Trình độ chuyên môn</th>
-                        <th>Nội dung tham gia</th>
-                    </tr>
+                <tr>
+                    <th class="stt_table">STT</th>
+                    <th>Họ và tên</th>
+                    <th>Vai trò</th>
+                    <th>Nơi công tác</th>
+                    <th>Trình độ chuyên môn</th>
+                    <th>Nội dung tham gia</th>
+                </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td class="stt_table">1</td>
-                        <td>Noi dung</td>
-                        <td>Noi dung</td>
-                        <td>Noi dung</td>
-                        <td>Noi dung</td>
-                        <td>Noi dung</td>
-                    </tr>
+                <tbody style="text-align: center;">
+                <tr *ngFor="let item4 of listAuthor;let l = index">
+                    <td class="stt_table">{{l + 1}}</td>
+                    <td>{{item4.ten}}</td>
+                    <td>{{item4.chucDanh}}</td>
+                    <td>{{item4.diaChiNoiLamViec}}</td>
+                    <td>{{item4.thanhTuu}}</td>
+                    <td>{{item4.noiDungThamGia}}</td>
+                </tr>
                 </tbody>
             </table>
         </mat-tab>
@@ -613,77 +710,77 @@
                     <label class="tiite_lale" for="">Trạng thái</label>
                 </div>
                 <div class="w-40">
-                    <span>Đã được công nhận</span>
+                    <span>{{data.maTrangThai}}</span>
                 </div>
                 <div class="w-40">
                     <label class="tiite_lale" for="">Ngày xét duyệt</label>
                 </div>
                 <div class="w-40">
-                    <span>09/12/2020</span>
+                    <span>{{data.ngayApDung}}</span>
                 </div>
             </div>
 
             <label class="tiite_lale flex"
-                >Luận giải của hội đồng khoa học về kết quả đánh giá</label
+            >Luận giải của hội đồng khoa học về kết quả đánh giá: </label
             >
-            <label class="tiite_lale flex">Kiến nghị của Hội đồng</label>
-            <label class="tiite_lale flex">Thù lao cho sáng kiến</label>
+            <label class="tiite_lale flex">Kiến nghị của Hội đồng: </label>
+            <label class="tiite_lale flex">Thù lao cho sáng kiến: <span>{{data.soTienLamLoi}}</span></label>
             <label
                 class="tiite_lale"
                 style="margin-top: 20px; display: block"
                 for=""
-                >Thành viên hội đồng</label
+            >Thành viên hội đồng</label
             >
             <table class="table table_custom" style="margin-top: 0">
                 <thead>
-                    <tr>
-                        <th class="stt_table">STT</th>
-                        <th>Thành viên hội đồng</th>
-                        <th>Vai trò</th>
-                        <th>Ghi chú</th>
-                    </tr>
+                <tr>
+                    <th class="stt_table">STT</th>
+                    <th>Thành viên hội đồng</th>
+                    <th>Vai trò</th>
+                    <th>Ghi chú</th>
+                </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td class="stt_table">1</td>
-                        <td>Noi dung</td>
-                        <td>Noi dung</td>
-                        <td>Noi dung</td>
-                    </tr>
+                <tr>
+                    <td class="stt_table">1</td>
+                    <td>Noi dung</td>
+                    <td>Noi dung</td>
+                    <td>Noi dung</td>
+                </tr>
                 </tbody>
             </table>
 
             <table class="table table_custom mt-5">
                 <thead>
-                    <tr>
-                        <th class="stt_table">STT</th>
-                        <th>Văn bản liên quan</th>
-                        <th>Số ký hiệu</th>
-                        <th>Ngày văn bản</th>
-                        <th>File nội dung</th>
-                    </tr>
+                <tr>
+                    <th class="stt_table">STT</th>
+                    <th>Văn bản liên quan</th>
+                    <th>Số ký hiệu</th>
+                    <th>Ngày văn bản</th>
+                    <th>File nội dung</th>
+                </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td class="stt_table">1</td>
-                        <td>Noi dung</td>
-                        <td class="text-center">Noi dung</td>
-                        <td class="text-center">Noi dung</td>
-                        <td class="text-center">
-                            <button
-                                class="bg-sky-500 color text-white px-8 py-2 rounded-md"
-                            >
-                                <i class="fa fa-cloud-download"></i> Tải về
-                            </button>
-                        </td>
-                    </tr>
+                <tr>
+                    <td class="stt_table">1</td>
+                    <td>Noi dung</td>
+                    <td class="text-center">Noi dung</td>
+                    <td class="text-center">Noi dung</td>
+                    <td class="text-center">
+                        <button
+                            class="bg-sky-500 color text-white px-8 py-2 rounded-md"
+                        >
+                            <i class="fa fa-cloud-download"></i> Tải về
+                        </button>
+                    </td>
+                </tr>
                 </tbody>
             </table>
 
             <div class="flex flex-row row gap-4">
                 <div class="basis-1/6">
                     <label for=""
-                        >Phiếu đánh giá của các thành viên hội đồng</label
+                    >Phiếu đánh giá của các thành viên hội đồng</label
                     >
                 </div>
                 <div class="basis-1/5">

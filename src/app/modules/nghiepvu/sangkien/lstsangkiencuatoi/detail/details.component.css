@@ -20,23 +20,24 @@ label {
 .select-cbkh {
     position: relative;
 
-    .inputselect {
-        width: 100%;
-    }
+.inputselect {
+    width: 100%;
+}
 
-    .fa-search {
-        position: absolute;
-        top: 0px;
-        right: 0px;
-        background: #ccc;
-        height: 100%;
-        width: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #000;
-        cursor: pointer;
-    }
+.fa-search {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    background: #ccc;
+    height: 100%;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+    cursor: pointer;
+}
+
 }
 
 .list_check {
@@ -52,22 +53,75 @@ label {
 .item_list_check span {
     margin-left: 3px;
 }
-.dem-pading{
+
+.dem-pading {
     padding: 0px 20px;
     padding-top: 6px;
 }
-.date-customt .form-control{
+
+.date-customt .form-control {
     max-width: 200px;
 }
-.content-detail{
+
+.content-detail {
     height: calc(100vh - 80px);
 }
-.action-all-f{
+
+.action-all-f {
     margin-bottom: 20px;
     margin-top: 20px;
-    .add_button{
-        margin-right: 20px;
-        min-width: 150px;
-        text-align: center;
-    }
+
+.add_button {
+    margin-right: 20px;
+    min-width: 150px;
+    text-align: center;
 }
+
+}
+
+.action-table {
+    width: 150px;
+
+i {
+    padding: 5px;
+    border: 1px solid #cfcfcf;
+    border-radius: 3px;
+    cursor: pointer;
+    border-color: #ccc;
+    margin-right: 5px;
+}
+
+i.fa-info-circle,
+i.fa-retweet {
+
+&
+:hover {
+    border-color: #2A3493;
+}
+
+}
+
+i.fa-pencil {
+    color: #56BEEA;
+
+&
+:hover {
+    border-color: #56BEEA;
+}
+
+}
+
+i.fa-trash {
+    color: red;
+
+&
+:hover {
+    border-color: red;
+}
+
+}
+}
+.action-table .tr .td{
+    width: 150px;
+}
+

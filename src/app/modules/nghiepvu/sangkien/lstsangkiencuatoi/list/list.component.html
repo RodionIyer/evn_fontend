@@ -1,15 +1,15 @@
 <div class="relative eco_conntent">
     <div class="bg-white px-3 content-screen">
-    <!--màn hình danh sách-->
-    <ng-container *ngIf="!actionClick">
-        <div class="flex items-center justify-between">
-            <h1 class="title-component">SÁNG KIẾN CỦA TÔI            </h1>
-            <button class="add_button" (click)="addNew()">
-                <i class="fa fa-plus"></i> Đăng ký mới
-            </button>
-        </div>
-        <table class="table table_custom">
-            <thead>
+        <!--màn hình danh sách-->
+        <ng-container *ngIf="!actionClick">
+            <div class="flex items-center justify-between">
+                <h1 class="title-component">SÁNG KIẾN CỦA TÔI </h1>
+                <button class="add_button" (click)="addNew()">
+                    <i class="fa fa-plus"></i> Đăng ký mới
+                </button>
+            </div>
+            <table class="table table_custom">
+                <thead>
                 <tr>
                     <th class="stt_table">STT</th>
                     <th>Tên giải pháp</th>
@@ -19,21 +19,23 @@
                     <th class="text-center">Trạng thái</th>
                     <th class="text-center action-table"></th>
                 </tr>
-            </thead>
-            <tbody>
+                </thead>
+                <tbody>
                 <tr *ngFor="let item of listGiao; let i = index">
-                    <td class="stt_table">{{ i+ 1}}</td>
+                    <td class="stt_table">{{ i + 1}}</td>
                     <td>{{item.tenGiaiPhap}}</td>
                     <td class="text-center">{{item.tenCapDoSangKien}}</td>
                     <td class="text-center">{{item.tenDonViChuDauTu}}</td>
                     <td class="text-center">{{item.nam}}</td>
-                    <td class="text-center">{{item.tenTrangThai}}</td>
+                    <td class="text-center">{{item.maTrangThai}}</td>
                     <td class="action-table">
-                        <div class="flex justify-evenly"  style="float: left;">
+                        <div class="flex justify-evenly" style="float: left;">
                             <i class="fa fa-info-circle cursor-point" (click)="detail(item)" title="Xem chi tiết"></i>
-                          <i class="fa fa-clock-o cursor-point" (click)="lichsu(item)" title="Xem lịch sử"></i>
-                            <i *ngIf="item.maTrangThai=='SOAN' || item.maTrangThai=='Y_CAU_HIEU_CHINH' " class="fa fa-pencil cursor-point"  (click)="editer(item)" title="Chỉnh sửa" ></i>
-                             <i *ngIf="item.maTrangThai=='SOAN' || item.maTrangThai=='Y_CAU_HIEU_CHINH' " class="fa fa-trash cursor-point" (click)="xoa(item)" title="Xóa bỏ"></i>
+                            <i class="fa fa-clock-o cursor-point" (click)="lichsu(item)" title="Xem lịch sử"></i>
+                            <i *ngIf="item.maTrangThai=='SOAN' || item.maTrangThai=='Y_CAU_HIEU_CHINH' "
+                               class="fa fa-pencil cursor-point" (click)="editer(item)" title="Chỉnh sửa"></i>
+                            <i *ngIf="item.maTrangThai=='SOAN' || item.maTrangThai=='Y_CAU_HIEU_CHINH' "
+                               class="fa fa-trash cursor-point" (click)="xoa(item)" title="Xóa bỏ"></i>
                         </div>
                     </td>
                 </tr>
@@ -56,29 +58,29 @@
                         </div>
                     </td>
                 </tr> -->
-            </tbody>
-        </table>
-        <!-- phan trang -->
-        <mat-paginator
-            (page)="handlePageEvent($event)"
-            [length]="length"
-            [pageSize]="pageSize"
-            [showFirstLastButtons]="showFirstLastButtons"
-            [pageSizeOptions]="pageSizeOptions"
-            [pageIndex]="pageIndex"
-            aria-label="Select page"
-        >
-        </mat-paginator>
-        <!-- <button (click)="openAlertDialog()" >Mop pup up fille</button> -->
-    </ng-container>
+                </tbody>
+            </table>
+            <!-- phan trang -->
+            <mat-paginator
+                (page)="handlePageEvent($event)"
+                [length]="length"
+                [pageSize]="pageSize"
+                [showFirstLastButtons]="showFirstLastButtons"
+                [pageSizeOptions]="pageSizeOptions"
+                [pageIndex]="pageIndex"
+                aria-label="Select page"
+            >
+            </mat-paginator>
+            <!-- <button (click)="openAlertDialog()" >Mop pup up fille</button> -->
+        </ng-container>
 
-    <!-- details -->
-    <ng-container *ngIf="actionClick">
-        <div
-            class="flex-auto z-20 absolute inset-0 lg:static lg:inset-auto flex"
-        >
-            <router-outlet></router-outlet>
-        </div>
-    </ng-container>
+        <!-- details -->
+        <ng-container *ngIf="actionClick">
+            <div
+                class="flex-auto z-20 absolute inset-0 lg:static lg:inset-auto flex"
+            >
+                <router-outlet></router-outlet>
+            </div>
+        </ng-container>
     </div>
 </div>

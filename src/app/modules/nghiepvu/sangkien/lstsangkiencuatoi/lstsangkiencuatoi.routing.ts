@@ -84,9 +84,6 @@ export const LstsangkiencuatoiRoutes: Route[] = [
             path: ':id',
             runGuardsAndResolvers: 'always',
             component: DetailsComponent,
-            // resolve: {
-            //   apiDetail: ApiInputDetailResolver
-            // }
           }
         ]
       }
