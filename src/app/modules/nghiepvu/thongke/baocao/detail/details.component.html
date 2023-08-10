@@ -101,6 +101,7 @@
             <th class="">Đơn vị chủ trì</th>
             <th class="">Kinh phí</th>
             <th class="">Nguồn kinh phí</th>
+            <th class="">Tổng kinh phí quyết toán</th>
             <th class="">Thời gian thực hiện</th>
         </tr>
         </thead>
@@ -119,6 +120,7 @@
                     <td>{{items.donViChuTri}}</td>
                     <td>{{items.kinhPhi}}</td>
                     <td>{{items.nguonKinhPhi}}</td>
+                    <td>{{items.tongKinhPhi}}</td>
                     <td>{{items.thoiGianThucHien}}</td>
                 </tr>
 
@@ -192,6 +194,9 @@
             <th class="">Lĩnh vực khoa học</th>
             <th class="">Đơn vị chủ đầu tư</th>
             <th class="">Số tiền làm lợi năm đầu tiên áp dụng</th>
+            <th class="">Thù lao cho tác giả</th>
+            <th class="">Thù lao cho người áp dụng lần đầu</th>
+            <th class="">Tổng cộng</th>
         </tr>
         </thead>
         <tbody>
@@ -208,6 +213,9 @@
                 <td>{{item.tenLinhVuc}}</td>
                 <td>{{items.donViChuTri}}</td>
                 <td>{{items.soTienLamLoi}}</td>
+                <td>{{items.thuLaoTacGia}}</td>
+                <td>{{items.thuLaoChoNguoiLanDau}}</td>
+                <td>{{items.tongKinhPhi}}</td>
             </tr>
 
         </ng-container>
