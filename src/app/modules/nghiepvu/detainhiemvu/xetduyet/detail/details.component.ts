@@ -29,14 +29,49 @@ import { MatSort } from '@angular/material/sort';
 import { ServiceService } from 'app/shared/service/service.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PopupCbkhComponent } from './popup-cbkh/popup-cbkh.component';
+import {
+    DateAdapter,
+    MAT_DATE_FORMATS,
+    MAT_DATE_LOCALE,
+} from '@angular/material/core';
+import {
+    MAT_MOMENT_DATE_ADAPTER_OPTIONS,
+    MomentDateAdapter,
+} from '@angular/material-moment-adapter';
+
+export const MY_FORMATS = {
+    parse: {
+        dateInput: 'DD/MM/YYYY',
+    },
+    display: {
+        dateInput: 'DD/MM/YYYY',
+        monthYearLabel: 'MMM YYYY',
+        dateA11yLabel: 'LL',
+        monthYearA11yLabel: 'MMMM YYYY',
+    },
+};
 
 @Component({
     selector: 'component-details',
     templateUrl: './details.component.html',
     styleUrls: ['./details.component.css'],
+    providers: [
+        {
+            provide: DateAdapter,
+            useClass: MomentDateAdapter,
+        },
+
+        { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+    ],
     encapsulation: ViewEncapsulation.None,
 })
 export class DetailsComponent implements OnInit {
+    public mask = {
+        guide: true,
+        showMask: true,
+        // keepCharPositions : true,
+        mask: [/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/]
+      };
     public selectedYear: number;
     public getYearSubscription: Subscription;
     public listTrangThai = [];
@@ -328,7 +363,11 @@ export class DetailsComponent implements OnInit {
                         .get('thoiGianThucHienDen')
                         .setValue(new Date(thoiGianDen));
                 }
-                console.log(this.form);
+                if (method == 'HOIDONG') {
+                    this.form.get('maTrangThai').setValue('DA_TLHDXD');
+                } else if (method== 'THANHLAPHD') {
+                    this.form.get('maTrangThai').setValue('DANG_THUC_HIEN');
+                }
             });
     }
     addListDocParent(item?: any) {

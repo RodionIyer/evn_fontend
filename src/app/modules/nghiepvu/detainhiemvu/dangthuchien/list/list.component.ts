@@ -33,6 +33,9 @@ export class ListItemComponent implements OnInit, OnDestroy {
     public getGiaoSubcription: Subscription;
     public listYears = [];
     public listGiao = [];
+    public listCapQuanLy=[];
+    public capQuanLy;
+    public q;
     public ListFleDemo = [
         { id: 1, name: 'ten_file', kichthuoc: '20mb' },
         { id: 2, name: 'ten_file1', kichthuoc: '20mb' },
@@ -64,11 +67,25 @@ export class ListItemComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         // this.geListYears();
         this.timKiem();
+        this.getListCapQuanLy();
+    }
+
+    getListCapQuanLy() {
+        this._serviceApi
+            .execServiceLogin('2977F0EA-A6C6-4A32-A36B-8617898B710D', null)
+            .subscribe((data) => {
+                this.listCapQuanLy = data.data || [];
+            });
     }
     timKiem() {
+        let obj={
+            capQuanLy:this.capQuanLy,
+            q:this.q
+        }
         this._serviceApi
-            .execServiceLogin('00249219-4EE7-466D-BD84-269064AC9D9B', [
-                { name: 'TEN_DETAI', value: '' },
+            .execServiceLogin('F2F9604E-336C-47FB-BA0B-53A4D3869795', [
+                { name: 'LOAI_TIM_KIEM', value: 'DANGTHUCHIEN' },
+                { name: 'TIM_KIEM', value: JSON.stringify(obj) },
                 { name: 'PAGE_NUM', value: this.pageIndex },
                 { name: 'PAGE_ROW_NUM', value: this.pageSize },
             ])

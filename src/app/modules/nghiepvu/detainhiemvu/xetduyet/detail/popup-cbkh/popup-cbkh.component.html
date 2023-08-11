@@ -217,14 +217,22 @@
         </ng-container>
         <ng-container *ngIf="checkType=='HOIDONG'">
             <div class="title-popup">
-                <i class="fa fa-search"></i> Tìm kiếm Chu nhiệm
+                <i class="fa fa-search"></i> Tìm kiếm hội đồng
             </div>
             <div class="content-popup">
                 <div class="box-search flex items-center	">
                     <label for="">Tìm kiếm</label>
-                    <input type="text" class="form-control" placeholder="Nhập từ khóa cần tìm..." name="" id="">
+                    <input type="text" class="form-control" (ngModelChange)="timkiemHoiDong()" [(ngModel)]="q" placeholder="Nhập từ khóa cần tìm..." name="" id="">
                     <label for="">Mã đơn vị</label>
-                    <input type="text" class="form-control" placeholder="Nhập từ khóa cần tìm..." name="" id="">
+                    <ng-select class="form-control"
+                    [items]="listDonVi"
+                    bindLabel="NAME"
+                    bindValue="ID"
+                    placeholder="Chọn đơn vị"
+                    [(ngModel)]="maDonVi"
+                    (change)="timkiemHoiDong()"
+                >
+                </ng-select>
                 </div>
             
                 <table class="table table_custom">

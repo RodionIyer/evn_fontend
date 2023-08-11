@@ -54,11 +54,11 @@
                                         formControlName="nguonKinhPhi">
                                     </ng-select>  
                                 </td>
-                                    <td><input type="text" class="form-control" formControlName="duToan" /></td>
+                                    <td><input type="text" class="form-control" formControlName="duToan" money /></td>
                                     <td><input type="text" class="form-control" formControlName="donViChuTri" /></td>
                                     <td><input type="text" class="form-control" formControlName="chuNhiemNhiemVu" /></td>
                                     <td><input type="text" class="form-control" formControlName="noiDungHoatDong" /></td>
-                                    <td><input type="text" class="form-control" formControlName="thoiGianDuKien" /></td><!--{{itemc.get('thoiGianDuKien').value}}-->
+                                    <td><input type="text" class="form-control" formControlName="thoiGianDuKien"  [textMask]="{mask: mask}"/></td><!--{{itemc.get('thoiGianDuKien').value}}-->
                                     <!-- <td><input type="text" class="form-control" formControlName="YKienNguoiPheDuyet" /></td> -->
                                     <td class="text-center action-table actiom-table-detail">
                                         <div class="flex justify-evenly" *ngIf="itemc.get('chiTiet').value ==0">
@@ -107,11 +107,11 @@
                                                     formControlName="nguonKinhPhi">
                                                 </ng-select>  
                                             </td>
-                                                <td><input type="text" class="form-control" formControlName="duToan" /></td>
+                                                <td><input type="text" class="form-control" formControlName="duToan" money /></td>
                                                 <td><input type="text" class="form-control" formControlName="donViChuTri" /></td>
                                                 <td><input type="text" class="form-control" formControlName="chuNhiemNhiemVu" /></td>
                                                 <td><input type="text" class="form-control" formControlName="noiDungHoatDong" /></td>
-                                                <td><input type="text" class="form-control" formControlName="thoiGianDuKien" /></td><!--{{itemc.get('thoiGianDuKien').value}}-->
+                                                <td><input type="text" class="form-control" formControlName="thoiGianDuKien" [textMask]="{mask: mask}" /></td><!--{{itemc.get('thoiGianDuKien').value}}-->
                                                 <!-- <td><input type="text" class="form-control" formControlName="YKienNguoiPheDuyet" /></td> -->
                                                 <td class="text-center action-table actiom-table-detail">
                                                     <div class="flex justify-evenly">
@@ -159,11 +159,11 @@
                                                                 formControlName="nguonKinhPhi">
                                                             </ng-select>  
                                                         </td>
-                                                            <td><input type="text" class="form-control" formControlName="duToan" /></td>
+                                                            <td><input type="text" class="form-control" formControlName="duToan" money/></td>
                                                             <td><input type="text" class="form-control" formControlName="donViChuTri" /></td>
                                                             <td><input type="text" class="form-control" formControlName="chuNhiemNhiemVu" /></td>
                                                             <td><input type="text" class="form-control" formControlName="noiDungHoatDong" /></td>
-                                                            <td><input type="text" class="form-control" formControlName="thoiGianDuKien" /></td><!--{{itemc.get('thoiGianDuKien').value}}-->
+                                                            <td><input type="text" class="form-control" formControlName="thoiGianDuKien" [textMask]="{mask: mask}"/></td><!--{{itemc.get('thoiGianDuKien').value}}-->
                                                             <!-- <td><input type="text" class="form-control" formControlName="YKienNguoiPheDuyet" /></td> -->
                                                             <td class="text-center action-table actiom-table-detail">
                                                                 <div class="flex justify-evenly">

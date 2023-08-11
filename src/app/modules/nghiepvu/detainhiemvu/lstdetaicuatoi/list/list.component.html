@@ -43,12 +43,12 @@
             <tbody>
                 <tr>
                     <tr *ngFor="let item of listGiao; let i = index">
-                        <td class="stt_table">{{ i+ 1}}</td>
+                        <td class="stt_table">{{ (i+(pageIndex * pageSize))+ 1}}</td>
                         <td>{{item.tenDeTai}}</td>
                         <td>{{item.tenCapQuanLy}}</td>
                         <td class="text-center">{{item.chuNhiemDeTai}}</td>
                         <td>{{item.tenDonViChuTri}}</td>
-                        <td class="text-center">{{item.thoiGianThucHienTu | date:'dd/MM/yyyy' }} - {{item.thoiGianThucHienDen | date:'dd/MM/yyyy' }}</td>
+                        <td class="text-center">{{item.thoiGianThucHienTu | date:'MM/yyyy' }} - {{item.thoiGianThucHienDen | date:'MM/yyyy' }}</td>
                         <td>{{item.tenTrangThai}}</td>
                         <td class="text-center">{{item.ngayTao | date:'yyyy' }}</td>
                         <td></td>
@@ -59,7 +59,7 @@
                                 title="Xem chi tiết"
                             ></i>
                             <i class="fa fa-clock-o" (click)="lichsu(item)" title="Xem lịch sử"></i>
-                            <i *ngIf="item.maTrangThai=='CHUA_GUI'" class="fa fa-pencil" (click)="editer(item)" title="Chỉnh sửa"></i>
+                            <i *ngIf="item.maTrangThai=='CHUA_GUI' || item.maTrangThai=='Y_CAU_HIEU_CHINH'" class="fa fa-pencil" (click)="editer(item)" title="Chỉnh sửa"></i>
                             <i  *ngIf="item.maTrangThai=='DANG_THUC_HIEN'" (click)="updateActionHSTH(item)" title="Cập nhập HSTH" class="fa fa-caret-square-o-up"></i>
                             <i  *ngIf="item.maTrangThai=='DANG_THUC_HIEN'" (click)="updateActionTIENDO(item)" title="Cập nhật tiến độ thực hiện" class="fa fa-caret-square-o-up"></i>
                             <i  *ngIf="item.maTrangThai=='DANG_THUC_HIEN'" (click)="updateActionHSNT(item)" title="Cập nhật HSNT" class="fa fa-caret-square-o-up"></i>

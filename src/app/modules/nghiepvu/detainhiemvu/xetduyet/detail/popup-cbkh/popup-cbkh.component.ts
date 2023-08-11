@@ -31,6 +31,9 @@ export class PopupCbkhComponent implements OnInit {
     public listThanhVien = [];
     public listHoiDong = [];
     public getDinhHuongSubcription: Subscription;
+    public q="";
+    public maDonVi="";
+    public listDonVi;
     constructor(
         @Inject(MAT_DIALOG_DATA) private data: any,
         private _formBuilder: UntypedFormBuilder,
@@ -57,6 +60,7 @@ export class PopupCbkhComponent implements OnInit {
         // this._messageService.showSuccessMessage("Thông báo", "Thành công")
         if(this.checkType=="HOIDONG"){
             this.timkiemHoiDong();
+            this.donViChuTri();
         }else
         if(this.checkType=="KEHOACH"){
             this.timkiemKehoach();
@@ -78,6 +82,13 @@ export class PopupCbkhComponent implements OnInit {
            data:item
           });
     }
+    donViChuTri(){
+        
+        this._serviceApi.execServiceLogin("D3F0F915-DCA5-49D2-9A5B-A36EBF8CA5D1", null).subscribe((data) => {
+            console.log(data.data);
+            this.listDonVi = data.data || [];
+           })
+    }
 
     timkiemKehoach(){
         this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("34A59664-4613-482F-95CA-CCF346E2140A", [{"name":"TEN_KE_HOACH","value":""}]).subscribe((data) => {
@@ -87,7 +98,8 @@ export class PopupCbkhComponent implements OnInit {
            })
     }
     timkiemHoiDong(){
-        this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("D5738375-3591-4986-94FC-E523F645A858", [{"name":"TEN_NGUOI_THUC_HIEN","value":""},{"name":"MA_DON_VI","value":"124"}]).subscribe((data) => {
+        debugger;
+        this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("D5738375-3591-4986-94FC-E523F645A858", [{"name":"TEN_NGUOI_THUC_HIEN","value":this.q},{"name":"MA_DON_VI","value":this.maDonVi}]).subscribe((data) => {
                 this.listHoiDong = data.data || [];
            })
     }

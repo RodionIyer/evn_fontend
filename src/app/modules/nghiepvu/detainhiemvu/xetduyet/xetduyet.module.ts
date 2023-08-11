@@ -24,7 +24,7 @@ import { CommonModule } from '@angular/common';
 import { FuseAlertModule } from '@fuse/components/alert';
 import { FuseNavigationModule } from '@fuse/components/navigation';
 import { HighlightPlusModule } from 'ngx-highlightjs/plus';
-import { XetDuyetRoutes} from './xetduyet.routing';
+import { XetDuyetRoutes } from './xetduyet.routing';
 import { ListItemComponent } from './list/list.component';
 import { XetDuyetComponent } from './xetduyet.component';
 import { DetailsComponent } from './detail/details.component';
@@ -33,18 +33,25 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { SharedModule } from 'app/shared/shared.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { PopupCbkhComponent } from './detail/popup-cbkh/popup-cbkh.component';
+import {
+    MatDatepicker,
+    MatDatepickerModule,
+} from '@angular/material/datepicker';
+import { NgxMaskModule, IConfig } from 'ngx-mask';
+import { TextMaskModule } from 'angular2-text-mask';
 
 
-
-
+export const options: Partial<null | IConfig> | (() => Partial<IConfig>) = null;
 
 @NgModule({
     imports: [
         SharedModule,
-        RouterModule.forChild(XetDuyetRoutes), MatButtonModule,
+        RouterModule.forChild(XetDuyetRoutes),
+        MatButtonModule,
         MatButtonToggleModule,
         MatDividerModule,
         MatIconModule,
+        MatDatepickerModule,
         MatMenuModule,
         MatProgressBarModule,
         MatRippleModule,
@@ -54,9 +61,22 @@ import { PopupCbkhComponent } from './detail/popup-cbkh/popup-cbkh.component';
         MatTableModule,
         FormsModule,
         MatDialogModule,
-        MatTabsModule, MatToolbarModule, MatPaginatorModule, MatListModule,
-        MatInputModule, ReactiveFormsModule, MatSelectModule, MatAutocompleteModule, MatSlideToggleModule,
-        CommonModule, NgxMatSelectSearchModule, FuseAlertModule, FuseNavigationModule, HighlightPlusModule
+        MatTabsModule,
+        MatToolbarModule,
+        MatPaginatorModule,
+        MatListModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        MatSelectModule,
+        MatAutocompleteModule,
+        MatSlideToggleModule,
+        CommonModule,
+        NgxMatSelectSearchModule,
+        FuseAlertModule,
+        FuseNavigationModule,
+        HighlightPlusModule,
+        NgxMaskModule.forRoot(),
+        TextMaskModule
     ],
     declarations: [
         DetailsComponent,
@@ -64,7 +84,7 @@ import { PopupCbkhComponent } from './detail/popup-cbkh/popup-cbkh.component';
         DetailsComponent,
         XetDuyetComponent,
         ApiGiaoEmptyDetailsComponent,
-        PopupCbkhComponent
-    ]
+        PopupCbkhComponent,
+    ],
 })
-export class XetDuyetModule { }
+export class XetDuyetModule {}

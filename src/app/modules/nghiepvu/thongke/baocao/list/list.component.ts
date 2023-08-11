@@ -123,14 +123,14 @@ export class ListItemComponent implements OnInit, OnDestroy {
     THEOSANGKIEN(item?:any){
         this.selectedOption = item;
             this._router.navigate(
-                ['/nghiepvu/baocao/thongke'],
+                ['/nghiepvu/baocao/tkdetai'],
                 {queryParams: {type: 'THEOSANGKIEN', search: item}}
             );
     }
     THEOHOATDONG(item?:any){
         this.selectedOption = item;
             this._router.navigate(
-                ['/nghiepvu/baocao/thongke'],
+                ['/nghiepvu/baocao/tkdetai'],
                 { queryParams: { type: 'THEOHOATDONG',search:item } }
             );
     }

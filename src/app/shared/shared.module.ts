@@ -7,13 +7,16 @@ import { PopupConfirmComponent } from './component/popup-confirm/popup-confirmco
 import { LichsuComponent } from './component/lichsu/lichsu.component';
 import { LichsuKeHoachComponent } from './component/lichsuKeHoach/lichsuKeHoach.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { moneyDirective } from './fomat-money.directive';
+import { TextMaskModule } from 'angular2-text-mask';
 
 @NgModule({
     imports: [
         CommonModule,
         FormsModule,
         ReactiveFormsModule, 
-        NgSelectModule
+        NgSelectModule,
+        TextMaskModule
     ],
 
     declarations: [
@@ -21,7 +24,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
         PopupFileComponent,
         PopupConfirmComponent,
         LichsuComponent,
-        LichsuKeHoachComponent
+        LichsuKeHoachComponent,
+        moneyDirective
     ],
     exports: [
         CommonModule,
@@ -31,7 +35,9 @@ import { NgSelectModule } from '@ng-select/ng-select';
         PopupFileComponent,
         PopupConfirmComponent,
         LichsuComponent,
-        LichsuKeHoachComponent
+        LichsuKeHoachComponent,
+        moneyDirective
+       
     ]
 })
 export class SharedModule

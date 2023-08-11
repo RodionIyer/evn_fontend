@@ -33,13 +33,16 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { SharedModule } from 'app/shared/shared.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { PopupCbkhComponent } from './detail/popup-cbkh/popup-cbkh.component';
-
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 
 
 
 @NgModule({
     imports: [
+        MatDatepickerModule,
+        MatMomentDateModule,
         SharedModule,
         RouterModule.forChild(LstsangkiencuatoiRoutes), MatButtonModule,
         MatButtonToggleModule,
@@ -56,7 +59,8 @@ import { PopupCbkhComponent } from './detail/popup-cbkh/popup-cbkh.component';
         MatDialogModule,
         MatTabsModule, MatToolbarModule, MatPaginatorModule, MatListModule,
         MatInputModule, ReactiveFormsModule, MatSelectModule, MatAutocompleteModule, MatSlideToggleModule,
-        CommonModule, NgxMatSelectSearchModule, FuseAlertModule, FuseNavigationModule, HighlightPlusModule
+        CommonModule, NgxMatSelectSearchModule, FuseAlertModule, FuseNavigationModule, HighlightPlusModule,
+        MatDatepickerModule
     ],
     declarations: [
         ListItemComponent,

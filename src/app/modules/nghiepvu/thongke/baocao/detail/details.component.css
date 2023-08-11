@@ -19,7 +19,7 @@ label {
 
 .select-cbkh {
     position: relative;
-
+}
 .inputselect {
     width: 100%;
 }
@@ -36,8 +36,6 @@ label {
     justify-content: center;
     color: #000;
     cursor: pointer;
-}
-
 }
 
 .list_check {
@@ -70,13 +68,11 @@ label {
 .action-all-f {
     margin-bottom: 20px;
     margin-top: 20px;
-
+}
 .add_button {
     margin-right: 20px;
     min-width: 150px;
     text-align: center;
-}
-
 }
 
 /* paginator.css */

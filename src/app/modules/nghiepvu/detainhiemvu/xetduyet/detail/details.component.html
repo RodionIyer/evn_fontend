@@ -102,28 +102,27 @@
                                                 {{
                                                     item2.get("fileName").value
                                                 }}
-                                            </td>
-                                            <td>
-                                                {{
+                                                
+                                                ({{
                                                     item2.get("size").value >
                                                     1024 * 1024
                                                         ? (
                                                               item2.get("size")
                                                                   .value /
                                                               (1024 * 1024)
-                                                          ).toFixed(1) + "(MB)"
+                                                          ).toFixed(1) + "MB"
                                                         : item2.get("size")
                                                               .value > 1024
                                                         ? (
                                                               item2.get("size")
                                                                   .value / 1024
-                                                          ).toFixed(1) + "(KB)"
+                                                          ).toFixed(1) + "KB"
                                                         : item2
                                                               .get("size")
                                                               .value.toFixed(
                                                                   1
                                                               ) + "K"
-                                                }}
+                                                }})
                                             </td>
 
                                             <td>
@@ -256,7 +255,8 @@
                             id=""
                             formControlName="ten"
                         />
-                        <i (click)="openAlertDialog('HOIDONG', thanhvien)"
+                        <i
+                            (click)="openAlertDialog('HOIDONG', thanhvien)"
                             class="fa fa-search"
                         ></i>
                     </div>
@@ -383,7 +383,8 @@
             <span>{{ form.get("donViCongTac").value }}</span>
         </div>
     </div>
-    <div  formArrayName="listFolderFileHD"
+    <div
+        formArrayName="listFolderFileHD"
         style="display: flex; margin-top: 10px; align-items: center"
         *ngFor="
             let item of form.get('listFolderFileHD')['controls'];
@@ -452,13 +453,18 @@
             <label for="">Quyết định thành lập hội đồng</label>
         </div>
         <div class="basis-40">
-            <label for="">{{fileThanhLapHD.sovanban}}</label>
+            <label for="">{{ fileThanhLapHD.sovanban }}</label>
         </div>
         <div class="basis-40">
-            <label for="">{{fileThanhLapHD.ngayVanBan | date:'dd/MM/yyyy'}}</label>
+            <label for="">{{
+                fileThanhLapHD.ngayVanBan | date : "dd/MM/yyyy"
+            }}</label>
         </div>
         <div class="basis-40">
-            <button style="color: #02a7f0"  (click)="downLoadFile(fileThanhLapHD)">
+            <button
+                style="color: #02a7f0"
+                (click)="downLoadFile(fileThanhLapHD)"
+            >
                 <i class="fa fa-cloud-upload"></i> Tải về
             </button>
         </div>
@@ -483,13 +489,20 @@
             <label for="">Thời gian họp</label>
         </div>
         <div class="basis-1/5">
-            <input
-                type="date"
-                class="form-control"
-                formControlName="thoiGianHop"
-                name=""
-                id=""
-            />
+            <div class="form-date">
+                <input
+                    matInput
+                    type="text"
+                    [matDatepicker]="picker"
+                    formControlName="thoiGianHop"
+                    placeholder="dd/mm/yyyy"
+                />
+                <mat-datepicker-toggle
+                    matIconSuffix
+                    [for]="picker"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </div>
         </div>
     </div>
     <div style="display: flex; margin-top: 10px; align-items: center">

@@ -52,11 +52,11 @@
     <div class="flex flex-row row gap-4">
         <div class="basis-1/5">
             <ng-select
-                [items]="listYears"
+                [items]="listPhanLoai"
                 bindLabel="NAME"
                 bindValue="ID"
                 placeholder="Lọc theo thời gian"
-                [(ngModel)]="selectedYear"
+                [(ngModel)]="phanLoai"
                 style="width: 100%"
             >
             </ng-select>

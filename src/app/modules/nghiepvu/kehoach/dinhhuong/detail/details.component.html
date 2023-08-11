@@ -51,6 +51,7 @@
         </div>
         <div class="row-three flex items-center" *ngIf="checkChiTiet !='CHITIET'">
             <label class="w-50 inline-block" for="">Văn bản đăng ký<span>(*)</span></label>
+
             <!-- <button class="add_button" (click)="handleUpload($event)">
                 <i class="fa fa-cloud-upload"></i> Upload file
             </button> -->
@@ -65,8 +66,24 @@
                 <i class="fa fa-search"></i> Tìm kiếm từ D-Office
             </button>
         </div>
+        <div
+        *ngIf="submitted.check && listupload.length ==0"
+        class="invalid-feedback"
+    >
+        <div>
+            Trường bắt buộc nhập
+        </div>
+    </div>
         <div class="row-three flex items-center" *ngIf="checkChiTiet =='CHITIET'">
             <label style="width: 7%;" for="">Văn bản đăng ký<span>(*)</span></label>
+             <div
+                *ngIf="submitted.check && listupload.length ==0"
+                class="invalid-feedback"
+            >
+                <div>
+                    Trường bắt buộc nhập
+                </div>
+            </div>
             <!-- <button class="add_button" (click)="handleUpload($event)">
                 <i class="fa fa-cloud-upload"></i> Upload file
             </button> -->

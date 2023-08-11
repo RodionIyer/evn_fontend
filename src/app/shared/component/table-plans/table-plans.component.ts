@@ -10,6 +10,7 @@ import { Subscription, of, Subject } from 'rxjs';
     styleUrls: ['./table-plans.component.css'],
 })
 export class TablePlansComponent {
+    public mask = [ /[0-1]/, /[1-2]/, '/', /[2]/, /[0]/, /[0-9]/, /[0-9]/,' ','-',' ', /[0-1]/, /[1-2]/, '/', /[2]/, /[0]/, /[0-9]/, /[0-9]/];
     public listNguonKinhPhi = [];
     public listNhiemVuMau = [];
     public listDonvi = [];
@@ -59,7 +60,6 @@ export class TablePlansComponent {
             this._serviceApi.execServiceLogin("CE428DEE-1945-495E-8F48-03747076AE6F", [{ "name": "ORGID", "value": "115" }, { "name": "USERID", "value": "STR" }]).subscribe((data) => {
                 this.listNhiemVuMau = data.data;
                 let listNhiemVu11 = this.listNhiemVuMau.filter(c => c.MA_NHOM_CHA == null);
-                debugger;
                 console.log(this.form);
    
                     for (let i = 0; i < listNhiemVu11.length; i++) {

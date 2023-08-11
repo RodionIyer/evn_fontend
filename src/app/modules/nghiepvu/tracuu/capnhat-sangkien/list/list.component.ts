@@ -179,4 +179,34 @@ export class ListItemComponent implements OnInit, OnDestroy {
     }
     downLoadFile(item) {}
     deleteItemFile(item, idex) {}
+
+    onSubmit(status, method) {
+        // this.submitted.check = true;
+        // if (this.form.invalid) {
+        //     return;
+        // }
+        this.form.get('maTrangThai').setValue(status);
+        var token = localStorage.getItem('accessToken');
+        this._serviceApi
+            .execServiceLogin('ADB68831-D89B-423A-934C-DC917A479491', [
+                {name: 'SANG_KIEN', value: JSON.stringify(this.form.value)},
+                {name: 'TOKEN_LINK', value: token},
+            ])
+            .subscribe((data) => {
+                if (data.status == 1) {
+                    this._messageService.showSuccessMessage(
+                        'Thông báo',
+                        data.message
+                    );
+                   
+                        this._router.navigateByUrl('nghiepvu/tracuu/capnhat-sangkien');
+                    
+                } else {
+                    this._messageService.showErrorMessage(
+                        'Thông báo',
+                        data.message
+                    );
+                }
+            });
+    }
 }

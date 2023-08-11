@@ -55,6 +55,7 @@ export class DetailsComponent implements OnInit {
         public dialog: MatDialog
     ) {
         this.idParam = this._activatedRoute.snapshot.paramMap.get('id');
+        console.log('this.idParam',this.idParam);
         this._activatedRoute.queryParams.subscribe((params) => {
             if (params?.type) {
                 this.actionType = params?.type;
@@ -198,6 +199,13 @@ export class DetailsComponent implements OnInit {
                         .get('thoiGianThucHienDen')
                         .setValue(new Date(thoiGianDen));
                 }
+                debugger;
+                let thoiGianHop = this.form.get('thoiGianHop').value;
+                if (thoiGianHop) {
+                    this.form
+                        .get('thoiGianHop')
+                        .setValue(new Date(thoiGianHop));
+                }
 
             });
     }
@@ -334,7 +342,7 @@ export class DetailsComponent implements OnInit {
                         'Thành công',
                         'Thông báo'
                     );
-                    this._router.navigateByUrl('nghiepvu/detainhiemvu/lstdetaicuatoi');
+                    this._router.navigateByUrl('nghiepvu/detainhiemvu/dangthuchien');
                 } else {
                     this._messageService.showErrorMessage(
                         'Thông báo',

@@ -20,7 +20,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DecimalPipe } from '@angular/common';
 import { FuseAlertModule } from '@fuse/components/alert';
 import { FuseNavigationModule } from '@fuse/components/navigation';
 import { HighlightPlusModule } from 'ngx-highlightjs/plus';
@@ -33,6 +33,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { SharedModule } from 'app/shared/shared.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { PopupCbkhComponent } from './detail/popup-cbkh/popup-cbkh.component';
+import { moneyDirective } from 'app/shared/fomat-money.directive';
 
 @NgModule({
     imports: [
@@ -60,6 +61,7 @@ import { PopupCbkhComponent } from './detail/popup-cbkh/popup-cbkh.component';
         ApiDinhHuongDetailsComponent,
         ApiDinhHuongEmptyDetailsComponent,
         PopupCbkhComponent,
-    ]
+    ],
+    providers: [DecimalPipe],
 })
 export class ApiDinhHuongModule { }
