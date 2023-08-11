@@ -6,7 +6,7 @@
             <h1 class="title-component">TÌM KIẾM ĐỀ TÀI, NHIỆM VỤ, SÁNG KIẾN            </h1>
         </div>
 
-        <div class="flex flex-row row gap-4"> 
+        <div class="flex flex-row row gap-4">
             <div class="basis-1/2">
                 <label for="">Hoạt động KHCN:                </label>
                 <ng-select
@@ -34,7 +34,7 @@
             </div>
             </div>
 
-            <div class="flex flex-row row gap-4 mt-3"> 
+            <div class="flex flex-row row gap-4 mt-3">
                 <div class="basis-1/2">
                     <label for="">Cấp quản lý</label>
                     <ng-select
@@ -47,8 +47,8 @@
                 >
                 </ng-select>
                 </div>
-    
-                
+
+
                 <div class="basis-1/2">
                     <label for="">Năm đăng ký</label>
                     <ng-select
@@ -61,11 +61,11 @@
                 >
                 </ng-select>
                 </div>
-         
+
            </div>
 
 
-           <div class="flex flex-row row gap-4 mt-3"> 
+           <div class="flex flex-row row gap-4 mt-3">
             <div class="basis-full">
                 <label for="">Tên đề tài/ sáng kiến
                 </label>
@@ -73,7 +73,7 @@
             </div>
            </div>
 
-           <div class="flex flex-row row gap-4 mt-3"> 
+           <div class="flex flex-row row gap-4 mt-3">
             <div class="basis-full">
                 <label for="">Tên chủ nhiệm/ tác giả
                 </label>
@@ -81,12 +81,12 @@
             </div>
            </div>
    <div class="flex justify-end mt-3"> <button class="px-6 py-2 bg-sky-500 rounded-md text-white float-right" (click)="timKiem()"><i class="fa fa-search"></i> Tìm kiếm</button></div>
-          
-        <table class="table table_custom">
+
+        <table class="table table_custom" style="text-align: center">
             <thead>
                 <tr>
                     <th class="stt_table">STT</th>
-                    <th>Hoạt động KHCN                    </th>
+                    <th>Hoạt động KHCN</th>
                     <th class="text-center">Tên đề tài/ sáng kiến</th>
                     <th class="text-center">Cấp quản lý</th>
                     <th class="text-center">Chủ nhiệm/ Tác giả</th>
@@ -102,6 +102,7 @@
                     <td>{{item.tenDeTaiSK}}</td>
                     <td>{{item.capQuanLy}}</td>
                     <td class="text-center">{{item.tenChuNhiemTG}}</td>
+                    <td class="text-center">{{item.tenNghienCuu}}</td>
                     <td class="text-center">{{item.nam}}</td>
                     <td class="text-center action-table">
                         <div class="flex justify-evenly">

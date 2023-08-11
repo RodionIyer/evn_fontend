@@ -98,6 +98,9 @@ label {
     width: 500px;
     font-weight: bold;
 }
+.residue-element{
+    height: 200px;
+}
 
 .mat-paginator .mat-paginator-page-size-label {
     color: #555;
