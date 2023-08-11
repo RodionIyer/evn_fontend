@@ -13,11 +13,11 @@
             <div class="basis-1/7">
                 <ng-select
                     style="width: 200px;"
-                    [items]="listYears"
+                    [items]="listCapQuanLy"
                     bindLabel="NAME"
                     bindValue="ID"
-                    placeholder="Chọn năm"
-                    [(ngModel)]="selectedYear"
+                    placeholder="Tất cả"
+                    [(ngModel)]="capQuanLy"
                 >
                 </ng-select>
             </div>
@@ -31,7 +31,7 @@
                     bindLabel="NAME"
                     bindValue="ID"
                     placeholder="Lựa chọn"
-                    [(ngModel)]="selectedYear"
+                    [(ngModel)]="donViChuTri"
                 >
                 </ng-select>
             </div>
@@ -48,6 +48,7 @@
                 type="text"
                 class="form-control"
                 placeholder="Nhập từ khóa tìm kiếm: tên đề tài,nhiệm vụ, chủ nhiệm, đồng chủ nhiệm, thư ký"
+                [(ngModel)]="q"
             />
             </div>
             <div class="basis-1/4">
@@ -81,12 +82,12 @@
             </thead>
             <tbody>
                 <tr *ngFor="let item of listGiao; let i = index">
-                    <td class="stt_table">{{ i+ 1}}</td>
+                    <td class="stt_table">{{ (i+(pageIndex * pageSize))+ 1}}</td>
                     <td>{{item.tenDeTai}}</td>
                     <td>{{item.tenCapQuanLy}}</td>
                     <td class="text-center">{{item.chuNhiemDeTai}}</td>
                     <td>{{item.tenDonViChuTri}}</td>
-                    <td class="text-center">{{item.thoiGianThucHienTu | date:'dd/MM/yyyy' }} - {{item.thoiGianThucHienDen | date:'dd/MM/yyyy' }}</td>
+                    <td class="text-center">{{item.thoiGianThucHienTu | date:'MM/yyyy' }} - {{item.thoiGianThucHienDen | date:'MM/yyyy' }}</td>
                     <td>{{item.tenTrangThai}}</td>
                     <td class="text-center">{{item.ngayTao | date:'yyyy' }}</td>
                     <td></td>

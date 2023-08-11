@@ -91,6 +91,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
             ])
             .subscribe((data) => {
                 this.listGiao = data.data || [];
+                this.length = data.data[0].totalPage;
             });
     }
     lichsu(item) {
@@ -118,8 +119,8 @@ export class ListItemComponent implements OnInit, OnDestroy {
             });
     }
     //phân trang
-    length = 500;
-    pageSize = 10;
+    length = 20;
+    pageSize = 20;
     pageIndex = 0;
     pageSizeOptions = [5, 10, 25];
     showFirstLastButtons = true;

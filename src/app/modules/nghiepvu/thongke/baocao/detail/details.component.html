@@ -1,130 +1,134 @@
+<script src="details.component.ts"></script>
 <div
     *ngIf="actionType == 'THEOHOATDONG'"
-    class="flex flex-col flex-auto overflow-y-auto bg-card dark:bg-default content-detail p-3" 
+    class="flex flex-col flex-auto overflow-y-auto bg-card dark:bg-default content-detail p-3"
+    style="cursor: pointer;"
 >
     <div class="">
-        <h1 class="title-component">Báo cáo - Thống kê Đề tài/ nhiệm vụ EVN  </h1>
+        <h1 class="title-component">Báo cáo - Thống kê Đề tài/ nhiệm vụ EVN </h1>
     </div>
 
     <div class="flex flex-row row gap-4">
         <div class="basis-1/5">
             <ng-select
-            [items]="listDonViChuTri"
-            bindLabel="NAME"
-            bindValue="ID"
-            placeholder="Đơn vị chủ trì"
-            [(ngModel)]="donViChuTri"
-            style="width: 100%"
-        >
-        </ng-select>
+                [items]="listDonViChuTri"
+                bindLabel="NAME"
+                bindValue="ID"
+                placeholder="Đơn vị chủ trì"
+                [(ngModel)]="donViChuTri"
+                style="width: 100%"
+            >
+            </ng-select>
         </div>
         <div class="basis-1/5">
             <ng-select
-            [items]="listCapQuanLy"
-            bindLabel="NAME"
-            bindValue="ID"
-            placeholder="Chọn cấp"
-            [(ngModel)]="capQuanLy"
-            style="width: 100%"
-        >
-        </ng-select>
+                [items]="listCapQuanLy"
+                bindLabel="NAME"
+                bindValue="ID"
+                placeholder="Chọn cấp"
+                [(ngModel)]="capQuanLy"
+                style="width: 100%"
+            >
+            </ng-select>
         </div>
         <div class="basis-1/5">
             <ng-select
-            [items]="listLinhVucNghienCuu"
-            bindLabel="NAME"
-            bindValue="ID"
-            placeholder="Lĩnh vực nghiên cứu"
-            [(ngModel)]="linhVucNghienCuu"
-            style="width: 100%"
-        >
-        </ng-select>
+                [items]="listLinhVucNghienCuu"
+                bindLabel="NAME"
+                bindValue="ID"
+                placeholder="Lĩnh vực nghiên cứu"
+                [(ngModel)]="linhVucNghienCuu"
+                style="width: 100%"
+            >
+            </ng-select>
         </div>
 
         <div class="basis-2/5 flex justify-end">
-           <button class="rounded-md text-white px-10 py-2 bg-blue-900" (click)="timKiem()">Thống kê</button>
-           <button class="rounded-md text-white px-10 py-2 bg-black ml-3"  (click)="export()">Xuất biểu mẫu</button>
+            <button class="rounded-md text-white px-10 py-2 bg-blue-900" (click)="timKiem()">Thống kê</button>
+            <button class="rounded-md text-white px-10 py-2 bg-black ml-3" (click)="export()">Xuất biểu mẫu</button>
         </div>
-       
+
     </div>
     <div class="flex flex-row row gap-4">
         <div class="basis-1/5">
             <ng-select
-            [items]="listYears"
-            bindLabel="NAME"
-            bindValue="ID"
-            placeholder="Lọc theo thời gian"
-            [(ngModel)]="selectedYear"
-            style="width: 100%"
-        >
-        </ng-select>
+                [items]="listYears"
+                bindLabel="NAME"
+                bindValue="ID"
+                placeholder="Lọc theo thời gian"
+                [(ngModel)]="selectedYear"
+                style="width: 100%"
+            >
+            </ng-select>
         </div>
         <div class="basis-1/5">
             <ng-select
-            [items]="listYears"
-            bindLabel="NAME"
-            bindValue="ID"
-            placeholder="Từ năm"
-            [(ngModel)]="fromNam"
-            style="width: 100%"
-        >
-        </ng-select>
+                [items]="listYears"
+                bindLabel="NAME"
+                bindValue="ID"
+                placeholder="Từ năm"
+                [(ngModel)]="fromNam"
+                style="width: 100%"
+            >
+            </ng-select>
         </div>
         <div class="basis-1/5">
             <ng-select
-            [items]="listYears"
-            bindLabel="NAME"
-            bindValue="ID"
-            placeholder="Đến năm"
-            [(ngModel)]="toNam"
-            style="width: 100%"
-        >
-        </ng-select>
+                [items]="listYears"
+                bindLabel="NAME"
+                bindValue="ID"
+                placeholder="Đến năm"
+                [(ngModel)]="toNam"
+                style="width: 100%"
+            >
+            </ng-select>
         </div>
 
         <div class="basis-2/5 flex justify-end">
-           
+
         </div>
-       
+
     </div>
 
-    <table class="table table_custom mt-4"  [formGroup]="form">
+    <table class="table table_custom mt-4" [formGroup]="form">
         <thead>
-            <tr>
-                <th class="stt_table">STT</th>
-                <th class="">Tên Đề tài /nhiệm vụ</th>
-                <th class="">Chủ nhiệm</th>
-                <th class="">Cấp quản lý</th>
-                <th class="">Lĩnh vực khoa học</th>
-                <th class="">Đơn vị chủ trì</th>
-                <th class="">Kinh phí</th>
-                <th class="">Nguồn kinh phí</th>
-                <th class="">Thời gian thực hiện</th>
-            </tr>
+        <tr>
+            <th class="stt_table">STT</th>
+            <th class="">Tên Đề tài /nhiệm vụ</th>
+            <th class="">Chủ nhiệm</th>
+            <th class="">Cấp quản lý</th>
+            <th class="">Lĩnh vực khoa học</th>
+            <th class="">Đơn vị chủ trì</th>
+            <th class="">Kinh phí</th>
+            <th class="">Nguồn kinh phí</th>
+            <th class="">Tổng kinh phí quyết toán</th>
+            <th class="">Thời gian thực hiện</th>
+        </tr>
         </thead>
         <tbody>
-            <ng-container *ngFor="let item  of listLinhVuc; let i = index">
-                <tr>
-                    <td colspan="9">{{item.tenLinhVuc}}</td>
-                </tr>
-                <ng-container *ngFor="let items  of item.listData; let k = index">
-                <tr>
-                   <td class="stt_table">{{k+1}}</td>
-                   <td>{{items.tenDeTaiSK}}</td>
+        <ng-container *ngFor="let item of listLinhVuc; let i = index">
+            <tr>
+                <td colspan="9">{{item.tenLinhVuc}}</td>
+            </tr>
+            <ng-container *ngFor="let items  of item.listData; let k = index">
+                <tr style="text-align: center;">
+                    <td class="stt_table">{{k + 1}}</td>
+                    <td>{{items.tenDeTaiSK}}</td>
                     <td>{{items.tenChuNhiemTG}}</td>
-                   <td>{{items.capQuanLy}}</td>
-                   <td>{{items.linhVucKhoaHoc}}</td>
-                   <td>{{items.donViChuTri}}</td>
-                   <td>{{items.kinhPhi}}</td>
-                   <td>{{items.nguonKinhPhi}}</td>
-                   <td>{{items.thoiGianThucHien}}</td> 
-               </tr>
-                
+                    <td>{{items.capQuanLy}}</td>
+                    <td>{{items.linhVucKhoaHoc}}</td>
+                    <td>{{items.donViChuTri}}</td>
+                    <td>{{items.kinhPhi}}</td>
+                    <td>{{items.nguonKinhPhi}}</td>
+                    <td>{{items.tongKinhPhi}}</td>
+                    <td>{{items.thoiGianThucHien}}</td>
+                </tr>
+
             </ng-container>
-            </ng-container>
-    
+        </ng-container>
+
         </tbody>
-       
+
     </table>
 
 </div>
@@ -132,84 +136,105 @@
 <div
     *ngIf="actionType == 'THEOSANGKIEN'"
     class="flex flex-col flex-auto overflow-y-auto bg-card dark:bg-default content-detail p-3"
+    style="cursor: pointer;"
 >
     <div class="">
-        <h1 class="title-component">Báo cáo - Thống kê hoạt động sáng kiến EVN        </h1>
+        <h1 class="title-component">Báo cáo - Thống kê hoạt động sáng kiến EVN </h1>
     </div>
 
     <div class="flex flex-row row gap-4">
         <div class="basis-1/5">
             <ng-select
-            [items]="listDonViChuTri"
-            bindLabel="NAME"
-            bindValue="ID"
-            placeholder="Đơn vị chủ đầu tư"
-            [(ngModel)]="donViChuTri"
-            style="width: 100%"
-        >
-        </ng-select>
+                [items]="listDonViChuTri"
+                bindLabel="NAME"
+                bindValue="ID"
+                placeholder="Đơn vị chủ đầu tư"
+                [(ngModel)]="donViChuTri"
+                style="width: 100%"
+            >
+            </ng-select>
         </div>
         <div class="basis-1/5">
             <ng-select
-            [items]="listCapQuanLy"
-            bindLabel="NAME"
-            bindValue="ID"
-            placeholder="Chọn cấp"
-            [(ngModel)]="capQuanLy"
-            style="width: 100%"
-        >
-        </ng-select>
+                [items]="listCapQuanLy"
+                bindLabel="NAME"
+                bindValue="ID"
+                placeholder="Chọn cấp"
+                [(ngModel)]="capQuanLy"
+                style="width: 100%"
+            >
+            </ng-select>
         </div>
         <div class="basis-1/5">
             <ng-select
-            [items]="listLinhVucNghienCuu"
-            bindLabel="NAME"
-            bindValue="ID"
-            placeholder="Lĩnh vực nghiên cứu"
-            [(ngModel)]="linhVucNghienCuu"
-            style="width: 100%"
-        >
-        </ng-select>
+                [items]="listLinhVucNghienCuu"
+                bindLabel="NAME"
+                bindValue="ID"
+                placeholder="Lĩnh vực nghiên cứu"
+                [(ngModel)]="linhVucNghienCuu"
+                style="width: 100%"
+            >
+            </ng-select>
         </div>
 
         <div class="basis-2/5 flex justify-end">
-           <button class="rounded-md text-white px-10 py-2 bg-blue-900"  (click)="timKiem()">Thống kê</button>
-           <button class="rounded-md text-white px-10 py-2 bg-black ml-3" (click)="export()">Xuất biểu mẫu</button>
+            <button class="rounded-md text-white px-10 py-2 bg-blue-900" (click)="timKiem()">Thống kê</button>
+            <button class="rounded-md text-white px-10 py-2 bg-black ml-3" (click)="export()">Xuất biểu mẫu</button>
         </div>
-       
+
     </div>
 
-    <table class="table table_custom mt-4">
+    <table class="table table_custom mt-4" [formGroup]="form">
         <thead>
-            <tr>
-                <th class="stt_table">STT</th>
-                <th class="">Tên giải pháp</th>
-                <th class="">Tác giả</th>
-                <th class="">Cấp quản lý</th>
-                <th class="">Lĩnh vực khoa học</th>
-                <th class="">Đơn vị chủ đầu tư</th>
-                <th class="">Số tiền làm lợi năm đầu tiên áp dụng</th>
-            </tr>
+        <tr>
+            <th class="stt_table">STT</th>
+            <th class="">Tên giải pháp</th>
+            <th class="">Tác giả</th>
+            <th class="">Cấp quản lý</th>
+            <th class="">Lĩnh vực khoa học</th>
+            <th class="">Đơn vị chủ đầu tư</th>
+            <th class="">Số tiền làm lợi năm đầu tiên áp dụng</th>
+            <th class="">Thù lao cho tác giả</th>
+            <th class="">Thù lao cho người áp dụng lần đầu</th>
+            <th class="">Tổng cộng</th>
+        </tr>
         </thead>
-        <tbody formArrayName="linhVuc">
-            <tr *ngFor="let item of $any(form.get('linhVuc')).controls;let i = index"
-                        [formGroup]="item">
-                        <td colspan="9">{{item.tenLinhVuc}}</td>
-                        <ng-container
-                        *ngFor="let item2 of item.get('listData')['controls']; let k = index">
-                        <tr [formGroupName]="k">
-                            <td class="stt_table">{{k+1}}</td>
-                            <td>{{item2.get('ten').value}}</td>
-                            <td>{{item2.get('chuNhiem').value}}</td>
-                            <td>{{item2.get('capQuanLy').value}}</td>
-                            <td>{{item2.get('linhVucKhoaHoc').value}}</td>
-                            <td>{{item2.get('donViChuTri').value}}</td>
-                            <td>{{item2.get('kinhPhi').value}}</td>
-                            <!-- <td>{{item2.get('nguonKinhPhi').value}}</td>
-                            <td>{{item2.get('thoiGianThucHien').value}}</td> -->
-                        </tr>
-                    </ng-container>
-                    </tr>
+        <tbody>
+        <ng-container *ngFor="let item of listLinhVuc;let i = index">
+        <tr>
+            <td colspan="9">{{item.tenLinhVuc}}</td>
+        </tr>
+        <ng-container *ngFor="let items  of item.listData; let k = index">
+            <tr style="text-align: center;">
+                <td class="stt_table">{{k + 1}}</td>
+                <td>{{items.tenDeTaiSK}}</td>
+                <td>{{items.tenChuNhiemTG}}</td>
+                <td>{{items.capQuanLy}}</td>
+                <td>{{item.tenLinhVuc}}</td>
+                <td>{{items.donViChuTri}}</td>
+                <td>{{items.soTienLamLoi}}</td>
+                <td>{{items.thuLaoTacGia}}</td>
+                <td>{{items.thuLaoChoNguoiLanDau}}</td>
+                <td>{{items.tongKinhPhi}}</td>
+            </tr>
+
+        </ng-container>
+<!--            <td colspan="9">{{item.tenLinhVuc}}</td>-->
+<!--            <ng-container-->
+<!--                *ngFor="let item2 of item.get('listData')['controls']; let k = index">-->
+<!--        <tr [formGroupName]="k">-->
+<!--            <td class="stt_table">{{k + 1}}</td>-->
+<!--            <td>{{item2.get('ten').value}}</td>-->
+<!--            <td>{{item2.get('chuNhiem').value}}</td>-->
+<!--            <td>{{item2.get('capQuanLy').value}}</td>-->
+<!--            <td>{{item2.get('linhVucKhoaHoc').value}}</td>-->
+<!--            <td>{{item2.get('donViChuTri').value}}</td>-->
+<!--            <td>{{item2.get('kinhPhi').value}}</td>-->
+<!--            &lt;!&ndash; <td>{{item2.get('nguonKinhPhi').value}}</td>-->
+<!--            <td>{{item2.get('thoiGianThucHien').value}}</td> &ndash;&gt;-->
+<!--        </tr>-->
+<!--        </ng-container>-->
+        </ng-container>
         <!-- <tbody>
             <tr>
                 <td colspan="7">Lĩnh vực khoa học 1</td>

@@ -22,11 +22,14 @@ import { PopupConfirmComponent } from 'app/shared/component/popup-confirm/popup-
 export class ListItemComponent implements OnInit, OnDestroy {
 
     public selectedYear: number;
-    public actionClick: string = null; 
+    public actionClick: string = null;
     public getYearSubscription: Subscription;
     public getGiaoSubcription: Subscription;
     public listYears = [];
     public listGiao = [];
+    public isHidden = true;
+    public isHidden1 = true;
+    public selectedOption: any;
     public ListFleDemo = [
         {id:1,name:'ten_file',kichthuoc:'20mb'},
         {id:2,name:'ten_file1',kichthuoc:'20mb'},
@@ -95,7 +98,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
     pageIndex = 0;
     pageSizeOptions = [5, 10, 25];
     showFirstLastButtons = true;
-  
+
     handlePageEvent(event: PageEvent) {
       this.length = event.length;
       this.pageSize = event.pageSize;
@@ -118,15 +121,41 @@ export class ListItemComponent implements OnInit, OnDestroy {
 
 
     THEOSANGKIEN(item?:any){
-        this._router.navigate(
-            ['/nghiepvu/baocao/thongke'],
-            { queryParams: { type: 'THEOSANGKIEN',search:item } }
-          );
+        this.selectedOption = item;
+            this._router.navigate(
+                ['/nghiepvu/baocao/thongke'],
+                {queryParams: {type: 'THEOSANGKIEN', search: item}}
+            );
     }
     THEOHOATDONG(item?:any){
-        this._router.navigate(
-            ['/nghiepvu/baocao/thongke'],
-            { queryParams: { type: 'THEOHOATDONG',search:item } }
-          );
+        this.selectedOption = item;
+            this._router.navigate(
+                ['/nghiepvu/baocao/thongke'],
+                { queryParams: { type: 'THEOHOATDONG',search:item } }
+            );
+    }
+
+    toggleHover() {
+        this.isHidden = !this.isHidden;
+    }
+
+    show() {
+        this.isHidden = false;
+    }
+
+    hide() {
+        this.isHidden = true;
+    }
+
+    toggleHover1() {
+        this.isHidden1 = !this.isHidden1;
+    }
+
+    show1() {
+        this.isHidden1 = false;
+    }
+
+    hide1() {
+        this.isHidden1 = true;
     }
 }

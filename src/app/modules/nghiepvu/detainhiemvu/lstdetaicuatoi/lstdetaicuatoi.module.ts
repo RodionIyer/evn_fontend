@@ -20,7 +20,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe, DecimalPipe } from '@angular/common';
 import { FuseAlertModule } from '@fuse/components/alert';
 import { FuseNavigationModule } from '@fuse/components/navigation';
 import { HighlightPlusModule } from 'ngx-highlightjs/plus';
@@ -39,6 +39,7 @@ import {
 } from '@angular/material/datepicker';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
+import { moneyDirective } from 'app/shared/fomat-money.directive';
 
 @NgModule({
     imports: [
@@ -80,7 +81,8 @@ import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
         LstdetaicuatoiDetailsComponent,
         ApiGiaoEmptyDetailsComponent,
         PopupCbkhComponent,
+        
     ],
-    providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' }],
+    providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-GB',},CurrencyPipe, DecimalPipe  ]
 })
 export class DetaicuatoiModule {}

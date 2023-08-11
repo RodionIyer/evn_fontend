@@ -130,12 +130,10 @@ export class ApiPheDuyetDinhHuongDetailsComponent implements OnInit {
                         }
                     }
                 }
-                debugger;
                 let kehoach = { listKeHoach: listKeHoach, capTao: 'TCT',listFile :listFile };
                 this._serviceApi.dataKeHoach.next(kehoach);
         })
 
-      //  debugger;
         //let typeRecord =  this.form.value.typeRecord;
        // if(typeRecord !=undefined && (typeRecord=="TH_DonVi" || typeRecord=="TH_EVN")){
             // this._serviceApi.dataKeHoach.subscribe((data)=>{

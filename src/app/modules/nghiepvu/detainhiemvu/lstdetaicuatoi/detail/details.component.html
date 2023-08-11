@@ -10,7 +10,7 @@
             <i class="fa fa-minus-circle"></i> Thông tin đề tài:
         </div>
     </div>
-    <div class="flex flex-row row gap-4">
+    <div class="flex flex-row space-x-4">
         <div class="basis-1/2">
             <label for="">Tên đề tài, nhiệm vụ KHCN<span>(*)</span></label>
             <input
@@ -48,39 +48,43 @@
             </div>
         </div>
     </div>
-    <div class="flex flex-row row gap-4">
-        <div class="basis-1/4">
-            <label for="">Cấp quản lý<span>(*)</span></label>
-            <ng-select
-                [items]="listCapQuanLy"
-                bindLabel="NAME"
-                bindValue="ID"
-                placeholder="Cấp quản lý"
-                formControlName="capQuanLy"
-            >
-            </ng-select>
+    <div class="flex flex-row row space-x-4">
+        <div class="basis-1/2">
+            <div class="flex flex-row row space-x-4">
+                <div class="basis-1/2">
+                    <label for="">Cấp quản lý<span>(*)</span></label>
+                    <ng-select
+                        [items]="listCapQuanLy"
+                        bindLabel="NAME"
+                        bindValue="ID"
+                        placeholder="Cấp quản lý"
+                        formControlName="capQuanLy"
+                    >
+                    </ng-select>
 
-            <div
-                *ngIf="submitted.check && f?.capQuanLy?.errors"
-                class="invalid-feedback"
-            >
-                <div *ngIf="f.capQuanLy.errors.required">
-                    Trường bắt buộc nhập
+                    <div
+                        *ngIf="submitted.check && f?.capQuanLy?.errors"
+                        class="invalid-feedback"
+                    >
+                        <div *ngIf="f.capQuanLy.errors.required">
+                            Trường bắt buộc nhập
+                        </div>
+                    </div>
+                </div>
+                <div class="basis-1/2">
+                    <label for="">Văn bản chỉ đạo số</label>
+                    <input
+                        class="form-control"
+                        placeholder="Nhập văn bản chỉ đạo số..."
+                        type="text"
+                        name=""
+                        formControlName="vanBanChiDaoSo"
+                        id=""
+                    />
                 </div>
             </div>
         </div>
-        <div class="basis-1/4">
-            <label for="">Văn bản chỉ đạo số</label>
-            <input
-                class="form-control"
-                placeholder="Nhập văn bản chỉ đạo số..."
-                type="text"
-                name=""
-                formControlName="vanBanChiDaoSo"
-                id=""
-            />
-        </div>
-        <div class="basis-1/2">
+        <div class="basis-1/2 mt-2">
             <label for="">Lĩnh vực nghiên cứu</label>
             <ng-select
                 [items]="listLinhVucNghienCuu"
@@ -108,7 +112,7 @@
             </div> 
         </div> -->
     </div>
-    <div class="flex flex-row row gap-4">
+    <div class="flex flex-row row space-x-4">
         <div class="basis-1/4">
             <label for="">Đơn vị chủ trì<span>(*)</span></label>
             <ng-select
@@ -132,12 +136,14 @@
         <div class="basis-1/4"></div>
         <div class="basis-1/4"></div>
     </div>
-    <div class="flex flex-row row gap-4">
-        <div class="basis-1/4 flex justify-between items-center">
+    <div class="flex flex-row row">
+        <div class="basis-1/2">
+            <div class="flex flex-row row">
+        <div class="basis-1/2 flex justify-between items-center">
             <label for="">Thời gian thực hiện từ<span>(*)</span></label>
             <label style="margin-right: 10px">Từ</label>
         </div>
-        <div class="basis-3/4 flex date-customt" style="margin-left: -7px">
+        <div class="basis-1/2 flex date-customt" style="">
             <!-- <input class="form-control" type="date" name="" id="" formControlName="thoiGianThucHienTu" /> -->
             <div class="form-date">
                 <input
@@ -168,7 +174,7 @@
 
             <label class="dem-pading">đến</label>
             <!-- <input class="form-control" type="date" name="" id="" formControlName="thoiGianThucHienDen" /> -->
-            <div class="form-date">
+            <div class="form-date" style="    margin-left: 6px;">
                 <input
                     matInput
                     [matDatepicker]="picker1"
@@ -195,9 +201,11 @@
                 </div>
             </div>
         </div>
+        </div>
+    </div>
     </div>
 
-    <div class="flex flex-row row gap-4">
+    <div class="flex flex-row row space-x-4">
         <div class="basis-1/4">
             <label for="">Chủ nhiệm đề tài<span>(*)</span></label>
             <div class="select-cbkh flex items-center form-control">
@@ -274,7 +282,7 @@
             </ng-select> -->
         </div>
     </div>
-    <div class="flex flex-row row gap-4">
+    <div class="flex flex-row row space-x-4">
         <div class="basis-1/4">
             <label for="">Đồng chủ nhiệm đề tài<span>(*)</span></label>
             <div class="select-cbkh flex items-center form-control">
@@ -351,7 +359,7 @@
             </ng-select> -->
         </div>
     </div>
-    <div class="flex flex-row row gap-4">
+    <div class="flex flex-row row space-x-4">
         <div class="basis-1/4">
             <label for="">Thư ký đề tài</label>
             <div class="select-cbkh flex items-center form-control">
@@ -417,7 +425,7 @@
             </ng-select> -->
         </div>
     </div>
-    <div class="flex flex-row row gap-4">
+    <div class="flex flex-row row space-x-4">
         <div class="basis-full">
             <label for="">Thành viên tham gia</label>
             <table class="table table_custom" style="margin-top: 3px">
@@ -540,7 +548,7 @@
     <div class="title-section kinhphi">
         <i class="fa fa-minus-circle"></i> Kinh phí:
     </div>
-    <div class="flex flex-row row gap-4">
+    <div class="flex flex-row row space-x-4">
         <div class="basis-1/5">
             <label for="">Nguồn kinh phí<span>(*)</span></label>
             <ng-select
@@ -566,6 +574,7 @@
                 class="form-control"
                 placeholder="VNĐ"
                 formControlName="tongKinhPhi"
+                
                 type="text"
                 name=""
                 id=""
@@ -597,23 +606,25 @@
                 placeholder="VNĐ"
                 type="text"
                 name=""
+                
                 formControlName="kinhPhiKhoan"
                 id=""
             />
         </div>
         <div class="basis-1/5">
-            <label for="">Khinh phí không khoán</label>
+            <label for="">Kinh phí không khoán</label>
             <input
                 class="form-control"
                 placeholder="VNĐ"
                 type="text"
                 name=""
+                
                 formControlName="kinhPhiKhongKhoan"
                 id=""
             />
         </div>
     </div>
-    <div class="flex flex-row row gap-4">
+    <div class="flex flex-row row space-x-4">
         <div class="basis-full">
             <label for="">Tính cấp thiết của đề tài, nhiệm vụ KHCN</label>
             <textarea
@@ -624,7 +635,7 @@
             ></textarea>
         </div>
     </div>
-    <div class="flex flex-row row gap-4">
+    <div class="flex flex-row row space-x-4">
         <div class="basis-full">
             <label for="">Mục tiêu</label>
             <textarea
@@ -635,7 +646,7 @@
             ></textarea>
         </div>
     </div>
-    <div class="flex flex-row row gap-4">
+    <div class="flex flex-row row space-x-4">
         <div class="basis-full">
             <label for="">Nhiệm vụ và phạm vi nghiên cứu, thực hiện</label>
             <textarea
@@ -646,7 +657,7 @@
             ></textarea>
         </div>
     </div>
-    <div class="flex flex-row row gap-4">
+    <div class="flex flex-row row space-x-4">
         <div class="basis-full">
             <label for="">Kết quả dự kiến</label>
             <textarea
@@ -657,7 +668,7 @@
             ></textarea>
         </div>
     </div>
-    <div class="flex flex-row row gap-4">
+    <div class="flex flex-row row space-x-4">
         <div class="basis-full">
             <label for="">Kiến nghị, đề xuất</label>
             <textarea
@@ -673,7 +684,7 @@
         <i class="fa fa-minus-circle"></i> Hồ sơ thuyết minh
     </div>
 
-    <div class="flex flex-row row gap-4">
+    <div class="flex flex-row row space-x-4">
         <div class="basis-full">
             <table class="table table_custom" style="margin-top: 0">
                 <thead>
@@ -1086,6 +1097,9 @@
                                         <i class="fa fa-link"></i> Upload file
                                     </button> -->
                                 </td>
+                                <td class="text-center">
+                                    {{ item.get("ghiChu").value }}
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -1232,6 +1246,7 @@
                                     </div>
                                 </td>
                                 <td class="text-center">
+                                    {{ item.get("ghiChu").value }}
                                     <!-- <label class="custom-file-upload add_button-import">
                                         <input type="file" multiple (change)="handleUpload($event,item,i)" #fileUpload2 />
                                         <i class="fa fa-cloud-upload"></i> Upload file
@@ -1388,6 +1403,7 @@
                                     </div>
                                 </td>
                                 <td class="text-center">
+                                    {{ item.get("ghiChu").value }}
                                     <!-- <label class="custom-file-upload add_button-import">
                                     <input type="file" multiple (change)="handleUpload($event,item,i)" #fileUpload2 />
                                     <i class="fa fa-cloud-upload"></i> Upload file
@@ -1558,6 +1574,7 @@
                                     </div>
                                 </td>
                                 <td class="text-center">
+                                    {{ item.get("ghiChu").value }}
                                     <!-- <label class="custom-file-upload add_button-import">
                                         <input type="file" multiple (change)="handleUpload($event,item,i)" #fileUpload2 />
                                         <i class="fa fa-cloud-upload"></i> Upload file
@@ -1730,6 +1747,7 @@
                                     </div>
                                 </td>
                                 <td class="text-center">
+                                    {{ item.get("ghiChu").value }}
                                     <!-- <label class="custom-file-upload add_button-import">
                                         <input type="file" multiple (change)="handleUpload($event,item,i)" #fileUpload2 />
                                         <i class="fa fa-cloud-upload"></i> Upload file
@@ -1902,6 +1920,7 @@
                                     </div>
                                 </td>
                                 <td class="text-center">
+                                    {{ item.get("ghiChu").value }}
                                     <!-- <label class="custom-file-upload add_button-import">
                                         <input type="file" multiple (change)="handleUpload($event,item,i)" #fileUpload2 />
                                         <i class="fa fa-cloud-upload"></i> Upload file
@@ -1921,14 +1940,17 @@
                 <thead>
                     <tr>
                         <th class="stt_table">STT</th>
-                        <th style="width: 30%;">Họ và tên</th>
+                        <th style="width: 30%">Họ và tên</th>
                         <th>Chức vụ</th>
                         <th>Số điện thoại</th>
                         <th>Email</th>
                         <th>Công việc tham gia</th>
                     </tr>
                 </thead>
-                <tbody formArrayName="danhSachThanhVien" *ngIf="form.get('danhSachThanhVien').value.length> 0">
+                <tbody
+                    formArrayName="danhSachThanhVien"
+                    *ngIf="form.get('danhSachThanhVien').value.length > 0"
+                >
                     <tr
                         *ngFor="
                             let thanhvien of $any(form.get('danhSachThanhVien'))
@@ -1944,8 +1966,8 @@
                         <td>
                             {{ thanhvien.get("tenChucDanh").value }}
                         </td>
-                        <td>{{ thanhvien.get("soDienThoai").value}}</td>
-                        <td>{{ thanhvien.get("email").value  }}</td>
+                        <td>{{ thanhvien.get("soDienThoai").value }}</td>
+                        <td>{{ thanhvien.get("email").value }}</td>
                         <td>{{ thanhvien.get("donViCongTac").value }}</td>
                     </tr>
                 </tbody>
@@ -1986,7 +2008,7 @@
             </table>
         </mat-tab>
         <mat-tab label="Hội đồng xét duyệt/ tuyển chọn">
-            <div class="flex flex-row row gap-4">
+            <div class="flex flex-row row space-x-4">
                 <div class="basis-1/12">
                     <label for="">Tên đề tài/ nhiệm vụ:</label>
                 </div>
@@ -2000,7 +2022,7 @@
                     <span>{{ form.get("tenCapQuanLy").value }}</span>
                 </div>
             </div>
-            <div class="flex flex-row row gap-4">
+            <div class="flex flex-row row space-x-4">
                 <div class="basis-1/12">
                     <label for="">Chủ nhiệm:</label>
                 </div>
@@ -2217,7 +2239,7 @@
                     >(kiến nghị về các nội dung cần sửa đổi)</label
                 ></label
             >
-            <div class="flex flex-row row gap-4">
+            <div class="flex flex-row row space-x-4">
                 <div class="basis-1/6">
                     <label for=""
                         >Biên bản họp hội đồng xét duyệt, tuyển chọn</label
@@ -2229,7 +2251,7 @@
                     </button>
                 </div>
             </div>
-            <div class="flex flex-row row gap-4">
+            <div class="flex flex-row row space-x-4">
                 <div class="basis-1/6">
                     <label for="">Phiếu đánh giá và tài liệu khác</label>
                 </div>
@@ -2241,7 +2263,7 @@
             </div>
         </mat-tab>
         <mat-tab label="Hội đồng nghiệm thu">
-            <div class="flex flex-row row gap-4">
+            <div class="flex flex-row row space-x-4">
                 <div class="basis-1/12">
                     <label for="">Tên đề tài/ nhiệm vụ:</label>
                 </div>
@@ -2255,7 +2277,7 @@
                     <span>{{ form.get("tenCapQuanLy").value }}</span>
                 </div>
             </div>
-            <div class="flex flex-row row gap-4">
+            <div class="flex flex-row row space-x-4">
                 <div class="basis-1/12">
                     <label for="">Chủ nhiệm:</label>
                 </div>
@@ -2450,7 +2472,7 @@
                 </tbody>
             </table>
 
-            <div class="flex flex-row row gap-4">
+            <div class="flex flex-row row space-x-4">
                 <div class="basis-1/5">
                     <label for="">Kết quả đánh giá</label>
                     <ng-select
@@ -2469,7 +2491,7 @@
                 </div>
             </div>
 
-            <div class="flex flex-row row gap-4">
+            <div class="flex flex-row row space-x-4">
                 <div class="basis-full">
                     <label for="">Kết quả thực tế đạt được của đề tài</label>
                     <textarea
@@ -2479,7 +2501,7 @@
                     ></textarea>
                 </div>
             </div>
-            <div class="flex flex-row row gap-4">
+            <div class="flex flex-row row space-x-4">
                 <div class="basis-full">
                     <label for=""
                         > Các tồn tại và đề xuất hướng/biện pháp giải
@@ -2502,7 +2524,7 @@
                     >(kiến nghị về các nội dung cần sửa đổi)</label
                 ></label
             >
-            <div class="flex flex-row row gap-4">
+            <div class="flex flex-row row space-x-4">
                 <div class="basis-1/6">
                     <label for=""
                         >Biên bản họp hội đồng xét duyệt, tuyển chọn</label
@@ -2514,7 +2536,7 @@
                     </button>
                 </div>
             </div>
-            <div class="flex flex-row row gap-4">
+            <div class="flex flex-row row space-x-4">
                 <div class="basis-1/6">
                     <label for="">Phiếu đánh giá và tài liệu khác</label>
                 </div>
@@ -2550,7 +2572,7 @@
         <h1 class="title-component">Báo cáo tiến độ thực hiện định kỳ</h1>
     </div>
 
-    <div class="flex flex-row row gap-4">
+    <div class="flex flex-row row space-x-4">
         <div class="basis-1/2">
             <label for="">Tháng </label>
             <ng-select
@@ -2629,7 +2651,7 @@
         </div>
     </div>
 
-    <div class="flex flex-row row gap-4">
+    <div class="flex flex-row row space-x-4">
         <div class="basis-1/12">
             <label for="">Tên đề tài/ nhiệm vụ:</label>
         </div>
@@ -2643,7 +2665,7 @@
             <span>{{ form.get("tenCapQuanLy").value }}</span>
         </div>
     </div>
-    <div class="flex flex-row row gap-4">
+    <div class="flex flex-row row space-x-4">
         <div class="basis-1/12">
             <label for="">Chủ nhiệm:</label>
         </div>
@@ -2803,9 +2825,17 @@
                             </ng-container>
                         </td>
                         <td class="text-center">
-                            <label
-                                class="custom-file-upload add_button-import"
-                                *ngIf="
+                            <label class="custom-file-upload add_button-import">
+                                <input
+                                    type="file"
+                                    multiple
+                                    (change)="handleUpload($event, item, i)"
+                                    #fileUpload2
+                                />
+                                <i class="fa fa-cloud-upload"></i> Upload file
+                            </label>
+                            <!-- 
+                                 *ngIf="
                                     (this.listMaFolder.indexOf(
                                         item.get('maFolder').value
                                     ) > -1 &&
@@ -2815,20 +2845,13 @@
                                     ) == -1 &&
                                         !checkChuNhiem)
                                 "
-                            >
-                                <input
-                                    type="file"
-                                    multiple
-                                    (change)="handleUpload($event, item, i)"
-                                    #fileUpload2
-                                />
-                                <i class="fa fa-cloud-upload"></i> Upload file
-                            </label>
-                            <!-- <button class="add_button">
+                                <button class="add_button">
                                 <i class="fa fa-link"></i> Upload file
                             </button> -->
                         </td>
-                        <td class="text-center"></td>
+                        <td class="text-center">
+                            {{ item.get("ghiChu")?.value }}
+                        </td>
                     </tr>
                 </tbody>
                 <!-- <tbody>
@@ -2978,9 +3001,17 @@
                                 <i class="fa fa-cloud-upload"></i> Upload file
                             </label> -->
 
-                            <label
-                                class="custom-file-upload add_button-import"
-                                *ngIf="
+                            <label class="custom-file-upload add_button-import">
+                                <input
+                                    type="file"
+                                    multiple
+                                    (change)="handleUpload($event, item, i)"
+                                    #fileUpload2
+                                />
+                                <i class="fa fa-cloud-upload"></i> Upload file
+                            </label>
+                            <!-- 
+                                 *ngIf="
                                     (this.listMaFolder2.indexOf(
                                         item.get('maFolder').value
                                     ) > -1 &&
@@ -2990,20 +3021,11 @@
                                     ) == -1 &&
                                         !checkChuNhiem)
                                 "
-                            >
-                                <input
-                                    type="file"
-                                    multiple
-                                    (change)="handleUpload($event, item, i)"
-                                    #fileUpload2
-                                />
-                                <i class="fa fa-cloud-upload"></i> Upload file
-                            </label>
-                            <!-- <button class="add_button">
+                                <button class="add_button">
                                 <i class="fa fa-link"></i> Upload file
                             </button> -->
                         </td>
-                        <td></td>
+                        <td>{{ item.get("ghiChu").value }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -3073,7 +3095,7 @@
         </div>
     </div>
 
-    <div class="flex flex-row row gap-4">
+    <div class="flex flex-row row space-x-4">
         <div class="basis-1/12">
             <label for="">Tên đề tài/ nhiệm vụ:</label>
         </div>
@@ -3087,7 +3109,7 @@
             <span>{{ form.get("tenCapQuanLy").value }}</span>
         </div>
     </div>
-    <div class="flex flex-row row gap-4">
+    <div class="flex flex-row row space-x-4">
         <div class="basis-1/12">
             <label for="">Chủ nhiệm:</label>
         </div>
@@ -3223,9 +3245,17 @@
                                 <i class="fa fa-cloud-upload"></i> Upload file
                             </label> -->
 
-                            <label
-                                class="custom-file-upload add_button-import"
-                                *ngIf="
+                            <label class="custom-file-upload add_button-import">
+                                <input
+                                    type="file"
+                                    multiple
+                                    (change)="handleUpload($event, item, i)"
+                                    #fileUpload2
+                                />
+                                <i class="fa fa-cloud-upload"></i> Upload file
+                            </label>
+                            <!--
+                                 *ngIf="
                                     (this.listMaFolderNhiemThu1.indexOf(
                                         item.get('maFolder').value
                                     ) > -1 &&
@@ -3235,20 +3265,13 @@
                                     ) == -1 &&
                                         !checkChuNhiem)
                                 "
-                            >
-                                <input
-                                    type="file"
-                                    multiple
-                                    (change)="handleUpload($event, item, i)"
-                                    #fileUpload2
-                                />
-                                <i class="fa fa-cloud-upload"></i> Upload file
-                            </label>
-                            <!-- <button class="add_button">
+                                <button class="add_button">
                                 <i class="fa fa-link"></i> Upload file
                             </button> -->
                         </td>
-                        <td class="text-center"></td>
+                        <td class="text-center">
+                            {{ item.get("ghiChu").value }}
+                        </td>
                     </tr>
                 </tbody>
                 <!-- <tbody>
@@ -3396,9 +3419,17 @@
                             </div>
                         </td>
                         <td class="text-center">
-                            <label
-                                class="custom-file-upload add_button-import"
-                                *ngIf="
+                            <label class="custom-file-upload add_button-import">
+                                <input
+                                    type="file"
+                                    multiple
+                                    (change)="handleUpload($event, item, i)"
+                                    #fileUpload2
+                                />
+                                <i class="fa fa-cloud-upload"></i> Upload file
+                            </label>
+                            <!-- 
+                                 *ngIf="
                                     (this.listMaFolderNhiemThu2.indexOf(
                                         item.get('maFolder').value
                                     ) > -1 &&
@@ -3408,20 +3439,11 @@
                                     ) == -1 &&
                                         !checkChuNhiem)
                                 "
-                            >
-                                <input
-                                    type="file"
-                                    multiple
-                                    (change)="handleUpload($event, item, i)"
-                                    #fileUpload2
-                                />
-                                <i class="fa fa-cloud-upload"></i> Upload file
-                            </label>
-                            <!-- <button class="add_button">
+                                <button class="add_button">
                                 <i class="fa fa-link"></i> Upload file
                             </button> -->
                         </td>
-                        <td></td>
+                        <td>{{ item.get("ghiChu").value }}</td>
                     </tr>
                 </tbody>
                 <!-- <tbody>
@@ -3496,7 +3518,7 @@
         </div>
     </div>
 
-    <div class="flex flex-row row gap-4">
+    <div class="flex flex-row row space-x-4">
         <div class="basis-1/12">
             <label for="">Tên đề tài/ nhiệm vụ:</label>
         </div>
@@ -3510,7 +3532,7 @@
             <span>{{ form.get("tenCapQuanLy").value }}</span>
         </div>
     </div>
-    <div class="flex flex-row row gap-4">
+    <div class="flex flex-row row space-x-4">
         <div class="basis-1/12">
             <label for="">Chủ nhiệm:</label>
         </div>
@@ -3558,7 +3580,7 @@
                         class="list-file"
                         *ngIf="item.get('listFile').value.length > 0"
                     >
-                        <table class="table table_custom action-table">a
+                        <table class="table table_custom action-table">
                             <tbody
                                 formArrayName="listFile"
                                 class="table_listfile"
@@ -3630,9 +3652,17 @@
                         <input type="file" multiple (change)="handleUpload($event,item,i)" #fileUpload2 />
                         <i class="fa fa-cloud-upload"></i> Upload file
                     </label> -->
-                    <label
-                        class="custom-file-upload add_button-import"
-                        *ngIf="
+                    <label class="custom-file-upload add_button-import">
+                        <input
+                            type="file"
+                            multiple
+                            (change)="handleUpload($event, item, i)"
+                            #fileUpload2
+                        />
+                        <i class="fa fa-cloud-upload"></i> Upload file
+                    </label>
+                    <!-- 
+                          *ngIf="
                             (this.listMaFolderQuyetToan.indexOf(
                                 item.get('maFolder').value
                             ) > -1 &&
@@ -3642,19 +3672,11 @@
                             ) == -1 &&
                                 !checkChuNhiem)
                         "
-                    >
-                        <input
-                            type="file"
-                            multiple
-                            (change)="handleUpload($event, item, i)"
-                            #fileUpload2
-                        />
-                        <i class="fa fa-cloud-upload"></i> Upload file
-                    </label>
-                    <!-- <button class="add_button">
+                        <button class="add_button">
                         <i class="fa fa-link"></i> Upload file
                     </button> -->
                 </td>
+                <td>{{ item.get("ghiChu").value }}</td>
             </tr>
         </tbody>
         <!-- <tbody>

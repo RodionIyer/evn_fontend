@@ -143,10 +143,14 @@ export class DetailsComponent implements OnInit {
             maSangKien:[null],
             tenGiaiPhap: [null, [Validators.required]],
             capDoSangKien: [null],
+            tenCapDoSangKien:[null],
             nam: [null],
             tacGia: [null],
+            tenTacGia:[null],
             donViCongTac: [null],
+            tenDonViCongTac:[null],
             donViThucHien: [null],
+            tenDonViThucHien: [null],
             vanBan: this._formBuilder.array([]),
             danhSachThanhVien: this._formBuilder.array([]),
             maTrangThai: [null],
@@ -164,8 +168,10 @@ export class DetailsComponent implements OnInit {
             bienBan: [null],
             guiMail: [false],
             listFolderFile: this._formBuilder.array([]),
+            listFile: this._formBuilder.array([]),
             noiDungGuiMail:[null],
             ghiChu:[null]
+            
         });
     }
 
@@ -367,7 +373,24 @@ export class DetailsComponent implements OnInit {
         this._serviceApi
         .execServiceLogin('09E301E6-9C2E-424C-A3C3-FD46CE8CB18C', [{"name":"SANG_KIEN","value":JSON.stringify(this.form.value)},{"name":"TOKEN_LINK","value":token}])
         .subscribe((data) => {
-            console.log(data.data);
+            if (data.status == 1) {
+                this._messageService.showSuccessMessage(
+                    'Thông báo',
+                    data.message
+                );
+                // if (this.screen) {
+                //     this._router.navigateByUrl(this.screen);
+                // } else {
+                    this._router.navigateByUrl(
+                        'nghiepvu/sangkien/xetduyet'
+                    );
+               // }
+            } else {
+                this._messageService.showErrorMessage(
+                    'Thông báo',
+                    data.message
+                );
+            }
 
         })
     }

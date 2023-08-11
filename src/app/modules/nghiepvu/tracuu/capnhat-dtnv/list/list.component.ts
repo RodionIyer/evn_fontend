@@ -502,10 +502,36 @@ export class ListItemComponent implements OnInit, OnDestroy {
     }
 
     onSubmit(status, method) {
+        var token = localStorage.getItem('accessToken');
         this.submitted.check = true;
         if (this.form.invalid) {
             return;
         }
-        console.log(this.form.value);
+        this.form.get('maTrangThai').setValue(status);
+        this._serviceApi
+        .execServiceLogin('8652B7BD-DE29-4698-B387-1566ABE92669', [
+            { name: 'DE_TAI', value: JSON.stringify(this.form.value) },
+            { name: 'TOKEN_LINK', value: token },
+        ])
+        .subscribe((data) => {
+            if (data.status == 1) {
+                this._messageService.showSuccessMessage(
+                    'Thông báo',
+                    data.message
+                );
+                // if (this.screen) {
+                //     this._router.navigateByUrl(this.screen);
+                // } else {
+                    this._router.navigateByUrl(
+                        'nghiepvu/tracuu/capnhat-dtnv'
+                    );
+               // }
+            } else {
+                this._messageService.showErrorMessage(
+                    'Thông báo',
+                    data.message
+                );
+            }
+        });
     }
 }

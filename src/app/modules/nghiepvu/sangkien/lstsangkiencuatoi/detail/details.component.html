@@ -413,8 +413,76 @@
          *ngFor="let item of form.get('listFolderFile')['controls']; let i = index">
 
         <label for="" class="w-100">{{item.get('fileName').value}}<span *ngIf="item.get('maFolder').value=='VBDANGKY'">(*)</span></label>
+        <div class="list-file"
+        *ngIf="item.get('listFile').value.length > 0"
+    >
+        <table class="table table_custom action-table">
+            <tbody
+                formArrayName="listFile"
+                class="table_listfile"
+            >
+                <tr
+                    *ngFor="
+                        let item2 of item.get('listFile')[
+                            'controls'
+                        ];
+                        let k = index
+                    "
+                    formGroupName="{{ k }}"
+                >
+                    <td>
+                        <!-- <i
+                            class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
+                        ></i> -->
+                        {{ item2.get("fileName").value }}
+                    </td>
+                    <td>
+                        {{
+                            item2.get("size").value >
+                            1024 * 1024
+                                ? (
+                                      item2.get("size").value /
+                                      (1024 * 1024)
+                                  ).toFixed(1) + "(MB)"
+                                : item2.get("size").value > 1024
+                                ? (
+                                      item2.get("size").value /
+                                      1024
+                                  ).toFixed(1) + "(KB)"
+                                : item2
+                                      .get("size")
+                                      .value.toFixed(1) + "K"
+                        }}
+                    </td>
 
-        <div class="list-file" *ngIf="item.get('listFile').value.length > 0">
+                    <!-- <td>{{ item2.get("sovanban").value }}</td> -->
+                    <td class="text-right">
+                        <i
+                            style="
+                                color: red;
+                                cursor: pointer;
+                                margin-right: 3px;
+                            "
+                            (click)="deleteItemFile(item, k)"
+                            class="fa fa-trash"
+                            title="Xóa bỏ"
+                        ></i>
+                        <i
+                            class="fa fa-cloud-download"
+                            style="
+                                color: green;
+                                cursor: pointer;
+                            "
+                            aria-hidden="true"
+                            (click)="downLoadFile(item2)"
+                            title="Download file"
+                        ></i>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+        <!-- <div class="list-file" *ngIf="item.get('listFile').value.length > 0">
             <table class="table table_custom action-table" style="height: auto !important;">
                 <thead>
                 <tr>
@@ -454,7 +522,7 @@
 
                 </tbody>
             </table>
-        </div>
+        </div> -->
 
         <label class="custom-file-upload add_button-import">
             <input type="file" multiple (change)="handleUpload($event,item,i)" #fileUpload2/>

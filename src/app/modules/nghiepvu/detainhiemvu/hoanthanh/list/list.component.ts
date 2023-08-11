@@ -27,6 +27,11 @@ export class ListItemComponent implements OnInit, OnDestroy {
     public getGiaoSubcription: Subscription;
     public listYears = [];
     public listGiao = [];
+    public listCapQuanLy=[];
+    public listDonViChuTri = [];
+    public capQuanLy;
+    public q;
+    public donViChuTri;
     public ListFleDemo = [
         {id:1,name:'ten_file',kichthuoc:'20mb'},
         {id:2,name:'ten_file1',kichthuoc:'20mb'},
@@ -65,14 +70,19 @@ export class ListItemComponent implements OnInit, OnDestroy {
         this.timKiem()
     }
 
+    getListDonViChuTri() {
+        this._serviceApi
+            .execServiceLogin('D3F0F915-DCA5-49D2-9A5B-A36EBF8CA5D1', null)
+            .subscribe((data) => {
+                this.listDonViChuTri = data.data || [];
+            });
+    }
+
     geListYears() {
         this.getYearSubscription = this._serviceApi.execServiceLogin("E5050E10-799D-4F5F-B4F2-E13AFEA8543B", null).subscribe((data) => {
             this.listYears = data.data || [];
         })
     }
-
-    
-
 
     addNew(): void {
         this._router.navigate(
@@ -105,14 +115,22 @@ export class ListItemComponent implements OnInit, OnDestroy {
       this.timKiem();
 
     }
+    getListCapQuanLy() {
+        this._serviceApi
+            .execServiceLogin('2977F0EA-A6C6-4A32-A36B-8617898B710D', null)
+            .subscribe((data) => {
+                this.listCapQuanLy = data.data || [];
+            });
+    }
     timKiem() {
         let obj={
-            capQuanLy:'',
-            q:""
+            capQuanLy:this.capQuanLy,
+            q:this.q,
+            donViChuTri:this.donViChuTri
         }
         this._serviceApi
             .execServiceLogin('F2F9604E-336C-47FB-BA0B-53A4D3869795', [
-                { name: 'LOAI_TIM_KIEM', value: 'NGHIEMTHU' },
+                { name: 'LOAI_TIM_KIEM', value: 'HOANTHANH' },
                 { name: 'TIM_KIEM', value: JSON.stringify(obj) },
                 { name: 'PAGE_NUM', value: this.pageIndex },
                 { name: 'PAGE_ROW_NUM', value: this.pageSize },

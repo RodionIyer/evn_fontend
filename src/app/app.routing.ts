@@ -51,11 +51,14 @@ export const appRoutes: Route[] = [
                 ]
             },
             {
-                path: 'tim-kiem', children: [
+                path: 'timkiem', children: [
+                    { path: 'timkiem', loadChildren: () => import('app/modules/nghiepvu/tracuu/tracuu-timkiem/tracuu-timkiem.module').then(m => m.TraCuuTimKiemModule) },
                     { path: 'tracuu-timkiem', loadChildren: () => import('app/modules/nghiepvu/tracuu/tracuu-timkiem/tracuu-timkiem.module').then(m => m.TraCuuTimKiemModule) },
-                    { path: 'capnhat-dtnv', loadChildren: () => import('app/modules/nghiepvu/tracuu/capnhat-dtnv/capnhat-dtnv.module').then(m => m.CapnhatDtnvModule) },  
-					{ path: 'capnhat-sangkien', loadChildren: () => import('app/modules/nghiepvu/tracuu/capnhat-sangkien/capnhat-sangkien.module').then(m => m.CapNhatSangKienModule) }  					],
-            },
+                    { path: 'capnhat-dtnv', loadChildren: () => import('app/modules/nghiepvu/tracuu/capnhat-dtnv/capnhat-dtnv.module').then(m => m.CapnhatDtnvModule) },                    
+                    { path: 'thongke', loadChildren: () => import('app/modules/nghiepvu/thongke/baocao/baocao-thongke.module').then(m => m.BaoCaoThongKeModule) },
+                  
+                ]
+              },
             {
                 path: 'tim-kiem', children: [
                     { path: 'thongke', loadChildren: () => import('app/modules/nghiepvu/thongke/baocao/baocao-thongke.module').then(m => m.BaoCaoThongKeModule) },                        ],
@@ -129,16 +132,19 @@ export const appRoutes: Route[] = [
                             { path: 'xetduyet', loadChildren: () => import('app/modules/nghiepvu/sangkien/xetduyet/xetduyet.module').then(m => m.XetDuyetModule) },
                             { path: 'dangthuchien', loadChildren: () => import('app/modules/admin/listorganization/listorganization.module').then(m => m.OrganizationModule) },
                             { path: 'thulao', loadChildren: () => import('app/modules/nghiepvu/sangkien/nghiemthu/nghiemthu.module').then(m => m.ThuLaoModule) },
+                            
                         ],
                     },
                     {
                         path: 'tracuu', children: [
                             { path: 'tracuu-timkiem', loadChildren: () => import('app/modules/nghiepvu/tracuu/tracuu-timkiem/tracuu-timkiem.module').then(m => m.TraCuuTimKiemModule) },
-                            { path: 'capnhat-dtnv', loadChildren: () => import('app/modules/nghiepvu/tracuu/capnhat-dtnv/capnhat-dtnv.module').then(m => m.CapnhatDtnvModule) }                     ],
+                            { path: 'capnhat-dtnv', loadChildren: () => import('app/modules/nghiepvu/tracuu/capnhat-dtnv/capnhat-dtnv.module').then(m => m.CapnhatDtnvModule) }                    ,
+                            { path: 'capnhat-sangkien', loadChildren: () => import('app/modules/nghiepvu/tracuu/capnhat-sangkien/capnhat-sangkien.module').then(m => m.CapNhatSangKienModule) } 
+                         ],
                     },
                     {
                         path: 'baocao', children: [
-                            { path: 'thongke', loadChildren: () => import('app/modules/nghiepvu/thongke/baocao/baocao-thongke.module').then(m => m.BaoCaoThongKeModule) },                        ],
+                            { path: 'tkdetai', loadChildren: () => import('app/modules/nghiepvu/thongke/baocao/baocao-thongke.module').then(m => m.BaoCaoThongKeModule) },                        ],
                     },
                     
                 ]

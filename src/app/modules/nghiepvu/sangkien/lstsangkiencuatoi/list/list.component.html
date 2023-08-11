@@ -22,7 +22,7 @@
                 </thead>
                 <tbody>
                 <tr *ngFor="let item of listGiao; let i = index">
-                    <td class="stt_table">{{ i + 1}}</td>
+                    <td class="stt_table">{{ (i+(pageIndex * pageSize)) + 1}}</td>
                     <td>{{item.tenGiaiPhap}}</td>
                     <td class="text-center">{{item.tenCapDoSangKien}}</td>
                     <td class="text-center">{{item.tenDonViChuDauTu}}</td>

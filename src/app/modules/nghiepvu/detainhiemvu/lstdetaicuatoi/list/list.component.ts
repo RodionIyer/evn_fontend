@@ -160,7 +160,7 @@ export class LstdetaicuatoiListComponent implements OnInit, OnDestroy {
             {
                 queryParams: {
                     type: 'CHINHSUA',
-                    screen: '/nghiepvu/detainhiemvu/lstdetaicuatoi/',
+                   // screen: '/nghiepvu/detainhiemvu/lstdetaicuatoi/',
                 },
             }
         );
