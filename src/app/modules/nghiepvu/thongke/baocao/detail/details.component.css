@@ -78,3 +78,31 @@ label {
 }
 
 }
+
+/* paginator.css */
+.mat-paginator {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    background-color: #f0f0f0;
+    border-top: 1px solid #ccc;
+}
+
+.mat-paginator .mat-paginator-range-label {
+    color: #333;
+    font-weight: bold;
+}
+
+.mat-paginator .mat-paginator-page-size-label {
+    color: #555;
+}
+
+.mat-paginator .mat-paginator-navigation {
+    display: flex;
+    align-items: center;
+}
+
+.mat-paginator .mat-paginator-page-size {
+    margin-right: 16px;
+}
