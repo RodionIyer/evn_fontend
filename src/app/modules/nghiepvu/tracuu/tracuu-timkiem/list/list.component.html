@@ -12,7 +12,6 @@
                 <ng-select
                 [items]="listHoatDongKHCN"
                 bindLabel="name"
-                bindValue="id"
                 placeholder="Lựa chọn"
                 [(ngModel)]="hoatDongKhCN"
                 style="width: 100%"
@@ -81,9 +80,8 @@
             </div>
            </div>
    <div class="flex justify-end mt-3"> <button class="px-6 py-2 bg-sky-500 rounded-md text-white float-right" (click)="timKiem()"><i class="fa fa-search"></i> Tìm kiếm</button></div>
-
-        <table class="table table_custom" style="text-align: center">
-            <thead>
+            <table class="table table_custom" style="text-align: center">
+                <thead>
                 <tr>
                     <th class="stt_table">STT</th>
                     <th>Hoạt động KHCN</th>
@@ -94,8 +92,8 @@
                     <th class="text-center">Năm đăng ký</th>
                     <th class="text-center action-table"></th>
                 </tr>
-            </thead>
-            <tbody>
+                </thead>
+                <tbody>
                 <tr *ngFor="let item of listData; let i = index">
                     <td class="stt_table">{{ i+ 1}}</td>
                     <td>{{item.hoatDongKeHoach}}</td>
@@ -107,14 +105,15 @@
                     <td class="text-center action-table">
                         <div class="flex justify-evenly">
                             <i (click)="detail($event)"
-                                class="fa fa-info-circle"
-                                title="Xem chi tiết"
+                               class="fa fa-info-circle"
+                               title="Xem chi tiết"
                             ></i>
                         </div>
                     </td>
                 </tr>
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+
         <!-- phan trang -->
         <mat-paginator
             (page)="handlePageEvent($event)"
