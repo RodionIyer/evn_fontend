@@ -31,11 +31,42 @@ import {ServiceService} from 'app/shared/service/service.service';
 import {MatDialog} from '@angular/material/dialog';
 import {PopupCbkhComponent} from './popup-cbkh/popup-cbkh.component';
 
+import {
+    DateAdapter,
+    MAT_DATE_FORMATS,
+    MAT_DATE_LOCALE,
+} from '@angular/material/core';
+import {
+    MAT_MOMENT_DATE_ADAPTER_OPTIONS,
+    MomentDateAdapter,
+} from '@angular/material-moment-adapter';
+
+
+    export const MY_FORMATS = {
+        parse: {
+            dateInput: 'DD/MM/YYYY',
+        },
+        display: {
+            dateInput: 'DD/MM/YYYY',
+            monthYearLabel: 'MMM YYYY',
+            dateA11yLabel: 'LL',
+            monthYearA11yLabel: 'MMMM YYYY',
+        },
+    };
 @Component({
     selector: 'component-details',
     templateUrl: './details.component.html',
     styleUrls: ['./details.component.css'],
     encapsulation: ViewEncapsulation.None,
+    providers: [
+        {
+            provide: DatetimeAdapter,
+            useClass: MomentDateAdapter,
+            deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+        },
+
+        { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+    ],
 })
 export class DetailsComponent implements OnInit {
     public selectedYear: number;
@@ -88,7 +119,10 @@ export class DetailsComponent implements OnInit {
             this.initForm(this.method);
             this.madeTaiSK = this.idParam;
             this.typeLichSu = 'SANGKIEN';
-            this.detail(this.method);
+            if(this.idParam){
+                this.detail(this.method);
+            }
+               
         });
     }
 
@@ -219,6 +253,7 @@ export class DetailsComponent implements OnInit {
                 arr.push(this.addFile(item, itemVal, reader.result));
             };
         }
+        event.target.files.value = null;
         console.log(item);
     }
 
@@ -235,7 +270,7 @@ export class DetailsComponent implements OnInit {
                     'listFolderFile'
                 ) as FormArray;
                 // listFolderFile
-                if (data.data.listFolderFile != null) {
+                if (data.data?.listFolderFile != null) {
                     for (let i = 0; i < data.data.listFolderFile.length; i++) {
                         formDocParent.push(
                             this.addListDocParent(data.data.listFolderFile[i])
@@ -291,7 +326,7 @@ export class DetailsComponent implements OnInit {
                     if (n.maFolder == 'VBDANGKY') {
                         this.listFileVB = n.listFile;
                     } else if (n.maFolder == 'KHAC') {
-                        this.listFileOther = n.listFile;
+                        this.listFileOther = n.listFile || [];
                     }
                 })
                 this.listAuthor = this.data.danhSachThanhVien;
@@ -514,4 +549,5 @@ export class DetailsComponent implements OnInit {
                 });
         }
     }
-}
+}import { DatetimeAdapter } from '@mat-datetimepicker/core';
+

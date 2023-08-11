@@ -1,5 +1,5 @@
-<div class="relative eco_conntent" style="cursor: pointer;">
-    <div class="bg-white p-3">
+<div class="relative eco_conntent" style="cursor: pointer;" >
+    <div class="bg-white p-3" *ngIf="actionClick==null">
         <!--màn hình danh sách-->
         <ng-container style="padding: 5px;">
             <div class="flex items-center justify-between">
@@ -9,7 +9,8 @@
             <button class="px-3 bg-blue-500 py-3 text-white uppercase" (click)="toggleHover()">
                 Tổng hợp danh sách đề tài/ nhiệm vụ KHCN
             </button>
-            <table [ngClass]="{ 'hidden': isHidden }" (mouseenter)="show()" class="table table_custom"
+            <!-- <table [ngClass]="{ 'hidden': isHidden }" (mouseenter)="show()" class="table table_custom" -->
+            <table class="table table_custom"
                    style="margin-top: 0">
                 <thead>
                 <tr>
@@ -36,7 +37,8 @@
             <button class="px-3 bg-blue-500 py-3 text-white uppercase mt-8" (click)="toggleHover1()">
                 TỔNG HỢP DANH SÁCH SÁNG KIẾN
             </button>
-            <table  [ngClass]="{ 'hidden': isHidden1 }" (mouseenter)="show1()" class="table table_custom" style="margin-top: 0">
+            <!-- <table  [ngClass]="{ 'hidden': isHidden1 }" (mouseenter)="show1()" class="table table_custom" style="margin-top: 0"> -->
+                <table class="table table_custom" style="margin-top: 0">
                 <thead>
                 <tr>
                     <th class="stt_table">STT</th>

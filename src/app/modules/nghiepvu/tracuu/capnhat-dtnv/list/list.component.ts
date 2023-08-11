@@ -278,9 +278,9 @@ export class ListItemComponent implements OnInit, OnDestroy {
 
     listGioiTinh = [];
     getListGioiTinh() {
-        var obj = { ID: 1, NAME: 'Nam' };
+        var obj = { ID: 2, NAME: 'Nam' };
         this.listGioiTinh.push(obj);
-        obj = { ID: 2, NAME: 'Nữ' };
+        obj = { ID: 1, NAME: 'Nữ' };
         this.listGioiTinh.push(obj);
     }
 

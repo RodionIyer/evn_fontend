@@ -132,8 +132,9 @@
                              <!-- <i *ngIf="item.maTrangThai=='SOAN' || item.maTrangThai=='Y_CAU_HIEU_CHINH' " class="fa fa-trash cursor-point" (click)="xoa(item)" title="Xóa bỏ"></i> -->
                              <i *ngIf="item.maTrangThai=='CHO_RA_SOAT' || item.maTrangThai=='DA_RA_SOAT'  " (click)="updateActionRaSoat(item)" title="Rà soát" class=" fa fa-check-square-o"></i>
                              <i *ngIf="item.maTrangThai=='DA_RA_SOAT' || item.maTrangThai=='DA_TLHDXDTC' " (click)="updateActionHDXDCN(item)" title="Cập nhập HĐXD/CN" class="fa fa-retweet"></i>
-                             <i *ngIf="item.maTrangThai=='DA_TLHDXDTC'" (click)="updateActionKQXDCN(item)" title="Cập nhập QĐ chi trả thù lao" class="fa fa-retweet"></i>
-                             <i   (click)="updateActionKQ(item)" title="Cập nhập kết quả XD/TC" class="fa fa-retweet"></i>
+                             <i  *ngIf="item.maTrangThai=='DA_TLHDXDTC'" (click)="updateActionKQXDCN(item)" title="Cập nhập kết quả XD/TC" class="fa fa-retweet"></i>
+                             <i *ngIf="item.maTrangThai=='DA_CONG_NHAN' ||item.maTrangThai=='DA_CONG_NHAN'  "  (click)="updateActionKQ(item)" title="Cập nhập QĐ chi trả thù lao" class="fa fa-retweet"></i>
+                            
                             </div>
                     </td>
                 </tr>

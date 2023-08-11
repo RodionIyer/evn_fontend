@@ -706,6 +706,14 @@
                             <td class="stt_table">{{ i + 1 }}</td>
                             <td class="font-medium">
                                 {{ item.get("fileName").value }}
+                                 <div
+        *ngIf="submitted.check &&  item.get('listFile').errors?.minLength"
+        class="invalid-feedback"
+    >
+        <div>
+            File bắt buộc upload
+        </div>
+    </div> 
                             </td>
                             <td>
                                 <div
@@ -828,7 +836,7 @@
                                         #fileUpload2
                                     />
                                     <i class="fa fa-cloud-upload"></i> Upload
-                                    file
+                                    
                                 </label>
                                 <!-- <button class="add_button">
                                 <i class="fa fa-link"></i> Upload file

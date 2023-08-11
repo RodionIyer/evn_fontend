@@ -30,6 +30,7 @@ import { MatSort } from '@angular/material/sort';
 import { ServiceService } from 'app/shared/service/service.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PopupCbkhComponent } from './popup-cbkh/popup-cbkh.component';
+import { ArrayValidators } from 'app/shared/array.validator';
 
 import {
     DateAdapter,
@@ -922,13 +923,19 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
             });
     }
     newFolder(item?: any) {
+        if(item.maFolder=='KHAC'){
+            return this._formBuilder.group({
+                maFolder: item?.maFolder,
+                fileName: item?.fileName,
+                ghiChu: item?.ghiChu,
+                listFile: this._formBuilder.array([]),
+            });      
+        }
         return this._formBuilder.group({
             maFolder: item?.maFolder,
             fileName: item?.fileName,
             ghiChu: item?.ghiChu,
-            listFile: this._formBuilder.array([
-                //this.addFile2()
-            ]),
+            listFile: this._formBuilder.array([], ArrayValidators.minLength(1)),
         });
     }
 
@@ -992,6 +999,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                 this.listFolderFile = data.data || [];
                 let val = this.form.get('listFolderFile') as FormArray;
                 for (let i = 0; i < this.listFolderFile.length; i++) {
+                   
                     val.push(this.newFolder(this.listFolderFile[i]));
                 }
             });
@@ -1062,9 +1070,9 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
     getListGioiTinh() {
         var obj = { ID: 0, NAME: '--Chọn--' };
         this.listGioiTinh.push(obj);
-        obj = { ID: 1, NAME: 'Nam' };
+        obj = { ID: 2, NAME: 'Nam' };
         this.listGioiTinh.push(obj);
-        obj = { ID: 2, NAME: 'Nữ' };
+        obj = { ID: 1, NAME: 'Nữ' };
         this.listGioiTinh.push(obj);
     }
 

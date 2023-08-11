@@ -180,6 +180,7 @@ export class DetailsComponent implements OnInit {
             "value": this.pageIndex
         }, {"name": "PAGE_ROW_NUM", "value": this.pageSize}]).subscribe((data) => {
             this.listLinhVuc = data.data || [];
+            this.length = data.data[0].totalItem;
             console.log(data.data);
              // this.form.patchValue(data.data);
              //    let formDocParent = this.form.get(

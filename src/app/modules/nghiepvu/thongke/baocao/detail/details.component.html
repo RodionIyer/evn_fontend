@@ -52,11 +52,11 @@
     <div class="flex flex-row row gap-4">
         <div class="basis-1/5">
             <ng-select
-                [items]="listYears"
+                [items]="listPhanLoai"
                 bindLabel="NAME"
                 bindValue="ID"
                 placeholder="Lọc theo thời gian"
-                [(ngModel)]="selectedYear"
+                [(ngModel)]="phanLoai"
                 style="width: 100%"
             >
             </ng-select>
@@ -123,10 +123,19 @@
                     <td>{{items.tongKinhPhi}}</td>
                     <td>{{items.thoiGianThucHien}}</td>
                 </tr>
-
+                <!-- phan trang -->
             </ng-container>
         </ng-container>
-
+        <mat-paginator
+            (page)="handlePageEvent($event)"
+            [length]="length"
+            [pageSize]="pageSize"
+            [showFirstLastButtons]="showFirstLastButtons"
+            [pageSizeOptions]="pageSizeOptions"
+            [pageIndex]="pageIndex"
+            aria-label="Select page"
+        >
+        </mat-paginator>
         </tbody>
 
     </table>
@@ -201,40 +210,34 @@
         </thead>
         <tbody>
         <ng-container *ngFor="let item of listLinhVuc;let i = index">
-        <tr>
-            <td colspan="9">{{item.tenLinhVuc}}</td>
-        </tr>
-        <ng-container *ngFor="let items  of item.listData; let k = index">
-            <tr style="text-align: center;">
-                <td class="stt_table">{{k + 1}}</td>
-                <td>{{items.tenDeTaiSK}}</td>
-                <td>{{items.tenChuNhiemTG}}</td>
-                <td>{{items.capQuanLy}}</td>
-                <td>{{item.tenLinhVuc}}</td>
-                <td>{{items.donViChuTri}}</td>
-                <td>{{items.soTienLamLoi}}</td>
-                <td>{{items.thuLaoTacGia}}</td>
-                <td>{{items.thuLaoChoNguoiLanDau}}</td>
-                <td>{{items.tongKinhPhi}}</td>
+            <tr>
+                <td colspan="9">{{item.tenLinhVuc}}</td>
             </tr>
-
+            <ng-container *ngFor="let items  of item.listData; let k = index">
+                <tr style="text-align: center;">
+                    <td class="stt_table">{{k + 1}}</td>
+                    <td>{{items.tenDeTaiSK}}</td>
+                    <td>{{items.tenChuNhiemTG}}</td>
+                    <td>{{items.capQuanLy}}</td>
+                    <td>{{items.tenNghienCuu}}</td>
+                    <td>{{items.donViChuTri}}</td>
+                    <td>{{items.soTienLamLoi}}</td>
+                    <td>{{items.thuLaoTacGia}}</td>
+                    <td>{{items.thuLaoChoNguoiLanDau}}</td>
+                    <td>{{items.tongKinhPhi}}</td>
+                </tr>
+            </ng-container>
         </ng-container>
-<!--            <td colspan="9">{{item.tenLinhVuc}}</td>-->
-<!--            <ng-container-->
-<!--                *ngFor="let item2 of item.get('listData')['controls']; let k = index">-->
-<!--        <tr [formGroupName]="k">-->
-<!--            <td class="stt_table">{{k + 1}}</td>-->
-<!--            <td>{{item2.get('ten').value}}</td>-->
-<!--            <td>{{item2.get('chuNhiem').value}}</td>-->
-<!--            <td>{{item2.get('capQuanLy').value}}</td>-->
-<!--            <td>{{item2.get('linhVucKhoaHoc').value}}</td>-->
-<!--            <td>{{item2.get('donViChuTri').value}}</td>-->
-<!--            <td>{{item2.get('kinhPhi').value}}</td>-->
-<!--            &lt;!&ndash; <td>{{item2.get('nguonKinhPhi').value}}</td>-->
-<!--            <td>{{item2.get('thoiGianThucHien').value}}</td> &ndash;&gt;-->
-<!--        </tr>-->
-<!--        </ng-container>-->
-        </ng-container>
+        <mat-paginator
+            (page)="handlePageEvent($event)"
+            [length]="length"
+            [pageSize]="pageSize"
+            [showFirstLastButtons]="showFirstLastButtons"
+            [pageSizeOptions]="pageSizeOptions"
+            [pageIndex]="pageIndex"
+            aria-label="Select page"
+        >
+        </mat-paginator>
         <!-- <tbody>
             <tr>
                 <td colspan="7">Lĩnh vực khoa học 1</td>

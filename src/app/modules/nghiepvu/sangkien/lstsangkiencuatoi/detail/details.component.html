@@ -39,6 +39,7 @@
                 placeholder="Lựa chọn"
                 formControlName="nam"
                 [(ngModel)]='selectedYear'
+                style="width: 100%;"
             >
             </ng-select>
             <div
@@ -59,6 +60,7 @@
                 bindValue="id"
                 placeholder="Lựa chọn"
                 formControlName="donViChuDauTu"
+                style="width: 100%;"
             >
             </ng-select>
             <div
@@ -160,6 +162,7 @@
                         bindValue="ID"
                         placeholder="Chọn chức danh"
                         formControlName="chucDanh"
+                        style="width: 100%;"
                     >
                     </ng-select>
                 </td>
@@ -319,7 +322,21 @@
         >Ngày áp dụng chính thức (Không được ít hơn 3 tháng và không quá 1
             năm)</label
         >
-        <input type="date" class="form-control ml-9 w-60" formControlName="ngayApDung"/>
+        <!-- <input type="date" class="form-control ml-9 w-60" formControlName="ngayApDung"/> -->
+        <div class="form-date">
+            <input
+                matInput
+                [matDatepicker]="pickers"
+                formControlName="ngayApDung"
+            />
+            <mat-datepicker-toggle
+                matIconSuffix
+                [for]="pickers"
+            ></mat-datepicker-toggle>
+            <mat-datepicker
+                #pickers
+            ></mat-datepicker>
+        </div>
     </div>
     <div class="flex flex-row row gap-4">
         <div class="basis-full">
@@ -410,26 +427,21 @@
         <input type="file" name="" id="chontep1" hidden />
     </div> -->
     <div class="flex flex-row row items-center" formArrayName="listFolderFile"
-         *ngFor="let item of form.get('listFolderFile')['controls']; let i = index">
+         *ngFor="let item of form.get('listFolderFile')['controls']; let i = index" >
+       <ng-conainer [formGroupName]="i">
+        <div class="flex">
+            <label for="" class="w-100">{{item.get('fileName').value}}<span *ngIf="item.get('maFolder').value=='VBDANGKY'">(*)</span></label>
+            <label class="custom-file-upload add_button-import">
+                <input type="file" multiple (change)="handleUpload($event,item,i)" #fileUpload2/>
+                <i class="fa fa-cloud-upload"></i> Upload file
+            </label>
+        </div>
 
-        <label for="" class="w-100">{{item.get('fileName').value}}<span *ngIf="item.get('maFolder').value=='VBDANGKY'">(*)</span></label>
-        <div class="list-file"
-        *ngIf="item.get('listFile').value.length > 0"
-    >
+        <div class="list-file" *ngIf="item.get('listFile').value.length > 0">
         <table class="table table_custom action-table">
-            <tbody
-                formArrayName="listFile"
-                class="table_listfile"
-            >
-                <tr
-                    *ngFor="
-                        let item2 of item.get('listFile')[
-                            'controls'
-                        ];
-                        let k = index
-                    "
-                    formGroupName="{{ k }}"
-                >
+            <tbody formArrayName="listFile" class="table_listfile">
+            <ng-container *ngFor="let item2 of item.get('listFile')['controls'];let k = index" >
+                <tr [formGroupName]="k">
                     <td>
                         <!-- <i
                             class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
@@ -479,55 +491,13 @@
                         ></i>
                     </td>
                 </tr>
+            </ng-container>
             </tbody>
         </table>
     </div>
-        <!-- <div class="list-file" *ngIf="item.get('listFile').value.length > 0">
-            <table class="table table_custom action-table" style="height: auto !important;">
-                <thead>
-                <tr>
-                    <th class="stt_table">STT</th>
-                    <th>Tên file</th>
-                    <th class="text-center">Kích thước
-                    </th>
-                    <th class="text-center">Số văn bản
-                    </th>
-                    <th style="width: 100px;"></th>
-                </tr>
-                </thead>
-                <tbody formArrayName="listFile">
-                <ng-container
-                    *ngFor="let item2 of item.get('listFile')['controls']; let k = index">
-                    <tr [formGroupName]="k">
-                        <td class="stt_table">{{k + 1}}</td>
-                        <td>{{item2.get('fileName').value}}</td>
-                        <td>
-                            {{item2.get('size').value > (1024 *
-                            1024) ? (item2.get('size').value / (1024 * 1024)).toFixed(1) + '(MB)' : item2.get('size').value
-                        > 1024 ? (item2.get('size').value / (1024)).toFixed(1) + '(KB)' : item2.get('size').value.toFixed(1)
-                            + "K"}}</td>
+      
 
-                        <td>{{item2.get('sovanban').value}}</td>
-                        <td class="text-center"><i
-                            style="color: red; cursor: pointer;    margin-right: 10px;"
-                            (click)="deleteItemFile(item,k)" class="fa fa-trash"
-                            title="Xóa bỏ"></i>
-                            <i class="fa fa-cloud-download"
-                               style="color: green; cursor: pointer;" aria-hidden="true"
-                               (click)="downLoadFile(item2)" title="Download file"></i>
-                        </td>
-
-                    </tr>
-                </ng-container>
-
-                </tbody>
-            </table>
-        </div> -->
-
-        <label class="custom-file-upload add_button-import">
-            <input type="file" multiple (change)="handleUpload($event,item,i)" #fileUpload2/>
-            <i class="fa fa-cloud-upload"></i> Upload file
-        </label>
+    </ng-conainer>
     </div>
 
     <div class="action-all-f">
@@ -558,7 +528,7 @@
                 <tr>
                     <td>Tên giải pháp</td>
                     <td style="font-weight: 600; color: #2a3493">
-                        {{data.tenGiaiPhap}}
+                        {{data?.tenGiaiPhap}}
                     </td>
                 </tr>
                 <tr>
