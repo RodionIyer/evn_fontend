@@ -84,9 +84,9 @@ export const TraCuuTimKiemRoutes: Route[] = [
             path: ':id',
             runGuardsAndResolvers: 'always',
             component: DetailsComponent,
-            resolve: {
-              apiDetail: ApiInputDetailResolver
-            }
+            // resolve: {
+            //   apiDetail: ApiInputDetailResolver
+            // }
           }
         ]
       }
