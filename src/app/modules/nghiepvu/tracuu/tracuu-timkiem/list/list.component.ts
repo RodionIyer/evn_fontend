@@ -19,7 +19,7 @@ import {PopupFileComponent} from 'app/shared/component/popup-file/popup-filecomp
     styleUrls: ['./list.component.scss']
 })
 export class ListItemComponent implements OnInit, OnDestroy {
-
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
     public selectedYear: number;
     public actionClick: string = null;
     public getYearSubscription: Subscription;
@@ -117,8 +117,8 @@ export class ListItemComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.getYearSubscription.unsubscribe()
-        this.getGiaoSubcription.unsubscribe();
+        // this.getYearSubscription.unsubscribe()
+        // this.getGiaoSubcription.unsubscribe();
     }
 
     getListDinhHuong() {
@@ -155,11 +155,22 @@ export class ListItemComponent implements OnInit, OnDestroy {
         });
     }
 
-    detail(item) {
-        this._router.navigate(
-            ['/nghiepvu/detainhiemvu/lstdetaicuatoi'],
-            {queryParams: {type: 'CHITIET'}}
-        );
+    detail(item?) {
+        if (item.loaiDeTaiSK == 'DETAI') {
+            this._router.navigate(
+                ['/nghiepvu/detainhiemvu/lstdetaicuatoi/' + item.maDeTaiSK],
+                {queryParams: {type: 'CHITIET'}}
+            );
+        } else if (item.loaiDeTaiSK == 'SANGKIEN') {
+            this._router.navigate(
+                ['/nghiepvu/sangkien/lstsangkiencuatoi/' + item.maDeTaiSK],
+                {queryParams: {type: 'CHITIET', screen: "/nghiepvu/sangkien/lstsangkiencuatoi/"}}
+            );
+        }
+        // this._router.navigate(
+        //     ['/nghiepvu/tracuu/tracuu-timkiem/' + item.maDeTaiSK],
+        //     {queryParams: {type: 'CHITIET', screen: "/nghiepvu/tracuu/tracuu-timkiem/"}}
+        // );
     }
 
     editer(item) {
