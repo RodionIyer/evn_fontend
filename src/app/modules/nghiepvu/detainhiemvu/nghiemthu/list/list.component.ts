@@ -130,22 +130,22 @@ export class ListItemComponent implements OnInit, OnDestroy {
     //       );
     // }
 
-    updateActionHSTH(item){
+    updateActionHSNT(item){
         this._router.navigate(
             ['/nghiepvu/detainhiemvu/lstdetaicuatoi/'+item.maDeTai],
-            { queryParams: { type: 'updateActionHSTH' } }
+            { queryParams: { type: 'updateActionHSNT',screentype:'nghiemthu' } }
           );
     }
     updateActionHD(item) {
         this._router.navigate(
-            ['/nghiepvu/detainhiemvu/xetduyet/' + item.maDeTai],
-            { queryParams: { type: 'updateActionHD' } }
+            ['/nghiepvu/detainhiemvu/nghiemthu/' + item.maDeTai],
+            { queryParams: { type: 'updateActionHD'} }
         );
     }
 
     updateActionKQ(item) {
         this._router.navigate(
-            ['/nghiepvu/detainhiemvu/xetduyet/' + item.maDeTai],
+            ['/nghiepvu/detainhiemvu/nghiemthu/' + item.maDeTai],
             { queryParams: { type: 'updateActionKQ' } }
         );
     }
@@ -153,7 +153,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
 
     updateActionKQNT(item){
         this._router.navigate(
-            ['/nghiepvu/detainhiemvu/nghiemthu'],
+            ['/nghiepvu/detainhiemvu/nghiemthu/' + item.maDeTai],
             { queryParams: { type: 'updateActionKQNT' } }
           );
     }
@@ -161,20 +161,20 @@ export class ListItemComponent implements OnInit, OnDestroy {
 
         this._router.navigate(
           ['/nghiepvu/detainhiemvu/lstdetaicuatoi/'+item.maDeTai],
-          { queryParams: { type: 'updateActionHSQT' } }
+          { queryParams: { type: 'updateActionHSQT',screentype:'nghiemthu' } }
         );
       
       }
       editer(item){
         this._router.navigate(
             ['/nghiepvu/detainhiemvu/lstdetaicuatoi/'+item.maDeTai],
-            { queryParams: { type: 'CHINHSUA',screen:"/nghiepvu/detainhiemvu/lstdetaicuatoi/"  } }
+            { queryParams: { type: 'CHINHSUA',screentype:'nghiemthu'  } }
           );
        }
        detail(item){
         this._router.navigate(
             ['/nghiepvu/detainhiemvu/lstdetaicuatoi/'+item.maDeTai],
-            { queryParams: { type: 'CHITIET' } }
+            { queryParams: { type: 'CHITIET',screentype:'nghiemthu' } }
           );
        }
     

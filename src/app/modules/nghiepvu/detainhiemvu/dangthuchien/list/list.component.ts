@@ -151,7 +151,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
     editer(item) {
         this._router.navigate(
             ['/nghiepvu/detainhiemvu/lstdetaicuatoi/' + item.maDeTai],
-            { queryParams: { type: 'CHINHSUA' } }
+            { queryParams: { type: 'CHINHSUA',screen:"nghiepvu/detainhiemvu/dangthuchien/" } }
         );
     }
 

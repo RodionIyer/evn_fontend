@@ -90,9 +90,9 @@
                             ></i>
                             <i class="fa fa-clock-o" (click)="lichsu(item)" title="Xem lịch sử"></i>
                             <i *ngIf="item.maTrangThai=='CHUA_GUI'" class="fa fa-pencil" (click)="editer(item)" title="Chỉnh sửa"></i>
-                            <i  *ngIf="item.maTrangThai=='CHUA_GUI_HS_NTHU' || item.maTrangThai=='YCAU_CAP_NHAT_HS_NTHU'" (click)="updateActionHSTH(item)" title="Cập nhập HSTH" class="fa fa-caret-square-o-up"></i>
+                            <i  *ngIf="item.maTrangThai=='CHUA_GUI_HS_NTHU' || item.maTrangThai=='YCAU_CAP_NHAT_HS_NTHU'" (click)="updateActionHSNT(item)" title="Cập nhập HSNT" class="fa fa-caret-square-o-up"></i>
                             <i  *ngIf="item.maTrangThai=='DA_RA_SOAT_HS_NTHU'" (click)="updateActionHD(item)" title="Cập nhập HĐNT" class="fa fa-caret-square-o-up"></i>
-                            <i  *ngIf="item.maTrangThai=='DA_TLHDNT'" (click)="updateActionKQ(item)" title="Cập nhập KQNT" class="fa fa-caret-square-o-up"></i>
+                            <i  *ngIf="item.maTrangThai=='DA_TLHDNT'" (click)="updateActionKQNT(item)" title="Cập nhập KQNT" class="fa fa-caret-square-o-up"></i>
                             <i  *ngIf="item.maTrangThai=='DA_NTHU'" (click)="updateActionHSQT(item)" title="Cập nhật HSQT" class="fa fa-caret-square-o-up"></i>
                          
                             <i *ngIf="item.maTrangThai=='CHUA_GUI'" class="fa fa-trash" (click)="xoa(item)" title="Xóa bỏ"></i>

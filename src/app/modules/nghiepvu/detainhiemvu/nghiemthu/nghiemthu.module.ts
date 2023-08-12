@@ -7,7 +7,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MatRippleModule } from '@angular/material/core';
+import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
@@ -33,8 +33,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { SharedModule } from 'app/shared/shared.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { PopupCbkhComponent } from './detail/popup-cbkh/popup-cbkh.component';
-
-
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 
 
@@ -56,7 +56,10 @@ import { PopupCbkhComponent } from './detail/popup-cbkh/popup-cbkh.component';
         MatDialogModule,
         MatTabsModule, MatToolbarModule, MatPaginatorModule, MatListModule,
         MatInputModule, ReactiveFormsModule, MatSelectModule, MatAutocompleteModule, MatSlideToggleModule,
-        CommonModule, NgxMatSelectSearchModule, FuseAlertModule, FuseNavigationModule, HighlightPlusModule
+        CommonModule, NgxMatSelectSearchModule, FuseAlertModule, FuseNavigationModule, HighlightPlusModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatFormFieldModule
     ],
     declarations: [
         DetailsComponent,

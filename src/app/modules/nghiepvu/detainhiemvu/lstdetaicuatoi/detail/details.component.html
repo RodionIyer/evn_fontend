@@ -3471,18 +3471,18 @@
         </mat-tab>
     </mat-tab-group>
 
-    <!-- <div style="display: flex; margin-top: 10px; align-items: center">
+     <div style="display: flex; margin-top: 10px; align-items: center" *ngIf="screentype =='nghiemthu'">
         <label for="" style="margin-right: 10px">Trạng thái <span>(*)</span></label>
         <ng-select
-            [items]="listYears"
+            [items]="listTrangThai"
             bindLabel="NAME"
             bindValue="ID"
             placeholder="Lựa chọn"
-            [(ngModel)]="selectedYear"
+            formControlName="maTrangThai"
             style="width: 200px"
         >
         </ng-select>
-    </div> -->
+    </div> 
 
     <div
         class="flex items-center"
@@ -3504,11 +3504,15 @@
         style="padding: 10px; min-height: 100px"
     ></textarea>
 
+
     <div class="action-all-f">
-        <button class="add_button" (click)="onSubmit('LUU', 'HSNHIEMTHU')">
+        <button *ngIf="screentype =='nghiemthu'" class="add_button" (click)="onSubmit('LUU', 'HSNHIEMTHUSTATUS')">
             <i class="fa fa-save"></i> Lưu
         </button>
-        <button class="add_button" (click)="onSubmit('LUUGUI', 'HSNHIEMTHU')">
+        <button *ngIf="screentype !='nghiemthu'" class="add_button" (click)="onSubmit('LUU', 'HSNHIEMTHU')">
+            <i class="fa fa-save"></i> Lưu
+        </button>
+        <button *ngIf="screentype !='nghiemthu'" class="add_button" (click)="onSubmit('LUUGUI', 'HSNHIEMTHU')">
             <i class="fa fa-save"></i> Lưu & Gửi
         </button>
     </div>

@@ -102,6 +102,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
     public listNam = [];
     public idParam: string = null;
     public screen;
+    public screentype;
     public madeTaiSK;
     public typeLichSu;
     public checkChuNhiem = true;
@@ -155,6 +156,9 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
             if (params?.screen) {
                 this.screen = params?.screen;
             }
+            if (params?.screentype) {
+                this.screentype = params?.screentype;
+            }
             if (params?.title) {
                 this.title_lichsu = params?.title;
             }
@@ -181,9 +185,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                 this.typeLichSu = 'DETAI';
                
                 this.detail(this.method);
-                if (this.actionType == 'updateActionHSTH') {
-                   this.form.get("maTrangThai").setValue("DANG_THUC_HIEN");
-                }
+               
             }
         });
     }
@@ -295,6 +297,8 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
             this.getListTrangThaiHSThucHien();
         } else if (this.actionType == 'updateActionHSQT') {
             this.getListTrangThaiQuyetToan();
+        }else if(this.actionType=='updateActionHSNT' && this.screentype=='nghiemthu'){
+            this.getListTrangThaiHSNT();
         }
         this.getThang();
         this.getNam();
@@ -512,6 +516,12 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                         .get('thoiGianThucHienDen')
                         .setValue(new Date(thoiGianDen));
                 }
+                let thoiGianHop = this.form.get('thoiGianHop').value;
+                if (thoiGianHop) {
+                    this.form
+                        .get('thoiGianHop')
+                        .setValue(new Date(thoiGianHop));
+                }
 
                 console.log('form,', this.form);
                 if (method == 'DETAIL') {
@@ -715,6 +725,11 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                 }else if(method = 'HSQTOAN'){
                     this.form.get('maTrangThai').setValue('DA_NTHU');
                 }
+                if (this.actionType == 'updateActionHSTH') {
+                    this.form.get("maTrangThai").setValue("DANG_THUC_HIEN");
+                 }else if(this.actionType=='updateActionHSNT' && this.screentype=='nghiemthu'){
+                     this.form.get("maTrangThai").setValue("CHUA_GUI_HS_NTHU");
+                 }
 
             });
     }
@@ -855,8 +870,12 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
             //     this.form.get('maTrangThai').setValue("DA_NTHU");
             // }
         } else if (method == 'CAPNHAT') {
+            let maTrangThai = this.form.get('maTrangThai').value;
             if (status == 'LUU') {
-                this.form.get('maTrangThai').setValue('CHUA_GUI');
+                if(maTrangThai !=null && maTrangThai !=''){}else{
+                    this.form.get('maTrangThai').setValue('CHUA_GUI');
+                }
+              
                 this.form
                     .get('noiDungGuiMail')
                     .setValue(
@@ -864,7 +883,10 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                             this.form.get('tenDeTai').value
                     );
             } else if (status == 'LUUGUI') {
-                this.form.get('maTrangThai').setValue('DA_GUI');
+                if(maTrangThai !=null && maTrangThai !='' && maTrangThai !='CHUA_GUI'){}else{
+                    this.form.get('maTrangThai').setValue('DA_GUI');
+                }
+                
                let listFolder = this.form.get('listFolderFile').value;
                let check = false;
                 if(listFolder != null && listFolder.length >0){
@@ -904,6 +926,12 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                         'Thông báo',
                         data.message
                     );
+                    if(this.screentype='nghiemthu'){
+                        this._router.navigateByUrl("nghiepvu/detainhiemvu/nghiemthu");
+                    }else
+                    if(this.screen){
+                        this._router.navigateByUrl(this.screen);
+                    }else
                     if(this.form.get('maTrangThai').value=='HOAN_THANH'){
                         this._router.navigateByUrl("nghiepvu/detainhiemvu/hoanthanh");
                     }else 
@@ -1168,6 +1196,24 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                     if (
                         str.ID == 'DANG_THUC_HIEN' ||
                         str.ID == 'YCAU_CAP_NHAT_HS_NTHU'
+                    ) {
+                        return str;
+                    }
+                    return;
+                });
+            });
+    }
+
+    getListTrangThaiHSNT() {
+        this._serviceApi
+            .execServiceLogin('2EE0D143-CA88-4CFF-AC24-448236ECD72C', null)
+            .subscribe((data) => {
+                this.listTrangThai = data.data || [];
+                this.listTrangThai = this.listTrangThai.filter(function (str) {
+                    if (
+                        str.ID == 'CHUA_GUI_HS_NTHU' ||
+                        str.ID == 'YCAU_CAP_NHAT_HS_NTHU' ||
+                        str.ID == 'DA_RA_SOAT_HS_NTHU'
                     ) {
                         return str;
                     }

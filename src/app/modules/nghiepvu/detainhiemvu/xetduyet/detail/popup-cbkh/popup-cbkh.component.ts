@@ -58,6 +58,12 @@ export class PopupCbkhComponent implements OnInit {
 
     ngOnInit(): void {
         // this._messageService.showSuccessMessage("Thông báo", "Thành công")
+        if(this.checkType=="DETAIHOIDONGNT"){
+            this.timkiemDeTaiHoiDong(1);
+        }else
+        if(this.checkType=="DETAIHOIDONG"){
+            this.timkiemDeTaiHoiDong(0);
+        }else
         if(this.checkType=="HOIDONG"){
             this.timkiemHoiDong();
             this.donViChuTri();
@@ -121,6 +127,15 @@ export class PopupCbkhComponent implements OnInit {
     //     this.getDinhHuongSubcription.unsubscribe()
     // }
 
-
+    timkiemDeTaiHoiDong(loaiHD){
+        let obj={q:this.q,
+            loaiHD:loaiHD
+        }
+        this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("1A8E4364-AA42-40B4-A188-3BBF97F0A1A1", [{"name":"TIM_KIEM","value":JSON.stringify(obj)},{"name":"PAGE_NUM","value":0},{"name":"PAGE_ROW_NUM","value":20}]).subscribe((data) => {
+            console.log(data.data);
+            this.listHoiDong = data.data || [];
+              
+           })
+    }
 
 }

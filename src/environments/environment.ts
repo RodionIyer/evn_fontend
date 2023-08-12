@@ -1,7 +1,6 @@
 export const environment = {
     production: false,
-    // appAPI: 'http://14.225.2.63:8088/',
-    appAPI: 'http://localhost:8088/',
+    appAPI: 'http://14.225.2.63:8088/',
     hrmsIMGPath: 'hrmsimg',
     hrmsPath: 'hrms',
     apifilePath: 'apifile',

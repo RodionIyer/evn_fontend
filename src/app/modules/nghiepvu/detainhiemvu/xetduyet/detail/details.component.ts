@@ -93,7 +93,7 @@ export class DetailsComponent implements OnInit {
         kieuFile: '';
         loaiFile: '';
     };
-
+    public screentype;
     constructor(
         private _formBuilder: UntypedFormBuilder,
         public _activatedRoute: ActivatedRoute,
@@ -109,11 +109,19 @@ export class DetailsComponent implements OnInit {
             } else {
                 this.actionType = null;
             }
+            if (params?.screentype) {
+                this.screentype = params?.screentype;
+            }
             console.log(this.actionType);
             if (this.actionType == 'updateActionKQ') {
                 this.method = 'THANHLAPHD';
             } else if (this.actionType == 'updateActionHD') {
-                this.method = 'HOIDONG';
+                if(this.screentype=='nghiemthu'){
+                    this.method = 'HOIDONGNT';
+                }else{
+                    this.method = 'HOIDONG';
+                }
+                
             } else if (this.actionType == 'updateActionRaSoat') {
                 this.method = 'RASOAT';
             }
@@ -132,7 +140,12 @@ export class DetailsComponent implements OnInit {
     ngOnInit(): void {
         this.getListChucDanh();
         if (this.actionType == 'updateActionHD') {
-            this.geListTrangThaiHD();
+            if(this.screentype=='nghiemthu'){
+                this.geListTrangThaiHDNT();
+            }else{
+                this.geListTrangThaiHD();
+            }
+           
         } else {
             this.geListTrangThaiThanhLapHD();
         }
@@ -363,9 +376,17 @@ export class DetailsComponent implements OnInit {
                         .get('thoiGianThucHienDen')
                         .setValue(new Date(thoiGianDen));
                 }
+                let thoiGianHop = this.form.get('thoiGianHop').value;
+                if (thoiGianHop) {
+                    this.form
+                        .get('thoiGianHop')
+                        .setValue(new Date(thoiGianHop));
+                }
                 if (method == 'HOIDONG') {
                     this.form.get('maTrangThai').setValue('DA_TLHDXD');
-                } else if (method== 'THANHLAPHD') {
+                } else if (method== 'HOIDONGNT') {
+                    this.form.get('maTrangThai').setValue('DA_TLHDNT');
+                }else if (method== 'THANHLAPHD') {
                     this.form.get('maTrangThai').setValue('DANG_THUC_HIEN');
                 }
             });
@@ -568,6 +589,18 @@ export class DetailsComponent implements OnInit {
             });
     }
 
+    geListTrangThaiHDNT() {
+        this._serviceApi
+            .execServiceLogin('2EE0D143-CA88-4CFF-AC24-448236ECD72C', null)
+            .subscribe((data) => {
+                this.listTrangThai = data.data || [];
+                this.listTrangThai = this.listTrangThai.filter(
+                    (c) => c.ID == 'DA_TLHDNT'
+                );
+                this.form.get('maTrangThai').setValue('DA_TLHDNT');
+            });
+    }
+
     geListTrangThaiThanhLapHD() {
         //let thisNow = this;
         this._serviceApi
@@ -633,6 +666,36 @@ export class DetailsComponent implements OnInit {
                 item.get('email').setValue(data.data.email);
                 item.get('donViCongTac').setValue(data.data.noiLamViec);
                 item.get('maThanhVien').setValue(data.data.userId);
+            }else if(type=='DETAIHOIDONG'){
+                let formThanhVien = this.form.get(
+                    'danhSachThanhVienHD'
+                ) as FormArray;
+                for (
+                    let i = 0;
+                    i < data.data.danhSachThanhVienHD.length;
+                    i++
+                ) {
+                    formThanhVien.push(
+                        this.THEM_THANHVIEN(
+                            data.data.danhSachThanhVienHD[i]
+                        )
+                    );
+                }
+            }else if(type=='DETAIHOIDONGNT'){
+                let formThanhVien = this.form.get(
+                    'danhSachThanhVienHD'
+                ) as FormArray;
+                for (
+                    let i = 0;
+                    i < data.data.danhSachThanhVienHD.length;
+                    i++
+                ) {
+                    formThanhVien.push(
+                        this.THEM_THANHVIEN(
+                            data.data.danhSachThanhVienHD[i]
+                        )
+                    );
+                }
             }
         });
     }
@@ -725,9 +788,16 @@ export class DetailsComponent implements OnInit {
                         'Thông báo',
                         data.message
                     );
-                    this._router.navigateByUrl(
-                        '/nghiepvu/detainhiemvu/xetduyet/'
-                    );
+                    if(this.screentype=='nghiemthu'){
+                        this._router.navigateByUrl(
+                            '/nghiepvu/detainhiemvu/nghiemthu/'
+                        );
+                    }else{
+                        this._router.navigateByUrl(
+                            '/nghiepvu/detainhiemvu/xetduyet/'
+                        );
+                    }
+                   
                 } else {
                     this._messageService.showErrorMessage(
                         'Thông báo',
