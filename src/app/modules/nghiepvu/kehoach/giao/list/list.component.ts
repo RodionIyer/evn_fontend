@@ -50,10 +50,10 @@ export class ApiGiaoListComponent implements OnInit, OnDestroy {
         private _serviceApi: ServiceService,
         private _listdinhhuongService: ListdinhhuongService,
     ) {
-       
+
         this._activatedRoute.queryParams
         .subscribe(params => {
-          
+
           if(params?.type){
             this.actionClick = params?.type
           }else{
@@ -61,9 +61,9 @@ export class ApiGiaoListComponent implements OnInit, OnDestroy {
             this.timKiem();
           }
         }
-      
+
       );
-     
+
     }
 
     ngOnInit() {
@@ -75,7 +75,7 @@ export class ApiGiaoListComponent implements OnInit, OnDestroy {
                 // this.listYears.push({"NAME":2024,"ID":2024});
                 // this.listYears.push({"NAME":2025,"ID":2025})
             }
-               
+
         })
         // this.getStatusSubscription = this._listdinhhuongService.getValueStatus().subscribe((values: any) => {
         //     if (values)
@@ -119,14 +119,15 @@ export class ApiGiaoListComponent implements OnInit, OnDestroy {
     // }
 
     timKiem(){
-        let nam =this.selectedYear;     
-         this.selectedYear 
+        let nam =this.selectedYear;
+         this.selectedYear
+        debugger;
         this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("CA665A17-3450-4C70-8CCE-6F1FD44E0999", [{"name":"NAM","value":""},{"name":"PAGE_NUM","value":this.pageIndex},{"name":"PAGE_ROW_NUM","value":this.pageSize}]).subscribe((data) => {
             this.listDinhHuong = data.data || [];
              if(data.data != null && data.data.length >0){
                 this.length = data.data[0].totalPage;
              }
-             
+
          })
     }
 
@@ -143,7 +144,7 @@ export class ApiGiaoListComponent implements OnInit, OnDestroy {
      pageIndex = 0;
      pageSizeOptions = [10, 20, 50,100];
      showFirstLastButtons = true;
-   
+
      handlePageEvent(event: PageEvent) {
        this.length = event.length;
        this.pageSize = event.pageSize;
