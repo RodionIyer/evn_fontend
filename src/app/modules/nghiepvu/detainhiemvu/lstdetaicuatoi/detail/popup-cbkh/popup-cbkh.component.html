@@ -21,8 +21,11 @@
             <thead>
                 <tr>
                     <th class="stt_table">STT</th>
-                    <th>Tên định hướng</th>
-                    <th class="text-center">Người gửi</th>
+                    <th>Tên bản đăng ký định hướng
+                        giao thực hiện
+                    </th>
+                    <th class="text-center">Người giao</th>
+                    <th class="text-center">Tên đề tài, nhiệm vụ</th>
                 </tr>
             </thead>
             <tbody>
@@ -31,6 +34,7 @@
                         <td class="stt_table">{{ i + 1 }}</td>
                         <td>{{ item.name }}</td>
                         <td>{{ item.nguoiGui }}</td>
+                        <td style="text-align: center;">{{ item.tenDeTai }}</td>
                     </tr>
                 </ng-container>
             </tbody>
