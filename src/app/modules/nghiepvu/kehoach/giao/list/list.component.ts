@@ -1,16 +1,16 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { Subject, Subscription, takeUntil } from 'rxjs';
-import { MessageService } from 'app/shared/message.services';
-import { UserService } from 'app/core/user/user.service';
-import { User } from 'app/core/user/user.types';
-import { ActivatedRoute, Router } from '@angular/router';
-import { State } from 'app/shared/commons/conmon.types';
-import { FunctionService } from 'app/core/function/function.service';
-import { ApiGiaoService } from '../giao.service';
-import { ApiGiaoComponent } from '../giao.component';
-import { ServiceService } from 'app/shared/service/service.service';
-import { PageEvent } from '@angular/material/paginator';
-import { ListdinhhuongService } from '../../dinhhuong/listdinhhuong.service';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import {Subject, Subscription, takeUntil} from 'rxjs';
+import {MessageService} from 'app/shared/message.services';
+import {UserService} from 'app/core/user/user.service';
+import {User} from 'app/core/user/user.types';
+import {ActivatedRoute, Router} from '@angular/router';
+import {State} from 'app/shared/commons/conmon.types';
+import {FunctionService} from 'app/core/function/function.service';
+import {ApiGiaoService} from '../giao.service';
+import {ApiGiaoComponent} from '../giao.component';
+import {ServiceService} from 'app/shared/service/service.service';
+import {PageEvent} from '@angular/material/paginator';
+import {ListdinhhuongService} from '../../dinhhuong/listdinhhuong.service';
 
 @Component({
     selector: 'component-list',
@@ -19,7 +19,7 @@ import { ListdinhhuongService } from '../../dinhhuong/listdinhhuong.service';
 })
 export class ApiGiaoListComponent implements OnInit, OnDestroy {
 
-    public selectedYear: number;
+    public selectedYear: any[] | number ;
     public actionClick: string = null;
     public getYearSubscription: Subscription;
     public getGiaoSubcription: Subscription;
@@ -33,7 +33,7 @@ export class ApiGiaoListComponent implements OnInit, OnDestroy {
     public checked;
     public getDinhHuongSubcription: Subscription;
     public listDinhHuong = [];
-    public selectedGrid:String;
+    public selectedGrid: String;
 
 
     /**
@@ -52,25 +52,24 @@ export class ApiGiaoListComponent implements OnInit, OnDestroy {
     ) {
 
         this._activatedRoute.queryParams
-        .subscribe(params => {
+            .subscribe(params => {
 
-          if(params?.type){
-            this.actionClick = params?.type
-          }else{
-            this.actionClick = null
-            this.timKiem();
-          }
-        }
-
-      );
+                    if (params?.type) {
+                        this.actionClick = params?.type
+                    } else {
+                        this.actionClick = null
+                        this.timKiem();
+                    }
+                }
+            );
 
     }
 
     ngOnInit() {
-
+        this.selectedYear = [];
         this.actionClick = null;
         this._listdinhhuongService.getValueYear().subscribe((values: any) => {
-            if (values){
+            if (values) {
                 this.listYears = values;
                 // this.listYears.push({"NAME":2024,"ID":2024});
                 // this.listYears.push({"NAME":2025,"ID":2025})
@@ -81,12 +80,12 @@ export class ApiGiaoListComponent implements OnInit, OnDestroy {
         //     if (values)
         //         this.listStatus = values;
         // })
-        this.listStatus =[{"MA_TRANG_THAI":"","TEN_TRANG_THAI":"Tất cả"},
-            {"MA_TRANG_THAI":"Y_CAU_HIEU_CHINH","TEN_TRANG_THAI":"Yêu cầu hiệu chỉnh"},
-        {"MA_TRANG_THAI":"CHO_PHE_DUYET","TEN_TRANG_THAI":"Chờ phê duyệt"},
-        {"MA_TRANG_THAI":"DA_PHE_DUYET","TEN_TRANG_THAI":"Đã duyệt"}]
-        this.selectedYear =((new Date()).getFullYear());
-        this.selectedStatus='';
+        this.listStatus = [{"MA_TRANG_THAI": "", "TEN_TRANG_THAI": "Tất cả"},
+            {"MA_TRANG_THAI": "Y_CAU_HIEU_CHINH", "TEN_TRANG_THAI": "Yêu cầu hiệu chỉnh"},
+            {"MA_TRANG_THAI": "CHO_PHE_DUYET", "TEN_TRANG_THAI": "Chờ phê duyệt"},
+            {"MA_TRANG_THAI": "DA_PHE_DUYET", "TEN_TRANG_THAI": "Đã duyệt"}]
+        // this.selectedYear = ((new Date()).getFullYear());
+        this.selectedStatus = '';
         this.timKiem();
     }
 
@@ -99,17 +98,18 @@ export class ApiGiaoListComponent implements OnInit, OnDestroy {
         this.actionClick = 'THEMMOI';
     }
 
-    tonghop(status){
+    tonghop(status) {
         this.addNew();
-        this.selectedGrid="355B4604-D23D-4A64-8E24-B96085F0B0E4";
-        this._router.navigateByUrl('nghiepvu/kehoach/pheduyetdinhhuong/'+this.selectedGrid+"?type="+status);
+        this.selectedGrid = "355B4604-D23D-4A64-8E24-B96085F0B0E4";
+        this._router.navigateByUrl('nghiepvu/kehoach/pheduyetdinhhuong/' + this.selectedGrid + "?type=" + status);
     }
-    lichsu(item){
-      this._router.navigate(
-          ['/nghiepvu/kehoach/dinhhuong'],
-          { queryParams: { type: 'LICHSU',makehoach:item.maKeHoach } }
+
+    lichsu(item) {
+        this._router.navigate(
+            ['/nghiepvu/kehoach/dinhhuong'],
+            {queryParams: {type: 'LICHSU', makehoach: item.maKeHoach}}
         );
-     }
+    }
 
     // getListDinhHuong() {
     //     this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("F217F0FD-B9AA-4ADC-9EDE-75717D8484FD", [{"name":"MA_TRANG_THAI","value":""},{"name":"NAM","value":(new Date()).getFullYear()},{"name":"ORGID","value":"115"}]).subscribe((data) => {
@@ -118,37 +118,46 @@ export class ApiGiaoListComponent implements OnInit, OnDestroy {
     //     })
     // }
 
-    timKiem(){
-        let nam =this.selectedYear;
-         this.selectedYear
-        debugger;
-        this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("CA665A17-3450-4C70-8CCE-6F1FD44E0999", [{"name":"NAM","value":""},{"name":"PAGE_NUM","value":this.pageIndex},{"name":"PAGE_ROW_NUM","value":this.pageSize}]).subscribe((data) => {
+    timKiem() {
+        let nam;
+        if(this.selectedYear != undefined && this.selectedYear[0] != null){
+            nam = this.selectedYear;
+        } else {
+            nam = null;
+        }
+        this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("CA665A17-3450-4C70-8CCE-6F1FD44E0999", [{
+            "name": "NAM",
+            "value": nam
+        }, {"name": "PAGE_NUM", "value": this.pageIndex}, {
+            "name": "PAGE_ROW_NUM",
+            "value": this.pageSize
+        }]).subscribe((data) => {
             this.listDinhHuong = data.data || [];
-             if(data.data != null && data.data.length >0){
+            if (data.data != null && data.data.length > 0) {
                 this.length = data.data[0].totalPage;
-             }
+            }
 
-         })
+        })
     }
 
 
     ngOnDestroy() {
         this.getDinhHuongSubcription.unsubscribe()
-      //  this.getYearSubscription.unsubscribe()
-       // this.getStatusSubscription.unsubscribe()
+        //  this.getYearSubscription.unsubscribe()
+        // this.getStatusSubscription.unsubscribe()
     }
 
-     //phân trang
-     length = 0;
-     pageSize = 20;
-     pageIndex = 0;
-     pageSizeOptions = [10, 20, 50,100];
-     showFirstLastButtons = true;
+    //phân trang
+    length = 0;
+    pageSize = 20;
+    pageIndex = 0;
+    pageSizeOptions = [10, 20, 50, 100];
+    showFirstLastButtons = true;
 
-     handlePageEvent(event: PageEvent) {
-       this.length = event.length;
-       this.pageSize = event.pageSize;
-       this.pageIndex = event.pageIndex;
-       this.timKiem();
-     }
+    handlePageEvent(event: PageEvent) {
+        this.length = event.length;
+        this.pageSize = event.pageSize;
+        this.pageIndex = event.pageIndex;
+        this.timKiem();
+    }
 }
