@@ -137,6 +137,8 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
     ];
     lstDanhSachThanhVienHD : any[];
     private _unsubscribeAll: Subject<any> = new Subject<any>();
+    public nguoiSua : any;
+    public ngayTao : any;
 
     constructor(
         private _formBuilder: FormBuilder,
@@ -375,6 +377,8 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
             ])
             .subscribe((data) => {
                 console.log('formData,', data.data);
+                this.ngayTao = new Date(data.data.ngayTao);
+                this.nguoiSua = data.data.nguoiSua;
                 debugger;
                 this.form.patchValue(data.data);
                 if(this.form.get('chuNhiemDeTaiInfo').value != null){
