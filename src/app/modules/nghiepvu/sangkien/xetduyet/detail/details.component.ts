@@ -116,7 +116,39 @@ export class DetailsComponent implements OnInit {
                         }
                     }
                 }
+                  // danh sách thành viên
+                  if (data.data.danhSachThanhVien != null) {
+                    let formThanhVien = this.form.get(
+                        'danhSachThanhVien'
+                    ) as FormArray;
+
+                    for (
+                        let i = 0;
+                        i < data.data.danhSachThanhVien.length;
+                        i++
+                    ) {
+                        formThanhVien.push(
+                            this.THEM_THANHVIEN(data.data.danhSachThanhVien[i])
+                        );
+                    }
+                }
+
+                if(method=='HOIDONGXD'){
+                    this.form.get('maTrangThai').setValue('DA_TLHDXDTC');
+                }
+                
             });
+    }
+    THEM_THANHVIEN(item?: any): FormGroup {
+        return this._formBuilder.group({
+            maThanhVien: item?.maThanhVien || null,
+            ten: item?.ten || null,
+            chucDanh: item?.chucDanh || null,
+            soDienThoai: item?.soDienThoai || null,
+            email: item?.email || null,
+            donViCongTac: item?.donViCongTac || null,
+            tenChucDanh: item?.tenChucDanh || null,
+        });
     }
 
     addListDocParent(item?: any) {
@@ -317,6 +349,21 @@ export class DetailsComponent implements OnInit {
                 item.get('donViCongTac').setValue(data.data.noiLamViec);
                 item.get('maThanhVien').setValue(data.data.userId);
                 item.get('maThanhVien').setValue(data.data.userId);
+            }else if (type == 'HOIDONGSK') {
+                let formThanhVien = this.form.get(
+                    'danhSachThanhVien'
+                ) as FormArray;
+                for (
+                    let i = 0;
+                    i < data.data.danhSachThanhVien.length;
+                    i++
+                ) {
+                    formThanhVien.push(
+                        this.THEM_THANHVIEN(
+                            data.data.danhSachThanhVien[i]
+                        )
+                    );
+                }
             }
         });
     }
@@ -349,11 +396,11 @@ export class DetailsComponent implements OnInit {
         this.form.get('method').setValue(method);
         this.form.get('nam').setValue(new Date().getFullYear());
         if(method=="SUA"){
-            if(status=="LUU"){
-                this.form.get('maTrangThai').setValue('SOAN');
-            }else if(status=="LUUGUI"){
-                this.form.get('maTrangThai').setValue('CHO_RA_SOAT');
-            }
+            // if(status=="LUU"){
+            //     this.form.get('maTrangThai').setValue('SOAN');
+            // }else if(status=="LUUGUI"){
+            //     this.form.get('maTrangThai').setValue('CHO_RA_SOAT');
+            // }
         }else  if(method=="RASOAT"){
             if(status=="TRALAI"){
                 this.form.get('maTrangThai').setValue('KHONG_CONG_NHAN');

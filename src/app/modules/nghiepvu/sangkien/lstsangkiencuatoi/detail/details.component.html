@@ -43,10 +43,10 @@
             >
             </ng-select>
             <div
-                *ngIf="submitted.check && f?.capDoSangKien?.errors"
+                *ngIf="submitted.check && f?.nam?.errors"
                 class="invalid-feedback"
             >
-                <div *ngIf="f.capDoSangKien.errors.required">
+                <div *ngIf="f.nam.errors.required">
                     Trường bắt buộc nhập
                 </div>
             </div>
@@ -155,7 +155,7 @@
                     </div>
                     <!-- <input style="border:1px solid #ccc; border-radius: 5px;" type="text" name="" formControlName="ten" id=""> <i (click)="openAlertDialog('THANHVIEN',thanhvien.get('ten'))" class="fa fa-search"></i> -->
                 </td>
-                <td>
+                <td style="width:15%">
                     <ng-select
                         [items]="listChucDanh"
                         bindLabel="NAME"
@@ -439,7 +439,7 @@
 
         <div class="list-file" *ngIf="item.get('listFile').value.length > 0">
         <table class="table table_custom action-table">
-            <tbody formArrayName="listFile" class="table_listfile">
+            <tbody formArrayName="listFile" class="table_listfile" style="width:100% !important">
             <ng-container *ngFor="let item2 of item.get('listFile')['controls'];let k = index" >
                 <tr [formGroupName]="k">
                     <td>

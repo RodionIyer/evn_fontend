@@ -3333,19 +3333,6 @@
                                 *ngIf="item.get('listFile').value.length > 0"
                             >
                                 <table class="table table_custom action-table">
-                                    <!-- <thead>
-                                        <tr>
-                                            <th class="stt_table">STT</th>
-                                            <th>Tên file</th>
-                                            <th class="text-center">
-                                                Kích thước
-                                            </th>
-                                            <th class="text-center">
-                                                Số văn bản
-                                            </th>
-                                            <th style="width: 100px"></th>
-                                        </tr>
-                                    </thead> -->
                                     <tbody
                                         formArrayName="listFile"
                                         class="table_listfile"
@@ -3360,15 +3347,11 @@
                                             [formGroupName]="k"
                                         >
                                             <td>
-                                                <!-- <i
-                                                    class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
-                                                ></i> -->
                                                 {{
                                                     item2.get("fileName").value
                                                 }}
-                                            </td>
-                                            <td>
-                                                {{
+
+                                                ({{
                                                     item2.get("size").value >
                                                     1024 * 1024
                                                         ? (
@@ -3387,14 +3370,8 @@
                                                               .value.toFixed(
                                                                   1
                                                               ) + "K"
-                                                }}
+                                                }})
                                             </td>
-                                            <!-- 
-                                            <td>
-                                                {{
-                                                    item2.get("sovanban").value
-                                                }}
-                                            </td> -->
                                             <td class="text-right">
                                                 <i
                                                     style="
@@ -3706,7 +3683,7 @@
         </tbody> -->
     </table>
 
-    <div style="display: flex; margin-top: 10px; align-items: center">
+    <!-- <div style="display: flex; margin-top: 10px; align-items: center">
         <label for="" style="margin-right: 10px"
             >Trạng thái <span>(*)</span></label
         >
@@ -3719,7 +3696,7 @@
             style="width: 200px"
         >
         </ng-select>
-    </div>
+    </div> -->
 
     <div
         class="flex items-center"

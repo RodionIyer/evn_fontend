@@ -30,7 +30,7 @@ import {MatSort} from '@angular/material/sort';
 import {ServiceService} from 'app/shared/service/service.service';
 import {MatDialog} from '@angular/material/dialog';
 import {PopupCbkhComponent} from './popup-cbkh/popup-cbkh.component';
-
+import { DatetimeAdapter } from '@mat-datetimepicker/core';
 import {
     DateAdapter,
     MAT_DATE_FORMATS,
@@ -450,10 +450,11 @@ export class DetailsComponent implements OnInit {
     }
 
     onSubmit(status, method) {
-        // this.submitted.check = true;
-        // if (this.form.invalid) {
-        //     return;
-        // }
+        this.submitted.check = true;
+        if (this.form.invalid) {
+            return;
+        }
+
         console.log(this.form.value);
         this.form.get('method').setValue(method);
         //this.form.get('nam').setValue(new Date().getFullYear());
@@ -494,13 +495,13 @@ export class DetailsComponent implements OnInit {
     exportMau() {
         if (this.idParam != undefined && this.idParam != null) {
             this._serviceApi
-                .execServiceLogin('FC95C3F7-942F-4C7E-88D7-46E12BFE9185', [
-                    {name: 'MA_KE_HOACH', value: this.idParam},
+                .execServiceLogin('53BE3925-262C-4FB9-A2D4-6C898521D9EF', [
+                    {name: 'MA_SANGKIEN', value: this.idParam},
                 ])
                 .subscribe((data) => {
                     this.downloadTempExcel(
                         data.data,
-                        'DANH_SACH_DANG_KY_DINH_HUONG.docx'
+                        'MAU_SANG_KIEN.docx'
                     );
                 });
         } else {
@@ -549,5 +550,5 @@ export class DetailsComponent implements OnInit {
                 });
         }
     }
-}import { DatetimeAdapter } from '@mat-datetimepicker/core';
+}
 

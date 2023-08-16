@@ -33,6 +33,7 @@
         "@types/codemirror": "5.60.5",
         "angular2-text-mask": "^9.0.0",
         "apexcharts": "3.35.5",
+        "cleave.js": "^1.6.0",
         "codemirror": "5.64.0",
         "cors": "^2.8.5",
         "crypto-js": "3.3.0",

@@ -20,7 +20,7 @@ import {PopupFileComponent} from 'app/shared/component/popup-file/popup-filecomp
 })
 export class ListItemComponent implements OnInit, OnDestroy {
     private _unsubscribeAll: Subject<any> = new Subject<any>();
-    public selectedYear: number;
+    public selectedYear=new Date().getFullYear();
     public actionClick: string = null;
     public getYearSubscription: Subscription;
     public getGiaoSubcription: Subscription;
@@ -87,9 +87,8 @@ export class ListItemComponent implements OnInit, OnDestroy {
 
     getlistHoatDongKHCN() {
         this.listHoatDongKHCN = [
-            {"id": "ALL", "name": "Tất cả"},
-            {"id": "DE_TAI", "name": "Đề tài NCKH"},
-            {"id": "SANG_KIEN", "name": "Sáng kiến"}
+            {"id": "DETAI", "name": "Đề tài NCKH"},
+            {"id": "SANGKIEN", "name": "Sáng kiến"}
         ];
     }
 
@@ -103,9 +102,14 @@ export class ListItemComponent implements OnInit, OnDestroy {
     }
 
     geListYears() {
-        this.getYearSubscription = this._serviceApi.execServiceLogin("E5050E10-799D-4F5F-B4F2-E13AFEA8543B", null).subscribe((data) => {
-            this.listYears = data.data || [];
-        })
+        var obj = {NAME: 0, ID: 0};
+        var year = new Date().getFullYear();
+        var yearStart = 2023;
+        var yearEnd = new Date().getFullYear() + 2;
+        for (let i = yearStart; i <= yearEnd; i++) {
+            obj = {NAME: i, ID: i};
+            this.listYears.push(obj);
+        }
     }
 
 
@@ -182,7 +186,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
 
     timKiem() {
         let obj = {
-            hoatDongKhCN: this.hoatDongKhCN.id,
+            hoatDongKhCN: this.hoatDongKhCN,
             linhVucNghienCuu: this.linhVucNghienCuu,
             capQuanLy: this.capQuanLy,
             nam: this.selectedYear,

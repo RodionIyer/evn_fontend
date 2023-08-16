@@ -126,20 +126,20 @@
                 <!-- phan trang -->
             </ng-container>
         </ng-container>
-        <mat-paginator
-            (page)="handlePageEvent($event)"
-            [length]="length"
-            [pageSize]="pageSize"
-            [showFirstLastButtons]="showFirstLastButtons"
-            [pageSizeOptions]="pageSizeOptions"
-            [pageIndex]="pageIndex"
-            aria-label="Select page"
-        >
-        </mat-paginator>
+       
         </tbody>
 
     </table>
-
+    <mat-paginator
+    (page)="handlePageEvent($event)"
+    [length]="length"
+    [pageSize]="pageSize"
+    [showFirstLastButtons]="showFirstLastButtons"
+    [pageSizeOptions]="pageSizeOptions"
+    [pageIndex]="pageIndex"
+    aria-label="Select page"
+>
+</mat-paginator>
 </div>
 
 <div
@@ -228,16 +228,7 @@
                 </tr>
             </ng-container>
         </ng-container>
-        <mat-paginator
-            (page)="handlePageEvent($event)"
-            [length]="length"
-            [pageSize]="pageSize"
-            [showFirstLastButtons]="showFirstLastButtons"
-            [pageSizeOptions]="pageSizeOptions"
-            [pageIndex]="pageIndex"
-            aria-label="Select page"
-        >
-        </mat-paginator>
+       
         <!-- <tbody>
             <tr>
                 <td colspan="7">Lĩnh vực khoa học 1</td>
@@ -284,6 +275,16 @@
              -->
         </tbody>
     </table>
+    <mat-paginator
+    (page)="handlePageEvent($event)"
+    [length]="length"
+    [pageSize]="pageSize"
+    [showFirstLastButtons]="showFirstLastButtons"
+    [pageSizeOptions]="pageSizeOptions"
+    [pageIndex]="pageIndex"
+    aria-label="Select page"
+>
+</mat-paginator>
 
 </div>
 

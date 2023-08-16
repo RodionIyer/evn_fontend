@@ -1200,3 +1200,238 @@
         <button class="add_button"><i class="fa fa-save"></i> Lưu</button>
     </div>
 </div>
+<div
+    *ngIf="actionType == 'updateActionHSQTNT'"
+    class="flex flex-col flex-auto overflow-y-auto bg-card dark:bg-default content-detail p-3"
+    [formGroup]="form"
+>
+    <div class="">
+        <h1 class="title-component">CẬP NHẬP HỒ SƠ THANH QUYẾT TOÁN</h1>
+        <div class="title-section">
+            <i class="fa fa-minus-circle"></i> Thông tin đề tài:
+        </div>
+    </div>
+
+    <div class="flex flex-row row space-x-4">
+        <div class="basis-1/12">
+            <label for="">Tên đề tài/ nhiệm vụ:</label>
+        </div>
+        <div class="basis-2/5">
+            <span>{{ form.get("tenDeTai").value }}</span>
+        </div>
+        <div class="basis-1/12">
+            <label for="">Cấp độ ĐT/NV:</label>
+        </div>
+        <div class="basis-1/5">
+            <span>{{ form.get("tenCapQuanLy").value }}</span>
+        </div>
+    </div>
+    <div class="flex flex-row row space-x-4">
+        <div class="basis-1/12">
+            <label for="">Chủ nhiệm:</label>
+        </div>
+        <div class="basis-2/5">
+            <span>{{ form.get("chuNhiemDeTai").value }}</span>
+        </div>
+        <div class="basis-1/12">
+            <label for="">Đơn vị công tác:</label>
+        </div>
+        <div class="basis-1/5">
+            <span>{{ form.get("donViCongTac").value }}</span>
+        </div>
+    </div>
+    <div class="title-section">
+        <i class="fa fa-minus-circle"></i>Hồ sơ thực hiện:
+    </div>
+
+    <table class="table table_custom" style="margin-top: 0">
+        <thead>
+            <tr>
+                <th class="stt_table">STT</th>
+                <th>Tên hồ sơ</th>
+                <th>Người cập nhập</th>
+                <th>Ngày cập nhập</th>
+                <th>File đính kèm</th>
+                <th>Ghi chú</th>
+            </tr>
+        </thead>
+        <tbody formArrayName="listFolderFile">
+            <tr
+                *ngFor="
+                    let item of form.get('listFolderFile')['controls'];
+                    let i = index
+                "
+                formGroupName="{{ i }}"
+            >
+                <td class="stt_table">{{ i + 1 }}</td>
+                <td class="font-medium">
+                    {{ item.get("fileName").value }}
+                    {{ item.get("maFolder").value }}
+                </td>
+                <td></td>
+                <td>
+                    <div
+                        class="list-file"
+                        *ngIf="item.get('listFile').value.length > 0"
+                    >
+                        <table class="table table_custom action-table">
+                            <tbody
+                                formArrayName="listFile"
+                                class="table_listfile"
+                            >
+                                <tr
+                                    *ngFor="
+                                        let item2 of item.get('listFile')[
+                                            'controls'
+                                        ];
+                                        let k = index
+                                    "
+                                    formGroupName="{{ k }}"
+                                >
+                                    <td>
+                                        <!-- <i
+                                            class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
+                                        ></i> -->
+                                        {{ item2.get("fileName").value }}
+                                    </td>
+                                    <td>
+                                        {{
+                                            item2.get("size").value >
+                                            1024 * 1024
+                                                ? (
+                                                      item2.get("size").value /
+                                                      (1024 * 1024)
+                                                  ).toFixed(1) + "(MB)"
+                                                : item2.get("size").value > 1024
+                                                ? (
+                                                      item2.get("size").value /
+                                                      1024
+                                                  ).toFixed(1) + "(KB)"
+                                                : item2
+                                                      .get("size")
+                                                      .value.toFixed(1) + "K"
+                                        }}
+                                    </td>
+
+                                    <td>{{ item2.get("sovanban").value }}</td>
+                                    <td class="text-right">
+                                        <i
+                                            style="
+                                                color: red;
+                                                cursor: pointer;
+                                                margin-right: 3px;
+                                            "
+                                            (click)="deleteItemFile(item, k)"
+                                            class="fa fa-trash"
+                                            title="Xóa bỏ"
+                                        ></i>
+                                        <i
+                                            class="fa fa-cloud-download"
+                                            style="
+                                                color: green;
+                                                cursor: pointer;
+                                            "
+                                            aria-hidden="true"
+                                            (click)="downLoadFile(item2)"
+                                            title="Download file"
+                                        ></i>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </td>
+                <td class="text-center">
+                    <!-- <label class="custom-file-upload add_button-import">
+                        <input type="file" multiple (change)="handleUpload($event,item,i)" #fileUpload2 />
+                        <i class="fa fa-cloud-upload"></i> Upload file
+                    </label> -->
+                    <label class="custom-file-upload add_button-import">
+                        <input
+                            type="file"
+                            multiple
+                            (change)="handleUpload($event, item, i)"
+                            #fileUpload2
+                        />
+                        <i class="fa fa-cloud-upload"></i> Upload file
+                    </label>
+                    <!-- 
+                          *ngIf="
+                            (this.listMaFolderQuyetToan.indexOf(
+                                item.get('maFolder').value
+                            ) > -1 &&
+                                checkChuNhiem) ||
+                            (this.listMaFolderQuyetToan.indexOf(
+                                item.get('maFolder').value
+                            ) == -1 &&
+                                !checkChuNhiem)
+                        "
+                        <button class="add_button">
+                        <i class="fa fa-link"></i> Upload file
+                    </button> -->
+                </td>
+                <td>{{ item.get("ghiChu").value }}</td>
+            </tr>
+        </tbody>
+        <!-- <tbody>
+            <tr>
+                <td class="stt_table">1</td>
+                <td>Noi dung</td>
+                <td>Noi dung</td>
+                <td>Noi dung</td>
+                <td> 
+                    <button class="dowwnload px-10 py-2 rounded-md bg-sky-500 text-white">
+                        <i class="fa fa-cloud-upload"></i> Upload</button>
+                    </td>
+                <td>Noi dung</td>
+            </tr>
+        </tbody> -->
+    </table>
+
+    <div style="display: flex; margin-top: 10px; align-items: center">
+        <label for="" style="margin-right: 10px"
+            >Trạng thái <span>(*)</span></label
+        >
+        <ng-select
+            [items]="listTrangThai"
+            bindLabel="NAME"
+            bindValue="ID"
+            placeholder="Lựa chọn"
+            formControlName="maTrangThai"
+            style="width: 200px"
+        >
+        </ng-select>
+    </div>
+
+    <div
+        class="flex items-center"
+        style="margin-bottom: 10px; margin-top: 10px"
+    >
+        <input
+            type="checkbox"
+            formControlName="isEmail"
+            [checked]="form.get('isEmail').value"
+            class="mr-1"
+        />
+        <span style="margin-left: 5px">
+            Gửi email thông báo đến chủ nhiệm và các bên liên quan</span
+        >
+    </div>
+
+    <label class="title_labe" for="">Nội dung gửi mail</label>
+    <textarea
+        class="form-control"
+        name=""
+        formControlName="noiDungGuiMail"
+        id=""
+        cols="30"
+        rows="10"
+        style="padding: 10px; min-height: 100px"
+    ></textarea>
+
+    <div class="action-all-f">
+        <button class="add_button" (click)="onSubmit('LUU', 'HSQTOAN')">
+            <i class="fa fa-save"></i> Lưu
+        </button>
+    </div>
+</div>

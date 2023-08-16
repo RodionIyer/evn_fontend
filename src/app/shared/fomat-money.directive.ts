@@ -1,39 +1,79 @@
-import { Directive, OnInit, forwardRef, ElementRef, HostListener, Renderer2 } from '@angular/core';
-import { DecimalPipe } from '@angular/common';
-/* ------------------------------------------------------------------------ *  
-* ------------------------------------------------------------------------ */
+import { Directive, forwardRef, ElementRef, OnInit, Input, Output, OnDestroy, HostBinding, EventEmitter } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import Cleave from 'cleave.js';
+export const INPUTMASK_VALUE_ACCESSOR: any = {
+  provide: NG_VALUE_ACCESSOR,
+  useExisting: forwardRef(() => moneyDirective),
+  multi: true
+};
 
 @Directive({
-  selector: '[money]'
+  selector: '[money]',
+  providers: [INPUTMASK_VALUE_ACCESSOR],
+  host: {
+    '(blur)': 'onBlur($event)',
+  }
 })
-export class moneyDirective implements OnInit {
-  currencyChars = new RegExp('[\.,]', 'g'); // we're going to remove commas and dots
+export class moneyDirective implements OnInit, ControlValueAccessor, OnDestroy {
+  @HostBinding('disabled')
+  @Input() disabled: boolean;
+  @Input() value: string;
+  @Input() options: any = {};
 
-  constructor(public el: ElementRef, public renderer: Renderer2, private decimalPipe: DecimalPipe) {}
+  @Output() onValueChanged = new EventEmitter<any>();
+
+  private onModelChange: Function = () => { };
+  private onModelTouched: Function = () => { };
+  private _instance: Cleave;
+  constructor(public elRef: ElementRef) { }
 
   ngOnInit() {
-    this.format(this.el.nativeElement.value); // format any initial values
+    this.init();
   }
 
-  @HostListener('input', ["$event.target.value"]) onInput(e: string) {
-    this.format(e);
-  };
-
-  @HostListener('paste', ['$event']) onPaste(event: ClipboardEvent) {
-    event.preventDefault();
-    this.format(event.clipboardData.getData('text/plain'));
+  ngOnChanges() {
+    this.init();
   }
 
-  format(val:string) {
-    // 1. test for non-number characters and replace/remove them
-    const numberFormat = parseInt(String(val).replace(this.currencyChars, ''));
-    // console.log(numberFormat); // raw number
+  private init() {
+    if (this._instance) {
+      this._instance.destroy();
+      this._instance = null;
+    }
 
-    // 2. format the number (add commas)
-    const usd = this.decimalPipe.transform(numberFormat, '1.0', 'en-US');
+    this._instance = new Cleave(this.elRef.nativeElement, {
+      ...this.options,
+      onValueChanged: (e) => {
+        this.value = e.target.rawValue;
+        this.onModelChange(this.value);
+        this.onValueChanged.next(e);
+      }
+    });
+    this._instance.setRawValue(this.value);
+  }
 
-    // 3. replace the input value with formatted numbers
-    this.renderer.setProperty(this.el.nativeElement, 'value', usd);
+  onBlur() {
+    this.onModelTouched(true);
+  }
+
+  ngOnDestroy() {
+    this._instance.destroy();
+    this._instance = null;
+  }
+
+  // implement ControlValueAccessor
+  writeValue(obj: any): void {
+    this.value = obj;
+    this._instance.setRawValue(this.value);
+  }
+  registerOnChange(fn: any): void {
+    this.onModelChange = fn;
+  }
+  registerOnTouched(fn: any): void {
+    this.onModelTouched = fn;
+  }
+  setDisabledState(isDisabled: boolean): void {
+    this.disabled = isDisabled;
   }
 
 }

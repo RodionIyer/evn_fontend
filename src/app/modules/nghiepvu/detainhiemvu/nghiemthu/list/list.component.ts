@@ -160,8 +160,8 @@ export class ListItemComponent implements OnInit, OnDestroy {
     updateActionHSQT(item){
 
         this._router.navigate(
-          ['/nghiepvu/detainhiemvu/lstdetaicuatoi/'+item.maDeTai],
-          { queryParams: { type: 'updateActionHSQT',screentype:'nghiemthu' } }
+          ['/nghiepvu/detainhiemvu/nghiemthu/'+item.maDeTai],
+          { queryParams: { type: 'updateActionHSQTNT' } }
         );
       
       }

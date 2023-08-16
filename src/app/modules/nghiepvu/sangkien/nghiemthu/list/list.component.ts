@@ -28,13 +28,16 @@ export class ListItemComponent implements OnInit, OnDestroy {
     public getGiaoSubcription: Subscription;
     public listYears = [];
     public listGiao = [];
+    public q:string =null;
     public ListFleDemo = [
         {id:1,name:'ten_file',kichthuoc:'20mb'},
         {id:2,name:'ten_file1',kichthuoc:'20mb'},
         {id:3,name:'ten_file2',kichthuoc:'20mb'}
     ]
-
-
+    public listCapDo=[];
+    public listDonVi = [];
+    public donVi:String =null;
+    public capDo:string =null;
     /**
      * Constructor
      */
@@ -63,13 +66,37 @@ export class ListItemComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.geListYears();
+        this.getListCapDoSK();
+        this.getListDonvi();
         this.timKiem()
     }
+    getListDonvi() {
+        this._serviceApi
+            .execServiceLogin('176BC0B0-7431-47F0-A802-BEDF83E85261', null)
+            .subscribe((data) => {
+                this.listDonVi = data.data || [];
+            });
+    }
 
+   
+    getListCapDoSK() {
+        this._serviceApi
+            .execServiceLogin('825C8F49-51DE-417E-AACD-FBDB437346AB', null)
+            .subscribe((data) => {
+                console.log(data.data);
+                this.listCapDo = data.data || [];
+            });
+    }
     geListYears() {
-        this.getYearSubscription = this._serviceApi.execServiceLogin("E5050E10-799D-4F5F-B4F2-E13AFEA8543B", null).subscribe((data) => {
-            this.listYears = data.data || [];
-        })
+        var obj = { "NAME": 0, "ID": 0 };
+        var year = (new Date()).getFullYear();
+        var yearStart = 2023;
+        var yearEnd = (new Date()).getFullYear();
+        for (let i = yearStart; i <= yearEnd; i++) {
+            obj = { "NAME": i, "ID": i }
+            this.listYears.push(obj);
+        }
+        this.selectedYear = (new Date()).getFullYear();
     }
 
 
@@ -144,7 +171,12 @@ export class ListItemComponent implements OnInit, OnDestroy {
     }
 
     timKiem() {
-        this._serviceApi.execServiceLogin("45283A19-1068-4FEF-8357-89924E2A5D47", [{"name":"LOAI_TIM_KIEM","value":"NGHIEMTHU"},{"name":"TIM_KIEM","value":""},{"name":"PAGE_NUM","value":this.pageIndex},{"name":"PAGE_ROW_NUM","value":this.pageSize}]).subscribe((data) => {
+        let obj ={
+            capDo:this.capDo,
+            donVi:this.donVi,
+            nam:this.selectedYear
+        }
+        this._serviceApi.execServiceLogin("45283A19-1068-4FEF-8357-89924E2A5D47", [{"name":"LOAI_TIM_KIEM","value":"NGHIEMTHU"},{"name":"TIM_KIEM","value":JSON.stringify(obj)},{"name":"PAGE_NUM","value":this.pageIndex},{"name":"PAGE_ROW_NUM","value":this.pageSize}]).subscribe((data) => {
             this.listGiao = data.data || [];
         })
     }
