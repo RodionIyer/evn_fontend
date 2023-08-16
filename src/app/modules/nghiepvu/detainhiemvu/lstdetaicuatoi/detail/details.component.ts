@@ -135,6 +135,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
         'BBAN_GIAO_LUUTRU',
         'HDON_THUE_TNCN',
     ];
+    lstDanhSachThanhVienHD : any[];
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     constructor(
@@ -294,6 +295,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.lstDanhSachThanhVienHD = [];
         if (this.actionType == 'updateActionHSTH') {
             this.getListTrangThaiHSThucHien();
         } else if (this.actionType == 'updateActionHSQT') {
@@ -373,8 +375,20 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
             ])
             .subscribe((data) => {
                 console.log('formData,', data.data);
+                debugger;
                 this.form.patchValue(data.data);
-
+                if(this.form.get('chuNhiemDeTaiInfo').value != null){
+                    this.form.get('chuNhiemDeTaiInfo').value.vaiTro = "Chủ nhiệm đề tài"
+                    this.lstDanhSachThanhVienHD.push(this.form.get('chuNhiemDeTaiInfo').value);
+                }
+                if(this.form.get('dongChuNhiemDeTaiInfo').value){
+                    this.form.get('dongChuNhiemDeTaiInfo').value.vaiTro = "Đồng chủ nhiệm đề tài"
+                    this.lstDanhSachThanhVienHD.push(this.form.get('dongChuNhiemDeTaiInfo').value);
+                }
+                if(this.form.get('thuKyDeTaiInfo').value){
+                    this.form.get('thuKyDeTaiInfo').value.vaiTro = "Thư kí đề tài"
+                    this.lstDanhSachThanhVienHD.push(this.form.get('thuKyDeTaiInfo').value);
+                }
                 let formDocParent = this.form.get(
                     'listFolderFile'
                 ) as FormArray;
@@ -848,6 +862,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
     onSubmit(status, method) {
         this.submitted.check = true;
         if (this.form.invalid) {
+            this._messageService.showErrorMessage("Thông báo", "Chưa nhập đủ trường bắt buộc!")
             return;
         }
         if (this.form.value.thuKyDeTaiInfo === '') {
