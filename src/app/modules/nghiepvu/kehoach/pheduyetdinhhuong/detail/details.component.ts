@@ -25,7 +25,7 @@ import { PopupFileComponent } from 'app/shared/component/popup-file/popup-fileco
 
 export class ApiPheDuyetDinhHuongDetailsComponent implements OnInit {
 
-   
+
     public selectedYear: number;
     public selectedStatus: string;
     public actionClick: string = null;
@@ -40,9 +40,9 @@ export class ApiPheDuyetDinhHuongDetailsComponent implements OnInit {
     public listChiTietImport = [];
     submitted = {check:false};
     record ={ lock: false,isEmail:false };
-    public listFile; 
+    public listFile;
     public user={EMAIL:''};
-    public listFileDelete=[]; 
+    public listFileDelete=[];
     public actionType;
     public makehoach;
     constructor(
@@ -53,7 +53,7 @@ export class ApiPheDuyetDinhHuongDetailsComponent implements OnInit {
         public _messageService: MessageService,
         public dialog: MatDialog
     ) {
-        
+
         this.idParam = this._activatedRoute.snapshot.paramMap.get('id');
         console.log('this.idParam',this.idParam);
        this.makehoach = this.idParam;
@@ -69,18 +69,18 @@ export class ApiPheDuyetDinhHuongDetailsComponent implements OnInit {
             //if( this.idParam != null &&  this.idParam != ''){
                 this.initForm()
             //}
-           
+
 
           //  console.log('this.idParam2',JSON.stringify(params));
         }
-           
+
         )
-       
+
     }
 
 
     ngOnInit() {
-      
+
         this.updateFile();
         this.geListYears()
         this.getListStatus()
@@ -171,10 +171,10 @@ export class ApiPheDuyetDinhHuongDetailsComponent implements OnInit {
                 }
             })
         }
-        
+
     }
 
-  
+
 
 
     initForm() {
@@ -200,28 +200,28 @@ export class ApiPheDuyetDinhHuongDetailsComponent implements OnInit {
             }
             )
         // }
-       
+
     }
     updateKeHoach(){
         // if(this.idParam != undefined && this.idParam !=null){
         //     this._serviceApi.execServiceLogin("B73269B8-55CF-487C-9BB4-99CB7BC7E95F", [{"name":"MA_KE_HOACH","value":this.idParam}]).subscribe((data) => {
-        
+
         //        // this.form.get("name").patchValue(data.data.Y_KIEN_NGUOI_PHE_DUYET);
         //        // this.form.get("email").patchValue(true);
         //        // this.form.get("maKeHoach").patchValue(this.idParam);
-    
+
         //     })
         //     this._serviceApi.execServiceLogin("D9680D9D-5705-42FA-9321-E04521D53014", [{"name":"MA_KE_HOACH","value":this.idParam}]).subscribe((data) => {
         //         this.listFile = data.data  || [];
-            
+
         //     })
 
 
         // }
-  
+
         if (this.idParam != undefined && this.idParam != null) {
             this._serviceApi.execServiceLogin("DC2F3F51-09CC-4237-9284-13EBB85C83C1", [{ "name": "MA_KE_HOACH", "value": this.idParam }]).subscribe((data) => {
-       
+
                 this._serviceApi.dataKeHoach.next(data.data);
                 this.listFile = data.data || [];
                 this.listFile =data.data.listFile;
@@ -248,21 +248,21 @@ export class ApiPheDuyetDinhHuongDetailsComponent implements OnInit {
 
 
         }
-     
+
     }
 
     // updateDate(){
     //     // if(this.idParam != undefined && this.idParam !=null){
     //     //     this._serviceApi.execServiceLogin("B73269B8-55CF-487C-9BB4-99CB7BC7E95F", [{"name":"MA_KE_HOACH","value":this.idParam}]).subscribe((data) => {
-        
+
     //     //        // this.form.get("name").patchValue(data.data.Y_KIEN_NGUOI_PHE_DUYET);
     //     //        // this.form.get("email").patchValue(true);
     //     //        // this.form.get("maKeHoach").patchValue(this.idParam);
-    
+
     //     //     })
     //     //     this._serviceApi.execServiceLogin("D9680D9D-5705-42FA-9321-E04521D53014", [{"name":"MA_KE_HOACH","value":this.idParam}]).subscribe((data) => {
     //     //         this.listFile = data.data  || [];
-            
+
     //     //     })
 
 
@@ -296,7 +296,7 @@ export class ApiPheDuyetDinhHuongDetailsComponent implements OnInit {
 
 
     //     }
-     
+
     // }
 
     onChangEmail(){
@@ -306,7 +306,7 @@ export class ApiPheDuyetDinhHuongDetailsComponent implements OnInit {
     get f(): { [key: string]: AbstractControl } {
         return this.form.controls;
       }
-  
+
 
     geListYears() {
         // this.getYearSubscription = this._serviceApi.execServiceLogin("E5050E10-799D-4F5F-B4F2-E13AFEA8543B", null).subscribe((data) => {
@@ -322,7 +322,7 @@ export class ApiPheDuyetDinhHuongDetailsComponent implements OnInit {
             this.listYears.push(obj);
         }
         this.selectedYear=  (new Date()).getFullYear();
-        
+
     }
 
     getListStatus() {
@@ -365,7 +365,7 @@ export class ApiPheDuyetDinhHuongDetailsComponent implements OnInit {
         //a.href = mediaType+userInp;
         const downloadLink = document.createElement('a');
         //const fileName = 'sample.excel';
-    
+
         downloadLink.href = mediaType+userInp;
         downloadLink.download = fileName;
         downloadLink.click();
@@ -392,7 +392,11 @@ export class ApiPheDuyetDinhHuongDetailsComponent implements OnInit {
         this._serviceApi.execServiceLogin("6E5C53E6-AB86-4865-97D2-83E048B47B56", [{"name":"MA_TRANG_THAI","value":status},{"name":"IS_EMAIL","value":email},{"name":"NAM","value":this.selectedYear},{"name":"GHI_CHU","value":yKienNguoiPheDuyet},{"name":"MA_KE_HOACH","value":this.idParam},{"name":"USERID","value":"STR"}]).subscribe((data) => {
           //  this.listChiTietImport = data.data || [];
             this._messageService.showSuccessMessage("Thông báo", (status=="DA_PHE_DUYET"?"Duyệt":status=="LUU"?"Lưu":status=="DGIAO"?"Đã giao":"Yêu cầu hiệu chỉnh")+" thành công.");
-            this._router.navigateByUrl('nghiepvu/kehoach/pheduyetdinhhuong');
+            if(status == 'DGIAO'){
+                this._router.navigateByUrl('nghiepvu/detainhiemvu/lstdetaicuatoi');
+            } else {
+                this._router.navigateByUrl('nghiepvu/kehoach/pheduyetdinhhuong');
+            }
         })
 
     }
@@ -416,7 +420,7 @@ export class ApiPheDuyetDinhHuongDetailsComponent implements OnInit {
                 }
                // if (this.listDonvi != undefined && this.listDonvi.length > 0) {
                     for (let k = 0; k < chitiet2.listNhiemVu_cap3.length; k++) {
-                        
+
                         let itemChiTiet = chitiet2.listNhiemVu_cap3[k];
                         if(itemChiTiet != null && itemChiTiet.action=="add"){
                             listChiTiet.push(itemChiTiet);
@@ -453,9 +457,9 @@ export class ApiPheDuyetDinhHuongDetailsComponent implements OnInit {
             }else{
                 this._router.navigateByUrl('nghiepvu/kehoach/dinhhuong');
             }
-  
+
         })
-   
+
     }
     openAlertDialog() {
         this.dialog.open(PopupFileComponent, {
@@ -486,7 +490,7 @@ export class ApiPheDuyetDinhHuongDetailsComponent implements OnInit {
                 console.log("downloadFile:"+JSON.stringify(data));
             })
         }
-       
+
     }
     listupload = []
     handleUpload(event) {
@@ -494,7 +498,7 @@ export class ApiPheDuyetDinhHuongDetailsComponent implements OnInit {
             const reader = new FileReader();
             let itemVal = event.target.files[i];
             reader.readAsDataURL(event.target.files[i]);
-            reader.onload = () => {        
+            reader.onload = () => {
                 this.listupload.push({
                     fileName: itemVal.name,
                     base64: reader.result,
