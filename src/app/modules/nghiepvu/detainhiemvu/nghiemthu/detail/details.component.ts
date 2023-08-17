@@ -109,7 +109,7 @@ export class DetailsComponent implements OnInit {
             if(this.idParam != null && this.idParam !=''){
                 this.detail(this.method);
             }
-          
+
         });
     }
 
@@ -422,7 +422,7 @@ export class DetailsComponent implements OnInit {
             });
     }
 
-    
+
     initForm(actionType) {
         this.form = this._formBuilder.group({
             maDeTai: [null],
@@ -697,6 +697,7 @@ export class DetailsComponent implements OnInit {
     }
 
     onSubmit(status, method) {
+        debugger
         this.form.get('method').setValue(method);
         var token = localStorage.getItem('accessToken');
         if (method == 'HSNHIEMTHU') {
@@ -732,7 +733,7 @@ export class DetailsComponent implements OnInit {
                         this._router.navigateByUrl(
                             '/nghiepvu/detainhiemvu/nghiemthu/'
                         );
-                   
+
                 } else {
                     this._messageService.showErrorMessage(
                         'Thông báo',

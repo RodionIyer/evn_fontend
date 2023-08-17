@@ -6,8 +6,8 @@ import {
     ViewChild,
     ViewEncapsulation,
 } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription, takeUntil } from 'rxjs';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Subscription, takeUntil} from 'rxjs';
 import {
     FormArray,
     FormBuilder,
@@ -16,19 +16,19 @@ import {
     UntypedFormGroup,
     Validators,
 } from '@angular/forms';
-import { MessageService } from 'app/shared/message.services';
-import { SnotifyToast } from 'ng-alt-snotify';
-import { State } from 'app/shared/commons/conmon.types';
-import { BaseDetailInterface } from 'app/shared/commons/basedetail.interface';
-import { UserService } from 'app/core/user/user.service';
-import { BaseComponent } from 'app/shared/commons/base.component';
-import { FunctionService } from 'app/core/function/function.service';
-import { xetduyetService } from '../xetduyet.service';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatSort } from '@angular/material/sort';
-import { ServiceService } from 'app/shared/service/service.service';
-import { MatDialog } from '@angular/material/dialog';
-import { PopupCbkhComponent } from './popup-cbkh/popup-cbkh.component';
+import {MessageService} from 'app/shared/message.services';
+import {SnotifyToast} from 'ng-alt-snotify';
+import {State} from 'app/shared/commons/conmon.types';
+import {BaseDetailInterface} from 'app/shared/commons/basedetail.interface';
+import {UserService} from 'app/core/user/user.service';
+import {BaseComponent} from 'app/shared/commons/base.component';
+import {FunctionService} from 'app/core/function/function.service';
+import {xetduyetService} from '../xetduyet.service';
+import {MatTableDataSource} from '@angular/material/table';
+import {MatSort} from '@angular/material/sort';
+import {ServiceService} from 'app/shared/service/service.service';
+import {MatDialog} from '@angular/material/dialog';
+import {PopupCbkhComponent} from './popup-cbkh/popup-cbkh.component';
 import {
     DateAdapter,
     MAT_DATE_FORMATS,
@@ -61,7 +61,7 @@ export const MY_FORMATS = {
             useClass: MomentDateAdapter,
         },
 
-        { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+        {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
     ],
     encapsulation: ViewEncapsulation.None,
 })
@@ -71,7 +71,7 @@ export class DetailsComponent implements OnInit {
         showMask: true,
         // keepCharPositions : true,
         mask: [/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/]
-      };
+    };
     public selectedYear: number;
     public getYearSubscription: Subscription;
     public listTrangThai = [];
@@ -94,6 +94,7 @@ export class DetailsComponent implements OnInit {
         loaiFile: '';
     };
     public screentype;
+
     constructor(
         private _formBuilder: UntypedFormBuilder,
         public _activatedRoute: ActivatedRoute,
@@ -116,12 +117,12 @@ export class DetailsComponent implements OnInit {
             if (this.actionType == 'updateActionKQ') {
                 this.method = 'THANHLAPHD';
             } else if (this.actionType == 'updateActionHD') {
-                if(this.screentype=='nghiemthu'){
+                if (this.screentype == 'nghiemthu') {
                     this.method = 'HOIDONGNT';
-                }else{
+                } else {
                     this.method = 'HOIDONG';
                 }
-                
+
             } else if (this.actionType == 'updateActionRaSoat') {
                 this.method = 'RASOAT';
             }
@@ -140,12 +141,12 @@ export class DetailsComponent implements OnInit {
     ngOnInit(): void {
         this.getListChucDanh();
         if (this.actionType == 'updateActionHD') {
-            if(this.screentype=='nghiemthu'){
+            if (this.screentype == 'nghiemthu') {
                 this.geListTrangThaiHDNT();
-            }else{
+            } else {
                 this.geListTrangThaiHD();
             }
-           
+
         } else {
             this.geListTrangThaiThanhLapHD();
         }
@@ -173,8 +174,8 @@ export class DetailsComponent implements OnInit {
     detail(method) {
         this._serviceApi
             .execServiceLogin('F360054F-7458-443A-B90E-50DB237B5642', [
-                { name: 'MA_DE_TAI', value: this.idParam },
-                { name: 'METHOD_BUTTON', value: method },
+                {name: 'MA_DE_TAI', value: this.idParam},
+                {name: 'METHOD_BUTTON', value: method},
             ])
             .subscribe((data) => {
                 this.form.patchValue(data.data);
@@ -234,9 +235,9 @@ export class DetailsComponent implements OnInit {
                         );
                         if (
                             data.data.listFolderFileTamUng[i].listFile !=
-                                null &&
+                            null &&
                             data.data.listFolderFileTamUng[i].listFile.length >
-                                0
+                            0
                         ) {
                             let formChild = formDocParentTamUng
                                 .at(i)
@@ -272,7 +273,7 @@ export class DetailsComponent implements OnInit {
                         );
                         if (
                             data.data.listFolderFileThucHien[i].listFile !=
-                                null &&
+                            null &&
                             data.data.listFolderFileThucHien[i].listFile
                                 .length > 0
                         ) {
@@ -323,7 +324,7 @@ export class DetailsComponent implements OnInit {
                                     this.addListDocChild(
                                         data.data.listFolderFileHD[i].listFile[
                                             j
-                                        ]
+                                            ]
                                     )
                                 );
                             }
@@ -384,13 +385,14 @@ export class DetailsComponent implements OnInit {
                 }
                 if (method == 'HOIDONG') {
                     this.form.get('maTrangThai').setValue('DA_TLHDXD');
-                } else if (method== 'HOIDONGNT') {
+                } else if (method == 'HOIDONGNT') {
                     this.form.get('maTrangThai').setValue('DA_TLHDNT');
-                }else if (method== 'THANHLAPHD') {
+                } else if (method == 'THANHLAPHD') {
                     this.form.get('maTrangThai').setValue('DANG_THUC_HIEN');
                 }
             });
     }
+
     addListDocParent(item?: any) {
         return this._formBuilder.group({
             fileName: item?.fileName || null,
@@ -398,6 +400,7 @@ export class DetailsComponent implements OnInit {
             listFile: this._formBuilder.array([]),
         });
     }
+
     addListDocChild(item?: any) {
         return this._formBuilder.group({
             fileName: item?.fileName || null,
@@ -411,6 +414,7 @@ export class DetailsComponent implements OnInit {
             rowid: item?.rowid || null,
         });
     }
+
     THEM_THANHVIEN(item?: any): FormGroup {
         return this._formBuilder.group({
             maThanhVien: item?.maThanhVien || null,
@@ -440,19 +444,23 @@ export class DetailsComponent implements OnInit {
             loaiHD: 0,
         });
     }
+
     addThanhVien() {
         let ar = this.form.get('danhSachThanhVien') as FormArray;
         ar.push(this.addMember());
     }
+
     removeItem(items, i) {
         // remove address from the list
         const control = items.get('danhSachThanhVien');
         control.removeAt(i);
     }
+
     addThanhVienHD() {
         let ar = this.form.get('danhSachThanhVienHD') as FormArray;
         ar.push(this.addMember());
     }
+
     removeItemHD(items, i) {
         // remove address from the list
         const control = items.get('danhSachThanhVienHD');
@@ -666,7 +674,7 @@ export class DetailsComponent implements OnInit {
                 item.get('email').setValue(data.data.email);
                 item.get('donViCongTac').setValue(data.data.noiLamViec);
                 item.get('maThanhVien').setValue(data.data.userId);
-            }else if(type=='DETAIHOIDONG'){
+            } else if (type == 'DETAIHOIDONG') {
                 let formThanhVien = this.form.get(
                     'danhSachThanhVienHD'
                 ) as FormArray;
@@ -681,7 +689,7 @@ export class DetailsComponent implements OnInit {
                         )
                     );
                 }
-            }else if(type=='DETAIHOIDONGNT'){
+            } else if (type == 'DETAIHOIDONGNT') {
                 let formThanhVien = this.form.get(
                     'danhSachThanhVienHD'
                 ) as FormArray;
@@ -713,6 +721,7 @@ export class DetailsComponent implements OnInit {
         const control = items.get('listFile');
         control.removeAt(i);
     }
+
     downloadTempExcel(userInp, fileName) {
         var mediaType =
             'data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,';
@@ -723,6 +732,7 @@ export class DetailsComponent implements OnInit {
         downloadLink.download = fileName;
         downloadLink.click();
     }
+
     downLoadFile(item) {
         if (item.base64 != undefined && item.base64 != '') {
             let link = item.base64.split(',');
@@ -737,8 +747,8 @@ export class DetailsComponent implements OnInit {
             var token = localStorage.getItem('accessToken');
             this._serviceApi
                 .execServiceLogin('2269B72D-1A44-4DBB-8699-AF9EE6878F89', [
-                    { name: 'DUONG_DAN', value: item.duongdan },
-                    { name: 'TOKEN_LINK', value: 'Bearer ' + token },
+                    {name: 'DUONG_DAN', value: item.duongdan},
+                    {name: 'TOKEN_LINK', value: 'Bearer ' + token},
                 ])
                 .subscribe((data) => {
                     console.log('downloadFile:' + JSON.stringify(data));
@@ -760,6 +770,7 @@ export class DetailsComponent implements OnInit {
     // }
 
     onSubmit(status, method) {
+        debugger
         console.log(this.form.value);
         this.form.get('method').setValue(method);
         var token = localStorage.getItem('accessToken');
@@ -777,33 +788,39 @@ export class DetailsComponent implements OnInit {
                 this.form.get('maTrangThai').setValue('DA_PHE_DUYET');
             }
         }
-        this._serviceApi
-            .execServiceLogin('8565DAF2-842B-438E-B518-79A47096E2B5', [
-                { name: 'DE_TAI', value: JSON.stringify(this.form.value) },
-                { name: 'TOKEN_LINK', value: token },
-            ])
-            .subscribe((data) => {
-                if (data.status == 1) {
-                    this._messageService.showSuccessMessage(
-                        'Thông báo',
-                        data.message
-                    );
-                    if(this.screentype=='nghiemthu'){
-                        this._router.navigateByUrl(
-                            '/nghiepvu/detainhiemvu/nghiemthu/'
+        let list: any[] = this.form.value.danhSachThanhVienHD;
+        if (list.filter(n => n.ten == null).length > 0) {
+            this._messageService.showErrorMessage("Thông báo", "Xóa thành viên trống trong danh sách thành viên hội đồng!");
+        } else {
+            this._serviceApi
+                .execServiceLogin('8565DAF2-842B-438E-B518-79A47096E2B5', [
+                    {name: 'DE_TAI', value: JSON.stringify(this.form.value)},
+                    {name: 'TOKEN_LINK', value: token},
+                ])
+                .subscribe((data) => {
+                    if (data.status == 1) {
+                        this._messageService.showSuccessMessage(
+                            'Thông báo',
+                            data.message
                         );
-                    }else{
-                        this._router.navigateByUrl(
-                            '/nghiepvu/detainhiemvu/xetduyet/'
+                        if (this.screentype == 'nghiemthu') {
+                            this._router.navigateByUrl(
+                                '/nghiepvu/detainhiemvu/nghiemthu/'
+                            );
+                        } else {
+                            this._router.navigateByUrl(
+                                '/nghiepvu/detainhiemvu/xetduyet/'
+                            );
+                        }
+
+                    } else {
+                        this._messageService.showErrorMessage(
+                            'Thông báo',
+                            'Lỗi trong quá trình thực hiện'
                         );
                     }
-                   
-                } else {
-                    this._messageService.showErrorMessage(
-                        'Thông báo',
-                        'Lỗi trong quá trình thực hiện'
-                    );
-                }
-            });
+                });
+            this.form.get('yKien').setValue("");
+        }
     }
 }

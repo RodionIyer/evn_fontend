@@ -45,7 +45,7 @@ export class DetailsComponent implements OnInit {
     public method = null;
     public form: FormGroup;
     public idParam: string = null;
-
+    public soLanGiaHan: any;
     constructor(
         private _formBuilder: UntypedFormBuilder,
         public _activatedRoute: ActivatedRoute,
@@ -157,6 +157,7 @@ export class DetailsComponent implements OnInit {
             .subscribe((data) => {
                 console.log(data.data);
                 this.form.patchValue(data.data);
+                this.soLanGiaHan = data.data.soLanGiaHan;
                 let formDocParent = this.form.get(
                     'listFolderFile'
                 ) as FormArray;

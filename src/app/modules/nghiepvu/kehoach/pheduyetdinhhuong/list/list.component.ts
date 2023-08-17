@@ -50,13 +50,13 @@ export class ApiPheduyetdinhhuongListComponent implements OnInit {
         private _functionService: FunctionService,
         private _serviceApi: ServiceService,
         private _listdinhhuongService: ListdinhhuongService,
-       
+
         private el: ElementRef
     ) {
-       
+
         this._activatedRoute.queryParams
         .subscribe(params => {
-          
+
           if(params?.type){
             this.actionClick = params?.type
           }else{
@@ -64,9 +64,9 @@ export class ApiPheduyetdinhhuongListComponent implements OnInit {
             this.timKiem();
           }
         }
-      
+
       );
-     
+
     }
 
     ngOnInit() {
@@ -78,7 +78,7 @@ export class ApiPheduyetdinhhuongListComponent implements OnInit {
                 // this.listYears.push({"NAME":2024,"ID":2024});
                 // this.listYears.push({"NAME":2025,"ID":2025})
             }
-               
+
         })
         // this.getStatusSubscription = this._listdinhhuongService.getValueStatus().subscribe((values: any) => {
         //     if (values)
@@ -109,43 +109,45 @@ export class ApiPheduyetdinhhuongListComponent implements OnInit {
      }
 
      async tonghop(status) {
-  
-      this.addNew();
       let arr = this.listDinhHuong.filter((c) => c.state == true);
-      // let listKeHoach = [];
-      // let listFile = [];
-      // if (arr != undefined && arr.length > 0) {
-      //     for (let i = 0; i < arr.length; i++) {
-      //         if (
-      //             arr[i] != undefined &&
-      //             arr[i].listKeHoach != undefined &&
-      //             arr[i].listKeHoach.length > 0
-      //         ) {
-      //             for (let j = 0; j < arr[i].listKeHoach.length; j++) {
-      //                 let chitiet = arr[i].listKeHoach[j];
-      //                 chitiet.maDonVi = arr[i].maDonVi;
-      //                 listKeHoach.push(arr[i].listKeHoach[j]);
-      //             }
-      //         }
-      //         if( arr[i] != undefined &&
-      //           arr[i].listFile != undefined &&
-      //           arr[i].listFile.length > 0){
-      //             for (let j = 0; j < arr[i].listFile.length; j++) {
-      //               listFile.push(arr[i].listFile[j]);
-      //           }
-      //         }
-      //     }
-      // }
-      // await this.delays(2000);
+      if(arr != undefined && arr.length != 0){
+          this.addNew();
+          // let listKeHoach = [];
+          // let listFile = [];
+          // if (arr != undefined && arr.length > 0) {
+          //     for (let i = 0; i < arr.length; i++) {
+          //         if (
+          //             arr[i] != undefined &&
+          //             arr[i].listKeHoach != undefined &&
+          //             arr[i].listKeHoach.length > 0
+          //         ) {
+          //             for (let j = 0; j < arr[i].listKeHoach.length; j++) {
+          //                 let chitiet = arr[i].listKeHoach[j];
+          //                 chitiet.maDonVi = arr[i].maDonVi;
+          //                 listKeHoach.push(arr[i].listKeHoach[j]);
+          //             }
+          //         }
+          //         if( arr[i] != undefined &&
+          //           arr[i].listFile != undefined &&
+          //           arr[i].listFile.length > 0){
+          //             for (let j = 0; j < arr[i].listFile.length; j++) {
+          //               listFile.push(arr[i].listFile[j]);
+          //           }
+          //         }
+          //     }
+          // }
+          // await this.delays(2000);
 
-     // let kehoach = { listKeHoach: listKeHoach, capTao: 'TCT',listFile :listFile };
-      this._serviceApi.dataTongHop.next(arr);
-    //  setTimeout(function(){
-        this._router.navigateByUrl(
-          'nghiepvu/kehoach/pheduyetdinhhuong?type=' + status
-       );
-      // },100);
-    
+          // let kehoach = { listKeHoach: listKeHoach, capTao: 'TCT',listFile :listFile };
+          this._serviceApi.dataTongHop.next(arr);
+          //  setTimeout(function(){
+          this._router.navigateByUrl(
+              'nghiepvu/kehoach/pheduyetdinhhuong?type=' + status
+          );
+          // },100);
+      } else {
+          this._messageService.showErrorMessage("Thông báo", "Cần chọn bản đăng ký định hướng mới thực hiện được chức năng này!");
+      }
   }
 
   delays(times) {
@@ -155,7 +157,7 @@ export class ApiPheduyetdinhhuongListComponent implements OnInit {
     checkAll(ev) {
         this.listDinhHuong.forEach(x => x.state = ev.target.checked);
       }
-      
+
       isAllChecked() {
         return this.listDinhHuong.every(_ => _.state);
       }
@@ -172,14 +174,14 @@ export class ApiPheduyetdinhhuongListComponent implements OnInit {
          if(this.selectedYear != null && this.selectedYear.length >0 ){
             nam = this.selectedYear.join(',');
          }
-        
-         this.selectedYear 
+
+         this.selectedYear
         this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("038D4EB5-55D0-49C4-8FDB-C242E6759955", [{"name":"MA_TRANG_THAI","value":this.selectedStatus},{"name":"NAM_LIST","value":nam},{"name":"PAGE_NUM","value":this.pageIndex},{"name":"PAGE_ROW_NUM","value":this.pageSize}]).subscribe((data) => {
           this.listDinhHuong = data.data || [];
              if(data.data != null && data.data.length >0){
                 this.length = data.data[0].totalPage;
              }
-             
+
          })
     }
     getUserLogin() {
@@ -187,7 +189,7 @@ export class ApiPheduyetdinhhuongListComponent implements OnInit {
             this._serviceApi.execServiceLogin("EEE8942F-F458-4B58-9B5C-4A0CEE3A75E8", [{"name":"USERID","value":"STR"}]).subscribe((data) => {
                 this.userLogin = data.data || {};
             })
-        
+
     }
 
     ngOnDestroy() {
@@ -202,7 +204,7 @@ export class ApiPheduyetdinhhuongListComponent implements OnInit {
      pageIndex = 0;
      pageSizeOptions = [10, 20, 50,100];
      showFirstLastButtons = true;
-   
+
      handlePageEvent(event: PageEvent) {
        this.length = event.length;
        this.pageSize = event.pageSize;

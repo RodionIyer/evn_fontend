@@ -276,10 +276,10 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
         let name = this.form.value.name;
         let nam = this.form.value.year;
 
-        let capTao = 'DONVI';
-        if (this.listDonvi != undefined && this.listDonvi.length > 0) {
-            capTao = "TCT";
-        }
+       // let capTao = 'DONVI';
+       // if (this.listDonvi != undefined && this.listDonvi.length > 0) {
+       //     capTao = "TCT";
+       // }
         let listChiTiet = [];
         let listFile = this.listupload;
         let kehoach = { name: name, nam: nam, maTrangThai: status, maKeHoach: this.idParam };

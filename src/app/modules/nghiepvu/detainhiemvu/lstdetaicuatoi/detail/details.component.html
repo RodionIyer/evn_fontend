@@ -109,7 +109,7 @@
                     <input type="checkbox" name="" id="" />
                     <span>Công nghệ thông tin</span>
                 </div>
-            </div> 
+            </div>
         </div> -->
     </div>
     <div class="flex flex-row row space-x-4">
@@ -277,7 +277,7 @@
                 bindLabel="NAME"
                 bindValue="ID"
                 placeholder="Chọn đơn vị"
-                formControlName="donViCongTac" 
+                formControlName="donViCongTac"
             >
             </ng-select> -->
         </div>
@@ -354,7 +354,7 @@
                 bindLabel="NAME"
                 bindValue="ID"
                 placeholder="Chọn đơn vị"
-                formControlName="donViCongTacDongChuNhiem" 
+                formControlName="donViCongTacDongChuNhiem"
             >
             </ng-select> -->
         </div>
@@ -420,7 +420,7 @@
                 bindLabel="NAME"
                 bindValue="ID"
                 placeholder="Chọn đơn vị"
-                formControlName="donViCongTacThuKy" 
+                formControlName="donViCongTacThuKy"
             >
             </ng-select> -->
         </div>
@@ -574,7 +574,7 @@
                 class="form-control"
                 placeholder="VNĐ"
                 formControlName="tongKinhPhi"
-                
+
                 type="text"
                 name=""
                 id=""
@@ -606,7 +606,7 @@
                 placeholder="VNĐ"
                 type="text"
                 name=""
-                
+
                 formControlName="kinhPhiKhoan"
                 id=""
             />
@@ -618,7 +618,7 @@
                 placeholder="VNĐ"
                 type="text"
                 name=""
-                
+
                 formControlName="kinhPhiKhongKhoan"
                 id=""
             />
@@ -713,7 +713,7 @@
         <div>
             File bắt buộc upload
         </div>
-    </div> 
+    </div>
                             </td>
                             <td>
                                 <div
@@ -836,7 +836,7 @@
                                         #fileUpload2
                                     />
                                     <i class="fa fa-cloud-upload"></i> Upload
-                                    
+
                                 </label>
                                 <!-- <button class="add_button">
                                 <i class="fa fa-link"></i> Upload file
@@ -891,7 +891,10 @@
                     </tr>
                     <tr>
                         <td>Thời gian thực hiện</td>
-                        <td></td>
+                        <td>
+                            {{ form.get("thoiGianThucHienTu").value | date : "dd/MM/yyyy" }} -
+                            {{ form.get("thoiGianThucHienDen").value | date : "dd/MM/yyyy" }}
+                        </td>
                         <!-- <td>{{form.get('thoiGianThucHienTu')?.value | date:"dd/MM/yyyy" +' - '+
                             form.get('thoiGianThucHienDen')?.value }}</td> -->
                     </tr>
@@ -2215,22 +2218,18 @@
                         <th>Ghi chú</th>
                     </tr>
                 </thead>
-                <tbody *ngIf="form.get('danhSachThanhVienHD').value.lenght > 0">
+                <tbody *ngIf="lstDanhSachThanhVienHD.length > 0" style="text-align: center">
                     <tr
                         *ngFor="
-                            let thanhvien of $any(
-                                form.get('danhSachThanhVienHD')
-                            ).controls;
-                            let i = index
+                            let thanhvien of lstDanhSachThanhVienHD;let i = index
                         "
-                        [formGroup]="thanhvien"
                     >
                         <td class="stt_table">{{ i + 1 }}</td>
                         <td>
-                            {{ thanhvien.ten }}
+                            {{ thanhvien.username }}
                         </td>
                         <td>
-                            {{ thanhvien.tenChucDanh }}
+                            {{ thanhvien.vaiTro }}
                         </td>
                         <td></td>
                         <!-- <td>{{thanhvien.email}}</td>
@@ -2842,7 +2841,7 @@
                                 />
                                 <i class="fa fa-cloud-upload"></i> Upload file
                             </label>
-                            <!-- 
+                            <!--
                                  *ngIf="
                                     (this.listMaFolder.indexOf(
                                         item.get('maFolder').value
@@ -2868,7 +2867,7 @@
                         <td>Noi dung</td>
                         <td>Noi dung</td>
                         <td>Noi dung</td>
-                        <td> 
+                        <td>
                             <button class="dowwnload px-10 py-2 rounded-md bg-sky-500 text-white">
                                 <i class="fa fa-cloud-upload"></i> Upload</button>
                             </td>
@@ -3018,7 +3017,7 @@
                                 />
                                 <i class="fa fa-cloud-upload"></i> Upload file
                             </label>
-                            <!-- 
+                            <!--
                                  *ngIf="
                                     (this.listMaFolder2.indexOf(
                                         item.get('maFolder').value
@@ -3288,7 +3287,7 @@
                         <td>Noi dung</td>
                         <td>Noi dung</td>
                         <td>Noi dung</td>
-                        <td> 
+                        <td>
                             <button class="dowwnload px-10 py-2 rounded-md bg-sky-500 text-white">
                                 <i class="fa fa-cloud-upload"></i> Upload</button>
                             </td>
@@ -3372,6 +3371,7 @@
                                                               ) + "K"
                                                 }})
                                             </td>
+
                                             <td class="text-right">
                                                 <i
                                                     style="
@@ -3413,7 +3413,7 @@
                                 />
                                 <i class="fa fa-cloud-upload"></i> Upload file
                             </label>
-                            <!-- 
+                            <!--
                                  *ngIf="
                                     (this.listMaFolderNhiemThu2.indexOf(
                                         item.get('maFolder').value
@@ -3437,7 +3437,7 @@
                         <td>Noi dung</td>
                         <td>Noi dung</td>
                         <td>Noi dung</td>
-                        <td> 
+                        <td>
                             <button class="dowwnload px-10 py-2 rounded-md bg-sky-500 text-white">
                             <i class="fa fa-cloud-upload"></i> Upload
                         </button></td>
@@ -3459,7 +3459,7 @@
             style="width: 200px"
         >
         </ng-select>
-    </div> 
+    </div>
 
     <div
         class="flex items-center"
@@ -3650,7 +3650,7 @@
                         />
                         <i class="fa fa-cloud-upload"></i> Upload file
                     </label>
-                    <!-- 
+                    <!--
                           *ngIf="
                             (this.listMaFolderQuyetToan.indexOf(
                                 item.get('maFolder').value
@@ -3674,7 +3674,7 @@
                 <td>Noi dung</td>
                 <td>Noi dung</td>
                 <td>Noi dung</td>
-                <td> 
+                <td>
                     <button class="dowwnload px-10 py-2 rounded-md bg-sky-500 text-white">
                         <i class="fa fa-cloud-upload"></i> Upload</button>
                     </td>
