@@ -60,6 +60,7 @@ export class DetailsComponent implements OnInit {
        // this.initFormUpdateActionKQXDCN();
         this.idParam = this._activatedRoute.snapshot.paramMap.get('id');
         this._activatedRoute.queryParams.subscribe((params) => {
+            debugger
             if (params?.type) {
                 this.actionType = params?.type;
             } else {
@@ -73,7 +74,9 @@ export class DetailsComponent implements OnInit {
                 this.method = 'KETQUAXD';
             }  else  if (this.actionType == 'updateActionKQ') {
                 this.method = 'CHUNGNHANSK';
-            } 
+            } else  if (this.actionType == 'CHINHSUA') {
+                this.method = 'CAPNHAT';
+            }
             console.log(this.actionType);
             this.detail(this.method);
         });
@@ -171,7 +174,7 @@ export class DetailsComponent implements OnInit {
             listFile: this._formBuilder.array([]),
             noiDungGuiMail:[null],
             ghiChu:[null]
-            
+
         });
     }
 
@@ -423,7 +426,7 @@ export class DetailsComponent implements OnInit {
 }
 downloadTempExcel(userInp, fileName) {
     var mediaType = "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,";
-   
+
     const downloadLink = document.createElement('a');
 
     downloadLink.href = mediaType + userInp;

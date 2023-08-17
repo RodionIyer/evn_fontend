@@ -47,7 +47,7 @@ export class DetailsComponent implements OnInit {
             this.actionType =null
           }
           console.log( this.actionType);
-          
+
         }
       );
     }
