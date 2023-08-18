@@ -73,7 +73,7 @@ export class ApiInputService extends BaseService implements BaseDetailService {
                         { "name": "API_SERVICE_INPUTDESC", "value": lstObject[0].API_SERVICE_INPUTDESC },
                         { "name": "API_SERVICE_INPUT_TYPEID", "value": lstObject[0].API_SERVICE_INPUT_TYPEID },
                         { "name": "DEFAULT_VALUE_SYSTEM", "value": lstObject[0].DEFAULT_VALUE_SYSTEM },
-                        { "name": "DEFAULT_VALUE_NAME", "value": lstObject[0].DEFAULT_VALUE_NAME },                        
+                        { "name": "DEFAULT_VALUE_NAME", "value": lstObject[0].DEFAULT_VALUE_NAME },
                         { "name": "USER_MDF_ID", "value": lstObject[0].USER_MDF_ID }
                     ]).pipe(map((response: any) => {
                         if (response.status == 1) {
@@ -105,7 +105,7 @@ export class ApiInputService extends BaseService implements BaseDetailService {
                         { "name": "API_SERVICE_INPUTDESC", "value": lstObjectAddNew[0].API_SERVICE_INPUTDESC },
                         { "name": "API_SERVICE_INPUT_TYPEID", "value": lstObjectAddNew[0].API_SERVICE_INPUT_TYPEID },
                         { "name": "DEFAULT_VALUE_SYSTEM", "value": lstObjectAddNew[0].DEFAULT_VALUE_SYSTEM },
-                        { "name": "DEFAULT_VALUE_NAME", "value": lstObjectAddNew[0].DEFAULT_VALUE_NAME },                        
+                        { "name": "DEFAULT_VALUE_NAME", "value": lstObjectAddNew[0].DEFAULT_VALUE_NAME },
                         { "name": "USER_CR_ID", "value": lstObjectAddNew[0].USER_CR_ID }
                     ]).pipe(map((response: any) => {
 
@@ -264,7 +264,7 @@ export class ApiInputService extends BaseService implements BaseDetailService {
             })
         );
     }
-    
+
 
     get lstApiInput$(): Observable<any[]> {
         return this._lstApiInput.asObservable();
@@ -386,8 +386,10 @@ export class ApiInputService extends BaseService implements BaseDetailService {
 
                         }))
                     }));
+                } else {
+                    this._object.next(object);
                 }
-                this._object.next(object);
+                //this._object.next(object);
                 return of(object);
             })
         );

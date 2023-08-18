@@ -24,7 +24,7 @@ export class AuthSignInComponent implements OnInit {
     signInForm: UntypedFormGroup;
     showAlert: boolean = false;
     version: String = ""
-
+    redirectURL: String = "";
     /**
      * Constructor
      */
@@ -50,6 +50,10 @@ export class AuthSignInComponent implements OnInit {
             userid: ['', [Validators.required]],
             password: ['', Validators.required],
             rememberMe: ['']
+        });
+        this._activatedRoute.queryParamMap.subscribe(paramsId => {
+            this.redirectURL = paramsId.get("redirectURL") ?? "";
+
         });
     }
 
@@ -99,9 +103,12 @@ export class AuthSignInComponent implements OnInit {
                                             // Prevent the access
                                             return of(false);
                                         }
-                                        const redirectURL = '/signed-in-redirect';
-                                        // Navigate to the redirect url
-                                        this._router.navigateByUrl(redirectURL);
+                                        if (this.redirectURL != '' && this.redirectURL != '/401-not-found' && this.redirectURL != '/404-not-found' && this.redirectURL != '/500-not-found') {
+                                            this._router.navigateByUrl(this.redirectURL.toString());
+                                        } else {
+                                            const redirectURL = '/signed-in-redirect';
+                                            this._router.navigateByUrl(redirectURL);
+                                        }
                                         // Allow the access
                                         return of(true);
                                     }

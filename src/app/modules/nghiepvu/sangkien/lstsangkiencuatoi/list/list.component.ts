@@ -27,6 +27,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
     public getGiaoSubcription: Subscription;
     public listYears = [];
     public listGiao = [];
+    public listCapDo =[];
     public ListFleDemo = [
         {id: 1, name: 'ten_file', kichthuoc: '20mb'},
         {id: 2, name: 'ten_file1', kichthuoc: '20mb'},
@@ -55,6 +56,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
                     } else {
                         this.actionClick = null
                     }
+                    this.timKiem();
                     console.log(this.actionClick);
 
                 }
@@ -62,8 +64,17 @@ export class ListItemComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        //this.geListYears();
+        this.getListCapDoSK();
         this.timKiem();
+    }
+
+    getListCapDoSK() {
+        this._serviceApi
+            .execServiceLogin('825C8F49-51DE-417E-AACD-FBDB437346AB', null)
+            .subscribe((data) => {
+                console.log(data.data);
+                this.listCapDo = data.data || [];
+            });
     }
 
     geListYears() {

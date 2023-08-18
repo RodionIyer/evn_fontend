@@ -139,7 +139,6 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
     private _unsubscribeAll: Subject<any> = new Subject<any>();
     public nguoiSua: any;
     public ngayTao: any;
-    public status: any;
 
     constructor(
         private _formBuilder: FormBuilder,
@@ -865,12 +864,13 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
     }
 
     onSubmit(status, method) {
-        this.status = status;
+        if (status == 'LUU' && method=='CAPNHAT') {}else{
         this.submitted.check = true;
         if (this.form.invalid) {
             this._messageService.showErrorMessage("Thông báo", "Chưa nhập đủ trường bắt buộc!")
             return;
         }
+    }
         if (this.form.get('danhSachThanhVien').value.length > 0) {
             let listTV: any[] = this.form.get('danhSachThanhVien').value;
             if (listTV.filter(n => n.maThanhVien == null || n.maThanhVien == '').length > 0) {
@@ -884,7 +884,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
         console.log(this.form.value);
         this.form.get('method').setValue(method);
         var token = localStorage.getItem('accessToken');
-        debugger
+
         if (method == 'HSNHIEMTHU') {
             if (status == 'LUU') {
                 this.form.get('maTrangThai').setValue('CHUA_GUI_HS_NTHU');

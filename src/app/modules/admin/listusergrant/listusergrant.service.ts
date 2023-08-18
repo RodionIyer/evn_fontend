@@ -333,6 +333,31 @@ export class ListUserGrantService extends BaseService implements BaseDetailServi
         );
     }
 
+    getObjectsByFolderForSearch(groupid: string, page: string = '1', textSearch: string,): Observable<any> {
+        // Execute the Apis loading with true
+
+
+        return this._serviceService.execServiceLogin("API-41-1", [{ "name": "ORGID", "value": groupid }, { "name": "TEXT_SEARCH", "value": textSearch }]).pipe(
+            tap((response: any) => {
+                this._objects.next(response.data);
+                this._object.next(null);
+                //this._pagination.next(response.pagination);
+
+            }),
+            switchMap((response: any) => {
+
+                if (!response.status) {
+                    return throwError({
+                        message: 'Requested page is not available!',
+                        pagination: response.pagination
+                    });
+                }
+
+                return of(response);
+            })
+        );
+    }
+
     /**
      * Get Api by id
      */
@@ -407,8 +432,10 @@ export class ListUserGrantService extends BaseService implements BaseDetailServi
                             })
                         );
                     }));
+                } else {
+                    this._object.next(obj);
                 }
-                this._object.next(obj);
+                //this._object.next(obj);
                 return of(obj);
             })
         );

@@ -707,7 +707,7 @@
                         <td class="font-medium">
                             {{ item.get("fileName").value }}
                             <div
-                                *ngIf="status == 'LUUGUI' && submitted.check &&  item.get('listFile').errors?.minLength"
+                                *ngIf="submitted.check &&  item.get('listFile').errors?.minLength"
                                 class="invalid-feedback"
                             >
                                 <div>
@@ -3373,15 +3373,14 @@
                             ];
                             let i = index
                         "
-                    [formGroupName]="i"
-                >
-                    <td class="stt_table">{{ i + 1 }}</td>
-                    <td class="font-medium">
-                        {{ item.get("fileName").value }}
-                        {{ item.get("maFolder").value }}
-                    </td>
-                    <td></td>
-                    <td></td>
+                        [formGroupName]="i"                    >
+                        <td class="stt_table">{{ i + 1 }}</td>
+                        <td class="font-medium">
+                            {{ item.get("fileName").value }}
+                            {{ item.get("maFolder").value }}
+                        </td>
+                        <td></td>
+                        <td></td>
                     <td>
                         <div
                             class="list-file"
@@ -3406,76 +3405,38 @@
                                     class="table_listfile"
                                 >
                                 <tr
-                                    *ngFor="
-                                                let item2 of item.get(
+                                    *ngFor="let item2 of item.get(
                                                     'listFile'
                                                 )['controls'];
                                                 let k = index
                                             "
-                                    [formGroupName]="k"
-                                >
-                                    <td>
-                                        <!-- <i
-                                            class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
-                                        ></i> -->
-                                        {{
-                                        item2.get("fileName").value
-                                        }}
-                                    </td>
-                                    <td>
-                                        {{
-                                        item2.get("size").value >
-                                        1024 * 1024
-                                            ? (
-                                            item2.get("size")
-                                                .value /
-                                            (1024 * 1024)
-                                        ).toFixed(1) + "(MB)"
-                                            : item2.get("size")
-                                                .value > 1024
-                                            ? (
-                                                item2.get("size")
-                                                    .value / 1024
-                                            ).toFixed(1) + "(KB)"
-                                            : item2
-                                                .get("size")
-                                                .value.toFixed(
-                                                1
-                                                ) + "K"
-                                        }}
-                                    </td>
-                                    <!--
-                                    <td>
-                                        {{
-                                            item2.get("sovanban").value
-                                        }}
-                                    </td> -->
-                                    <td class="text-right">
-                                        <i
-                                            style="
-                                                        color: red;
-                                                        cursor: pointer;
-                                                        margin-right: 3px;
-                                                    "
-                                            (click)="
-                                                        deleteItemFile(item, k)
-                                                    "
-                                            class="fa fa-trash"
-                                            title="Xóa bỏ"
-                                        ></i>
-                                        <i
-                                            class="fa fa-cloud-download"
-                                            style="
-                                                        color: green;
-                                                        cursor: pointer;
-                                                    "
-                                            aria-hidden="true"
-                                            (click)="
-                                                        downLoadFile(item2)
-                                                    "
-                                            title="Download file"
-                                        ></i>
-                                    </td>
+                                            [formGroupName]="k"                                        >
+                                            <td>
+                                                {{
+                                                    item2.get("fileName").value
+                                                }}
+
+                                                ({{
+                                                    item2.get("size").value >
+                                                    1024 * 1024
+                                                        ? (
+                                                              item2.get("size")
+                                                                  .value /
+                                                              (1024 * 1024)
+                                                          ).toFixed(1) + "(MB)"
+                                                        : item2.get("size")
+                                                              .value > 1024
+                                                        ? (
+                                                              item2.get("size")
+                                                                  .value / 1024
+                                                          ).toFixed(1) + "(KB)"
+                                                        : item2
+                                                              .get("size")
+                                                              .value.toFixed(
+                                                                  1
+                                                              ) + "K"
+                                                }})
+                                            </td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -3761,7 +3722,7 @@
         </tbody> -->
     </table>
 
-    <div style="display: flex; margin-top: 10px; align-items: center">
+    <!-- <div style="display: flex; margin-top: 10px; align-items: center">
         <label for="" style="margin-right: 10px"
         >Trạng thái <span>(*)</span></label
         >
@@ -3774,7 +3735,7 @@
             style="width: 200px"
         >
         </ng-select>
-    </div>
+    </div> -->
 
     <div
         class="flex items-center"

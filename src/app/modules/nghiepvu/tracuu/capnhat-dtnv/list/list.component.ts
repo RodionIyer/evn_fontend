@@ -63,6 +63,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
     public listGiao = [];
     public submitted = { check: false };
     public form;
+    public listFolderFile=[];
     public ListFleDemo = [
         { id: 1, name: 'ten_file', kichthuoc: '20mb' },
         { id: 2, name: 'ten_file1', kichthuoc: '20mb' },
@@ -90,6 +91,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
             } else {
                 this.actionClick = null;
             }
+
         });
     }
 
@@ -172,6 +174,69 @@ export class ListItemComponent implements OnInit, OnDestroy {
         });
     }
 
+    getListFolderFile() {
+        this._serviceApi
+            .execServiceLogin('4CBA7F5A-1825-4EAB-88BC-C44E5CED9AF4', null)
+            .subscribe((data) => {
+                this.listFolderFile = data.data || [];
+                if(this.listFolderFile != null && this.listFolderFile.length >0){
+                    let valDk = this.form.get('listFolderHSDK') as FormArray;
+                    let listDK = this.listFolderFile.filter(c => c.DANG_KY==true);
+                    for (let i = 0; i < listDK.length; i++) {
+                    
+                        valDk.push(this.newFolder(listDK[i]));
+                    }
+
+                    let valHsxd = this.form.get('listFolderHSXD') as FormArray;
+                    let listHsxd = this.listFolderFile.filter(c => c.THUC_HIEN_GIAO_HOP_DONG==true);
+                    for (let i = 0; i < listHsxd.length; i++) {
+                    
+                        valHsxd.push(this.newFolder(listHsxd[i]));
+                    }
+
+                    let valTamUng = this.form.get('listFolderFileTamUng') as FormArray;
+                    let listTamUng = this.listFolderFile.filter(c => c.THUC_HIEN_TAM_UNG==true);
+                    for (let i = 0; i < listTamUng.length; i++) {
+                    
+                        valTamUng.push(this.newFolder(listTamUng[i]));
+                    }
+
+                    let valHSNT = this.form.get('listFolderHSNT') as FormArray;
+                    let listHSNT = this.listFolderFile.filter(c => c.NGHIEM_THU_HSO==true);
+                    for (let i = 0; i < listHSNT.length; i++) {
+                    
+                        valHSNT.push(this.newFolder(listHSNT[i]));
+                    }
+
+                    let valBanGiao = this.form.get('listFolderBanGiao') as FormArray;
+                    let listBanGiao = this.listFolderFile.filter(c => c.NGHIEM_THU_BGIAO_KET_QUA==true);
+                    for (let i = 0; i < listBanGiao.length; i++) {
+                    
+                        valBanGiao.push(this.newFolder(listBanGiao[i]));
+                    }
+
+                    let valQuyetToan = this.form.get('listFolderQuyetToan') as FormArray;
+                    let listQuyetToan = this.listFolderFile.filter(c => c.QUYET_TOAN==true);
+                    for (let i = 0; i < listQuyetToan.length; i++) {
+                    
+                        valQuyetToan.push(this.newFolder(listQuyetToan[i]));
+                    }
+                    
+                    
+                }
+                
+            });
+    }
+     newFolder(item?: any) {
+       
+        return this._formBuilder.group({
+            maFolder: item?.maFolder,
+            fileName: item?.fileName,
+            ghiChu: item?.ghiChu,
+            listFile: this._formBuilder.array([]),
+        });
+    }
+
     get f(): { [key: string]: AbstractControl } {
         return this.form.controls;
     }
@@ -198,6 +263,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
+        this.getListFolderFile();
         this.geListYears();
         this.getListDinhHuong();
         this.getListKhoanChi();
@@ -507,6 +573,24 @@ export class ListItemComponent implements OnInit, OnDestroy {
         if (this.form.invalid) {
             return;
         }
+
+    //    let listDK = this.form.get('listFolderHSDK').value;
+    //    let listHSXD = this.form.get('listFolderHSXD').value;
+    //    debugger;
+    //    let listFile = this.form.get('listFolder') as FormArray;
+    //    if(listDK != null && listDK.length >0){
+    //     for(let i=0;i<listDK.length;i++){
+    //         listFile.push(this.newFolder(listDK[i]));
+    //     }
+    //    }
+    //    if(listHSXD != null && listHSXD.length >0){
+    //     for(let i=0;i<listHSXD.length;i++){
+    //         listFile.push(this.newFolder(listHSXD[i]));
+    //     }
+    //    }
+    //    console.log(this.form.value);
+    
+        
         this.form.get('maTrangThai').setValue(status);
         this._serviceApi
         .execServiceLogin('8652B7BD-DE29-4698-B387-1566ABE92669', [

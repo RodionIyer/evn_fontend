@@ -30,7 +30,7 @@ import {MatSort} from '@angular/material/sort';
 import {ServiceService} from 'app/shared/service/service.service';
 import {MatDialog} from '@angular/material/dialog';
 import {PopupCbkhComponent} from './popup-cbkh/popup-cbkh.component';
-
+import { DatetimeAdapter } from '@mat-datetimepicker/core';
 import {
     DateAdapter,
     MAT_DATE_FORMATS,
@@ -437,7 +437,7 @@ export class DetailsComponent implements OnInit {
 
     getListChucDanh() {
         this._serviceApi
-            .execServiceLogin('AF87AA00-EC9C-4B1E-9443-CE0D6E88F1C6', null)
+            .execServiceLogin('1FF27415-DF4B-4087-BAE4-21A03E397961', null)
             .subscribe((data) => {
                 this.listChucDanh = data.data || [];
             });
@@ -450,21 +450,22 @@ export class DetailsComponent implements OnInit {
     }
 
     onSubmit(status, method) {
-        // this.submitted.check = true;
-        // if (this.form.invalid) {
-        //     return;
-        // }
+        this.submitted.check = true;
+        if (this.form.invalid) {
+            return;
+        }
+
         console.log(this.form.value);
         this.form.get('method').setValue(method);
         //this.form.get('nam').setValue(new Date().getFullYear());
-        if (method == 'SUA') {
+       // if (method == 'SUA') {
             this.form.get('maSangKien').setValue(this.idParam);
             if (status == 'LUU') {
                 this.form.get('maTrangThai').setValue('SOAN');
             } else if (status == 'LUUGUI') {
                 this.form.get('maTrangThai').setValue('CHO_RA_SOAT');
             }
-        }
+      //  }
         var token = localStorage.getItem('accessToken');
         this._serviceApi
             .execServiceLogin('09E301E6-9C2E-424C-A3C3-FD46CE8CB18C', [
@@ -494,13 +495,13 @@ export class DetailsComponent implements OnInit {
     exportMau() {
         if (this.idParam != undefined && this.idParam != null) {
             this._serviceApi
-                .execServiceLogin('FC95C3F7-942F-4C7E-88D7-46E12BFE9185', [
-                    {name: 'MA_KE_HOACH', value: this.idParam},
+                .execServiceLogin('53BE3925-262C-4FB9-A2D4-6C898521D9EF', [
+                    {name: 'MA_SANGKIEN', value: this.idParam},
                 ])
                 .subscribe((data) => {
                     this.downloadTempExcel(
                         data.data,
-                        'DANH_SACH_DANG_KY_DINH_HUONG.docx'
+                        'MAU_SANG_KIEN.docx'
                     );
                 });
         } else {
@@ -549,5 +550,5 @@ export class DetailsComponent implements OnInit {
                 });
         }
     }
-}import { DatetimeAdapter } from '@mat-datetimepicker/core';
+}
 

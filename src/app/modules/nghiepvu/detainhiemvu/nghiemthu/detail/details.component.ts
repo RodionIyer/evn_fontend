@@ -101,7 +101,10 @@ export class DetailsComponent implements OnInit {
                 this.method = 'HSNHIEMTHU';
             }else if (this.actionType == 'updateActionHD') {
                     this.method = 'HOIDONGNT';
-            }
+            }else if (this.actionType == 'updateActionHSQTNT') {
+                this.method = 'HSQTOAN'; // CẬP NHẬP HỒ SƠ THANH QUYẾT TOÁN
+                this.f
+        }
             this.initForm(this.method);
             if(this.idParam != null && this.idParam !=''){
                 this.detail(this.method);
@@ -117,7 +120,23 @@ export class DetailsComponent implements OnInit {
         }else  if (this.actionType == 'updateActionKQNT') {
             this.geListTrangThaiKQNT();
             this.getListKQNT();
+        } else if (this.actionType == 'updateActionHSQT') {
+            this.getListTrangThaiQuyetToan();
         }
+    }
+    getListTrangThaiQuyetToan() {
+        this._serviceApi
+            .execServiceLogin('2EE0D143-CA88-4CFF-AC24-448236ECD72C', null)
+            .subscribe((data) => {
+                this.listTrangThai = data.data || [];
+                this.listTrangThai = this.listTrangThai.filter(function (str) {
+                    if (str.ID == 'DA_NTHU' || str.ID == 'HOAN_THANH') {
+                        return str;
+                    }
+                    return;
+                });
+                this.form.get('maTrangThai').setValue('DA_NTHU');
+            });
     }
     detail(method) {
         this._serviceApi
@@ -337,6 +356,8 @@ export class DetailsComponent implements OnInit {
                 }else if (method== 'THANHLAPHD') {
                     this.form.get('maTrangThai').setValue('DANG_THUC_HIEN');
                 }else if(method=='THANHLAPHDNT'){
+                    this.form.get('maTrangThai').setValue('DA_NTHU');
+                }else if(method=='HSQTOAN'){
                     this.form.get('maTrangThai').setValue('DA_NTHU');
                 }
             });

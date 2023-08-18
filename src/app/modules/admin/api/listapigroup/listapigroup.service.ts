@@ -357,8 +357,10 @@ export class ApiGroupService extends BaseService implements BaseDetailService {
 
                         }))
                     }));
+                } else {
+                    this._object.next(object);
                 }
-                this._object.next(object);
+                //this._object.next(object);
                 return of(object);
             })
         );

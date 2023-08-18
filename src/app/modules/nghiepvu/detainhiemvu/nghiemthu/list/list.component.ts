@@ -88,10 +88,10 @@ export class ListItemComponent implements OnInit, OnDestroy {
        // this.getGiaoSubcription.unsubscribe();
     }
     //phân trang
-    length = 500;
-    pageSize = 10;
+    length = 0;
+    pageSize = 20;
     pageIndex = 0;
-    pageSizeOptions = [5, 10, 25];
+    pageSizeOptions = [10, 20, 50, 100];
     showFirstLastButtons = true;
   
     handlePageEvent(event: PageEvent) {
@@ -160,8 +160,8 @@ export class ListItemComponent implements OnInit, OnDestroy {
     updateActionHSQT(item){
 
         this._router.navigate(
-          ['/nghiepvu/detainhiemvu/lstdetaicuatoi/'+item.maDeTai],
-          { queryParams: { type: 'updateActionHSQT',screentype:'nghiemthu' } }
+          ['/nghiepvu/detainhiemvu/nghiemthu/'+item.maDeTai],
+          { queryParams: { type: 'updateActionHSQTNT' } }
         );
       
       }
@@ -219,6 +219,9 @@ export class ListItemComponent implements OnInit, OnDestroy {
             ])
             .subscribe((data) => {
                 this.listGiao = data.data || [];
+                if (this.listGiao != null && this.listGiao.length > 0) {
+                    this.length = this.listGiao[0].totalPage;
+                }
             });
     }
     lichsu(item){

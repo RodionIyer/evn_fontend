@@ -7,7 +7,7 @@
                 <th class="text-center">
                     Nguồn kinh phí <br>(EVN hoặc Đơn vị)
                 </th>
-                <th class="text-center">Dự toán (Triệu đồng)</th>
+                <th class="text-center">Dự toán<br> (Triệu đồng)</th>
                 <th class="text-center">Đơn vị chủ trì</th>
                 <th class="text-center">Chủ nhiệm nhiệm vụ</th>
                 <th>Nội dung hoạt động</th>
@@ -54,11 +54,14 @@
                                         formControlName="nguonKinhPhi">
                                     </ng-select>  
                                 </td>
-                                    <td><input type="text" class="form-control" formControlName="duToan" money /></td>
+                                    <td><input type="text" class="form-control text-right"  formControlName="duToan" money   [options]="{
+                                        numeral: true,
+                                        numeralIntegerScale: 4
+                                      }"/></td><!--money-->  
                                     <td><input type="text" class="form-control" formControlName="donViChuTri" /></td>
                                     <td><input type="text" class="form-control" formControlName="chuNhiemNhiemVu" /></td>
                                     <td><input type="text" class="form-control" formControlName="noiDungHoatDong" /></td>
-                                    <td><input type="text" class="form-control" formControlName="thoiGianDuKien"  [textMask]="{mask: mask}"/></td><!--{{itemc.get('thoiGianDuKien').value}}-->
+                                    <td><input type="text" class="form-control" formControlName="thoiGianDuKien" /></td><!-- [textMask]="{mask: mask}" {{itemc.get('thoiGianDuKien').value}}-->
                                     <!-- <td><input type="text" class="form-control" formControlName="YKienNguoiPheDuyet" /></td> -->
                                     <td class="text-center action-table actiom-table-detail">
                                         <div class="flex justify-evenly" *ngIf="itemc.get('chiTiet').value ==0">
@@ -107,11 +110,14 @@
                                                     formControlName="nguonKinhPhi">
                                                 </ng-select>  
                                             </td>
-                                                <td><input type="text" class="form-control" formControlName="duToan" money /></td>
+                                                <td><input type="text" class="form-control text-right" formControlName="duToan" money  [options]="{
+                                                    numeral: true,
+                                                    numeralIntegerScale: 4
+                                                  }" /></td><!--money-->
                                                 <td><input type="text" class="form-control" formControlName="donViChuTri" /></td>
                                                 <td><input type="text" class="form-control" formControlName="chuNhiemNhiemVu" /></td>
                                                 <td><input type="text" class="form-control" formControlName="noiDungHoatDong" /></td>
-                                                <td><input type="text" class="form-control" formControlName="thoiGianDuKien" [textMask]="{mask: mask}" /></td><!--{{itemc.get('thoiGianDuKien').value}}-->
+                                                <td><input type="text" class="form-control" formControlName="thoiGianDuKien" /></td><!-- [textMask]="{mask: mask}" {{itemc.get('thoiGianDuKien').value}}-->
                                                 <!-- <td><input type="text" class="form-control" formControlName="YKienNguoiPheDuyet" /></td> -->
                                                 <td class="text-center action-table actiom-table-detail">
                                                     <div class="flex justify-evenly">
@@ -159,11 +165,14 @@
                                                                 formControlName="nguonKinhPhi">
                                                             </ng-select>  
                                                         </td>
-                                                            <td><input type="text" class="form-control" formControlName="duToan" money/></td>
+                                                            <td><input type="text" class="form-control text-right" formControlName="duToan" money  [options]="{
+    numeral: true,
+    numeralIntegerScale: 4
+  }"/></td><!--money-->
                                                             <td><input type="text" class="form-control" formControlName="donViChuTri" /></td>
                                                             <td><input type="text" class="form-control" formControlName="chuNhiemNhiemVu" /></td>
                                                             <td><input type="text" class="form-control" formControlName="noiDungHoatDong" /></td>
-                                                            <td><input type="text" class="form-control" formControlName="thoiGianDuKien" [textMask]="{mask: mask}"/></td><!--{{itemc.get('thoiGianDuKien').value}}-->
+                                                            <td><input type="text" class="form-control" formControlName="thoiGianDuKien" /></td><!--[textMask]="{mask: mask}"{{itemc.get('thoiGianDuKien').value}}-->
                                                             <!-- <td><input type="text" class="form-control" formControlName="YKienNguoiPheDuyet" /></td> -->
                                                             <td class="text-center action-table actiom-table-detail">
                                                                 <div class="flex justify-evenly">

@@ -8,10 +8,11 @@ import { ListUserListComponent } from './list/list.component';
 
 export const ListUserRouteMatcher: (url: UrlSegment[]) => UrlMatchResult = (url: UrlSegment[]) => {
 
+
   // Prepare consumed url and positional parameters
   let consumed = url;
   const posParams = {};
-
+  console.log(url)
 
   posParams[url[0].path] = url[1];
   posParams['page'] = url[2];

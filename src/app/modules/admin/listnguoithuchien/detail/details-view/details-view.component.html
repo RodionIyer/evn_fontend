@@ -1,0 +1,346 @@
+<div class="flex flex-col flex-auto shrink-0 lg:shrink p-3 lg:overflow-y-auto" fuseScrollReset>
+    <!-- Thread -->
+    <div class="flex flex-col flex-0 w-full">
+        <div class="grid grid-cols-2 w-full border py-5 px-6">
+            <div class="mb-1">
+                <span class="leading-4 truncate text-xl">Tên người thực hiên: </span>
+                <span class="leading-4 truncate text-green-500 text-lg">{{obj.TEN_NGUOI_THUC_HIEN}}</span>
+            </div>
+            <div class="mb-1">
+                <span class="leading-4 truncate text-xl">Email: </span>
+                <span class="leading-4 truncate text-green-500 text-lg">{{obj.EMAL}}</span>
+            </div>
+            <div class="mb-1">
+                <span class="leading-4 truncate text-xl">Năm sinh: </span>
+                <span class="leading-4 truncate text-green-500 text-lg">{{obj.NAM_SINH}}</span>
+            </div>
+            <div class="mb-1">
+                <span class="leading-4 truncate text-xl">Giới tính: </span>
+                <span
+                    class="leading-4 truncate text-green-500 text-lg">{{obj.GIO_TINH == 0 ? "Nữ" : (obj.GIO_TINH == 1 ? "Nam" : "Khác")}}</span>
+            </div>
+            <div class="mb-1">
+                <span class="leading-4 truncate text-xl">Học hàm: </span>
+                <span class="leading-4 truncate text-green-500 text-lg">{{obj.TEN_HOC_HAM}}</span>
+            </div>
+            <div class="mb-1">
+                <span class="leading-4 truncate text-xl">Năm được phong hàm: </span>
+                <span class="leading-4 truncate text-green-500 text-lg">{{obj.NAM_HOC_HAM}}</span>
+            </div>
+            <div class="mb-1">
+                <span class="leading-4 truncate text-xl">Học vị: </span>
+                <span class="leading-4 truncate text-green-500 text-lg">{{obj.TEN_HOC_VI}}</span>
+            </div>
+            <div class="mb-1">
+                <span class="leading-4 truncate text-xl">Năm đạt học vị: </span>
+                <span class="leading-4 truncate text-green-500 text-lg">{{obj.NAM_HOC_VI}}</span>
+            </div>
+
+            <div class="mb-1">
+                <span class="leading-4 truncate text-xl">Số điện thoại: </span>
+                <span class="leading-4 truncate text-green-500 text-lg">{{obj.SDT}}</span>
+            </div>
+            <div class="mb-1">
+                <span class="leading-4 truncate text-xl">Căn cước công dân: </span>
+                <span class="leading-4 truncate text-green-500 text-lg">{{obj.CCCD}}</span>
+            </div>
+            <div class="mb-1">
+                <span class="leading-4 truncate text-xl">Nơi làm việc: </span>
+                <span class="leading-4 truncate text-green-500 text-lg">{{obj.NOI_LAM_VIEC}}</span>
+            </div>
+            <div class="mb-1">
+                <span class="leading-4 truncate text-xl">Địa chỉ nơi làm việc: </span>
+                <span class="leading-4 truncate text-green-500 text-lg">{{obj.DIA_CHI_NOI_LAM_VIEC}}</span>
+            </div>
+            <div class="mb-1">
+                <span class="leading-4 truncate text-xl">Lĩnh vực nghiêm cứu: </span>
+                <span class="leading-4 truncate text-green-500 text-lg"><span
+                    *ngFor="let item of obj.LVUC_NCUU_LST; let i = index">
+                                    {{ item.TEN_LVUC_NCUU }};
+                            </span></span>
+            </div>
+            <div *ngIf="obj.CHUYEN_GIA">
+                <span *ngIf="obj.IS_CHUYEN_GIA_TNUOC" class="leading-4 truncate text-green-500 text-lg">Là chuyên gia trong nước </span>
+                <span *ngIf="obj.IS_CHUYEN_GIA_NNUOC" class="leading-4 truncate text-green-500 text-lg">Là chuyên gia nước ngoài </span>
+            </div>
+        </div>
+        <div class="w-full">
+            <div class="mt-4">
+                <div class="flex items-center mt-8">
+                    <div class="mx-2 font-bold">+ Quá trình đào tạo</div>
+                    <div class="flex-auto mt-px border-t"></div>
+                </div>
+                <div class="flex flex-col flex-0 w-full">
+                    <table mat-table [dataSource]="obj.listQuaTrinhDaoTao" class="style-table-view w-full"
+                           *ngIf="(obj.listQuaTrinhDaoTao??0).length>0">
+                        <ng-container matColumnDef="HOC_VI">
+                            <th mat-header-cell *matHeaderCellDef>Học vị</th>
+                            <td mat-cell *matCellDef="let element">{{element.TEN_HOC_VI}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="NOI_DAO_TAO">
+                            <th mat-header-cell *matHeaderCellDef>Nơi đào tạo</th>
+                            <td mat-cell *matCellDef="let element">{{element.NOI_DAO_TAO}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="CHUYEN_MON">
+                            <th mat-header-cell *matHeaderCellDef>Chuyên môn</th>
+                            <td mat-cell *matCellDef="let element">{{element.CHUYEN_MON}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="NAM_TOT_NGHIEP">
+                            <th mat-header-cell *matHeaderCellDef>Năm tốt nghiệp</th>
+                            <td mat-cell *matCellDef="let element">{{element.NAM_TOT_NGHIEP}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="des">
+                            <td mat-footer-cell *matFooterCellDef colspan="10">
+                            </td>
+                        </ng-container>
+
+
+                        <tr mat-header-row *matHeaderRowDef="quaTrinhDaoTaoColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: quaTrinhDaoTaoColumns;"></tr>
+                        <tr mat-footer-row *matFooterRowDef="['des']" [hidden]="obj.listQuaTrinhDaoTao?.length">
+                        </tr>
+
+                    </table>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <div class="flex items-center mt-8">
+                    <div class="mx-2 font-bold">+ Quá trình công tác</div>
+                    <div class="flex-auto mt-px border-t"></div>
+                </div>
+                <div class="flex flex-col flex-0 w-full">
+                    <table mat-table [dataSource]="obj.listQuaTrinhCongTac" class="style-table-view w-full"
+                           *ngIf="(obj.listQuaTrinhCongTac??0).length>0">
+                        <ng-container matColumnDef="THOI_GIAN">
+                            <th mat-header-cell *matHeaderCellDef>Thời gian</th>
+                            <td mat-cell *matCellDef="let element">{{element.THOI_GIAN}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="VI_TRI_CONG_TAC">
+                            <th mat-header-cell *matHeaderCellDef>Vị trí công tác</th>
+                            <td mat-cell *matCellDef="let element">{{element.VI_TRI_CONG_TAC}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="TO_CHUC_CONG_TAC">
+                            <th mat-header-cell *matHeaderCellDef>Tổ chức công tác</th>
+                            <td mat-cell *matCellDef="let element">{{element.TO_CHUC_CONG_TAC}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="DIA_CHI_TO_CHUC">
+                            <th mat-header-cell *matHeaderCellDef>Địa điểm tổ chức</th>
+                            <td mat-cell *matCellDef="let element">{{element.DIA_CHI_TO_CHUC}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="des">
+                            <td mat-footer-cell *matFooterCellDef colspan="10">
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="quaTrinhCongTacColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: quaTrinhCongTacColumns;"></tr>
+                        <tr mat-footer-row *matFooterRowDef="['des']" [hidden]="obj.listQuaTrinhCongTac?.length">
+                        </tr>
+
+                    </table>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <div class="flex items-center mt-8">
+                    <div class="mx-2 font-bold">+ Các công trình công bố chủ yếu</div>
+                    <div class="flex-auto mt-px border-t"></div>
+                </div>
+                <div class="flex flex-col flex-0 w-full">
+                    <table mat-table [dataSource]="obj.listCongTrinh" class="style-table-view w-full"
+                           *ngIf="(obj.listCongTrinh??0).length>0">
+                        <ng-container matColumnDef="TEN_CONG_TRINH">
+                            <th mat-header-cell *matHeaderCellDef>Tên công trình</th>
+                            <td mat-cell *matCellDef="let element">{{element.TEN_CONG_TRINH}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="TGIA_DTGIA">
+                            <th mat-header-cell *matHeaderCellDef>Là tác giả hoặc là đồng tác giả công trình
+                            </th>
+                            <td mat-cell *matCellDef="let element">{{element.TGIA_DTGIA}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="NOI_CONG_BO">
+                            <th mat-header-cell *matHeaderCellDef>Nơi công bố</th>
+                            <td mat-cell *matCellDef="let element">{{element.NOI_CONG_BO}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="NAM_CONG_BO">
+                            <th mat-header-cell *matHeaderCellDef>Năm công bố</th>
+                            <td mat-cell *matCellDef="let element">{{element.NAM_CONG_BO}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="des">
+                            <td mat-footer-cell *matFooterCellDef colspan="10">
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="congTrinhChuYeuColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: congTrinhChuYeuColumns;"></tr>
+                        <tr mat-footer-row *matFooterRowDef="['des']" [hidden]="obj.listCongTrinh?.length"></tr>
+
+                    </table>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <div class="flex items-center mt-8">
+                    <div class="mx-2 font-bold">+ Văn bằng bảo hộ quyền sở hữu công nghiệp, thiết kế bố trí mạch tích
+                        hợp bán
+                        dẫn, giống cây trồng đã được cấp
+                    </div>
+                    <div class="flex-auto mt-px border-t"></div>
+                </div>
+                <div class="flex flex-col flex-0 w-full">
+                    <table mat-table [dataSource]="obj.listVanBang" class="style-table-view w-full"
+                           *ngIf="(obj.listVanBang??0).length>0">
+                        <ng-container matColumnDef="NOI_DUNG_VAN_BANG">
+                            <th mat-header-cell *matHeaderCellDef>Nội dung văn bằng</th>
+                            <td mat-cell *matCellDef="let element">{{element.NOI_DUNG_VAN_BANG}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="NAM_CAP_VAN_BANG">
+                            <th mat-header-cell *matHeaderCellDef>Năm cấp văn bằng</th>
+                            <td mat-cell *matCellDef="let element">{{element.NAM_CAP_VAN_BANG}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="des">
+                            <td mat-footer-cell *matFooterCellDef colspan="10">
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="vanBangChuYeuColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: vanBangChuYeuColumns;"></tr>
+                        <tr mat-footer-row *matFooterRowDef="['des']" [hidden]="obj.listVanBang?.length"></tr>
+
+                    </table>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <div class="flex items-center mt-8">
+                    <div class="mx-2 font-bold">+ Công trình được áp dụng trong thực tiễn</div>
+                    <div class="flex-auto mt-px border-t"></div>
+                </div>
+                <div class="flex flex-col flex-0 w-full">
+                    <table mat-table [dataSource]="obj.listCongTrinhApDung" class="style-table-view w-full"
+                           *ngIf="(obj.listCongTrinhApDung??0).length>0">
+                        <ng-container matColumnDef="TEN_CONG_TRINH">
+                            <th mat-header-cell *matHeaderCellDef>Tên công trình</th>
+                            <td mat-cell *matCellDef="let element">{{element.TEN_CONG_TRINH}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="NOI_DUNG_AP_DUNG">
+                            <th mat-header-cell *matHeaderCellDef>Nội dung áp dụng</th>
+                            <td mat-cell *matCellDef="let element">{{element.NOI_DUNG_AP_DUNG}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="THOI_GIAN">
+                            <th mat-header-cell *matHeaderCellDef>Thời gian</th>
+                            <td mat-cell *matCellDef="let element">{{formatDate(element.THOI_GIAN_BAT_DAU)}} -
+                                {{formatDate(element.THOI_GIAN_KET_THUC)}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="des">
+                            <td mat-footer-cell *matFooterCellDef colspan="10">
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="congTrinhApDungColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: congTrinhApDungColumns;"></tr>
+                        <tr mat-footer-row *matFooterRowDef="['des']" [hidden]="obj.listCongTrinhApDung?.length">
+                        </tr>
+
+                    </table>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <div class="flex items-center mt-8">
+                    <div class="mx-2 font-bold">+ Các đề tài/đề án, dự án, nhiệm vụ khác đã chủ trì hoặc tham gia</div>
+                    <div class="flex-auto mt-px border-t"></div>
+                </div>
+                <div class="flex flex-col flex-0 w-full">
+                    <table mat-table [dataSource]="obj.listDeTai" class="style-table-view w-full"
+                           *ngIf="(obj.listDeTai??0).length>0">
+                        <ng-container matColumnDef="TEN_DE_TAI">
+                            <th mat-header-cell *matHeaderCellDef>Tên đề tài</th>
+                            <td mat-cell *matCellDef="let element">{{element.TEN_DE_TAI}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="THOI_GIAN">
+                            <th mat-header-cell *matHeaderCellDef>Thời gian</th>
+                            <td mat-cell *matCellDef="let element">{{formatDate(element.THOI_GIAN_BAT_DAU)}} -
+                                {{formatDate(element.THOI_GIAN_KET_THUC)}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="THUOC_CHUONG_TRINH">
+                            <th mat-header-cell *matHeaderCellDef>Thuộc Chương trình</th>
+                            <td mat-cell *matCellDef="let element">{{element.THUOC_CHUONG_TRINH}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="TINH_TRANG_DE_TAI">
+                            <th mat-header-cell *matHeaderCellDef>Tình trạng đề tài</th>
+                            <td mat-cell *matCellDef="let element">{{element.TINH_TRANG_DE_TAI != null ?
+                                (element.TINH_TRANG_DE_TAI ? "Đã nghiệm thu" : "Chưa nghiệm thu") : ""}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="des">
+                            <td mat-footer-cell *matFooterCellDef colspan="10">
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="deTaiColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: deTaiColumns;"></tr>
+                        <tr mat-footer-row *matFooterRowDef="['des']" [hidden]="obj.listDeTai?.length"></tr>
+
+                    </table>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <div class="flex items-center mt-8">
+                    <div class="mx-2 font-bold">+ Giải thưởng</div>
+                    <div class="flex-auto mt-px border-t"></div>
+                </div>
+                <div class="flex flex-col flex-0 w-full">
+                    <table mat-table [dataSource]="obj.listGiaiThuong" class="style-table-view w-full"
+                           *ngIf="(obj.listGiaiThuong??0).length>0">
+                        <ng-container matColumnDef="NOI_DUNG_GIAI_THUONG">
+                            <th mat-header-cell *matHeaderCellDef>Nội dung giải thưởng</th>
+                            <td mat-cell *matCellDef="let element">{{element.NOI_DUNG_GIAI_THUONG}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="NAM_GIAI_THUONG">
+                            <th mat-header-cell *matHeaderCellDef>Năm giải thưởng</th>
+                            <td mat-cell *matCellDef="let element">{{element.NAM_GIAI_THUONG}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="des">
+                            <td mat-footer-cell *matFooterCellDef colspan="10">
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="giaiThuongColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: giaiThuongColumns;"></tr>
+                        <tr mat-footer-row *matFooterRowDef="['des']" [hidden]="obj.listGiaiThuong?.length"></tr>
+
+                    </table>
+                </div>
+            </div>
+            <div class="mt-4">
+                <div class="flex items-center mt-8">
+                    <div class="mx-2 font-bold">+ Thành tựu hoạt động KHCN và sản xuất kinh doanh khác</div>
+                    <div class="flex-auto mt-px border-t"></div>
+                </div>
+                <p class="mt-4">{{obj.THANH_TUU}}</p>
+            </div>
+        </div>
+    </div>
+</div>

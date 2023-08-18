@@ -33,8 +33,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { SharedModule } from 'app/shared/shared.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { PopupCbkhComponent } from './detail/popup-cbkh/popup-cbkh.component';
-
-
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 
 
@@ -42,8 +42,10 @@ import { PopupCbkhComponent } from './detail/popup-cbkh/popup-cbkh.component';
     imports: [
         SharedModule,
         RouterModule.forChild(CapNhatSangkienRoutes), MatButtonModule,
+        MatButtonModule,
         MatButtonToggleModule,
         MatDividerModule,
+        MatDatepickerModule,
         MatIconModule,
         MatMenuModule,
         MatProgressBarModule,
@@ -54,9 +56,21 @@ import { PopupCbkhComponent } from './detail/popup-cbkh/popup-cbkh.component';
         MatTableModule,
         FormsModule,
         MatDialogModule,
-        MatTabsModule, MatToolbarModule, MatPaginatorModule, MatListModule,
-        MatInputModule, ReactiveFormsModule, MatSelectModule, MatAutocompleteModule, MatSlideToggleModule,
-        CommonModule, NgxMatSelectSearchModule, FuseAlertModule, FuseNavigationModule, HighlightPlusModule
+        MatTabsModule,
+        MatToolbarModule,
+        MatPaginatorModule,
+        MatListModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        MatSelectModule,
+        MatAutocompleteModule,
+        MatSlideToggleModule,
+        CommonModule,
+        NgxMatSelectSearchModule,
+        FuseAlertModule,
+        FuseNavigationModule,
+        HighlightPlusModule,
+        MatMomentDateModule
     ],
     declarations: [
         DetailsComponent,

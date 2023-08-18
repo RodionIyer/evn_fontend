@@ -31,7 +31,7 @@
                     <th class="text-center">Năm</th>
                     <th class="text-center">Trạng thái</th>
                     <th>Ý kiến người phê duyệt</th>
-                    <th class="text-center action-table"></th>
+                    <th class="text-center action-table">Thao tác</th>
                 </tr>
             </thead>
             <tbody>
@@ -42,7 +42,7 @@
                     <td class="text-center">{{item.ngayGui}}</td>
                     <td class="text-center">{{item.nam}}</td>
                     <td class="text-center">{{item.tenTrangThai}}</td>
-                    <td>{{item.yKienNguoiPheDuyet}}</td>
+                    <td>{{item.ykienNguoiPheDuyet}}</td>
                     <td class="action-table">
                         <div class="flex justify-evenly"  style="float: left;">
                             <i class="fa fa-info-circle cursor-point" [routerLink]="[item.maKeHoach]"  [queryParams]="{type: 'CHITIET'}" title="Xem chi tiết"></i>

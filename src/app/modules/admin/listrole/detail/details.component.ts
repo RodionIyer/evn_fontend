@@ -5,7 +5,6 @@ import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms
 import { MessageService } from 'app/shared/message.services';
 import { SnotifyToast } from 'ng-alt-snotify';
 import { State, StateAthAdmin } from 'app/shared/commons/conmon.types';
-import { BaseDetailInterface } from 'app/shared/commons/basedetail.interface';
 import { UserService } from 'app/core/user/user.service';
 import { BaseComponent } from 'app/shared/commons/base.component';
 import { FunctionService } from 'app/core/function/function.service';
@@ -33,7 +32,7 @@ interface ObjectFlatNode {
     encapsulation: ViewEncapsulation.None,
 })
 
-export class ListRoleDetailsComponent extends BaseComponent implements OnInit, OnDestroy, BaseDetailInterface {
+export class ListRoleDetailsComponent extends BaseComponent implements OnInit, OnDestroy {
     @ViewChild(MatSort, { static: false }) sort: MatSort;
     public StateEnum = State;
     object: any;

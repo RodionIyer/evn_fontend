@@ -91,9 +91,9 @@ export class ListRoleListComponent implements OnInit, OnDestroy {
   }
 
   onObjectSelected(object: any): void {
-    // If the mail is unread...
+
     //this._apiService.getApiById(api.API_SERVICEID);
-    // Execute the mailSelected observable
+
     this._listroleService.selectedObjectChanged.next(object);
   }
 

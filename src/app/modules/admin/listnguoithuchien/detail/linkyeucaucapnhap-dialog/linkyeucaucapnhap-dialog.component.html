@@ -1,0 +1,31 @@
+<h1 mat-dialog-title class="p-2">Link yêu cầu cập nhập</h1>
+<mat-dialog-content class="p-2 w-320">
+    <div class="flex justify-between items-center w-full pb-2">
+        <h2>
+            Đường link:
+        </h2>
+        <div mat-dialog-content class="text-black mr-2">
+            {{data.link}}
+        </div>
+        <button mat-icon-button (click)="copyToClipboard()">
+            <mat-icon [svgIcon]="'mat_outline:content_copy'"></mat-icon>
+        </button>
+    </div>
+
+    <form [formGroup]="dialogForm">
+        <mat-form-field class="w-full">
+            <mat-label>Email người nhận:</mat-label>
+
+            <input matInput class="p-0 w-full" [formControlName]="'email'" [placeholder]="'Nhập email'" required>
+        </mat-form-field>
+        <quill-editor format="html" formControlName="content" class="w-full"></quill-editor>
+    </form>
+</mat-dialog-content>
+
+<div mat-dialog-actions class=" p-2">
+
+    <button mat-flat-button class="mx-1 bg-sky-500 text-white" (click)="sendmail()">
+        <span class="ml-2 mr-1">Gửi mail đến {{email}}</span>
+    </button>
+
+</div>

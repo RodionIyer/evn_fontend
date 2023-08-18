@@ -194,7 +194,7 @@ export class DetailsComponent implements OnInit {
                 let formDocParentHD = this.form.get(
                     'listFolderFileHD'
                 ) as FormArray;
-
+                 if(method=='RASOAT') {}else{  
                 if (data.data.listFolderFile != null) {
                     for (let i = 0; i < data.data.listFolderFile.length; i++) {
                         formDocParent.push(
@@ -221,7 +221,7 @@ export class DetailsComponent implements OnInit {
                         }
                     }
                 }
-
+            }
                 if (data.data.listFolderFileTamUng != null) {
                     for (
                         let i = 0;

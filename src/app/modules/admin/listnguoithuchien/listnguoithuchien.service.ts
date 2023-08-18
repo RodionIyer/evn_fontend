@@ -1,9 +1,11 @@
-import { user } from './../../../mock-api/common/user/data';
-import { Injectable } from '@angular/core';
-import { BaseDetailInterface } from 'app/shared/commons/basedetail.interface';
-import { BaseService } from 'app/shared/commons/base.service';
-import { State } from 'app/shared/commons/conmon.types';
-import { ServiceService } from 'app/shared/service/service.service';
+import {messages} from './../../../mock-api/common/messages/data';
+import {Router} from '@angular/router';
+import {user} from './../../../mock-api/common/user/data';
+import {Injectable} from '@angular/core';
+import {BaseDetailInterface} from 'app/shared/commons/basedetail.interface';
+import {BaseService} from 'app/shared/commons/base.service';
+import {State} from 'app/shared/commons/conmon.types';
+import {ServiceService} from 'app/shared/service/service.service';
 import {
     BehaviorSubject,
     Observable,
@@ -13,16 +15,14 @@ import {
     switchMap,
     take,
     tap,
-    throwError,
+    throwError, combineLatest,
 } from 'rxjs';
 import ShortUniqueId from 'short-unique-id';
 
 @Injectable({
     providedIn: 'root',
 })
-export class ListNguoiThucHienService
-    extends BaseService
-    implements BaseDetailInterface {
+export class ListNguoiThucHienService extends BaseService implements BaseDetailInterface {
     selectedObjChanged: BehaviorSubject<any> = new BehaviorSubject(null);
     //private _category: BehaviorSubject<ObjCategory> = new BehaviorSubject(null);
     private _objects: BehaviorSubject<any[]> = new BehaviorSubject(null);
@@ -30,50 +30,64 @@ export class ListNguoiThucHienService
     private _pagination: BehaviorSubject<any> = new BehaviorSubject(null);
     private _groups: BehaviorSubject<any[]> = new BehaviorSubject(null);
     private _group: BehaviorSubject<any> = new BehaviorSubject(null);
+
     /**
      * Constructor
      */
     constructor(public _serviceService: ServiceService) {
         super(_serviceService);
     }
+
     get actionCreate(): Boolean {
         throw new Error('Method not implemented.');
     }
+
     get actionDelete(): Boolean {
         throw new Error('Method not implemented.');
     }
+
     get actionEdit(): Boolean {
         throw new Error('Method not implemented.');
     }
+
     get actionSave(): Boolean {
         throw new Error('Method not implemented.');
     }
+
     get actionCancel(): Boolean {
         throw new Error('Method not implemented.');
     }
+
     onEditObject(): void {
         throw new Error('Method not implemented.');
     }
+
     onSaveObject(): void {
         throw new Error('Method not implemented.');
     }
+
     onDeleteObject(): void {
         throw new Error('Method not implemented.');
     }
+
     onCreateObject(): void {
         throw new Error('Method not implemented.');
     }
+
     onCancelObject(): void {
         throw new Error('Method not implemented.');
     }
+
     get viewMode(): Boolean {
         throw new Error('Method not implemented.');
     }
+
     get inputMode(): Boolean {
         throw new Error('Method not implemented.');
     }
 
     _object: BehaviorSubject<any> = new BehaviorSubject(null);
+
     // TO DO
     createObject(_groupid: any): Observable<any> {
         let groupid: string = _groupid;
@@ -83,46 +97,23 @@ export class ListNguoiThucHienService
             map((objects) => {
                 // Find the Obj
                 let objItem = {
-                    MA_NGUOI_THUC_HIEN: uid.stamp(10),
-                    NS_ID: '',
+                    MA_NGUOI_THUC_HIEN: uid.stamp(16),
+                    NS_ID: null,
                     ORGID: groupid,
-                    TEN_NGUOI_THUC_HIEN: '',
-                    MA_HOC_HAM: '',
-                    NAM_HOC_HAM: '',
-                    MA_HOC_VI: '',
-                    NAM_HOC_VI: '',
-                    EMAL: '',
-                    SDT: '',
-                    NOI_LAM_VIEC: '',
-                    DIA_CHI_NOI_LAM_VIEC: '',
                     TRANG_THAI_XAC_MINH: false,
-                    NGAY_XAC_MINH: '',
                     CHUYEN_GIA: false,
                     NGOAI_EVN: false,
-                    NAM_SINH: '',
                     GIO_TINH: 2,
-                    CCCD: '',
                     IS_CHUYEN_GIA_TNUOC: false,
                     IS_CHUYEN_GIA_NNUOC: false,
-                    THANH_TUU: '',
-                    NGUOI_TAO: '',
-                    NGAY_TAO: '',
-                    NGUOI_SUA: '',
-                    NGAY_SUA: '',
                     DA_XOA: false,
-                    TEN_HOC_VI: '',
-                    MA_TICH_HOP: '',
-                    TEN_HOC_HAM: '',
-                    MA_LVUC_NCUU: '',
-                    TEN_LVUC_NCUU: '',
-                    USER_MDF_ID: '',
-                    listCongTrinh: [{}],
-                    listCongTrinhApDung: [{}],
-                    listDeTai: [{}],
-                    listGiaiThuong: [{}],
-                    listQuaTrinhCongTac: [{}],
-                    listQuaTrinhDaoTao: [{}],
-                    listVanBang: [{}],
+                    listCongTrinh: [],
+                    listCongTrinhApDung: [],
+                    listDeTai: [],
+                    listGiaiThuong: [],
+                    listQuaTrinhCongTac: [],
+                    listQuaTrinhDaoTao: [],
+                    listVanBang: [],
                     SYS_ACTION: State.create,
                 };
                 objects.push(objItem);
@@ -135,6 +126,7 @@ export class ListNguoiThucHienService
             })
         );
     }
+
     //TO DO
     editObject(param: any): Observable<any> {
         let MA_NGUOI_THUC_HIEN: any = param.MA_NGUOI_THUC_HIEN;
@@ -152,7 +144,7 @@ export class ListNguoiThucHienService
                     data.USER_MDF_ID = USER_MDF_ID;
                     Objs[itemIndex] = data;
                     // Update the Obj
-                    // this._object.next(Objs[itemIndex]);
+                    this._object.next(Objs[itemIndex]);
                     this._objects.next(Objs);
                     // Return the Obj
                     return 1;
@@ -165,8 +157,13 @@ export class ListNguoiThucHienService
             })
         );
     }
+
     // TO DO
-    editObjectToServer(param: any, listData: any, selectedDel: any): Observable<any> {
+    editObjectToServer(
+        param: any,
+        listData: any,
+        selectedDel: any
+    ): Observable<any> {
         let MA_NGUOI_THUC_HIEN: string = param;
         let _listData = listData;
 
@@ -188,6 +185,13 @@ export class ListNguoiThucHienService
                         data.SYS_ACTION = null;
                         lstobjects[itemIndex] = data;
                         let listApi = [];
+                        let LVUC_NCUU_LST: any = "";
+                        if (data.LVUC_NCUU_LST && data.LVUC_NCUU_LST.length > 0) {
+                            data.LVUC_NCUU_LST.forEach((obj) => {
+                                LVUC_NCUU_LST = LVUC_NCUU_LST + obj.MA_LVUC_NCUU + ",";
+                            })
+                            LVUC_NCUU_LST = LVUC_NCUU_LST.substring(0, LVUC_NCUU_LST.length - 1);
+                        }
                         listApi.push(
                             this._serviceService.execServiceLogin(
                                 '389786E3-3009-47BB-958C-8DC0555426AE',
@@ -216,8 +220,8 @@ export class ListNguoiThucHienService
                                         name: 'NAM_HOC_VI',
                                         value: data.NAM_HOC_VI,
                                     },
-                                    { name: 'EMAIL', value: data.EMAL },
-                                    { name: 'SDT', value: data.SDT },
+                                    {name: 'EMAIL', value: data.EMAL},
+                                    {name: 'SDT', value: data.SDT},
                                     {
                                         name: 'NOI_LAM_VIEC',
                                         value: data.NOI_LAM_VIEC,
@@ -228,22 +232,22 @@ export class ListNguoiThucHienService
                                     },
                                     {
                                         name: 'CHUYEN_GIA',
-                                        value: data.CHUYEN_GIA,
+                                        value: data.CHUYEN_GIA ? 1 : 0,
                                     },
                                     {
                                         name: 'NGOAI_EVN',
-                                        value: data.NGOAI_EVN,
+                                        value: data.NGOAI_EVN ? 1 : 0,
                                     },
-                                    { name: 'NAM_SINH', value: data.NAM_SINH },
-                                    { name: 'GIO_TINH', value: data.GIO_TINH },
-                                    { name: 'CCCD', value: data.CCCD },
+                                    {name: 'NAM_SINH', value: data.NAM_SINH},
+                                    {name: 'GIO_TINH', value: data.GIO_TINH},
+                                    {name: 'CCCD', value: data.CCCD},
                                     {
                                         name: 'IS_CHUYEN_GIA_TNUOC',
-                                        value: data.IS_CHUYEN_GIA_TNUOC,
+                                        value: data.IS_CHUYEN_GIA_TNUOC ? 1 : 0,
                                     },
                                     {
                                         name: 'IS_CHUYEN_GIA_NNUOC',
-                                        value: data.IS_CHUYEN_GIA_NNUOC,
+                                        value: data.IS_CHUYEN_GIA_NNUOC ? 1 : 0,
                                     },
                                     {
                                         name: 'NS_ID',
@@ -253,6 +257,14 @@ export class ListNguoiThucHienService
                                         name: 'THANH_TUU',
                                         value: data.THANH_TUU,
                                     },
+                                    {
+                                        name: 'USERID',
+                                        value: null,
+                                    },
+                                    {
+                                        name: 'MA_LVUC_NCUU',
+                                        value: LVUC_NCUU_LST,
+                                    }
                                 ]
                             )
                         );
@@ -289,9 +301,7 @@ export class ListNguoiThucHienService
 
                         for (let type in _listData) {
                             if (updateListAPI[type]) {
-                                // console.log(updateListAPI[type]);
                                 for (let _x in _listData[type]) {
-                                    // console.log(_listData[type][_x]);
                                     let parameters = [];
                                     for (let __x in _listData[type][_x]) {
                                         if (_listData[type][_x][__x] !== null) {
@@ -300,17 +310,15 @@ export class ListNguoiThucHienService
                                                 value: _listData[type][_x][__x],
                                             };
                                             parameters.push(res);
-                                            // console.log(res)
                                         }
                                     }
-                                    // console.log(parameters);
                                     if (_listData[type][_x].isEdit)
                                         listApi.push(
                                             this._serviceService.execServiceLogin(
                                                 updateListAPI[type],
                                                 parameters
                                             )
-                                        )
+                                        );
 
                                     if (_listData[type][_x].isNew)
                                         listApi.push(
@@ -323,22 +331,24 @@ export class ListNguoiThucHienService
                             }
                         }
                         selectedDel?.forEach((value) => {
-                            // console.log(value)
                             listApi.push(
                                 this._serviceService.execServiceLogin(
                                     'D986A3B3-020C-4A25-9CC0-A998AC2C526E',
                                     [
-                                        { "name": "MA_DONG", "value": value.MA_DONG },
-                                        { "name": "MA_BANG", "value": value.MA_BANG }
+                                        {
+                                            name: 'MA_DONG',
+                                            value: value.MA_DONG,
+                                        },
+                                        {
+                                            name: 'MA_BANG',
+                                            value: value.MA_BANG,
+                                        },
                                     ]
                                 )
-                            )
-                        })
-
-                        // console.log(listApi);
+                            );
+                        });
                         return forkJoin(listApi).pipe(
                             map((response: any) => {
-                                // console.log(response);
                                 if (response[0].status == 1)
                                     return response[0].data;
                             })
@@ -352,6 +362,7 @@ export class ListNguoiThucHienService
             })
         );
     }
+
     //TO DO
     createObjectToServer(param: any): Observable<any> {
         let MA_NGUOI_THUC_HIEN: any = param.MA_NGUOI_THUC_HIEN;
@@ -372,7 +383,13 @@ export class ListNguoiThucHienService
                             item.MA_NGUOI_THUC_HIEN === param.MA_NGUOI_THUC_HIEN
                     );
                     let data = lstObjectAddNew[itemIndex];
-
+                    let LVUC_NCUU_LST: any = "";
+                    if (data.LVUC_NCUU_LST && data.LVUC_NCUU_LST.length > 0) {
+                        data.LVUC_NCUU_LST.forEach((obj) => {
+                            LVUC_NCUU_LST = LVUC_NCUU_LST + obj.MA_LVUC_NCUU + ",";
+                        })
+                        LVUC_NCUU_LST = LVUC_NCUU_LST.substring(0, LVUC_NCUU_LST.length - 1);
+                    }
                     return this._serviceService
                         .execServiceLogin(
                             '2E19ECF6-5700-474D-AA19-A18B281CCB13',
@@ -385,15 +402,15 @@ export class ListNguoiThucHienService
                                     name: 'TEN_NGUOI_THUC_HIEN',
                                     value: data.TEN_NGUOI_THUC_HIEN,
                                 },
-                                { name: 'MA_HOC_HAM', value: data.MA_HOC_HAM },
+                                {name: 'MA_HOC_HAM', value: data.MA_HOC_HAM},
                                 {
                                     name: 'NAM_HOC_HAM',
                                     value: data.NAM_HOC_HAM,
                                 },
-                                { name: 'MA_HOC_VI', value: data.MA_HOC_VI },
-                                { name: 'NAM_HOC_VI', value: data.NAM_HOC_VI },
-                                { name: 'EMAIL', value: data.EMAIL },
-                                { name: 'SDT', value: data.SDT },
+                                {name: 'MA_HOC_VI', value: data.MA_HOC_VI},
+                                {name: 'NAM_HOC_VI', value: data.NAM_HOC_VI},
+                                {name: 'EMAIL', value: data.EMAL},
+                                {name: 'SDT', value: data.SDT},
                                 {
                                     name: 'NOI_LAM_VIEC',
                                     value: data.NOI_LAM_VIEC,
@@ -402,11 +419,11 @@ export class ListNguoiThucHienService
                                     name: 'DIA_CHI_NOI_LAM_VIEC',
                                     value: data.DIA_CHI_NOI_LAM_VIEC,
                                 },
-                                { name: 'CHUYEN_GIA', value: data.CHUYEN_GIA },
-                                { name: 'NGOAI_EVN', value: data.NGOAI_EVN },
-                                { name: 'NAM_SINH', value: data.NAM_SINH },
-                                { name: 'GIO_TINH', value: data.GIO_TINH },
-                                { name: 'CCCD', value: data.CCCD },
+                                {name: 'CHUYEN_GIA', value: data.CHUYEN_GIA},
+                                {name: 'NGOAI_EVN', value: data.NGOAI_EVN},
+                                {name: 'NAM_SINH', value: data.NAM_SINH},
+                                {name: 'GIO_TINH', value: data.GIO_TINH},
+                                {name: 'CCCD', value: data.CCCD},
                                 {
                                     name: 'IS_CHUYEN_GIA_TNUOC',
                                     value: data.IS_CHUYEN_GIA_TNUOC,
@@ -415,13 +432,17 @@ export class ListNguoiThucHienService
                                     name: 'IS_CHUYEN_GIA_NNUOC',
                                     value: data.IS_CHUYEN_GIA_NNUOC,
                                 },
-                                { name: 'USERID', value: null },
-                                { name: 'ORGID', value: data.ORGID },
-                                { name: 'NS_ID', value: data.NS_ID },
+                                {name: 'USERID', value: null},
+                                {name: 'ORGID', value: data.ORGID},
+                                {name: 'NS_ID', value: data.NS_ID},
                                 {
                                     name: 'THANH_TUU',
                                     value: data.THANH_TUU,
                                 },
+                                {
+                                    name: 'MA_LVUC_NCUU',
+                                    value: LVUC_NCUU_LST,
+                                }
                             ]
                         )
                         .pipe(
@@ -455,7 +476,7 @@ export class ListNguoiThucHienService
     getObjectfromServer(param: any): Observable<any> {
         return this._serviceService.execServiceLogin(
             '0DBC822B-5012-4FD3-A735-4EDC38DBD23C',
-            [{ name: 'MA_NGUOI_THUC_HIEN', value: param }]
+            [{name: 'MA_NGUOI_THUC_HIEN', value: param}]
         );
     }
 
@@ -489,7 +510,6 @@ export class ListNguoiThucHienService
                         )
                         .pipe(
                             map((response: any) => {
-                                // console.log(response);
                                 if (response.status == 1) {
                                     return response.data;
                                 } else {
@@ -572,7 +592,6 @@ export class ListNguoiThucHienService
                         )
                         .pipe(
                             map((response: any) => {
-                                // console.log(response);
                                 if (response.status == 1) {
                                     return response.data;
                                 } else {
@@ -656,10 +675,7 @@ export class ListNguoiThucHienService
                         .pipe(
                             map((response: any) => {
                                 if (response.status == 1) {
-                                    this.deleteObject(
-                                        listNTH[0].MA_NGUOI_THUC_HIEN
-                                    );
-                                    return response.data;
+                                    return 1;
                                 } else {
                                     return 0;
                                 }
@@ -671,6 +687,7 @@ export class ListNguoiThucHienService
             })
         );
     }
+
     deleteObject(param: any): Observable<any> {
         return this._objects.pipe(
             take(1),
@@ -725,6 +742,7 @@ export class ListNguoiThucHienService
             })
         );
     }
+
     cancelObject(param: any): Observable<any> {
         return this._objects.pipe(
             take(1),
@@ -793,7 +811,7 @@ export class ListNguoiThucHienService
      */
     getGroups(): Observable<any> {
         return this._serviceService
-            .execServiceLogin('API-40', [{ name: 'USERID', value: null }])
+            .execServiceLogin('API-40', [{name: 'USERID', value: null}])
             .pipe(
                 tap((response: any) => {
                     this._groups.next(response.data);
@@ -808,48 +826,60 @@ export class ListNguoiThucHienService
     /**
      * Get Objs by folder
      */
+    // getObjectsByFolder(): Observable<any> {
+    //     // Execute the Objs loading with true
+
+    //     return this._serviceService
+    //         .execServiceLogin('5C7BAE9B-62E3-4F3B-A4FF-49AA926010D6', [
+    //             { name: 'ORGID', value: this._groups.value[0].ORGID },
+    //         ])
+    //         .pipe(
+    //             tap((response: any) => {
+    //                 this._objects.next(response.data);
+    //             }),
+    //             switchMap((response: any) => {
+    //                 if (!response.status) {
+    //                     return throwError({
+    //                         message: 'Requested page is not available!',
+    //                         pagination: response.pagination,
+    //                     });
+    //                 }
+
+    //                 return of(response);
+    //             })
+    //         );
+    // }
     getObjectsByFolder(groupid: string): Observable<any> {
-        // Execute the Objs loading with true
+        return this._serviceService
+            .execServiceLogin('5C7BAE9B-62E3-4F3B-A4FF-49AA926010D6', [
+                {name: 'ORGID', value: groupid},
+            ])
+            .pipe(
+                tap((response: any) => {
+                    if (response.data.length > 0) {
+                        response.data.forEach((obj) => {
+                            if (obj.LVUC_NCUU_LST != null) {
+                                obj.LVUC_NCUU_LST = JSON.parse(obj.LVUC_NCUU_LST);
+                            } else {
+                                obj.LVUC_NCUU_LST = [];
+                            }
+                        })
 
-        if (groupid == 'all') {
-            return this._serviceService
-                .execServiceLogin('BAFFCFAE-6451-4515-82FB-B3AC35934F61', null)
-                .pipe(
-                    tap((response: any) => {
-                        this._objects.next(response.data);
-                    }),
-                    switchMap((response: any) => {
-                        if (!response.status) {
-                            return throwError({
-                                message: 'Requested page is not available!',
-                                pagination: response.pagination,
-                            });
-                        }
+                    }
+                    this._objects.next(response.data);
+                }),
+                switchMap((response: any) => {
+                    if (!response.status) {
+                        return throwError({
+                            message: 'Requested page is not available!',
+                            pagination: response.pagination,
+                        });
+                    }
 
-                        return of(response);
-                    })
-                );
-        } else {
-            return this._serviceService
-                .execServiceLogin('5C7BAE9B-62E3-4F3B-A4FF-49AA926010D6', [
-                    { name: 'ORGID', value: groupid },
-                ])
-                .pipe(
-                    tap((response: any) => {
-                        this._objects.next(response.data);
-                    }),
-                    switchMap((response: any) => {
-                        if (!response.status) {
-                            return throwError({
-                                message: 'Requested page is not available!',
-                                pagination: response.pagination,
-                            });
-                        }
+                    return of(response);
+                })
+            );
 
-                        return of(response);
-                    })
-                );
-        }
     }
 
     /**
@@ -861,7 +891,7 @@ export class ListNguoiThucHienService
             map((objects) => {
                 // Find the Obj
                 let itemIndex = objects.findIndex(
-                    (item) => item.USERID_KEY === id
+                    (item) => item.MA_NGUOI_THUC_HIEN === id
                 );
                 objects[itemIndex] = data;
                 // Update the Obj
@@ -881,6 +911,7 @@ export class ListNguoiThucHienService
             })
         );
     }
+
     getObjectById(id: string): Observable<any> {
         return this._objects.pipe(
             take(1),
@@ -896,21 +927,53 @@ export class ListNguoiThucHienService
                     obj.SYS_ACTION != State.create &&
                     obj.SYS_ACTION != State.edit
                 ) {
+
                     return this.getObjectfromServer(id).pipe(
                         map((objResult) => {
                             return objResult.data;
                         }),
                         switchMap((objResult) => {
-                            // console.log(objResult);
-                            let itemIndex = objs.findIndex(
-                                (item) => item.MA_NGUOI_THUC_HIEN === id
+                            return combineLatest([this.getLinhVucNghienCuuById(id),
+                                this.getListDeTaiFromServer(id),
+                                this.getListQuaTrinhDaoTaoFromServer(id),
+                                this.getListCongTrinhApDungFromServer(id),
+                                this.getListCongTrinhFromServer(id),
+                                this.getListVanBangFromServer(id),
+                                this.getListGiaiThuongFromServer(id),
+                                this.getListQuaTrinhCongTacFromServer(id)]).pipe(
+                                map(([lstLinhVucNghienCuu, listDeTai, listQuaTrinhDaoTao, listCongTrinhApDung, listCongTrinh, listVanBang, listGiaiThuong, listQuaTrinhCongTac]) => {
+                                    let apiLinhVucNghienCuu: any[] = [];
+                                    if (lstLinhVucNghienCuu && lstLinhVucNghienCuu.status == 1 && lstLinhVucNghienCuu.data.length > 0) {
+                                        lstLinhVucNghienCuu.data.forEach((itemInput: any) => {
+                                            apiLinhVucNghienCuu.push({
+                                                MA_LVUC_NCUU: itemInput.MA_LVUC_NCUU,
+                                                TEN_LVUC_NCUU: itemInput.TEN_LVUC_NCUU
+                                            });
+                                        })
+                                    }
+                                    objResult.LVUC_NCUU_LST = apiLinhVucNghienCuu;
+                                    objResult.listDeTai = listDeTai.data;
+                                    objResult.listQuaTrinhDaoTao = listQuaTrinhDaoTao.data;
+                                    objResult.listCongTrinhApDung = listCongTrinhApDung.data;
+                                    objResult.listCongTrinh = listCongTrinh.data;
+                                    objResult.listVanBang = listVanBang.data;
+                                    objResult.listGiaiThuong = listGiaiThuong.data;
+                                    objResult.listQuaTrinhCongTac = listQuaTrinhCongTac.data;
+
+                                    //Cần cập nhật lại list
+                                    // Update the Api
+                                    let itemIndex = objs.findIndex(
+                                        (item) => item.MA_NGUOI_THUC_HIEN === id
+                                    );
+                                    if (itemIndex >= 0) {
+                                        objs[itemIndex] = objResult;
+                                        this._object.next(objResult);
+                                        this._objects.next(objs);
+                                        return objResult;
+                                    }
+                                })
                             );
-                            if (itemIndex >= 0) {
-                                objs[itemIndex] = objResult.data;
-                                this._object.next(objResult.data);
-                                this._objects.next(objs);
-                                return objResult.data;
-                            }
+
                         })
                     );
                 }
@@ -920,17 +983,26 @@ export class ListNguoiThucHienService
             })
         );
     }
+
+    getLinhVucNghienCuuById(maNguoiThucHien: string): Observable<any> {
+        return this._serviceService.execServiceLogin("69253726-A73A-4C5A-A554-8EDD946CAA3C", [{
+            name: "MA_NGUOI_THUC_HIEN",
+            value: maNguoiThucHien
+        }]);
+    }
+
     getObjectTitleById(objectId: string): Observable<any> {
         // Execute the Objs loading with true
 
         return this._serviceService
-            .execServiceLogin('API-43', [{ name: 'xUSERID', value: objectId }])
+            .execServiceLogin('API-43', [{name: 'xUSERID', value: objectId}])
             .pipe(
                 tap((response: any) => {
                     this._objectColumns.next(response.data);
                 })
             );
     }
+
     getGroupById(groupid: string): Observable<any> {
         return this._groups.pipe(
             take(1),
@@ -1024,11 +1096,39 @@ export class ListNguoiThucHienService
         );
     }
 
+    private _listORGID: BehaviorSubject<any[]> = new BehaviorSubject(null);
+
+
+    getListORGID(): Observable<any> {
+        return this._serviceService
+            .execServiceLogin('E0A83F2D-3F06-4F03-B049-C132C351E73D', null)
+            .pipe(
+                tap((response: any) => {
+                    this._listORGID.next(response.data);
+                })
+            );
+    }
+
     private _listNhanSu: BehaviorSubject<any[]> = new BehaviorSubject(null);
 
     getListNhanSu(): Observable<any> {
         return this._serviceService
             .execServiceLogin('6174FEF6-1FCF-4426-BCA9-DE3A0A4007C1', null)
+            .pipe(
+                tap((response: any) => {
+                    this._listNhanSu.next(response.data);
+                })
+            );
+    }
+
+    getListNhanSuByOrgId(orgId: string): Observable<any> {
+        return this._serviceService
+            .execServiceLogin('67BA1207-54BB-499F-8198-FD4B156B292A', [
+                {
+                    name: '_ORGID',
+                    value: orgId,
+                },
+            ])
             .pipe(
                 tap((response: any) => {
                     this._listNhanSu.next(response.data);
@@ -1043,7 +1143,7 @@ export class ListNguoiThucHienService
     getListDeTaiFromServer(MA_NGUOI_THUC_HIEN: any): Observable<any> {
         return this._serviceService
             .execServiceLogin('5AD31EA4-55B6-456D-B6B5-6EFFE5300FF6', [
-                { name: 'MA_NGUOI_THUC_HIEN', value: MA_NGUOI_THUC_HIEN },
+                {name: 'MA_NGUOI_THUC_HIEN', value: MA_NGUOI_THUC_HIEN},
             ])
             .pipe(
                 tap((response: any) => {
@@ -1052,226 +1152,47 @@ export class ListNguoiThucHienService
             );
     }
 
-    getListDetai(MA_NGUOI_THUC_HIEN: any): Observable<any> {
-        return this._objects.pipe(
-            take(1),
-            switchMap((objs: any) => {
-                // Find the Obj
-                const obj =
-                    objs.find(
-                        (item) => item.MA_NGUOI_THUC_HIEN === MA_NGUOI_THUC_HIEN
-                    ) || null;
-                if (!obj) {
-                    return throwError(
-                        'Could not found with id of ' + MA_NGUOI_THUC_HIEN + '!'
-                    );
-                }
-                // Trường hợp đang trong quá trình thêm mới và chỉnh sửa thì lấy dữ liệu local, những trường hợp khác lấy từ server
-                if (
-                    obj.SYS_ACTION != State.create &&
-                    obj.SYS_ACTION != State.edit
-                ) {
-                    return this.getListDeTaiFromServer(MA_NGUOI_THUC_HIEN).pipe(
-                        map((objResult) => {
-                            let itemIndex = objs.findIndex(
-                                (item) =>
-                                    item.MA_NGUOI_THUC_HIEN ===
-                                    MA_NGUOI_THUC_HIEN
-                            );
-                            if (itemIndex >= 0) {
-                                objs[itemIndex].listDeTai = objResult.data;
-                                this._object.next(objs[itemIndex]);
-                                this._objects.next(objs);
-
-                                return objResult;
-                            }
-                            return objResult.data;
-                        })
-                    );
-                }
-                this._object.next(obj);
-                return of(obj);
-            })
-        );
-    }
 
     getListQuaTrinhDaoTaoFromServer(MA_NGUOI_THUC_HIEN: any): Observable<any> {
         return this._serviceService
             .execServiceLogin('7CF967C6-619E-40E9-9926-0E138BC8809C', [
-                { name: 'MA_NGUOI_THUC_HIEN', value: MA_NGUOI_THUC_HIEN },
+                {name: 'MA_NGUOI_THUC_HIEN', value: MA_NGUOI_THUC_HIEN},
             ])
             .pipe(
                 tap((response: any) => {
                     return response.data;
                 })
             );
-    }
-
-    getListQuaTrinhDaoTao(MA_NGUOI_THUC_HIEN: any): Observable<any> {
-        return this._objects.pipe(
-            take(1),
-            switchMap((objs: any) => {
-                // Find the Obj
-                const obj =
-                    objs.find(
-                        (item) => item.MA_NGUOI_THUC_HIEN === MA_NGUOI_THUC_HIEN
-                    ) || null;
-                if (!obj) {
-                    return throwError(
-                        'Could not found with id of ' + MA_NGUOI_THUC_HIEN + '!'
-                    );
-                }
-                // Trường hợp đang trong quá trình thêm mới và chỉnh sửa thì lấy dữ liệu local, những trường hợp khác lấy từ server
-                if (
-                    obj.SYS_ACTION != State.create &&
-                    obj.SYS_ACTION != State.edit
-                ) {
-                    return this.getListQuaTrinhDaoTaoFromServer(
-                        MA_NGUOI_THUC_HIEN
-                    ).pipe(
-                        map((objResult) => {
-                            let itemIndex = objs.findIndex(
-                                (item) =>
-                                    item.MA_NGUOI_THUC_HIEN ===
-                                    MA_NGUOI_THUC_HIEN
-                            );
-                            if (itemIndex >= 0) {
-                                objs[itemIndex].listQuaTrinhDaoTao =
-                                    objResult.data;
-                                this._object.next(objs[itemIndex]);
-                                this._objects.next(objs);
-
-                                return objResult;
-                            }
-                            return objResult.data;
-                        })
-                    );
-                }
-                this._object.next(obj);
-                return of(obj);
-            })
-        );
     }
 
     getListCongTrinhApDungFromServer(MA_NGUOI_THUC_HIEN: any): Observable<any> {
         return this._serviceService
             .execServiceLogin('953A8685-FFEC-4809-A633-8FD5FA85EBC1', [
-                { name: 'MA_NGUOI_THUC_HIEN', value: MA_NGUOI_THUC_HIEN },
+                {name: 'MA_NGUOI_THUC_HIEN', value: MA_NGUOI_THUC_HIEN},
             ])
             .pipe(
                 tap((response: any) => {
                     return response.data;
                 })
             );
-    }
-
-    getListCongTrinhApDung(MA_NGUOI_THUC_HIEN: any): Observable<any> {
-        return this._objects.pipe(
-            take(1),
-            switchMap((objs: any) => {
-                // Find the Obj
-                const obj =
-                    objs.find(
-                        (item) => item.MA_NGUOI_THUC_HIEN === MA_NGUOI_THUC_HIEN
-                    ) || null;
-                if (!obj) {
-                    return throwError(
-                        'Could not found with id of ' + MA_NGUOI_THUC_HIEN + '!'
-                    );
-                }
-                // Trường hợp đang trong quá trình thêm mới và chỉnh sửa thì lấy dữ liệu local, những trường hợp khác lấy từ server
-                if (
-                    obj.SYS_ACTION != State.create &&
-                    obj.SYS_ACTION != State.edit
-                ) {
-                    return this.getListCongTrinhApDungFromServer(
-                        MA_NGUOI_THUC_HIEN
-                    ).pipe(
-                        map((objResult) => {
-                            let itemIndex = objs.findIndex(
-                                (item) =>
-                                    item.MA_NGUOI_THUC_HIEN ===
-                                    MA_NGUOI_THUC_HIEN
-                            );
-                            if (itemIndex >= 0) {
-                                objs[itemIndex].listCongTrinhApDung =
-                                    objResult.data;
-                                this._object.next(objs[itemIndex]);
-                                this._objects.next(objs);
-
-                                return objResult;
-                            }
-                            return objResult.data;
-                        })
-                    );
-                }
-                this._object.next(obj);
-                return of(obj);
-            })
-        );
     }
 
     getListCongTrinhFromServer(MA_NGUOI_THUC_HIEN: any): Observable<any> {
         return this._serviceService
             .execServiceLogin('F5F82C17-DCA7-4B96-9E30-B396B89D14BF', [
-                { name: 'MA_NGUOI_THUC_HIEN', value: MA_NGUOI_THUC_HIEN },
+                {name: 'MA_NGUOI_THUC_HIEN', value: MA_NGUOI_THUC_HIEN},
             ])
             .pipe(
                 tap((response: any) => {
                     return response.data;
                 })
             );
-    }
-
-    getListCongTrinh(MA_NGUOI_THUC_HIEN: any): Observable<any> {
-        return this._objects.pipe(
-            take(1),
-            switchMap((objs: any) => {
-                // Find the Obj
-                const obj =
-                    objs.find(
-                        (item) => item.MA_NGUOI_THUC_HIEN === MA_NGUOI_THUC_HIEN
-                    ) || null;
-                if (!obj) {
-                    return throwError(
-                        'Could not found with id of ' + MA_NGUOI_THUC_HIEN + '!'
-                    );
-                }
-                // Trường hợp đang trong quá trình thêm mới và chỉnh sửa thì lấy dữ liệu local, những trường hợp khác lấy từ server
-                if (
-                    obj.SYS_ACTION != State.create &&
-                    obj.SYS_ACTION != State.edit
-                ) {
-                    return this.getListCongTrinhFromServer(
-                        MA_NGUOI_THUC_HIEN
-                    ).pipe(
-                        map((objResult) => {
-                            let itemIndex = objs.findIndex(
-                                (item) =>
-                                    item.MA_NGUOI_THUC_HIEN ===
-                                    MA_NGUOI_THUC_HIEN
-                            );
-                            if (itemIndex >= 0) {
-                                objs[itemIndex].listCongTrinh = objResult.data;
-                                this._object.next(objs[itemIndex]);
-                                this._objects.next(objs);
-
-                                return objResult;
-                            }
-                            return objResult.data;
-                        })
-                    );
-                }
-                this._object.next(obj);
-                return of(obj);
-            })
-        );
     }
 
     getListVanBangFromServer(MA_NGUOI_THUC_HIEN: any): Observable<any> {
         return this._serviceService
             .execServiceLogin('C1BBF556-30AE-45C4-9CC6-5696A7FC61CC', [
-                { name: 'MA_NGUOI_THUC_HIEN', value: MA_NGUOI_THUC_HIEN },
+                {name: 'MA_NGUOI_THUC_HIEN', value: MA_NGUOI_THUC_HIEN},
             ])
             .pipe(
                 tap((response: any) => {
@@ -1280,55 +1201,11 @@ export class ListNguoiThucHienService
             );
     }
 
-    getListVanBang(MA_NGUOI_THUC_HIEN: any): Observable<any> {
-        return this._objects.pipe(
-            take(1),
-            switchMap((objs: any) => {
-                // Find the Obj
-                const obj =
-                    objs.find(
-                        (item) => item.MA_NGUOI_THUC_HIEN === MA_NGUOI_THUC_HIEN
-                    ) || null;
-                if (!obj) {
-                    return throwError(
-                        'Could not found with id of ' + MA_NGUOI_THUC_HIEN + '!'
-                    );
-                }
-                // Trường hợp đang trong quá trình thêm mới và chỉnh sửa thì lấy dữ liệu local, những trường hợp khác lấy từ server
-                if (
-                    obj.SYS_ACTION != State.create &&
-                    obj.SYS_ACTION != State.edit
-                ) {
-                    return this.getListVanBangFromServer(
-                        MA_NGUOI_THUC_HIEN
-                    ).pipe(
-                        map((objResult) => {
-                            let itemIndex = objs.findIndex(
-                                (item) =>
-                                    item.MA_NGUOI_THUC_HIEN ===
-                                    MA_NGUOI_THUC_HIEN
-                            );
-                            if (itemIndex >= 0) {
-                                objs[itemIndex].listVanBang = objResult.data;
-                                this._object.next(objs[itemIndex]);
-                                this._objects.next(objs);
-
-                                return objResult;
-                            }
-                            return objResult.data;
-                        })
-                    );
-                }
-                this._object.next(obj);
-                return of(obj);
-            })
-        );
-    }
 
     getListGiaiThuongFromServer(MA_NGUOI_THUC_HIEN: any): Observable<any> {
         return this._serviceService
             .execServiceLogin('CF09126C-E3E2-474D-9685-2415CDED3E33', [
-                { name: 'MA_NGUOI_THUC_HIEN', value: MA_NGUOI_THUC_HIEN },
+                {name: 'MA_NGUOI_THUC_HIEN', value: MA_NGUOI_THUC_HIEN},
             ])
             .pipe(
                 tap((response: any) => {
@@ -1337,55 +1214,11 @@ export class ListNguoiThucHienService
             );
     }
 
-    getListGiaiThuong(MA_NGUOI_THUC_HIEN: any): Observable<any> {
-        return this._objects.pipe(
-            take(1),
-            switchMap((objs: any) => {
-                // Find the Obj
-                const obj =
-                    objs.find(
-                        (item) => item.MA_NGUOI_THUC_HIEN === MA_NGUOI_THUC_HIEN
-                    ) || null;
-                if (!obj) {
-                    return throwError(
-                        'Could not found with id of ' + MA_NGUOI_THUC_HIEN + '!'
-                    );
-                }
-                // Trường hợp đang trong quá trình thêm mới và chỉnh sửa thì lấy dữ liệu local, những trường hợp khác lấy từ server
-                if (
-                    obj.SYS_ACTION != State.create &&
-                    obj.SYS_ACTION != State.edit
-                ) {
-                    return this.getListGiaiThuongFromServer(
-                        MA_NGUOI_THUC_HIEN
-                    ).pipe(
-                        map((objResult) => {
-                            let itemIndex = objs.findIndex(
-                                (item) =>
-                                    item.MA_NGUOI_THUC_HIEN ===
-                                    MA_NGUOI_THUC_HIEN
-                            );
-                            if (itemIndex >= 0) {
-                                objs[itemIndex].listGiaiThuong = objResult.data;
-                                this._object.next(objs[itemIndex]);
-                                this._objects.next(objs);
-
-                                return objResult;
-                            }
-                            return objResult.data;
-                        })
-                    );
-                }
-                this._object.next(obj);
-                return of(obj);
-            })
-        );
-    }
 
     getListQuaTrinhCongTacFromServer(MA_NGUOI_THUC_HIEN: any): Observable<any> {
         return this._serviceService
             .execServiceLogin('D5F365CF-8627-4C66-806A-3477048F5089', [
-                { name: 'MA_NGUOI_THUC_HIEN', value: MA_NGUOI_THUC_HIEN },
+                {name: 'MA_NGUOI_THUC_HIEN', value: MA_NGUOI_THUC_HIEN},
             ])
             .pipe(
                 tap((response: any) => {
@@ -1394,49 +1227,85 @@ export class ListNguoiThucHienService
             );
     }
 
-    getListQuaTrinhCongTac(MA_NGUOI_THUC_HIEN: any): Observable<any> {
+
+    getLinkYCCapNhapHoSoFromServer(MA_NGUOI_THUC_HIEN: string) {
         return this._objects.pipe(
             take(1),
-            switchMap((objs: any) => {
-                // Find the Obj
-                const obj =
-                    objs.find(
-                        (item) => item.MA_NGUOI_THUC_HIEN === MA_NGUOI_THUC_HIEN
-                    ) || null;
-                if (!obj) {
-                    return throwError(
-                        'Could not found with id of ' + MA_NGUOI_THUC_HIEN + '!'
-                    );
+            map((Objs) => {
+                let listNTH = Objs.filter(
+                    (item) =>
+                        item.MA_NGUOI_THUC_HIEN == MA_NGUOI_THUC_HIEN &&
+                        item.DA_XOA === false
+                );
+                return listNTH;
+            }),
+            switchMap((listNTH: any) => {
+                if (listNTH.length > 0) {
+                    return this._serviceService
+                        .execServiceLogin(
+                            'BE98CBC1-D3C3-46B6-91A6-BDF6F227D40C',
+                            [
+                                {
+                                    name: 'MA_NGUOI_THUC_HIEN',
+                                    value: MA_NGUOI_THUC_HIEN,
+                                },
+                            ]
+                        )
+                        .pipe(
+                            map((response: any) => {
+                                if (response.status == 1) {
+                                    return response.message;
+                                } else {
+                                    return 0;
+                                }
+                            })
+                        );
+                } else {
+                    return -1;
                 }
-                // Trường hợp đang trong quá trình thêm mới và chỉnh sửa thì lấy dữ liệu local, những trường hợp khác lấy từ server
-                if (
-                    obj.SYS_ACTION != State.create &&
-                    obj.SYS_ACTION != State.edit
-                ) {
-                    return this.getListQuaTrinhCongTacFromServer(
-                        MA_NGUOI_THUC_HIEN
-                    ).pipe(
-                        map((objResult) => {
-                            let itemIndex = objs.findIndex(
-                                (item) =>
-                                    item.MA_NGUOI_THUC_HIEN ===
-                                    MA_NGUOI_THUC_HIEN
-                            );
-                            if (itemIndex >= 0) {
-                                objs[itemIndex].listQuaTrinhCongTac =
-                                    objResult.data;
-                                this._object.next(objs[itemIndex]);
-                                this._objects.next(objs);
-
-                                return objResult;
-                            }
-                            return objResult.data;
-                        })
-                    );
-                }
-                this._object.next(obj);
-                return of(obj);
             })
         );
+    }
+
+    guiMailToDB(obj: any) {
+        return this._serviceService
+            .execServiceLogin('A980E0D8-F42A-425D-9652-6BCE4FF139E8', [
+                {name: 'MA_EMAIL', value: obj.MA_EMAIL},
+                {name: 'NHOM_NGUOI_NHAN', value: obj.NHOM_NGUOI_NHAN},
+                {name: 'NOI_DUNG', value: obj.NOI_DUNG},
+                {name: 'LOAI', value: obj.LOAI},
+                {name: 'TIEU_DE', value: obj.TIEU_DE},
+            ])
+            .pipe(
+                map((response: any) => {
+                    return response.status;
+                })
+            );
+    }
+
+    guiMailReal() {
+        return this._serviceService
+            .execServiceLogin('69409147-B0DC-4D1D-B355-8E794F7C9B44', [])
+            .pipe(
+                map((response: any) => {
+                    return response.status;
+                })
+            );
+    }
+
+    getTenDonVi(orgid: string) {
+        return this._serviceService
+            .execServiceLogin('59BA2C9C-F40E-436D-9897-6CF79BC695DB', [
+                {
+                    name: '_ORGID',
+                    value: orgid,
+                },
+            ])
+            .pipe(
+                take(1),
+                map((res: any) => {
+                    return res.data;
+                })
+            );
     }
 }

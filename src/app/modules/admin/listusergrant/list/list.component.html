@@ -10,9 +10,12 @@
           <button mat-icon-button (click)="listuserComponent.drawer.toggle()">
             <mat-icon [svgIcon]="'heroicons_outline:menu'"></mat-icon>
           </button>
-          
-          <div class="ml-2 font-semibold uppercase whitespace-nowrap truncate">{{group?.ORGDESC}}</div>
-          <span style="flex: 1 1 auto;"></span>          
+
+          <mat-form-field class="fuse-mat-no-subscript w-full mt-4 sm:mt-0 sm:ml-4" [floatLabel]="'always'">
+            <mat-icon matPrefix class="icon-size-5" [svgIcon]="'heroicons_solid:search'"></mat-icon>
+            <input (keyup)="applyFilter(txtSearch.value)" placeholder="Tìm kiếm" matInput #txtSearch>
+          </mat-form-field>
+          <span style="flex: 1 1 auto;"></span>
         </div>
 
         <!-- Pagination -->
@@ -38,7 +41,7 @@
               <div class="flex items-center w-full">
 
                 <div class="mr-2 font-semibold truncate">
-                  {{obj.USERNAME}} </div>                
+                  {{obj.USERNAME}} </div>
                 <div class="ml-auto text-md text-right whitespace-nowrap text-hint">
                   {{obj.USER_CR_DTIME | date:'dd/MM/yyyy HH:mm:ss'}}
                 </div>
@@ -51,14 +54,12 @@
               </div>
 
               <!-- Excerpt -->
-              <div class="mt-2 leading-normal line-clamp-1 text-secondary">                
-                <span *ngIf="obj.SYS_ACTION==State.create"
-                  class="text-red-500">
+              <div class="mt-2 leading-normal line-clamp-1 text-secondary">
+                <span *ngIf="obj.SYS_ACTION==State.create" class="text-red-500">
                   [Đang thêm mới] </span>
-                <span *ngIf="obj.SYS_ACTION==State.edit"
-                  class="text-red-500">
+                <span *ngIf="obj.SYS_ACTION==State.edit" class="text-red-500">
                   [Đang sửa] </span>
-                  {{obj.USERID_KEY}}
+                {{obj.USERID_KEY}}
               </div>
             </div>
 

@@ -168,9 +168,9 @@ export class ApiGroupListComponent implements OnInit, OnDestroy {
   }
 
   onObjectSelected(object: any): void {
-    // If the mail is unread...
+
     //this._apiService.getApiById(api.API_SERVICEID);
-    // Execute the mailSelected observable
+
     this._listapigroupService.selectedObjectChanged.next(object);
   }
 
