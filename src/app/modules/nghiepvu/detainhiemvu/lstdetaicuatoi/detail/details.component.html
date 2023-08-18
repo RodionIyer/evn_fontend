@@ -707,7 +707,7 @@
                         <td class="font-medium">
                             {{ item.get("fileName").value }}
                             <div
-                                *ngIf="submitted.check &&  item.get('listFile').errors?.minLength"
+                                *ngIf="status == 'LUUGUI' && submitted.check &&  item.get('listFile').errors?.minLength"
                                 class="invalid-feedback"
                             >
                                 <div>
@@ -989,7 +989,7 @@
                                     {{ item.get("fileName").value }}
                                 </td>
                                 <td style="text-align: center">{{nguoiSua}}</td>
-                                <td  style="text-align: center">{{ ngayTao | date:'mm/dd/yyyy' }}</td>
+                                <td style="text-align: center">{{ ngayTao | date:'mm/dd/yyyy' }}</td>
                                 <td>
                                     <div
                                         class="list-file"

@@ -139,6 +139,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
     private _unsubscribeAll: Subject<any> = new Subject<any>();
     public nguoiSua: any;
     public ngayTao: any;
+    public status: any;
 
     constructor(
         private _formBuilder: FormBuilder,
@@ -864,6 +865,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
     }
 
     onSubmit(status, method) {
+        this.status = status;
         this.submitted.check = true;
         if (this.form.invalid) {
             this._messageService.showErrorMessage("Thông báo", "Chưa nhập đủ trường bắt buộc!")
