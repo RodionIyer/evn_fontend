@@ -135,10 +135,10 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
         'BBAN_GIAO_LUUTRU',
         'HDON_THUE_TNCN',
     ];
-    lstDanhSachThanhVienHD : any[];
+    lstDanhSachThanhVienHD: any[];
     private _unsubscribeAll: Subject<any> = new Subject<any>();
-    public nguoiSua : any;
-    public ngayTao : any;
+    public nguoiSua: any;
+    public ngayTao: any;
 
     constructor(
         private _formBuilder: FormBuilder,
@@ -381,15 +381,15 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                 this.nguoiSua = data.data.nguoiSua;
                 debugger;
                 this.form.patchValue(data.data);
-                if(this.form.get('chuNhiemDeTaiInfo').value != null){
+                if (this.form.get('chuNhiemDeTaiInfo').value != null) {
                     this.form.get('chuNhiemDeTaiInfo').value.vaiTro = "Chủ nhiệm đề tài"
                     this.lstDanhSachThanhVienHD.push(this.form.get('chuNhiemDeTaiInfo').value);
                 }
-                if(this.form.get('dongChuNhiemDeTaiInfo').value){
+                if (this.form.get('dongChuNhiemDeTaiInfo').value) {
                     this.form.get('dongChuNhiemDeTaiInfo').value.vaiTro = "Đồng chủ nhiệm đề tài"
                     this.lstDanhSachThanhVienHD.push(this.form.get('dongChuNhiemDeTaiInfo').value);
                 }
-                if(this.form.get('thuKyDeTaiInfo').value){
+                if (this.form.get('thuKyDeTaiInfo').value) {
                     this.form.get('thuKyDeTaiInfo').value.vaiTro = "Thư kí đề tài"
                     this.lstDanhSachThanhVienHD.push(this.form.get('thuKyDeTaiInfo').value);
                 }
@@ -868,6 +868,13 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
         if (this.form.invalid) {
             this._messageService.showErrorMessage("Thông báo", "Chưa nhập đủ trường bắt buộc!")
             return;
+        }
+        if (this.form.get('danhSachThanhVien').value.length > 0) {
+            let listTV: any[] = this.form.get('danhSachThanhVien').value;
+            if (listTV.filter(n => n.maThanhVien == null || n.maThanhVien == '').length > 0) {
+                this._messageService.showErrorMessage("Thông báo", "Xóa thành viên trống trong danh sách thành viên hội đồng!");
+                return;
+            }
         }
         if (this.form.value.thuKyDeTaiInfo === '') {
             this.form.value.thuKyDeTaiInfo = {};
