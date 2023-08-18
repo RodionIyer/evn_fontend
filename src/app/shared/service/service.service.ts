@@ -33,7 +33,7 @@ export class ServiceService {
     execServiceLogin(serviceId, userParameter): any {
         let exeParameter = { "serviceId": serviceId, "parameters": userParameter };
 
-        return this._httpClient.post<any>(environment.appAPI + environment.appPath + '/' + 'service/execServiceLogin', exeParameter);
+        return this._httpClient.post<any>(environment.appAPI + environment.appPath + '/' + 'service/execServiceLogin', exeParameter).pipe();
     }
     execServiceLogin_withLoading(serviceId, userParameter): any {
         let exeParameter = { "serviceId": serviceId, "parameters": userParameter };

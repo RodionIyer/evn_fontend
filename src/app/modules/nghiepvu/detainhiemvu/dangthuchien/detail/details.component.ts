@@ -45,7 +45,7 @@ export class DetailsComponent implements OnInit {
     public method = null;
     public form: FormGroup;
     public idParam: string = null;
-    public soLanGiaHan: any;
+    public soLanGiaHan: number;
     constructor(
         private _formBuilder: UntypedFormBuilder,
         public _activatedRoute: ActivatedRoute,
@@ -188,6 +188,10 @@ export class DetailsComponent implements OnInit {
                         }
                     }
                 }
+                if(method=='GIAHAN'){
+                    this.form.get('soLanGiaHan').setValue(this.soLanGiaHan +1);
+                }
+               
                 let thoiGianTu = this.form.get('thoiGianThucHienTu').value;
                 if (thoiGianTu) {
                     this.form
@@ -200,8 +204,7 @@ export class DetailsComponent implements OnInit {
                         .get('thoiGianThucHienDen')
                         .setValue(new Date(thoiGianDen));
                 }
-                debugger;
-                let thoiGianHop = this.form.get('thoiGianHop').value;
+                let thoiGianHop = this.form.get('thoiGianHop')?.value;
                 if (thoiGianHop) {
                     this.form
                         .get('thoiGianHop')

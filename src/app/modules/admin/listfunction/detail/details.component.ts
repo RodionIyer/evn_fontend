@@ -5,7 +5,6 @@ import { FormArray, UntypedFormBuilder, UntypedFormGroup, Validators } from '@an
 import { MessageService } from 'app/shared/message.services';
 import { SnotifyToast } from 'ng-alt-snotify';
 import { State } from 'app/shared/commons/conmon.types';
-import { BaseDetailInterface } from 'app/shared/commons/basedetail.interface';
 import { UserService } from 'app/core/user/user.service';
 import { BaseComponent } from 'app/shared/commons/base.component';
 import { FunctionService } from 'app/core/function/function.service';
@@ -15,6 +14,8 @@ import { MatSort } from '@angular/material/sort';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { MatDialog } from '@angular/material/dialog';
+import { ListFunctionDetailsAuthorityDialogComponent } from './detailsauthority.component';
 
 interface ObjectNode {
     object: any;
@@ -33,7 +34,7 @@ interface ObjectFlatNode {
     encapsulation: ViewEncapsulation.None,
 })
 
-export class ListFunctionDetailsComponent extends BaseComponent implements OnInit, OnDestroy, BaseDetailInterface {
+export class ListFunctionDetailsComponent extends BaseComponent implements OnInit, OnDestroy {
     @ViewChild(MatSort, { static: false }) sort: MatSort;
     @ViewChild("MatTableDetail", { static: false }) matTableDetail: MatTable<any>;
     @ViewChild('trigger') trigger: MatAutocompleteTrigger;
@@ -48,7 +49,6 @@ export class ListFunctionDetailsComponent extends BaseComponent implements OnIni
         node => node.level,
         node => node.expandable,
     );
-    ;
     private _transformer = (node: ObjectNode, level: number) => {
         return {
             expandable: !!node.children && node.children.length > 0,
@@ -96,7 +96,8 @@ export class ListFunctionDetailsComponent extends BaseComponent implements OnIni
         public _router: Router,
         public _functionService: FunctionService,
         public _userService: UserService,
-        public _messageService: MessageService
+        public _messageService: MessageService,
+        public _dialogMat: MatDialog,
     ) {
         super(_activatedRoute, _router, _functionService, _userService, _messageService);
     }
@@ -232,30 +233,33 @@ export class ListFunctionDetailsComponent extends BaseComponent implements OnIni
                 this.object = object;
                 if (this.inputMode) {
                     this.dialogForm = this._formBuilder.group({
-                        FUNCTION_PARENT_ID: [{ value: object?.FUNCTION_PARENT_ID, disabled: true }],
+                        FUNCTION_PARENT_ID: [{value:object?.FUNCTION_PARENT_ID, disabled: true }],
                         FUNCTIONID: [{ value: object?.FUNCTIONID, disabled: object?.SYS_ACTION == State.edit ? true : false }, [Validators.required, Validators.maxLength(50), Validators.pattern("[a-zA-Z0-9.]*")]],
-                        FUNCTIONNAME: [{ value: object?.FUNCTIONNAME, disabled: true }, [Validators.required, Validators.maxLength(100)]],
-                        FUNCTIONNAME_SUB: [{ value: object?.FUNCTIONNAME_SUB, disabled: true }, [Validators.required, Validators.maxLength(250)]],
-                        FUNCTION_TYPE: [{ value: object?.FUNCTION_TYPE, disabled: true }, [Validators.required]],
+                        FUNCTIONNAME: [{value:object?.FUNCTIONNAME, disabled: true }, [Validators.required, Validators.maxLength(100)]],
+                        FUNCTIONNAME_SUB: [{value:object?.FUNCTIONNAME_SUB, disabled: true }, [Validators.required, Validators.maxLength(250)]],
+                        FUNCTION_TYPE: [{value:object?.FUNCTION_TYPE, disabled: true }, [Validators.required]],
                         LINK: [{ value: object?.FUNCTION_TYPE == 'group' ? '' : object?.LINK, disabled: true }, [Validators.required, Validators.maxLength(255)]],
-                        ICON: [{ value: object?.ICON, disabled: true }, [Validators.required, Validators.maxLength(50)]],
+                        ICON: [{value:object?.ICON, disabled: true }, [Validators.required, Validators.maxLength(50)]],
                         FUNCTION_EXTERNAL: [{ value: object?.FUNCTION_EXTERNAL, disabled: true }],
                         FUNCTION_EXTERNAL_TARGET: [{
                             value: object?.FUNCTION_TYPE == 'group'
                                 || !object?.FUNCTION_EXTERNAL ? '' : object?.FUNCTION_EXTERNAL_TARGET, disabled: true
                         },
                         [Validators.required, Validators.maxLength(250)]],
-                        ENABLE: [{ value: object?.ENABLE, disabled: true }],
-                        ISPUPLIC: [{ value: object?.ISPUPLIC, disabled: true }],
-                        FUNCTIONORD: [{ value: object?.FUNCTIONORD, disabled: true }, [Validators.required]],
-                        AUTH_LOCAL: [{ value: object?.AUTH_LOCAL, disabled: true }],
-                        AUTH_INTERNET: [{ value: object?.AUTH_INTERNET, disabled: true }],
-                        APPID: [{ value: object?.APPID, disabled: true }, [Validators.required, Validators.maxLength(50)]],
+                        ENABLE: [{value:object?.ENABLE, disabled: true }],
+                        ISPUPLIC: [{value:object?.ISPUPLIC, disabled: true }],
+                        FUNCTIONORD: [{value:object?.FUNCTIONORD, disabled: true }, [Validators.required]],
+                        AUTH_LOCAL: [{value:object?.AUTH_LOCAL, disabled: true }],
+                        AUTH_INTERNET: [{value:object?.AUTH_INTERNET, disabled: true }],
+                        APPID: [{value: object?.APPID, disabled: true }, [Validators.required, Validators.maxLength(50)]],
                         LST_SERVICE: this._formBuilder.array([]),
+                        LST_AUTHORITY: this._formBuilder.array([]),
                         LST_SERVICE_TEMP: [{ value: [], disabled: object?.FUNCTION_TYPE == 'group' ? true : false }],
                         LST_SERVICE_TEMPFilter: [],
                     });
                     this.setLstServiceForm(object?.LST_SERVICE, object?.LST_AUTHORITY);
+                    this.setLstServiceAuthorityForm(object?.LST_AUTHORITY);
+
                     this.dialogForm.get("FUNCTION_PARENT_ID").valueChanges.subscribe(value => {
                         if (value == '') {
                             value = null;
@@ -345,12 +349,17 @@ export class ListFunctionDetailsComponent extends BaseComponent implements OnIni
                     })
                     this.dialogForm.get("LST_SERVICE").valueChanges.subscribe(value => {
                         object.LST_SERVICE = value;
+                        //this.setLstServiceForm(object?.LST_SERVICE, object?.LST_AUTHORITY);
+                    })
+                    this.dialogForm.get("LST_AUTHORITY").valueChanges.subscribe(value => {
+                        value.sort((a, b) => a['AUTHORITY_ORD'] - b['AUTHORITY_ORD']);
+                        object.LST_AUTHORITY = value;
+                        this.setLstServiceForm(object?.LST_SERVICE, value);
                     })
                     this.dialogForm.get("LST_SERVICE_TEMP").valueChanges.subscribe(value => {
                         object.LST_SERVICE_TEMP = value;
                     })
-                    this.dialogForm.controls.LST_SERVICE_TEMPFilter.valueChanges
-                        .pipe(takeUntil(this._unsubscribeAll))
+                    this.dialogForm.get("LST_SERVICE_TEMPFilter").valueChanges
                         .subscribe(() => {
                             this.filterServices();
                         });
@@ -377,20 +386,34 @@ export class ListFunctionDetailsComponent extends BaseComponent implements OnIni
             return;
         }
         // get the search keyword
-        let search = this.dialogForm.controls.LST_SERVICE_TEMPFilter.value;
-        if (!search) {
-            this.filteredlstService.next(this.lstListService.slice());
+        try {
+            let search = this.dialogForm.get("LST_SERVICE_TEMPFilter").value;
+            if (search == null || search == '') {
+                this.filteredlstService.next(this.lstListService.slice());
+                return;
+            } else {
+                search = search?.toLowerCase();
+            }
+            // filter the banks
+            this.filteredlstService.next(
+                this.lstListService.filter(obj => {
+                    return (obj.API_SERVICE_DESC.toLowerCase().indexOf(search) > -1 || obj.API_SERVICEID.toLowerCase().indexOf(search) > -1)
+                })
+            );
+        } catch (error) {
             return;
-        } else {
-            search = search.toLowerCase();
         }
-        // filter the banks
-        this.filteredlstService.next(
-            this.lstListService.filter(obj => {
-                return (obj.API_SERVICE_DESC.toLowerCase().indexOf(search) > -1 || obj.API_SERVICEID.toLowerCase().indexOf(search) > -1)
-            })
-        );
+
     }
+    private setLstServiceAuthorityForm(lstAuthority: any[]) {
+        const lstServiceAuthorityCtrl = this.dialogForm.get('LST_AUTHORITY') as FormArray;
+        lstServiceAuthorityCtrl.clear();
+        if (lstAuthority && lstAuthority.length > 0) {
+            lstAuthority.forEach((obj) => {
+                lstServiceAuthorityCtrl.push(this.setlstServiceAuthorityFormArray(obj))
+            })
+        }
+    };
     private setLstServiceForm(lstService: any[], lstAuthority: any[]) {
         const lstServiceCtrl = this.dialogForm.get('LST_SERVICE') as FormArray;
         lstServiceCtrl.clear();
@@ -398,6 +421,18 @@ export class ListFunctionDetailsComponent extends BaseComponent implements OnIni
             lstServiceCtrl.push(this.setlstServiceFormArray(obj, lstAuthority))
         })
     };
+    private setlstServiceAuthorityFormArray(obj: any) {
+        let objResult: any = {
+            AUTHORITYID: [obj?.AUTHORITYID],
+            AUTHORITY_NAME: [obj?.AUTHORITY_NAME],
+            AUTHORITY_ORD: [obj?.AUTHORITY_ORD],
+            ENABLE: [obj?.ENABLE],
+            USER_CR_ID: [obj?.USER_CR_ID],
+            SYS_ACTION: [obj.SYS_ACTION ? obj.SYS_ACTION : State.edit]
+        };
+
+        return this._formBuilder.group(objResult);
+    }
     private setlstServiceFormArray(obj, lstAuthority: any[]) {
         let objResult: any = {
             API_SERVICEID: [obj?.API_SERVICEID],
@@ -407,13 +442,75 @@ export class ListFunctionDetailsComponent extends BaseComponent implements OnIni
         };
         if (lstAuthority && lstAuthority.length > 0) {
             lstAuthority.forEach((objAuth) => {
-                objResult[objAuth.AUTHORITYID] = [obj[objAuth.AUTHORITYID], [Validators.required]];
+                objResult[objAuth.AUTHORITYID] = [obj[objAuth.AUTHORITYID] ?? false, [Validators.required]];
             })
         }
         return this._formBuilder.group(objResult);
     }
     get lstSerivce(): FormArray {
         return this.dialogForm.get('LST_SERVICE') as FormArray;
+    }
+    get lstSerivceAuthority(): FormArray {
+        return this.dialogForm.get('LST_AUTHORITY') as FormArray;
+    }
+    openAuthorityEditDialog(authorityId: any) {
+        this._ListFunctionService.editAuthority(authorityId).subscribe((obj => {
+            if (obj) {
+                obj["SYS_ACTION"] = State.edit;
+                const dialogRef = this._dialogMat.open(ListFunctionDetailsAuthorityDialogComponent, {
+                    data: obj
+                });
+
+                dialogRef.afterClosed().subscribe((data: any) => {
+                    if ((data["action"] ?? '') == 'edit') {
+                        this.lstSerivceAuthority.controls.forEach(obj => {
+                            if (obj.value["AUTHORITYID"] == data["data"]["AUTHORITYID"]) {
+                                obj.value.AUTHORITY_NAME = data["data"]["AUTHORITY_NAME"];
+                                obj.value.AUTHORITY_ORD = data["data"]["AUTHORITY_ORD"];
+                                obj.value.ENABLE = data["data"]["ENABLE"];
+                                obj.setValue(obj.value);
+                            }
+                        });
+                        //this.lstSerivceAuthority.push(this.setlstServiceAuthorityFormArray(data["data"]));
+                        //this.matTableDetail.renderRows();
+                    }
+                    if ((data["action"] ?? '') == 'del') {
+                        let index = -1;
+                        this.lstSerivceAuthority.controls.forEach(obj => {
+                            index++;
+                            if (obj.value["AUTHORITYID"] == data["data"]["AUTHORITYID"]) {
+                                this.lstSerivceAuthority.removeAt(index);
+                            }
+                        });
+                        //this.lstSerivceAuthority.push(this.setlstServiceAuthorityFormArray(data["data"]));
+                        //this.matTableDetail.renderRows();
+                    }
+                });
+            } else {
+                this._messageService.showWarningMessage("Thông báo", "Không tìm thấy quyền");
+            }
+        }))
+
+    }
+
+    openAuthorityAddDialog(functionId: any) {
+        this._ListFunctionService.createAuthority(functionId).subscribe((obj => {
+            if (obj) {
+                const dialogRef = this._dialogMat.open(ListFunctionDetailsAuthorityDialogComponent, {
+                    data: obj
+                });
+
+                dialogRef.afterClosed().subscribe((data: any) => {
+                    if (data["action"] ?? false) {
+                        this.lstSerivceAuthority.push(this.setlstServiceAuthorityFormArray(data["data"]));
+                        //this.matTableDetail.renderRows();
+                    }
+                });
+            } else {
+                this._messageService.showWarningMessage("Thông báo", "Không tìm thấy quyền");
+            }
+        }))
+
     }
     onDeleteObjectDetail(index) {
         this.lstSerivce.removeAt(index);

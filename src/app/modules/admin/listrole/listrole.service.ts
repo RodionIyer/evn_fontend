@@ -448,8 +448,10 @@ export class ListRoleService extends BaseService implements BaseDetailService {
                             })
                         );
                     }));
+                } else {
+                    this._object.next(obj);
                 }
-                this._object.next(obj);
+                //this._object.next(obj);
                 return of(obj);
             })
         );

@@ -137,6 +137,8 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
     ];
     lstDanhSachThanhVienHD : any[];
     private _unsubscribeAll: Subject<any> = new Subject<any>();
+    public nguoiSua : any;
+    public ngayTao : any;
 
     constructor(
         private _formBuilder: FormBuilder,
@@ -375,6 +377,8 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
             ])
             .subscribe((data) => {
                 console.log('formData,', data.data);
+                this.ngayTao = new Date(data.data.ngayTao);
+                this.nguoiSua = data.data.nguoiSua;
                 debugger;
                 this.form.patchValue(data.data);
                 if(this.form.get('chuNhiemDeTaiInfo').value != null){
@@ -860,18 +864,20 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
     }
 
     onSubmit(status, method) {
+        if (status == 'LUU' && method=='CAPNHAT') {}else{
         this.submitted.check = true;
         if (this.form.invalid) {
             this._messageService.showErrorMessage("Thông báo", "Chưa nhập đủ trường bắt buộc!")
             return;
         }
+    }
         if (this.form.value.thuKyDeTaiInfo === '') {
             this.form.value.thuKyDeTaiInfo = {};
         }
         console.log(this.form.value);
         this.form.get('method').setValue(method);
         var token = localStorage.getItem('accessToken');
-        debugger
+        
         if (method == 'HSNHIEMTHU') {
             if (status == 'LUU') {
                 this.form.get('maTrangThai').setValue('CHUA_GUI_HS_NTHU');

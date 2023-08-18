@@ -34,7 +34,7 @@ export class ListFunctionListComponent implements OnInit, OnDestroy {
     node => node.level,
     node => node.expandable,
   );
-  ;
+
   private _transformer = (node: ObjectNode, level: number) => {
     return {
       expandable: !!node.children && node.children.length > 0,
@@ -168,9 +168,9 @@ export class ListFunctionListComponent implements OnInit, OnDestroy {
   }
 
   onObjectSelected(object: any): void {
-    // If the mail is unread...
+
     //this._apiService.getApiById(api.API_SERVICEID);
-    // Execute the mailSelected observable
+
     this._ListFunctionService.selectedObjectChanged.next(object);
   }
 

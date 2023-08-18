@@ -60,7 +60,8 @@ export class ListItemComponent implements OnInit, OnDestroy {
                 this.actionClick = params?.type;
             } else {
                 this.actionClick = null;
-            }
+            }        
+        this.timKiem();
         });
     }
 
@@ -124,6 +125,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
         });
     }
     timKiem() {
+        console.log("tim kiem");
         let obj={
             capQuanLy:this.capQuanLy,
             q:this.q
@@ -137,6 +139,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
             ])
             .subscribe((data) => {
                 this.listGiao = data.data || [];
+                console.log(this.listGiao);
             });
     }
 

@@ -136,8 +136,8 @@ export class ListUserGrantDetailsComponent extends BaseComponent implements OnIn
                 if (this.inputMode) {
                     this.dialogForm = this._formBuilder.group({});
                 }
-                let lstListFunction = obj.LST_GRANT_FUNCTION
-                this.lstRole = obj.LST_GRANT_ROLE
+                let lstListFunction = obj?.LST_GRANT_FUNCTION
+                this.lstRole = obj?.LST_GRANT_ROLE
                 this.selectionRole.clear();
                 if (this.lstRole && this.lstRole.length > 0) {
                     this.lstRole.forEach((obj) => {

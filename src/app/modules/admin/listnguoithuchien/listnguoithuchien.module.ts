@@ -1,42 +1,48 @@
-import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatSortModule } from '@angular/material/sort';
-import { MatTableModule } from '@angular/material/table';
-import { MatTabsModule } from '@angular/material/tabs';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatListModule } from '@angular/material/list';
-import { MatInputModule } from '@angular/material/input';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatSelectModule } from '@angular/material/select';
-import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { CommonModule } from '@angular/common';
-import { FuseAlertModule } from '@fuse/components/alert';
-import { ListNguoiThucHienDetailsComponent } from './detail/details.component';
-import { ListNguoiThucHienGroupComponent } from './group/group.component';
-import { ListNguoiThucHienEmptyDetailsComponent } from './empty-details/empty-details.component';
-import { ListNguoiThucHienListComponent } from './list/list.component';
-import { FuseNavigationModule } from '@fuse/components/navigation';
-import { HighlightPlusModule } from 'ngx-highlightjs/plus';
-import { CodemirrorModule } from '@ctrl/ngx-codemirror';
-import { ListNguoiThucHienComponent } from './listnguoithuchien.component';
-import { ListNguoiThucHienRoutes } from './listnguoithuchien.routing';
-import { MatTreeModule } from '@angular/material/tree';
-import { DragDropModule } from '@angular/cdk/drag-drop';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { ListNhanSuComponent } from './detail/listnhansu-dialog/listnhansu-dialog.component';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import {NgModule} from '@angular/core';
+import {RouterModule} from '@angular/router';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {MatNativeDateModule, MatRippleModule} from '@angular/material/core';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatSortModule} from '@angular/material/sort';
+import {MatTableModule} from '@angular/material/table';
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatListModule} from '@angular/material/list';
+import {MatInputModule} from '@angular/material/input';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {MatSelectModule} from '@angular/material/select';
+import {NgxMatSelectSearchModule} from 'ngx-mat-select-search';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {CommonModule} from '@angular/common';
+import {FuseAlertModule} from '@fuse/components/alert';
+import {ListNguoiThucHienDetailsComponent} from './detail/details.component';
+import {ListNguoiThucHienEmptyDetailsComponent} from './empty-details/empty-details.component';
+import {ListNguoiThucHienListComponent} from './list/list.component';
+import {FuseNavigationModule} from '@fuse/components/navigation';
+import {HighlightPlusModule} from 'ngx-highlightjs/plus';
+import {CodemirrorModule} from '@ctrl/ngx-codemirror';
+import {ListNguoiThucHienComponent} from './listnguoithuchien.component';
+import {ListNguoiThucHienRoutes} from './listnguoithuchien.routing';
+import {MatTreeModule} from '@angular/material/tree';
+import {DragDropModule} from '@angular/cdk/drag-drop';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {ListNhanSuComponent} from './detail/listnhansu-dialog/listnhansu-dialog.component';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {LinkYeuCauCapNhapComponent} from './detail/linkyeucaucapnhap-dialog/linkyeucaucapnhap-dialog.component';
+import {ListNguoiThucHienDetailsInputComponent} from './detail/details-input/details-input.component';
+import {ListNguoiThucHienDetailsViewComponent} from './detail/details-view/details-view.component';
+import {MatDialogModule} from '@angular/material/dialog';
+import {ListNguoiThucHienDetailsInputModule} from './detail/details-input/details-input.module';
+import {QuillModule} from 'ngx-quill'
+import {QuillConfigModule} from 'ngx-quill/config';
 
 @NgModule({
     imports: [
@@ -71,15 +77,46 @@ import { MatFormFieldModule } from '@angular/material/form-field';
         MatCheckboxModule,
         MatDatepickerModule,
         MatNativeDateModule,
-        MatFormFieldModule
+        MatFormFieldModule,
+        MatDialogModule,
+        ListNguoiThucHienDetailsInputModule,
+        FormsModule,
+        QuillModule.forRoot(),
+        QuillConfigModule.forRoot({
+            modules: {
+                syntax: true,
+                toolbar: [
+                    ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+                    ['blockquote', 'code-block'],
+                    [{'header': 1}, {'header': 2}],               // custom button values
+                    [{'list': 'ordered'}, {'list': 'bullet'}],
+                    [{'script': 'sub'}, {'script': 'super'}],      // superscript/subscript
+                    [{'indent': '-1'}, {'indent': '+1'}],          // outdent/indent
+                    [{'direction': 'rtl'}],                        // text direction
+
+                    [{'size': ['small', false, 'large', 'huge']}],  // custom dropdown
+                    [{'header': [1, 2, 3, 4, 5, 6, false]}],
+
+                    [{'color': []}, {'background': []}],          // dropdown with defaults from theme
+                    [{'font': []}],
+                    [{'align': []}],
+
+                    ['clean'],                                         // remove formatting button
+
+                    ['link', 'image', 'video']                         // link and image, video
+                ]
+            }
+        })
     ],
     declarations: [
         ListNguoiThucHienListComponent,
-        ListNguoiThucHienGroupComponent,
         ListNguoiThucHienComponent,
         ListNguoiThucHienDetailsComponent,
         ListNguoiThucHienEmptyDetailsComponent,
         ListNhanSuComponent,
+        LinkYeuCauCapNhapComponent,
+        ListNguoiThucHienDetailsViewComponent,
     ],
 })
-export class ListNguoiThucHienModule {}
+export class ListNguoiThucHienModule {
+}

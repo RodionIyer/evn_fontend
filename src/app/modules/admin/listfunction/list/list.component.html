@@ -13,11 +13,10 @@
             <mat-icon svgIcon="mat_outline:add"></mat-icon>
           </button>
           <span style="flex: 1 1 auto;"></span>          
-          <button [disabled]="selectedObject==null || selectedObject.FUNCTION_TYPE=='basic' || selectedObject?.SYS_ACTION== State.create" mat-icon-button
-            (click)="addNewGroupParent(selectedObject.FUNCTIONID_KEY);" *ngIf="false">
+          <button *ngIf="false" [disabled]="selectedObject==null || selectedObject.FUNCTION_TYPE=='basic' || selectedObject?.SYS_ACTION== State.create" mat-icon-button
+            (click)="addNewGroupParent(selectedObject.FUNCTIONID_KEY);">
             <mat-icon svgIcon="mat_outline:add_circle_outline"></mat-icon>
           </button>
-
         </div>
 
         <!-- Pagination -->

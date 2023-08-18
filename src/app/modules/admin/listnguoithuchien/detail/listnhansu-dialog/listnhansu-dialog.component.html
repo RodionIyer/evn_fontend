@@ -1,61 +1,83 @@
-<div class="flex flex-col relative">
-    <div class="flex justify-between w-full absolute">
-        <div class="text-lg font-medium head-modal">
-            <input autofocus="true" matInput type="text" (keyup)="doFilter($event.target)" placeholder="Filter">
-        </div>
-        <mat-icon svgIcon="mat_outline:close" (click)="close()"></mat-icon>
-    </div>
-
-    <table mat-table [dataSource]="dataSource" class="style-table-dialog h-full w-full">
-        <ng-container matColumnDef="STT">
-            <th mat-header-cell *matHeaderCellDef> STT </th>
-            <td mat-cell *matCellDef="let element; let i = index;">{{i+1}}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="Ns_id">
-            <th mat-header-cell *matHeaderCellDef>Ns_id</th>
-            <td mat-cell *matCellDef="let element">{{element.Ns_id}}</td>
-        </ng-container>
-        <ng-container matColumnDef="Tenkhaisinh">
-            <th mat-header-cell *matHeaderCellDef>Họ và tên</th>
-            <td mat-cell *matCellDef="let element">{{element.Tenkhaisinh}}</td>
-        </ng-container>
-        <!-- <ng-container matColumnDef="Hocham_cnhat_id">
-            <th mat-header-cell *matHeaderCellDef>Học hàm</th>
-            <td mat-cell *matCellDef="let element">{{element.Hocham_cnhat_id}}</td>
-        </ng-container>
-        <ng-container matColumnDef="Nam_hocham">
-            <th mat-header-cell *matHeaderCellDef>Năm học hàm</th>
-            <td mat-cell *matCellDef="let element">{{element.Nam_hocham}}</td>
-        </ng-container>
-        <ng-container matColumnDef="Hocvi_cnhat_id">
-            <th mat-header-cell *matHeaderCellDef>Học vị</th>
-            <td mat-cell *matCellDef="let element">{{element.Hocvi_cnhat_id}}</td>
-        </ng-container>
-        <ng-container matColumnDef="Nam_hocvi">
-            <th mat-header-cell *matHeaderCellDef>Năm học vị</th>
-            <td mat-cell *matCellDef="let element">{{element.Nam_hocvi}}</td>
-        </ng-container> -->
-        <ng-container matColumnDef="Dienthoai">
-            <th mat-header-cell *matHeaderCellDef>Số điện thoại</th>
-            <td mat-cell *matCellDef="let element">{{element.Dienthoai}}</td>
-        </ng-container>
-        <ng-container matColumnDef="Email">
-            <th mat-header-cell *matHeaderCellDef>Email</th>
-            <td mat-cell *matCellDef="let element">{{element.Email}}</td>
-        </ng-container>
-        <!-- <ng-container matColumnDef="Chuyenmon">
-            <th mat-header-cell *matHeaderCellDef>Chuyên môn</th>
-            <td mat-cell *matCellDef="let element">{{element.Chuyenmon}}</td>
-        </ng-container> -->
-        <ng-container matColumnDef="Departmentc1_name">
-            <th mat-header-cell *matHeaderCellDef>Nơi làm việc</th>
-            <td mat-cell *matCellDef="let element">{{element.Departmentc1_name}}</td>
-        </ng-container>
-
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" ></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onRowSelect(row)"></tr>
-
-    </table>
+<div mat-dialog-title class="flex justify-between">
+    <h2>
+        Chọn nhân sự
+    </h2>
+    <button mat-icon-button (click)="close()">
+        <mat-icon [svgIcon]="'mat_outline:close'"></mat-icon>
+    </button>
 </div>
+<mat-dialog-content>
+    <div class="flex justify-between w-full px-[10px]">
+        <form [formGroup]="changeOrgIdForm" class="w-1/2">
+            <mat-form-field class="flex flex-col flex-auto">
+                <mat-label>Chọn đơn vị:</mat-label>
+                <mat-select mat-option [formControlName]="'ORGID'">
+                    <mat-option>
+                        <ngx-mat-select-search [formControlName]="'ORG_LST_INPUTIDFilter'"
+                                               placeholderLabel="Tìm đơn vị...">
+                        </ngx-mat-select-search>
+                    </mat-option>
+                    <mat-option *ngFor="let org of filteredlistORGInputs | async" [value]="org.ID">
+                        {{org.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </form>
+    </div>
+    <form [formGroup]="filterForm">
+        <table mat-table #table [dataSource]="dataSource" class="w-full overflow-auto">
+            <ng-container matColumnDef="STT">
+                <th mat-header-cell *matHeaderCellDef> STT</th>
+                <td mat-cell *matCellDef="let element; let i = index;">{{i + 1}}</td>
+            </ng-container>
+            <ng-container matColumnDef="Tenkhaisinh">
+                <th mat-header-cell *matHeaderCellDef>
+                    <mat-form-field class="change">
+                        <mat-label>Họ và tên</mat-label>
+                        <input matInput [formControlName]="'hoten'" placeholder="Tìm kiếm theo tên">
+                    </mat-form-field>
+                </th>
+                <td mat-cell *matCellDef="let element">{{element.Tenkhaisinh}}</td>
+            </ng-container>
+            <ng-container matColumnDef="Dienthoai">
+                <th mat-header-cell *matHeaderCellDef>
+                    <mat-form-field class="change">
+                        <mat-label>Số điện thoại</mat-label>
+                        <input matInput [formControlName]="'sdt'" placeholder="Tìm kiếm theo số điện thoại">
+                    </mat-form-field>
+                </th>
+                <td mat-cell *matCellDef="let element">{{element.Dienthoai}}</td>
+            </ng-container>
+            <ng-container matColumnDef="Email">
+                <th mat-header-cell *matHeaderCellDef>
+                    <mat-form-field class="change">
+                        <mat-label>Email</mat-label>
+                        <input matInput [formControlName]="'email'" placeholder="Tìm kiếm theo Email">
+                    </mat-form-field>
+                </th>
+                <td mat-cell *matCellDef="let element">{{element.Email}}</td>
+            </ng-container>
+            <ng-container matColumnDef="Departmentc1_name">
+                <th mat-header-cell *matHeaderCellDef>
+                    <mat-form-field class="change">
+                        <mat-label>Nơi làm việc</mat-label>
+                        <input matInput [formControlName]="'noilamviec'" placeholder="Tìm kiếm theo nơi làm việc">
+                    </mat-form-field>
+                </th>
+                <td mat-cell *matCellDef="let element">{{element.Departmentc1_name}}</td>
+            </ng-container>
+
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onRowSelect(row)"></tr>
+
+        </table>
+    </form>
+
+</mat-dialog-content>
+<mat-dialog-actions>
+    <div class="flex justify-between w-full px-[10px]">
+        <mat-paginator class="w-1/2" [pageSize]="100" showFirstLastButtons hidePageSize="true">
+        </mat-paginator>
+    </div>
+</mat-dialog-actions>

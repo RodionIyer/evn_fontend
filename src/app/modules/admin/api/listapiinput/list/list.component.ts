@@ -77,7 +77,7 @@ export class ApiInputListComponent implements OnInit, OnDestroy {
       if (auth) {
         this._nguonDuLieuService.createObject({ "userId": this.user.userId }).pipe(takeUntil(this._unsubscribeAll))
           .subscribe((data) => {
-            //this._router.navigate([data]);  
+            //this._router.navigate([data]);
 
             this._router.navigate(['./' + data], { relativeTo: this._activatedRoute }).then(() => {
               this.selectObjectMarker();
@@ -97,9 +97,9 @@ export class ApiInputListComponent implements OnInit, OnDestroy {
   }
 
   onApiSelected(object: any): void {
-    // If the mail is unread...
+
     //this._apiService.getApiById(api.API_SERVICEID);
-    // Execute the mailSelected observable
+
     this._nguonDuLieuService.selectedObjectChanged.next(object);
   }
 

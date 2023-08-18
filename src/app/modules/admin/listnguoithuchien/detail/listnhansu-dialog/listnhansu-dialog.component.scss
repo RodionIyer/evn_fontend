@@ -1,6 +1,21 @@
-.mat-column-STT {
-    width: 32px;
-    border-right: 1px solid rgb(6 182 212);
-    padding-right: 24px;
-    text-align: center;
+th {
+    padding-right: 5px;
+}
+
+.change {
+    width: 100% !important;
+}
+.mat-dialog-content{
+    margin: unset;
+    padding: unset;
+    max-height: unset;
+    overflow: unset;
+}
+
+.mat-dialog-actions {
+    padding: unset;
+}
+
+.mat-dialog-title{
+    margin: unset;
 }

@@ -1,0 +1,29 @@
+<div class="absolute inset-0 flex flex-col min-w-0">
+    <div class="flex flex-col overflow-hidden">
+        <div class=" flex flex-col flex-auto overflow-y-auto lg:overflow-hidden bg-card dark:bg-default">
+            <div class="z-10 relative flex flex-col flex-0 w-full border-b">
+                <!-- Toolbar -->
+                <div class="flex items-center justify-between h-16 px-4 border-b bg-gray-50 dark:bg-transparent w-full">
+                    <div>
+                        <button mat-flat-button [disabled]="!confirmToEditValue" [color]="'primary'"
+                            (click)="onSaveObject()">
+                            <mat-icon svgIcon="mat_outline:save"></mat-icon>
+                            <span class="ml-2 mr-1">Ghi</span>
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+            <div class="overflow-auto">
+                <mat-checkbox #checkBox  (click)="confirmToEdit()">
+                    Tôi xin cam đoan những lời khai trên là đúng sự thật và hoàn toàn chịu trách nhiệm trước pháp luật
+                    về
+                    tính
+                    xác
+                    thực của hồ sơ này
+                </mat-checkbox>
+                <details-input *ngIf="isOk1&&isOk2"></details-input>
+            </div>
+        </div>
+    </div>
+</div>

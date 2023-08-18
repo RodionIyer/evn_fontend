@@ -6,9 +6,9 @@
       <!-- Header -->
       <div class="relative flex flex-0 items-center justify-between h-16 px-4 border-b bg-gray-50 dark:bg-transparent">
         <div class="flex items-center w-full">
-          
+
           <div class="ml-2 font-semibold uppercase whitespace-nowrap"></div>
-          
+
           <button mat-icon-button (click)="addNewGroup();" *ngIf="false">
             <mat-icon svgIcon="mat_outline:add"></mat-icon>
           </button>
@@ -17,7 +17,7 @@
             (click)="addNewGroupParent(selectedObject.ORGID);" *ngIf="false">
             <mat-icon svgIcon="mat_outline:add_circle_outline"></mat-icon>
           </button>
-          
+
         </div>
 
         <!-- Pagination -->
@@ -33,8 +33,8 @@
         <mat-tree [dataSource]="lstTreeOrganization" [treeControl]="lstTreeOrganizationControl" class="tree-list">
           <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle
             [routerLink]="[node.object.ORGID]"
-            [ngClass]="{'bg-primary-50 dark:bg-black dark:bg-opacity-5 selectObject': selectedObject && selectedObject.ORGID === node.object.ORGID}" 
-            matTreeNodePadding matTreeNodePaddingIndent="25">            
+            [ngClass]="{'bg-primary-50 dark:bg-black dark:bg-opacity-5 selectObject': selectedObject && selectedObject.ORGID === node.object.ORGID}"
+            matTreeNodePadding matTreeNodePaddingIndent="25">
             <mat-icon class="mat-icon-rtl-mirror" [svgIcon]="'mat_outline:layers'"></mat-icon>
             <div class="ml-1">
               <span *ngIf="node.object.SYS_ACTION==State.create" class="text-red-500">
@@ -46,7 +46,7 @@
           </mat-tree-node>
           <mat-tree-node *matTreeNodeDef="let node; when: lstTreeOrganizationHasChild" [routerLink]="[node.object.ORGID]"
              [ngClass]="{'bg-primary-50 dark:bg-black dark:bg-opacity-5 selectObject': selectedObject && selectedObject.ORGID === node.object.ORGID}"
-            matTreeNodePadding matTreeNodePaddingIndent="25">            
+            matTreeNodePadding matTreeNodePaddingIndent="25">
               <mat-icon class="mat-icon-rtl-mirror" [svgIcon]="'mat_outline:layers'"></mat-icon>
               <div class="ml-1">
                 <span *ngIf="node.object.SYS_ACTION==State.create" class="text-red-500">
@@ -54,7 +54,7 @@
                 <span *ngIf="node.object.SYS_ACTION==State.edit" class="text-red-500">
                   [Đang sửa] </span>
                 {{node.object.ORGDESC}}
-              </div>            
+              </div>
           </mat-tree-node>
         </mat-tree>
 

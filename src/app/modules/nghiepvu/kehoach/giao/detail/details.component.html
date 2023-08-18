@@ -1,4 +1,4 @@
-<div [formGroup]="form" (ngSubmit)="onSubmit('CGIAO')" novalidate 
+<div [formGroup]="form" (ngSubmit)="onSubmit('CGIAO')" novalidate  [class.khongthaotac]="checkChiTiet=='CHITIET'"
     class="flex flex-col flex-auto overflow-y-auto lg:overflow-hidden bg-card dark:bg-default content-detail">
     <div class="flex items-center justify-between">
         <h1 class="title-component"><i class="fa fa-arrow-left cursor-point" (click)="backHome()" aria-hidden="true"></i> 

@@ -419,6 +419,31 @@ export class ApiService extends BaseService implements BaseDetailService {
         );
     }
 
+    getApisByFolderForSearch(groupid: string, page: string = '1', textSearch: string): Observable<any> {
+        // Execute the Apis loading with true
+
+
+        return this._serviceService.execServiceLogin("API-7-1", [{ "name": "GROUPID", "value": groupid }, { "name": "TEXT_SEARCH", "value": textSearch }]).pipe(
+            tap((response: any) => {
+                this._apis.next(response.data);
+                this._object.next(null);
+                //this._pagination.next(response.pagination);
+
+            }),
+            switchMap((response: any) => {
+
+                if (!response.status) {
+                    return throwError({
+                        message: 'Requested page is not available!',
+                        pagination: response.pagination
+                    });
+                }
+
+                return of(response);
+            })
+        );
+    }
+
     /**
      * Get Api by id
      */
@@ -500,7 +525,7 @@ export class ApiService extends BaseService implements BaseDetailService {
             })
         );
     }
-    getApiFunctionById(serviceId: string): Observable<any> {        
+    getApiFunctionById(serviceId: string): Observable<any> {
 
         return this._serviceService.execServiceLogin("API-69", [{ "name": "API_SERVICEID", "value": serviceId }]);
     }

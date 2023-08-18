@@ -56,6 +56,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
                     } else {
                         this.actionClick = null
                     }
+                    this.timKiem();
                     console.log(this.actionClick);
 
                 }

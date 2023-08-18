@@ -437,7 +437,7 @@ export class DetailsComponent implements OnInit {
 
     getListChucDanh() {
         this._serviceApi
-            .execServiceLogin('AF87AA00-EC9C-4B1E-9443-CE0D6E88F1C6', null)
+            .execServiceLogin('1FF27415-DF4B-4087-BAE4-21A03E397961', null)
             .subscribe((data) => {
                 this.listChucDanh = data.data || [];
             });
@@ -458,14 +458,14 @@ export class DetailsComponent implements OnInit {
         console.log(this.form.value);
         this.form.get('method').setValue(method);
         //this.form.get('nam').setValue(new Date().getFullYear());
-        if (method == 'SUA') {
+       // if (method == 'SUA') {
             this.form.get('maSangKien').setValue(this.idParam);
             if (status == 'LUU') {
                 this.form.get('maTrangThai').setValue('SOAN');
             } else if (status == 'LUUGUI') {
                 this.form.get('maTrangThai').setValue('CHO_RA_SOAT');
             }
-        }
+      //  }
         var token = localStorage.getItem('accessToken');
         this._serviceApi
             .execServiceLogin('09E301E6-9C2E-424C-A3C3-FD46CE8CB18C', [

@@ -6,19 +6,18 @@ import {
     ViewChild,
     ViewEncapsulation,
 } from '@angular/core';
-import { Subject, takeUntil } from 'rxjs';
-import { MessageService } from 'app/shared/message.services';
-import { UserService } from 'app/core/user/user.service';
-import { User } from 'app/core/user/user.types';
-import { ActivatedRoute, Router } from '@angular/router';
-import { State } from 'app/shared/commons/conmon.types';
-import { FunctionService } from 'app/core/function/function.service';
-import { ListNguoiThucHienService } from '../listnguoithuchien.service';
-import { ListNguoiThucHienComponent } from '../listnguoithuchien.component';
-import { MatTableDataSource } from '@angular/material/table';
-import { Location } from '@angular/common';
-import { state } from '@angular/animations';
-import { values } from 'lodash';
+import {Subject, takeUntil} from 'rxjs';
+import {MessageService} from 'app/shared/message.services';
+import {UserService} from 'app/core/user/user.service';
+import {User} from 'app/core/user/user.types';
+import {ActivatedRoute, Router} from '@angular/router';
+import {State} from 'app/shared/commons/conmon.types';
+import {FunctionService} from 'app/core/function/function.service';
+import {ListNguoiThucHienService} from '../listnguoithuchien.service';
+import {ListNguoiThucHienComponent} from '../listnguoithuchien.component';
+import {MatTableDataSource} from '@angular/material/table';
+import {Location} from '@angular/common';
+import {FormControl, FormGroup} from '@angular/forms';
 
 @Component({
     selector: 'list-nguoi-thuc-hien',
@@ -30,7 +29,6 @@ export class ListNguoiThucHienListComponent implements OnInit, OnDestroy {
     @ViewChild('list') list: ElementRef;
     public State = State;
 
-    group: any;
     apisAddNew: any[];
     loading: boolean = false;
     pagination: any;
@@ -47,9 +45,10 @@ export class ListNguoiThucHienListComponent implements OnInit, OnDestroy {
         'TEN_NGUOI_THUC_HIEN',
         'TEN_HOC_HAM',
         'TEN_HOC_VI',
+        'TEN_LVUC_NCUU',
         'EMAL',
         'SDT',
-        'TEN_LVUC_NCUU'
+        'NOI_LAM_VIEC',
     ];
 
     _displayedColumns: string[] = [
@@ -57,8 +56,40 @@ export class ListNguoiThucHienListComponent implements OnInit, OnDestroy {
         'TEN_NGUOI_THUC_HIEN',
         'TEN_HOC_VI',
         'TEN_LVUC_NCUU',
-        'TRANG_THAI'
+        // 'TRANG_THAI',
     ];
+
+    filterForm = new FormGroup({
+        chuyen_gia: new FormControl(),
+        name: new FormControl(),
+        LVucNcuu: new FormControl(['all']),
+        isNgoaiEVN: new FormControl('all'),
+    });
+
+    filterValues = {
+        chuyen_gia: false,
+        name: '',
+        LVucNcuu: [],
+        isNgoaiEVN: 'all',
+    };
+
+    listLvucNcuu: any[];
+
+    get chuyen_gia() {
+        return this.filterForm.get('chuyen_gia');
+    }
+
+    get name() {
+        return this.filterForm.get('name');
+    }
+
+    get LVucNcuu() {
+        return this.filterForm.get('LVucNcuu');
+    }
+
+    get isNgoaiEVN() {
+        return this.filterForm.get('isNgoaiEVN');
+    }
 
     /**
      * Constructor
@@ -73,7 +104,8 @@ export class ListNguoiThucHienListComponent implements OnInit, OnDestroy {
         private _activatedRoute: ActivatedRoute,
         private _functionService: FunctionService,
         private el: ElementRef
-    ) {}
+    ) {
+    }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
@@ -89,12 +121,6 @@ export class ListNguoiThucHienListComponent implements OnInit, OnDestroy {
                 this.user = user;
             });
 
-        this._listUserService.group$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((group: any) => {
-                this.group = group;
-            });
-
         this._listUserService.objects$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((objects: any[]) => {
@@ -104,7 +130,11 @@ export class ListNguoiThucHienListComponent implements OnInit, OnDestroy {
                         tmp_objs.push(value);
                     }
                 });
+
                 this.dataSource = new MatTableDataSource<any>(tmp_objs);
+
+                this.formSubscribe();
+                this.getFormsValue();
             });
 
         this._listUserService.pagination$
@@ -112,6 +142,12 @@ export class ListNguoiThucHienListComponent implements OnInit, OnDestroy {
             .subscribe((pagination) => {
                 this.pagination = pagination;
             });
+
+        this._listUserService.ObjectListLvucNCuu$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((data: any[]) => {
+            this.listLvucNcuu = data;
+        });
 
         this._listUserService.Object$.pipe(
             takeUntil(this._unsubscribeAll)
@@ -124,25 +160,95 @@ export class ListNguoiThucHienListComponent implements OnInit, OnDestroy {
             }
         });
     }
+
+    formSubscribe() {
+        this.chuyen_gia.valueChanges.subscribe((value) => {
+            this.filterValues['chuyen_gia'] = value;
+            this.dataSource.filter = JSON.stringify(this.filterValues);
+        });
+        this.name.valueChanges.subscribe((value) => {
+            this.filterValues['name'] = value;
+            this.dataSource.filter = JSON.stringify(this.filterValues);
+        });
+        this.LVucNcuu.valueChanges.subscribe((value) => {
+            let LVucNcuuTemp = value;
+            if (LVucNcuuTemp[0] == 'all' && LVucNcuuTemp.length > 1) {
+                LVucNcuuTemp.shift();
+                this.filterForm.controls['LVucNcuu'].setValue(LVucNcuuTemp);
+            }
+            if (LVucNcuuTemp[0] != 'all') {
+                this.filterValues['LVucNcuu'] = LVucNcuuTemp;
+                this.dataSource.filter = JSON.stringify(this.filterValues);
+            }
+        });
+        this.isNgoaiEVN.valueChanges.subscribe((value) => {
+            this.filterValues['isNgoaiEVN'] = value;
+            this.dataSource.filter = JSON.stringify(this.filterValues);
+        });
+    }
+
+    clearLVucNcuu() {
+        this.filterValues.LVucNcuu = [];
+        this.filterForm.controls['LVucNcuu'].setValue(['all']);
+        this.dataSource.filter = JSON.stringify(this.filterValues);
+    }
+
+    getFormsValue() {
+        this.dataSource.filterPredicate = (
+            data: any,
+            filter: string
+        ): boolean => {
+            let searchString = JSON.parse(filter);
+            const resultValue =
+                (data.TEN_NGUOI_THUC_HIEN.toString()
+                    .trim()
+                    .toLowerCase()
+                    .indexOf(searchString.name.toLowerCase()) != -1 || (data.SDT ?? "").toString()
+                    .trim()
+                    .toLowerCase()
+                    .indexOf(searchString.name.toLowerCase()) != -1 || (data.EMAL ?? "").toString()
+                    .trim()
+                    .toLowerCase()
+                    .indexOf(searchString.name.toLowerCase()) != -1) &&
+                (searchString.chuyen_gia == false
+                    ? true
+                    : data.CHUYEN_GIA == true) &&
+                (searchString.isNgoaiEVN == 'all'
+                    ? true
+                    : data.NGOAI_EVN == searchString.isNgoaiEVN);
+            if (searchString.LVucNcuu.length > 0) {
+                let resultValue_diff = false;
+                searchString.LVucNcuu.forEach((value) => {
+                    if (data.LVUC_NCUU_LST != null && data.LVUC_NCUU_LST.length > 0) {
+                        data.LVUC_NCUU_LST.forEach((objLVNC) => {
+                            if (objLVNC.MA_LVUC_NCUU == value) {
+                                resultValue_diff = true;
+                            }
+                        });
+                    }
+                });
+                return resultValue && resultValue_diff;
+            }
+            return resultValue;
+        };
+        this.dataSource.filter = JSON.stringify(this.filterValues);
+    }
+
     ngAfterViewInit() {
         this.selectObjectMarker();
     }
+
     selectObjectMarker() {
         this.el.nativeElement
             .querySelector('.selectObject')
-            ?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            ?.scrollIntoView({behavior: 'smooth', block: 'center'});
     }
+
     addNewNguoiThucHien() {
         this._functionService.isInsert().subscribe((auth: boolean) => {
             if (auth) {
-                if (this.group == null) {
-                    this._messageService.showErrorMessage(
-                        'Thông báo',
-                        'Chưa chọn nhóm dữ liệu'
-                    );
-                }
                 this._listUserService
-                    .createObject(this.group.ORGID)
+                    .createObject(this.user.ORGID)
                     .pipe(takeUntil(this._unsubscribeAll))
                     .subscribe((data) => {
                         //this._router.navigate([data]);
@@ -162,6 +268,7 @@ export class ListNguoiThucHienListComponent implements OnInit, OnDestroy {
             }
         });
     }
+
     /**
      * On destroy
      */
@@ -181,8 +288,8 @@ export class ListNguoiThucHienListComponent implements OnInit, OnDestroy {
      * @param mail
      */
     onObjectSelected(object: any): void {
-        // If the mail is unread...
-        // Execute the mailSelected observable
+
+
         this._listUserService.selectedObjChanged.next(object);
     }
 
@@ -196,12 +303,5 @@ export class ListNguoiThucHienListComponent implements OnInit, OnDestroy {
         return item.id || index;
     }
 
-    doFilter(value: any) {
-        this.dataSource.filter = value.value.trim().toLocaleLowerCase();
-    }
 
-    onSelectRow(row: any) {
-        this.isSelect = true;
-        this._router.navigate(row.MA_NGUOI_THUC_HIEN);
-    }
 }

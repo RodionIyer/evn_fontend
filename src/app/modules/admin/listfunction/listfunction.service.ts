@@ -15,6 +15,7 @@ export class ListFunctionService extends BaseService implements BaseDetailServic
     private _lstListFunction: BehaviorSubject<any[]> = new BehaviorSubject(null);
     private _objectServices: BehaviorSubject<any[]> = new BehaviorSubject(null);
     private _lstService: BehaviorSubject<any[]> = new BehaviorSubject(null);
+    private _objectAuthority: BehaviorSubject<any> = new BehaviorSubject(null);
     /**
      * Constructor
      */
@@ -28,12 +29,48 @@ export class ListFunctionService extends BaseService implements BaseDetailServic
     get LstService$(): Observable<any[]> {
         return this._lstService.asObservable();
     }
+
+    get objectAuthority$(): Observable<any[]> {
+        return this._objectAuthority.asObservable();
+    }
     getLstService(): Observable<any> {
         return this._serviceService.execServiceLogin("API-56", null).pipe(
             tap((response: any) => {
                 this._lstService.next(response.data);
             })
         );
+    }
+    createAuthority(functionid: String): Observable<any> {
+        return this._object.pipe(
+            take(1),
+            map((object) => {
+                return object;
+            }),
+            switchMap((object: any) => {
+                let ord = 1;
+                if (object["LST_AUTHORITY"]) {
+
+                    object["LST_AUTHORITY"].forEach((obj) => {
+                        if (obj["AUTHORITY_ORD"] > ord) {
+                            ord = obj["AUTHORITY_ORD"];
+                        }
+                    })
+                }
+                return this._objectAuthority.pipe(
+                    take(1),
+                    map((objectAuthority) => {
+                        return objectAuthority;
+                    }),
+                    switchMap((objectAuthority: any) => {
+                        const uid = new ShortUniqueId();
+                        objectAuthority = { "AUTHORITYID": uid.stamp(10), "FUNCTIONID": functionid, "ENABLE": true, "AUTHORITY_ORD": ord + 1, "SYS_ACTION": State.create };
+                        this._objectAuthority.next(objectAuthority);
+                        return of(objectAuthority)
+                    })
+                );
+            })
+        );
+
     }
     createObject(param: any): Observable<any> {
         let userId: string = param.userId;
@@ -72,6 +109,128 @@ export class ListFunctionService extends BaseService implements BaseDetailServic
         );
 
     }
+    editAuthority(param: any): Observable<any> {
+        let authorityId: string = param;
+        return this._object.pipe(
+            take(1),
+            map((object) => {
+                let lstAuthorityColumn = object?.LST_AUTHORITY.filter(item => item.AUTHORITYID == authorityId);
+                return lstAuthorityColumn;
+            }),
+            switchMap((lstAuthorityColumn: any) => {
+                if (lstAuthorityColumn.length > 0) {
+                    let objectEdit = { "AUTHORITYID": lstAuthorityColumn[0].AUTHORITYID, "FUNCTIONID": lstAuthorityColumn[0].FUNCTIONID, "AUTHORITY_NAME": lstAuthorityColumn[0].AUTHORITY_NAME, "AUTHORITY_ORD": lstAuthorityColumn[0].AUTHORITY_ORD, "ENABLE": lstAuthorityColumn[0].ENABLE, "USER_CR_ID": lstAuthorityColumn[0], "USER_CR_DTIME": lstAuthorityColumn[0].USER_CR_DTIME, "USER_MDF_ID": lstAuthorityColumn[0].USER_MDF_ID, "USER_MDF_DTIME": lstAuthorityColumn[0].USER_MDF_DTIME, "SYS_ACTION": lstAuthorityColumn[0].SYS_ACTION ?? State.edit };
+                    this._objectAuthority.next(objectEdit);
+                    return of(objectEdit)
+                } else {
+                    return of(null);
+                }
+            })
+        );
+    }
+    editObjectToServerStep1(lstObject: any): Observable<any> {
+        let LST_SERVICE: any = "";
+        if (lstObject[0].LST_SERVICE && lstObject[0].LST_SERVICE.length > 0) {
+            lstObject[0].LST_SERVICE.forEach((obj) => {
+                LST_SERVICE = LST_SERVICE + obj.API_SERVICEID + ",";
+            })
+            LST_SERVICE = LST_SERVICE.substring(0, LST_SERVICE.length - 1);
+        }
+        let LST_AUTHORITY_EDIT: any = "";
+        let sources = [];
+        if (lstObject[0].LST_AUTHORITY && lstObject[0].LST_AUTHORITY.length > 0) {
+            lstObject[0].LST_AUTHORITY.forEach((obj) => {
+                if (obj["SYS_ACTION"] == State.edit) {
+                    LST_AUTHORITY_EDIT = LST_AUTHORITY_EDIT + obj.AUTHORITYID + ",";
+                }
+                //Cập nhật authority
+                /*sources.push(this._serviceService.execServiceLogin("API-53-1", [
+                    { "name": "AUTHORITYID", "value": obj.AUTHORITYID },
+                    { "name": "FUNCTIONID", "value": lstObject[0].FUNCTIONID },
+                    { "name": "AUTHORITY_NAME", "value": obj.AUTHORITY_NAME },
+                    { "name": "ENABLE", "value": obj.ENABLE },
+                    { "name": "AUTHORITY_ORD", "value": obj.AUTHORITY_ORD },
+                    { "name": "USER_MDF_ID", "value": obj.USER_MDF_ID }
+                ]));*/
+            })
+            LST_AUTHORITY_EDIT = LST_AUTHORITY_EDIT.substring(0, LST_AUTHORITY_EDIT.length - 1);
+        }
+        sources.push(this._serviceService.execServiceLogin("API-53", [
+            { "name": "FUNCTIONID", "value": lstObject[0].FUNCTIONID },
+            { "name": "FUNCTIONNAME", "value": lstObject[0].FUNCTIONNAME },
+            { "name": "FUNCTIONNAME_SUB", "value": lstObject[0].FUNCTIONNAME_SUB },
+            { "name": "FUNCTION_TYPE", "value": lstObject[0].FUNCTION_TYPE },
+            { "name": "LINK", "value": lstObject[0].LINK },
+            { "name": "ICON", "value": lstObject[0].ICON },
+            { "name": "FUNCTION_EXTERNAL", "value": lstObject[0].FUNCTION_EXTERNAL },
+            { "name": "FUNCTION_EXTERNAL_TARGET", "value": lstObject[0].FUNCTION_EXTERNAL_TARGET },
+            { "name": "FUNCTION_PARENT_ID", "value": lstObject[0].FUNCTION_PARENT_ID },
+            { "name": "ENABLE", "value": lstObject[0].ENABLE },
+            { "name": "ISPUPLIC", "value": lstObject[0].ISPUPLIC },
+            { "name": "FUNCTIONORD", "value": lstObject[0].FUNCTIONORD },
+            { "name": "AUTH_LOCAL", "value": lstObject[0].AUTH_LOCAL },
+            { "name": "AUTH_INTERNET", "value": lstObject[0].AUTH_INTERNET },
+            { "name": "APPID", "value": lstObject[0].APPID },
+            { "name": "LST_SERVICEID", "value": LST_SERVICE },
+            { "name": "LST_AUTHORITYID", "value": LST_AUTHORITY_EDIT },
+            { "name": "USER_MDF_ID", "value": lstObject[0].USER_MDF_ID }
+        ]));
+
+
+        //Cập nhật service
+        if (lstObject[0].LST_SERVICE && lstObject[0].LST_SERVICE.length > 0) {
+            lstObject[0].LST_SERVICE.forEach((objService: any) => {
+                if (objService?.SYS_ACTION == State.edit) {
+                    let PRAM_LSTR_EDIT: any = "";
+                    if (lstObject[0].LST_AUTHORITY && lstObject[0].LST_AUTHORITY.length > 0) {
+                        lstObject[0].LST_AUTHORITY.forEach((obj) => {
+                            if (objService[obj.AUTHORITYID] == true) {
+                                PRAM_LSTR_EDIT = PRAM_LSTR_EDIT + obj.AUTHORITYID + ",";
+                            }
+                        })
+                        PRAM_LSTR_EDIT = PRAM_LSTR_EDIT.substring(0, PRAM_LSTR_EDIT.length - 1);
+                    }
+                    sources.push(this._serviceService.execServiceLogin('API-58', [
+                        { "name": "FUNCTIONID", "value": lstObject[0].FUNCTIONID },
+                        { "name": "API_SERVICEID", "value": objService.API_SERVICEID },
+                        { "name": "LSTR_EDIT", "value": PRAM_LSTR_EDIT },
+                        { "name": "USER_MDF_ID", "value": lstObject[0].USER_MDF_ID }
+                    ]))
+                };
+                if (objService?.SYS_ACTION == State.create) {
+                    //Tạm bỏ nên chưa sửa
+                    sources.push(this._serviceService.execServiceLogin('API-57', [
+                        { "name": "FUNCTIONID", "value": lstObject[0].FUNCTIONID },
+                        { "name": "API_SERVICEID", "value": objService.API_SERVICEID },
+                        { "name": "R_INSERT", "value": objService.R_INSERT },
+                        { "name": "R_EDIT", "value": objService.R_EDIT },
+                        { "name": "R_DELETE", "value": objService.R_DELETE },
+                        { "name": "USER_CR_ID", "value": lstObject[0].USER_MDF_ID }
+                    ]))
+                };
+            })
+        }
+        if (sources.length > 0) {
+            return forkJoin(sources)
+                .pipe(map((result: any) => {
+                    let check = true;
+                    let errorCode = 1;
+                    result.forEach((obj: any) => {
+                        if (obj.status != 1 || obj.data != 1) {
+                            check = false;
+                            errorCode = obj.data;
+                        }
+                    })
+                    if (check) {
+                        return 1;
+                    } else {
+                        return errorCode;
+                    }
+                }))
+        } else {
+            return of(1);
+        }
+    }
     editObjectToServer(param: any): Observable<any> {
         let id: string = param;
         return this._lstListFunction.pipe(
@@ -82,91 +241,77 @@ export class ListFunctionService extends BaseService implements BaseDetailServic
             }),
             switchMap((lstObject: any) => {
                 if (lstObject.length > 0) {
-                    const sources = [];
-                    let LST_SERVICE: any = "";
-                    if (lstObject[0].LST_SERVICE && lstObject[0].LST_SERVICE.length > 0) {
-                        lstObject[0].LST_SERVICE.forEach((obj) => {
-                            LST_SERVICE = LST_SERVICE + obj.API_SERVICEID + ",";
-                        })
-                        LST_SERVICE = LST_SERVICE.substring(0, LST_SERVICE.length - 1);
-                    }
-                    sources.push(this._serviceService.execServiceLogin("API-53", [
-                        { "name": "FUNCTIONID", "value": lstObject[0].FUNCTIONID },
-                        { "name": "FUNCTIONNAME", "value": lstObject[0].FUNCTIONNAME },
-                        { "name": "FUNCTIONNAME_SUB", "value": lstObject[0].FUNCTIONNAME_SUB },
-                        { "name": "FUNCTION_TYPE", "value": lstObject[0].FUNCTION_TYPE },
-                        { "name": "LINK", "value": lstObject[0].LINK },
-                        { "name": "ICON", "value": lstObject[0].ICON },
-                        { "name": "FUNCTION_EXTERNAL", "value": lstObject[0].FUNCTION_EXTERNAL },
-                        { "name": "FUNCTION_EXTERNAL_TARGET", "value": lstObject[0].FUNCTION_EXTERNAL_TARGET },
-                        { "name": "FUNCTION_PARENT_ID", "value": lstObject[0].FUNCTION_PARENT_ID },
-                        { "name": "ENABLE", "value": lstObject[0].ENABLE },
-                        { "name": "ISPUPLIC", "value": lstObject[0].ISPUPLIC },
-                        { "name": "FUNCTIONORD", "value": lstObject[0].FUNCTIONORD },
-                        { "name": "AUTH_LOCAL", "value": lstObject[0].AUTH_LOCAL },
-                        { "name": "AUTH_INTERNET", "value": lstObject[0].AUTH_INTERNET },
-                        { "name": "APPID", "value": lstObject[0].APPID },
-                        { "name": "LST_SERVICEID", "value": LST_SERVICE },
-                        { "name": "USER_MDF_ID", "value": lstObject[0].USER_MDF_ID }
-                    ]));
-                    if (lstObject[0].LST_SERVICE && lstObject[0].LST_SERVICE.length > 0) {
-                        lstObject[0].LST_SERVICE.forEach((objService: any) => {
-                            if (objService?.SYS_ACTION == State.edit) {
-                                let PRAM_LSTR_EDIT: any = "";
-                                if (lstObject[0].LST_AUTHORITY && lstObject[0].LST_AUTHORITY.length > 0) {
-                                    lstObject[0].LST_AUTHORITY.forEach((obj) => {
-                                        if (objService[obj.AUTHORITYID] == true) {
-                                            PRAM_LSTR_EDIT = PRAM_LSTR_EDIT + obj.AUTHORITYID + ",";
-                                        }
-                                    })
-                                    PRAM_LSTR_EDIT = PRAM_LSTR_EDIT.substring(0, PRAM_LSTR_EDIT.length - 1);
-                                }
-                                sources.push(this._serviceService.execServiceLogin('API-58', [
+                    let sources = [];
+                    //Đẩy quyền gắn với function
+                    if (lstObject[0].LST_AUTHORITY && lstObject[0].LST_AUTHORITY.length > 0) {
+                        /*for (let i = 0; i < lstObject[0].LST_AUTHORITY.length; i++) {
+                            if (lstObject[0].LST_AUTHORITY[i]["SYS_ACTION"] == State.create) {
+                                sources.push(this._serviceService.execServiceLogin("API-52-1", [
                                     { "name": "FUNCTIONID", "value": lstObject[0].FUNCTIONID },
-                                    { "name": "API_SERVICEID", "value": objService.API_SERVICEID },
-                                    { "name": "LSTR_EDIT", "value": PRAM_LSTR_EDIT },
-                                    { "name": "USER_MDF_ID", "value": lstObject[0].USER_MDF_ID }
-                                ]))
-                            };
-                            if (objService?.SYS_ACTION == State.create) {
-                                //Tạm bỏ nên chưa sửa
-                                sources.push(this._serviceService.execServiceLogin('API-57', [
-                                    { "name": "FUNCTIONID", "value": lstObject[0].FUNCTIONID },
-                                    { "name": "API_SERVICEID", "value": objService.API_SERVICEID },
-                                    { "name": "R_INSERT", "value": objService.R_INSERT },
-                                    { "name": "R_EDIT", "value": objService.R_EDIT },
-                                    { "name": "R_DELETE", "value": objService.R_DELETE },
-                                    { "name": "USER_CR_ID", "value": lstObject[0].USER_MDF_ID }
-                                ]))
-                            };
-                        })
+                                    { "name": "AUTHORITY_NAME", "value": lstObject[0].LST_AUTHORITY[i].AUTHORITY_NAME },
+                                    { "name": "ENABLE", "value": lstObject[0].LST_AUTHORITY[i].ENABLE },
+                                    { "name": "AUTHORITY_ORD", "value": lstObject[0].LST_AUTHORITY[i].AUTHORITY_ORD },
+                                    { "name": "USER_CR_ID", "value": lstObject[0].LST_AUTHORITY[i].USER_CR_ID }
+                                ]).pipe(map((result: any) => {
+                                    if (result["status"] == 1 && result["data"].toString().length > 2) {
+                                        lstObject[0].LST_AUTHORITY[i]["SYS_ACTION"] = State.edit;
+                                        //Sửa lại dữ liệu đã check quyền
+                                        lstObject[0].LST_SERVICE.forEach((objService: any) => {
+                                            objService[result["data"]] = objService[lstObject[0].LST_AUTHORITY[i]["AUTHORITYID"]]
+                                            delete objService[lstObject[0].LST_AUTHORITY[i]["AUTHORITYID"]];
+                                        })
+                                        lstObject[0].LST_AUTHORITY[i]["AUTHORITYID"] = result["data"];
+
+                                    }
+                                })));
+
+
+                            }
+                        }*/
                     }
                     if (sources.length > 0) {
                         return forkJoin(sources)
-                            .pipe(map((result: any) => {
-                                let check = true;
-                                let errorCode = 1;
-                                result.forEach((obj: any) => {
-                                    if (obj.status != 1 || obj.data != 1) {
-                                        check = false;
-                                        errorCode = obj.data;
-                                    }
-                                })
-                                if (check) {
-                                    return 1;
-                                } else {
-                                    return errorCode;
-                                }
+                            .pipe(switchMap(() => {
+                                return this.editObjectToServerStep1(lstObject);
                             }))
                     } else {
-                        return of(1);
+                        return this.editObjectToServerStep1(lstObject);
                     }
+
                 } else {
                     return of(0);
                 }
             })
         );
     }
+    createObjectAuthority(): Observable<any> {
+        return this._objectAuthority.pipe(
+            take(1),
+            map((objectAuthority) => {
+                return objectAuthority;
+            })
+        );
+
+    }
+    createEditAuthority(): Observable<any> {
+        return this._objectAuthority.pipe(
+            take(1),
+            map((objectAuthority) => {
+                return objectAuthority;
+            })
+        );
+
+    }
+    createDeleteAuthority(): Observable<any> {
+        return this._objectAuthority.pipe(
+            take(1),
+            map((objectAuthority) => {
+                return objectAuthority;
+            })
+        );
+
+    }
+
     createObjectToServer(param: any): Observable<any> {
         let id: string = param;
 
@@ -243,6 +388,27 @@ export class ListFunctionService extends BaseService implements BaseDetailServic
     getObjectfromServer(param: any): Observable<any> {
         return this._serviceService.execServiceLogin("API-51", [{ "name": "FUNCTIONID", "value": param }]);
     }
+    deleteObjectAuthorityToServer(): Observable<any> {
+        return this._objectAuthority.pipe(
+            take(1),
+            map((objectAuthority) => {
+                return objectAuthority;
+            }),
+            switchMap((objectAuthority: any) => {
+                return this._serviceService.execServiceLogin("API-XXXX", [
+                    { "name": "AUTHORITYID", "value": objectAuthority.AUTHORITYID },
+                    { "name": "USER_MDF_ID", "value": objectAuthority.USER_MDF_ID }
+                ]).pipe(map((response: any) => {
+                    if (response.status == 1) {
+                        return response.data;
+                    } else {
+                        return 0;
+                    }
+                }));
+
+            })
+        );
+    }
     deleteObjectToServer(param: any): Observable<any> {
         let objId: string = param;
         return this._lstListFunction.pipe(
@@ -288,6 +454,19 @@ export class ListFunctionService extends BaseService implements BaseDetailServic
                     this._object.next(null);
                     return 0;
                 }
+            }),
+            switchMap((objects) => {
+                return of(objects);
+            })
+        );
+
+    }
+    deleteObjectAuthority(): Observable<any> {
+        return this._objectAuthority.pipe(
+            take(1),
+            map((objectAuthority) => {
+                this._objectAuthority.next(null);
+                return 1;
             }),
             switchMap((objects) => {
                 return of(objects);
@@ -547,8 +726,10 @@ export class ListFunctionService extends BaseService implements BaseDetailServic
                             })
                         );
                     }));
+                } else {
+                    this._object.next(object);
                 }
-                this._object.next(object);
+                //this._object.next(object);
                 return of(object);
             })
         );

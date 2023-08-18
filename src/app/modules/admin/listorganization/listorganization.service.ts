@@ -342,12 +342,14 @@ export class OrganizationService extends BaseService implements BaseDetailServic
                             objects[itemIndex] = objectResult.data;
                             this._object.next(objectResult.data);
                             this._lstOrganization.next(objects);
-                            return objectResult;
+                            return objectResult.data;
                         }
                         return objectResult.data
                     }));
+                } else {
+                    this._object.next(object);
                 }
-                this._object.next(object);
+                //this._object.next(object);
                 return of(object);
             })
         );

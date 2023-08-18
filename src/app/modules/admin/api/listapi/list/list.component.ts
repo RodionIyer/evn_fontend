@@ -111,6 +111,12 @@ export class ApiListComponent implements OnInit, OnDestroy {
   ngAfterViewInit() {
     this.selectObjectMarker();
   }
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    //filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+    //this.lstApiInput.filter = filterValue;
+    this._apiService.getApisByFolderForSearch(this.group ? this.group.API_SERVICE_GROUPID : 'all', "1", filterValue).subscribe();
+  }
   selectObjectMarker() {
     this.el.nativeElement.querySelector('.selectObject')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
@@ -133,9 +139,9 @@ export class ApiListComponent implements OnInit, OnDestroy {
    * @param mail
    */
   onApiSelected(api: any): void {
-    // If the mail is unread...
+
     //this._apiService.getApiById(api.API_SERVICEID);
-    // Execute the mailSelected observable
+
     this._apiService.selectedApiChanged.next(api);
   }
 

@@ -14,8 +14,7 @@
                     <span class="ml-2 mr-1">Ghi</span>
                 </button>
 
-                <button mat-flat-button [color]="'warn'" class="mx-1" *ngIf="actionDelete && false"
-                    (click)="onDeleteObject()">
+                <button mat-flat-button [color]="'warn'" class="mx-1" *ngIf="actionDelete && false" (click)="onDeleteObject()">
                     <mat-icon svgIcon="mat_outline:delete"></mat-icon>
                     <span class="ml-2 mr-1">Xóa</span>
                 </button>
@@ -125,13 +124,12 @@
                             </ng-container>
                             <ng-container *ngFor="let object of object.LST_AUTHORITY; let colIndex = index"
                                 matColumnDef="{{object.AUTHORITYID}}">
-                                <th style="min-width:150px;" mat-header-cell *matHeaderCellDef>
-                                    <div class="w-full items-center ml-2" style="display:flex;">
-                                        <div style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">
-                                            {{object.AUTHORITY_NAME}}</div>
+                                <th mat-header-cell *matHeaderCellDef>
+                                    <div class="truncate">
+                                        {{object.AUTHORITY_NAME}}
                                     </div>
                                 </th>
-                                <td mat-cell *matCellDef="let element; let i = index">
+                                <td mat-cell *matCellDef="let element; let i = index" align="center">
                                     <span style="width: 120px" *ngIf="element[object.AUTHORITYID]"
                                         class="leading-4 truncate text-red-500">Có</span>
                                     <span *ngIf="!element[object.AUTHORITYID]"
@@ -309,18 +307,29 @@
                                         {{element.value.API_SERVICE_DESC}}
                                     </td>
                                 </ng-container>
-                                <ng-container *ngFor="let object of object.LST_AUTHORITY; let colIndex = index"
-                                    matColumnDef="{{object.AUTHORITYID}}">
+                                <ng-container *ngFor="let object of lstSerivceAuthority.controls; let colIndex = index"
+                                    matColumnDef="{{object.value.AUTHORITYID}}">
                                     <th style="width: 120px" mat-header-cell *matHeaderCellDef>
-                                        {{object.AUTHORITY_NAME}} </th>
-                                    <td mat-cell *matCellDef="let element;" [formGroup]="element">
-                                        <mat-slide-toggle [formControlName]="object.AUTHORITYID" style="font-weight: normal;">
+                                        <div class="truncate ml-2 mr-2">
+                                            <button (click)="openAuthorityEditDialog(object.value.AUTHORITYID)" disabled="true">
+                                                {{object.value.AUTHORITY_NAME}}</button>
+                                        </div>
+                                    </th>
+                                    <td mat-cell *matCellDef="let element;" [formGroup]="element" align="center">
+                                        <mat-slide-toggle [formControlName]="object.value.AUTHORITYID"
+                                            style="font-weight: normal;">
                                         </mat-slide-toggle>
-                                    </td>                                    
+                                    </td>
                                 </ng-container>
 
                                 <ng-container matColumnDef="ACTION">
-                                    <th style="width: 30px" mat-header-cell *matHeaderCellDef> </th>
+                                    <th style="width: 30px" mat-header-cell *matHeaderCellDef>
+                                        <button mat-icon-button [color]="'primary'" class="mx-1" disabled="true"
+                                            *ngIf="actionEditDetail"
+                                            (click)="openAuthorityAddDialog(object.FUNCTIONID??null)">
+                                            <mat-icon svgIcon="mat_outline:add"></mat-icon>
+                                        </button>
+                                    </th>
                                     <td mat-cell *matCellDef="let element; let i = index" [formGroup]="element">
                                         <button mat-icon-button [color]="'warn'" class="mx-1" *ngIf="actionDeleteDetail"
                                             (click)="onDeleteObjectDetail(i)">
@@ -329,7 +338,8 @@
                                     </td>
                                 </ng-container>
                                 <tr mat-header-row *matHeaderRowDef="displayedColumnsInput(object.LST_AUTHORITY)"></tr>
-                                <tr mat-row *matRowDef="let row; columns: displayedColumnsInput(object.LST_AUTHORITY);"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumnsInput(object.LST_AUTHORITY);">
+                                </tr>
                             </table>
                         </div>
                         <div class="flex flex-row flex-auto p-2 w-full">
