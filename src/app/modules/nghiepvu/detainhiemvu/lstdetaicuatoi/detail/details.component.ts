@@ -107,6 +107,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
     public screentype;
     public madeTaiSK;
     public typeLichSu;
+    public listKetQuaNT=[];
     user: User;
     public listRole=[];
     public checkDOffice = false;
@@ -199,9 +200,18 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
             }
         });
     }
+    getListKQNT() {
+        this._serviceApi
+            .execServiceLogin('E8796F41-0A24-47F4-A063-303F8C21EB1C', null)
+            .subscribe((data) => {
+                this.listKetQuaNT = data.data || [];
+            });
+    }
+
 
     initForm() {
         this.form = this._formBuilder.group({
+            lanGiaHanThu:[null],
             maDeTai: [null],
             method: [null],
             tenDeTai: [null, [Validators.required]],
@@ -338,7 +348,6 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
         this._userService.user$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((user: any) => {
-                debugger;
                 this.user = user;
                 if(this.user != undefined && this.user != null && user.roles.length >0){
                     this.listRole = user.roles.map(item => {
@@ -410,9 +419,11 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                 {name: 'METHOD_BUTTON', value: method},
             ])
             .subscribe((data) => {
+                debugger;
                 console.log('formData,', data.data);
                 this.ngayTao = new Date(data.data.ngayTao);
                 this.nguoiSua = data.data.nguoiSua;
+                this.nguoiTao = data.data.nguoiTao;
                 debugger;
                 this.form.patchValue(data.data);
                 let lanGiaHan = this.form.get("lanGiaHanThu").value;
@@ -444,6 +455,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                 let formDocParentTamUng = this.form.get(
                     'listFolderFileTamUng'
                 ) as FormArray;
+                // listFolderFile
 
                 if (data.data.listFolderFile != null) {
                     for (let i = 0; i < data.data.listFolderFile.length; i++) {
