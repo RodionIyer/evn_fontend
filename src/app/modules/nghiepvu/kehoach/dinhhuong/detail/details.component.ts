@@ -309,6 +309,9 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
 
                     }
                 }
+                if(status=='CHO_PHE_DUYET' && listChiTiet.length ==0){
+                    this._messageService.showErrorMessage("Thông báo", "Vui lòng thêm thông tin đăng ký định hướng.");
+                }
 
                 // if (this.listDonvi != undefined && this.listDonvi.length > 0) {
                 //     for (let k = 0; k < chitiet2.listNhiemVu_cap3.length; k++) {

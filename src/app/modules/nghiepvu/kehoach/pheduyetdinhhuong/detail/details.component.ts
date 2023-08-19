@@ -418,7 +418,7 @@ export class ApiPheDuyetDinhHuongDetailsComponent implements OnInit {
                 if(chitiet2 != null && chitiet2.action=="add"){
                     listChiTiet.push(chitiet2);
                 }
-               // if (this.listDonvi != undefined && this.listDonvi.length > 0) {
+                if (chitiet2 != undefined && chitiet2.listNhiemVu_cap3 != undefined && chitiet2.listNhiemVu_cap3.length > 0) {
                     for (let k = 0; k < chitiet2.listNhiemVu_cap3.length; k++) {
 
                         let itemChiTiet = chitiet2.listNhiemVu_cap3[k];
@@ -436,7 +436,9 @@ export class ApiPheDuyetDinhHuongDetailsComponent implements OnInit {
                             }
                         }
                     }
-                // } else {
+                 } 
+                 
+                 //else {
 
                 //     if (chitiet2.listNhiemVu_cap3 != undefined && chitiet2.listNhiemVu_cap3.length > 0) {
                 //         for(let i=0;i<chitiet2.listNhiemVu_cap3.length;i++){
@@ -460,6 +462,16 @@ export class ApiPheDuyetDinhHuongDetailsComponent implements OnInit {
 
         })
 
+    }
+    exportMau() {
+        if (this.idParam != undefined && this.idParam != null) {
+            this._serviceApi.execServiceLogin("FC95C3F7-942F-4C7E-88D7-46E12BFE9185", [{ "name": "MA_KE_HOACH", "value": this.idParam }]).subscribe((data) => {
+                this.downloadTempExcel(data.data, "DANH_SACH_DANG_KY_DINH_HUONG.docx");
+
+           })
+        } else {
+            this._messageService.showWarningMessage("Thông báo", "Chức năng này không được sử dụng.");
+        }
     }
     openAlertDialog() {
         this.dialog.open(PopupFileComponent, {

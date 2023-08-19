@@ -84,6 +84,7 @@ export class DetailsComponent implements OnInit {
         private _serviceApi: ServiceService,
         public dialog: MatDialog
     ) {
+        this.initForm();
         this.idParam = this._activatedRoute.snapshot.paramMap.get('id');
         this._activatedRoute.queryParams.subscribe((params) => {
             if (params?.type) {
@@ -105,7 +106,7 @@ export class DetailsComponent implements OnInit {
                 this.method = 'HSQTOAN'; // CẬP NHẬP HỒ SƠ THANH QUYẾT TOÁN
                 this.f
         }
-            this.initForm(this.method);
+          
             if(this.idParam != null && this.idParam !=''){
                 this.detail(this.method);
             }
@@ -120,7 +121,7 @@ export class DetailsComponent implements OnInit {
         }else  if (this.actionType == 'updateActionKQNT') {
             this.geListTrangThaiKQNT();
             this.getListKQNT();
-        } else if (this.actionType == 'updateActionHSQT') {
+        } else if (this.actionType == 'updateActionHSQTNT') {
             this.getListTrangThaiQuyetToan();
         }
     }
@@ -367,6 +368,7 @@ export class DetailsComponent implements OnInit {
             fileName: item?.fileName || null,
             maFolder: item?.maFolder || null,
             listFile: this._formBuilder.array([]),
+            ghiChu:item?.ghiChu || null,
         });
     }
     addListDocChild(item?: any) {
@@ -380,6 +382,7 @@ export class DetailsComponent implements OnInit {
             tenFolder: item?.tenFolder || null,
             duongDan: item?.duongDan || null,
             rowid: item?.rowid || null,
+            ghiChu:item?.ghiChu || null,
         });
     }
     geListTrangThaiHDNT() {
@@ -423,14 +426,15 @@ export class DetailsComponent implements OnInit {
     }
 
 
-    initForm(actionType) {
+    initForm() {
         this.form = this._formBuilder.group({
             maDeTai: [null],
             thoiGianHop: [null],
             ketQuaPhieuDanhGia: [null],
             ketLuanKienNghiHD: [null],
             diaDiem: [null],
-            method: actionType,
+            method:  [null],
+            methodType:  [null],
             maTrangThai: [''],
             yKien: '',
             isEmail: true,
@@ -488,6 +492,28 @@ export class DetailsComponent implements OnInit {
             tenKetQuaNT:[null],
             tonTaiKhacNT:[null],
             loaiHD:[null],
+            noiDungGuiMail: [null],
+            noiDung: [null],
+            keHoachTiepTheo: [null],
+            dexuatKienNghi: [null],
+            thang: [null],
+            soLanGiaHan: [null],
+            nam: new Date().getFullYear(),
+            //LINHVUCNGHIENCUU: this._formBuilder.array([]),
+            tenDonViChuTri: [null],
+            danhSachThanhVienHDXT: this._formBuilder.array([]),
+            tenNguonKinhPhi: [null],
+
+            listFolderFileThucHien: this._formBuilder.array([]),
+            listFolderFileTamUng: this._formBuilder.array([]),
+            listTienDoCongViec: this._formBuilder.array([]),
+            listHDXD: this._formBuilder.array([]),
+            listHDNT: this._formBuilder.array([]),
+            listFolderHSDK: this._formBuilder.array([]),
+            listFolderHSXD: this._formBuilder.array([]),
+            listFolderBanGiao: this._formBuilder.array([]),
+            listFolderQuyetToan: this._formBuilder.array([]),
+            listFolderHSNT: this._formBuilder.array([]),
             // listFile1: this._formBuilder.array([]),
             // listFile2: this._formBuilder.array([]),
             // listFile3: this._formBuilder.array([]),
@@ -697,7 +723,6 @@ export class DetailsComponent implements OnInit {
     }
 
     onSubmit(status, method) {
-        debugger
         this.form.get('method').setValue(method);
         var token = localStorage.getItem('accessToken');
         if (method == 'HSNHIEMTHU') {
@@ -716,6 +741,9 @@ export class DetailsComponent implements OnInit {
         }
         if(method == 'HOIDONGNT'){
 
+        }
+        if (this.actionType == 'updateActionHSQTNT') {
+            this.form.get('methodType').setValue('NGHIEMTHU'); 
         }
         console.log(this.form.value);
         debugger;

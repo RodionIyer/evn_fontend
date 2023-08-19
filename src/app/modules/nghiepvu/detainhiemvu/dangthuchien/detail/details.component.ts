@@ -157,7 +157,15 @@ export class DetailsComponent implements OnInit {
             .subscribe((data) => {
                 console.log(data.data);
                 this.form.patchValue(data.data);
-                this.soLanGiaHan = data.data.soLanGiaHan;
+                let soLanGH = data.data.soLanGiaHan;
+                if(soLanGH != undefined && soLanGH !=''){
+                    this.soLanGiaHan =parseInt(soLanGH) + 1;
+                    this.form.get("lanGiaHanThu").setValue(this.soLanGiaHan);
+                }else{
+                    this.soLanGiaHan =1
+                    this.form.get("lanGiaHanThu").setValue(1);
+                }
+                
                 let formDocParent = this.form.get(
                     'listFolderFile'
                 ) as FormArray;
