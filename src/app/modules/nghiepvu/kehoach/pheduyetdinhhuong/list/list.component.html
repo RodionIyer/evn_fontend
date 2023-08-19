@@ -48,25 +48,23 @@
                     <td class="text-center">{{item.ngayGui}}</td>
                     <td class="text-center">{{item.nam}}</td>
                     <td class="text-center">{{item.tenTrangThai}}</td>
+                    <td class="text-center">{{item.ykienNguoiPheDuyet}}</td>
                     <td class="action-table">
-                        <div class="flex justify-evenly" style="float: left;">
+                        <div class="flex justify-evenly" style="text-align: center;">
                             <i class="fa fa-info-circle" (click)="addNew()" [routerLink]="[item.maKeHoach]"  [queryParams]="{type: 'chitiet'}" title="Xem chi tiết"></i>
-                            <i class="fa fa-clock-o" (click)="lichsu(item)" title="Xem lịch sử"></i>
-                            <i class="fa fa-check-square-o" (click)="addNew()" [routerLink]="[item.maKeHoach]" [queryParams]="{type: 'duyet'}" title="Duyệt định hướng"></i>
-             
                         </div>
                     </td>
                     <td class="text-center action-table-check">
                         <input type="checkbox" name="sizecb[]" value="{{item.id}}" [(ngModel)]="item.state"/>
                     </td>
-                   
+
                 </tr>
                 <!-- <li class="nav-item">
-                    <a class="nav-link" 
+                    <a class="nav-link"
                     [routerLink]="['/about']"
                     [queryParams]="{part: 'navbar',search: 'about', year: 2021 }">About</a>
                   </li> -->
-                
+
             </tbody>
         </table>
         <mat-paginator

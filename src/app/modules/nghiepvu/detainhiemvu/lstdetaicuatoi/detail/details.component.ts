@@ -31,7 +31,7 @@ import {ServiceService} from 'app/shared/service/service.service';
 import {MatDialog} from '@angular/material/dialog';
 import {PopupCbkhComponent} from './popup-cbkh/popup-cbkh.component';
 import {ArrayValidators} from 'app/shared/array.validator';
-
+import { User } from 'app/core/user/user.types';
 import {
     DateAdapter,
     MAT_DATE_FORMATS,
@@ -107,6 +107,10 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
     public screentype;
     public madeTaiSK;
     public typeLichSu;
+    user: User;
+    public listRole=[];
+    public checkDOffice = false;
+    public linkDoffice = "";
     public checkChuNhiem = true;
     public listMaFolder = ['HOSO_DANG_KY', 'DE_NGHI_TAM_UNG'];
     public listMaFolder2 = [
@@ -139,6 +143,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
     lstDanhSachThanhVienHD : any[];
     private _unsubscribeAll: Subject<any> = new Subject<any>();
     public nguoiSua : any;
+    public nguoiTao : any;
     public ngayTao : any;
 
     constructor(
@@ -271,13 +276,13 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
             listFolderBanGiao: this._formBuilder.array([]),
             listFolderQuyetToan: this._formBuilder.array([]),
             listFolderHSNT: this._formBuilder.array([]),
+            listKQXD: this._formBuilder.array([]),
+            listKQNT: this._formBuilder.array([]),
             thoiGianHopNT:[null],
             ketQuaPhieuDanhGiaNT:[null],
             lyDoNT:[null],
             diaDiemNT:[null],
             tongPhiQT:[null],
-            listKQXD: this._formBuilder.array([]),
-            listKQNT: this._formBuilder.array([]),
             // listFile1: this._formBuilder.array([]),
             // listFile2: this._formBuilder.array([]),
             // listFile3: this._formBuilder.array([]),
@@ -326,6 +331,28 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
         this.getListLinhVucNghienCuu();
         this.getListGioiTinh();
         this.getListChucDanh();
+        this.getCheckQuyenDoffice();
+    }
+
+    getCheckQuyenDoffice() {
+        this._userService.user$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((user: any) => {
+                debugger;
+                this.user = user;
+                if(this.user != undefined && this.user != null && user.roles.length >0){
+                    this.listRole = user.roles.map(item => {
+                        return item.ROLECODE;
+                    });
+                }
+                this._serviceApi.execServiceLogin("3FADE0E4-B2C2-4D9D-A0C7-06817ADE4FA3", [{ "name": "ORGID", "value": user.ORGID }]).subscribe((data) => {
+                    if (data.data.API_DOFFICE) {
+                        this.checkDOffice = true;
+                        this.linkDoffice = data.data.API_DOFFICE;
+                    }
+                })
+            });
+
     }
 
     getThang() {
@@ -386,7 +413,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                 console.log('formData,', data.data);
                 this.ngayTao = new Date(data.data.ngayTao);
                 this.nguoiSua = data.data.nguoiSua;
-
+                debugger;
                 this.form.patchValue(data.data);
                 let lanGiaHan = this.form.get("lanGiaHanThu").value;
                 if(lanGiaHan !=undefined && lanGiaHan !=''){
@@ -556,7 +583,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                 }
 
                 console.log('form,', this.form);
-                if (method == 'DETAIL' || method == 'CAPNHAT') {
+                if (method == 'DETAIL') { //|| method == 'CAPNHAT'
                     let formDocParentHSDK = this.form.get(
                         'listFolderHSDK'
                     ) as FormArray;
@@ -992,8 +1019,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
     }
 
     onSubmit(status, method) {
-        if (status == 'LUU' && method == 'CAPNHAT') {
-        } else {
+        if (status != 'LUU' && method != 'CAPNHAT'){
             this.submitted.check = true;
             if (this.form.invalid) {
                 this._messageService.showErrorMessage("Thông báo", "Chưa nhập đủ trường bắt buộc!")

@@ -198,6 +198,14 @@
                 style="width: 100%"
             >
             </ng-select>
+            <div
+                *ngIf="submitted.check && f?.thang?.errors"
+                class="invalid-feedback"
+            >
+                <div *ngIf="f.thang.errors.required">
+                    Trường bắt buộc nhập
+                </div>
+            </div>
         </div>
     </div>
 

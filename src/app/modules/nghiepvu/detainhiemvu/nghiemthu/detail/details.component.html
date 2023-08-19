@@ -2,7 +2,7 @@
     class="flex flex-col flex-auto overflow-y-auto bg-card dark:bg-default content-detail p-3" [formGroup]="form">
     <div class="">
         <h1 class="title-component">
-            Cập nhập thông tin hội đồng xét duyệt/ tuyển chọn ĐT/NV
+            Cập nhật kết quả xét duyệt/tuyển chọn ĐT/NV
         </h1>
     </div>
 
@@ -63,7 +63,7 @@
                         <div class="list-file" *ngIf="item.get('listFile').value.length > 0">
                             <table class="table table_custom action-table">
                                 <!-- <thead>
-                                <tr> 
+                                <tr>
                                     <th class="stt_table">STT</th>
                                     <th>Tên file</th>
                                     <th class="text-center">Kích thước
@@ -466,7 +466,7 @@
                 <div class="list-file" *ngIf="item.get('listFile').value.length > 0">
                     <table class="table table_custom action-table">
                         <!-- <thead>
-                        <tr> 
+                        <tr>
                             <th class="stt_table">STT</th>
                             <th>Tên file</th>
                             <th class="text-center">Kích thước
@@ -686,7 +686,7 @@
                 />
                 <i class="fa fa-cloud-upload"></i> Upload file
             </label>
-          
+
         </div>
     </div>
     <div
@@ -695,7 +695,7 @@
         *ngIf="item.get('listFile').value.length > 0"
     >
         <table class="table table_custom action-table">
-         
+
             <tbody formArrayName="listFile" class="table_listfile">
                 <ng-container *ngFor="let item2 of item.get('listFile')['controls'];let k = index" >
                     <tr [formGroupName]="k">
@@ -716,7 +716,7 @@
                     </td>
 
                     <td>
-                    
+
                         {{ item2.get("sovanban").value }}
                     </td>
                     <td class="text-right">
@@ -740,7 +740,7 @@
                     </td>
                 </tr>
                 </ng-container>
-                
+
             </tbody>
         </table>
     </div>
