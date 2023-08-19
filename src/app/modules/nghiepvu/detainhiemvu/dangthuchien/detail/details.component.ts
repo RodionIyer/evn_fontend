@@ -9,6 +9,7 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription, takeUntil } from 'rxjs';
 import {
+    AbstractControl,
     FormArray,
     FormBuilder,
     FormGroup,
@@ -46,6 +47,7 @@ export class DetailsComponent implements OnInit {
     public form: FormGroup;
     public idParam: string = null;
     public soLanGiaHan: number;
+    submitted = {check: false};
     constructor(
         private _formBuilder: UntypedFormBuilder,
         public _activatedRoute: ActivatedRoute,
@@ -338,9 +340,19 @@ export class DetailsComponent implements OnInit {
             mafile: '',
         });
     }
+    get f(): { [key: string]: AbstractControl } {
+        return this.form.controls;
+    }
 
     onSubmit(status, method) {
         console.log(this.form.value);
+         //this.submitted.checkFile = true;
+         this.submitted.check = true;
+         if (this.form.invalid) {
+             // this._messageService.showErrorMessage("Thông báo", "Chưa nhập đủ trường bắt buộc!")
+             //debugger;
+              return;
+          }
         this.form.get('method').setValue(method);
         var token = localStorage.getItem('accessToken');
         this._serviceApi

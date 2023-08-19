@@ -108,6 +108,7 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
         this._userService.user$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((user: any) => {
+                debugger;
                 this.user = user;
                 this._serviceApi.execServiceLogin("3FADE0E4-B2C2-4D9D-A0C7-06817ADE4FA3", [{ "name": "ORGID", "value": user.ORGID }]).subscribe((data) => {
                     if (data.data.API_DOFFICE) {

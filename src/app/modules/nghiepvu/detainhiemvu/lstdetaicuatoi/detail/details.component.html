@@ -863,7 +863,7 @@
         <button class="add_button" (click)="onSubmit('LUU', 'CAPNHAT')">
             <i class="fa fa-save"></i> Lưu
         </button>
-        <button class="add_button" (click)="onSubmit('LUUGUI', 'CAPNHAT')">
+        <button *ngIf="user.userId==nguoiTao || listRole.indexOf('KHCN_ROLE_CANBO_KHCN') ==-1 "class="add_button" (click)="onSubmit('LUUGUI', 'CAPNHAT')">
             <i class="fa fa-save"></i> Lưu và gửi
         </button>
     </div>
