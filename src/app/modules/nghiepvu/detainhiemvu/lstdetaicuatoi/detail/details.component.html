@@ -2146,19 +2146,6 @@
                             *ngIf="item.get('listFile').value.length > 0"
                         >
                             <table class="table table_custom action-table">
-                                <!-- <thead>
-                                    <tr>
-                                        <th class="stt_table">STT</th>
-                                        <th>Tên file</th>
-                                        <th class="text-center">
-                                            Kích thước
-                                        </th>
-                                        <th class="text-center">
-                                            Số văn bản
-                                        </th>
-                                        <th style="width: 100px"></th>
-                                    </tr>
-                                </thead> -->
                                 <tbody
                                     formArrayName="listFile"
                                     class="table_listfile"
@@ -2314,27 +2301,109 @@
             ></label
             >
             <div class="flex flex-row row space-x-4">
-                <div class="basis-1/6">
-                    <label for=""
-                    >Biên bản họp hội đồng xét duyệt, tuyển chọn</label
-                    >
-                </div>
-                <div class="basis-1/5">
-                    <button class="dowwnload" style="color: #2a3493">
-                        <i class="fa fa-cloud-download"></i> Tải về
-                    </button>
+<!--                <div class="basis-1/6">-->
+<!--                    <label for=""-->
+<!--                    >Biên bản họp hội đồng xét duyệt, tuyển chọn</label-->
+<!--                    >-->
+<!--                </div>-->
+                <div>
+                    <table class="table table_custom" style="margin-top: 0">
+                        <thead>
+                        </thead>
+                        <tbody formArrayName="listKQXD">
+                        <tr
+                            *ngFor="
+                            let item of form.get('listKQXD')['controls'];
+                            let i = index
+                        "
+                        >
+                            <td class="stt_table">{{ i + 1 }}</td>
+                            <td class="font-medium">
+                                {{ item.get("fileName").value }}
+                            </td>
+                            <td>
+                                <div
+                                    class="list-file"
+                                    *ngIf="item.get('listFile').value.length > 0"
+                                >
+                                    <table class="table table_custom action-table">
+                                        <tbody
+                                            formArrayName="listFile"
+                                            class="table_listfile"
+                                        >
+                                        <tr
+                                            *ngFor="
+                                                let item2 of item.get(
+                                                    'listFile'
+                                                )['controls'];
+                                                let k = index
+                                            "
+                                            style="border: none;"
+                                        >
+                                            <td>
+                                                <!-- <i
+                                                    class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
+                                                ></i> -->
+                                                {{
+                                                item2.get("fileName").value
+                                                }}
+                                            </td>
+                                            <td>
+                                                {{
+                                                item2.get("size").value >
+                                                1024 * 1024
+                                                    ? (
+                                                    item2.get("size")
+                                                        .value /
+                                                    (1024 * 1024)
+                                                ).toFixed(1) + "(MB)"
+                                                    : item2.get("size")
+                                                        .value > 1024
+                                                    ? (
+                                                        item2.get("size")
+                                                            .value / 1024
+                                                    ).toFixed(1) + "(KB)"
+                                                    : item2
+                                                        .get("size")
+                                                        .value.toFixed(
+                                                        1
+                                                        ) + "K"
+                                                }}
+                                            </td>
+                                            <td>
+                                                <i
+                                                    class="fa fa-cloud-download"
+                                                    style="
+                                                        color: green;
+                                                        cursor: pointer;
+                                                    "
+                                                    aria-hidden="true"
+                                                    (click)="
+                                                        downLoadFile(item2)
+                                                    "
+                                                    title="Download file"
+                                                ></i>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            <div class="flex flex-row row space-x-4">
-                <div class="basis-1/6">
-                    <label for="">Phiếu đánh giá và tài liệu khác</label>
-                </div>
-                <div class="basis-1/5">
-                    <button class="dowwnload" style="color: #2a3493">
-                        <i class="fa fa-cloud-download"></i> Tải về
-                    </button>
-                </div>
-            </div>
+<!--            <div class="flex flex-row row space-x-4">-->
+<!--                <div class="basis-1/6">-->
+<!--                    <label for="">Phiếu đánh giá và tài liệu khác</label>-->
+<!--                </div>-->
+<!--                <div class="basis-1/5">-->
+<!--                    <button class="dowwnload" style="color: #2a3493">-->
+<!--                        <i class="fa fa-cloud-download"></i> Tải về-->
+<!--                    </button>-->
+<!--                </div>-->
+<!--            </div>-->
         </mat-tab>
         <mat-tab label="Hội đồng nghiệm thu">
             <div class="flex flex-row row space-x-4">
@@ -2378,10 +2447,10 @@
                     <th>File nội dung</th>
                 </tr>
                 </thead>
-                <tbody formArrayName="listHDXD">
+                <tbody formArrayName="listHDNT">
                 <tr
                     *ngFor="
-                            let item of form.get('listHDXD')['controls'];
+                            let item of form.get('listHDNT')['controls'];
                             let i = index
                         "
                 >
@@ -2397,19 +2466,6 @@
                             *ngIf="item.get('listFile').value.length > 0"
                         >
                             <table class="table table_custom action-table">
-                                <!-- <thead>
-                                    <tr>
-                                        <th class="stt_table">STT</th>
-                                        <th>Tên file</th>
-                                        <th class="text-center">
-                                            Kích thước
-                                        </th>
-                                        <th class="text-center">
-                                            Số văn bản
-                                        </th>
-                                        <th style="width: 100px"></th>
-                                    </tr>
-                                </thead> -->
                                 <tbody
                                     formArrayName="listFile"
                                     class="table_listfile"
@@ -2599,27 +2655,115 @@
             ></label
             >
             <div class="flex flex-row row space-x-4">
-                <div class="basis-1/6">
-                    <label for=""
-                    >Biên bản họp hội đồng xét duyệt, tuyển chọn</label
-                    >
+<!--                <div class="basis-1/6">-->
+<!--                    <label for=""-->
+<!--                    >Biên bản họp hội đồng xét duyệt, tuyển chọn</label-->
+<!--                    >-->
+<!--                </div>-->
+                <div>
+                    <table class="table table_custom" style="margin-top: 0;">
+                        <thead>
+                        </thead>
+                        <tbody formArrayName="listKQNT">
+                        <tr
+                            *ngFor="
+                            let item of form.get('listKQNT')['controls'];
+                            let i = index
+                        "
+                            style="border: none"
+                        >
+                            <td class="stt_table">{{ i + 1 }}</td>
+                            <td class="font-medium">
+                                {{ item.get("fileName").value }}
+                            </td>
+                            <td>
+                                <div
+                                    class="list-file"
+                                    *ngIf="item.get('listFile').value.length > 0"
+                                >
+                                    <table class="table table_custom action-table">
+                                        <tbody
+                                            formArrayName="listFile"
+                                            class="table_listfile"
+                                        >
+                                        <tr
+                                            *ngFor="
+                                                let item2 of item.get(
+                                                    'listFile'
+                                                )['controls'];
+                                                let k = index
+                                            "
+                                        >
+                                            <td>
+                                                <!-- <i
+                                                    class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
+                                                ></i> -->
+                                                {{
+                                                item2.get("fileName").value
+                                                }}
+                                            </td>
+                                            <td>
+                                                {{
+                                                item2.get("size").value >
+                                                1024 * 1024
+                                                    ? (
+                                                    item2.get("size")
+                                                        .value /
+                                                    (1024 * 1024)
+                                                ).toFixed(1) + "(MB)"
+                                                    : item2.get("size")
+                                                        .value > 1024
+                                                    ? (
+                                                        item2.get("size")
+                                                            .value / 1024
+                                                    ).toFixed(1) + "(KB)"
+                                                    : item2
+                                                        .get("size")
+                                                        .value.toFixed(
+                                                        1
+                                                        ) + "K"
+                                                }}
+                                            </td>
+                                            <td>
+                                                <i
+                                                    class="fa fa-cloud-download"
+                                                    style="
+                                                        color: green;
+                                                        cursor: pointer;
+                                                    "
+                                                    aria-hidden="true"
+                                                    (click)="
+                                                        downLoadFile(item2)
+                                                    "
+                                                    title="Download file"
+                                                ></i>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
-                <div class="basis-1/5">
-                    <button class="dowwnload" style="color: #2a3493">
-                        <i class="fa fa-cloud-download"></i> Tải về
-                    </button>
-                </div>
+
+                <!--                <div class="basis-1/5">-->
+                <!--                    <button class="dowwnload" style="color: #2a3493">-->
+                <!--                        <i class="fa fa-cloud-download"></i> Tải về-->
+                <!--                    </button>-->
+                <!--                </div>-->
             </div>
-            <div class="flex flex-row row space-x-4">
-                <div class="basis-1/6">
-                    <label for="">Phiếu đánh giá và tài liệu khác</label>
-                </div>
-                <div class="basis-1/5">
-                    <button class="dowwnload" style="color: #2a3493">
-                        <i class="fa fa-cloud-download"></i> Tải về
-                    </button>
-                </div>
-            </div>
+<!--            <div class="flex flex-row row space-x-4">-->
+<!--                <div class="basis-1/6">-->
+<!--                    <label for="">Phiếu đánh giá và tài liệu khác</label>-->
+<!--                </div>-->
+<!--                <div class="basis-1/5">-->
+<!--                    <button class="dowwnload" style="color: #2a3493">-->
+<!--                        <i class="fa fa-cloud-download"></i> Tải về-->
+<!--                    </button>-->
+<!--                </div>-->
+<!--            </div>-->
         </mat-tab>
     </mat-tab-group>
 </div>
@@ -3384,14 +3528,14 @@
                             ];
                             let i = index
                         "
-                        [formGroupName]="i"                    >
-                        <td class="stt_table">{{ i + 1 }}</td>
-                        <td class="font-medium">
-                            {{ item.get("fileName").value }}
-                            {{ item.get("maFolder").value }}
-                        </td>
-                        <td></td>
-                        <td></td>
+                    [formGroupName]="i">
+                    <td class="stt_table">{{ i + 1 }}</td>
+                    <td class="font-medium">
+                        {{ item.get("fileName").value }}
+                        {{ item.get("maFolder").value }}
+                    </td>
+                    <td></td>
+                    <td></td>
                     <td>
                         <div
                             class="list-file"
@@ -3421,33 +3565,33 @@
                                                 )['controls'];
                                                 let k = index
                                             "
-                                            [formGroupName]="k"                                        >
-                                            <td>
-                                                {{
-                                                    item2.get("fileName").value
-                                                }}
+                                    [formGroupName]="k">
+                                    <td>
+                                        {{
+                                        item2.get("fileName").value
+                                        }}
 
-                                                ({{
-                                                    item2.get("size").value >
-                                                    1024 * 1024
-                                                        ? (
-                                                              item2.get("size")
-                                                                  .value /
-                                                              (1024 * 1024)
-                                                          ).toFixed(1) + "(MB)"
-                                                        : item2.get("size")
-                                                              .value > 1024
-                                                        ? (
-                                                              item2.get("size")
-                                                                  .value / 1024
-                                                          ).toFixed(1) + "(KB)"
-                                                        : item2
-                                                              .get("size")
-                                                              .value.toFixed(
-                                                                  1
-                                                              ) + "K"
-                                                }})
-                                            </td>
+                                        ({{
+                                        item2.get("size").value >
+                                        1024 * 1024
+                                            ? (
+                                            item2.get("size")
+                                                .value /
+                                            (1024 * 1024)
+                                        ).toFixed(1) + "(MB)"
+                                            : item2.get("size")
+                                                .value > 1024
+                                            ? (
+                                                item2.get("size")
+                                                    .value / 1024
+                                            ).toFixed(1) + "(KB)"
+                                            : item2
+                                                .get("size")
+                                                .value.toFixed(
+                                                1
+                                                ) + "K"
+                                        }})
+                                    </td>
                                 </tr>
                                 </tbody>
                             </table>
