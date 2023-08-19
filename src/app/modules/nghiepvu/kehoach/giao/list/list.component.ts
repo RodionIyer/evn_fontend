@@ -119,11 +119,9 @@ export class ApiGiaoListComponent implements OnInit, OnDestroy {
     // }
 
     timKiem() {
-        let nam;
+        let nam='';
         if(this.selectedYear != undefined && this.selectedYear[0] != null){
-            nam = this.selectedYear;
-        } else {
-            nam = null;
+            nam = this.selectedYear+'';
         }
         this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("CA665A17-3450-4C70-8CCE-6F1FD44E0999", [{
             "name": "NAM",

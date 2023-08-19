@@ -1031,13 +1031,13 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
     }
 
     onSubmit(status, method) {
-        if (status != 'LUU' && method != 'CAPNHAT'){
+       // if (status != 'LUU' && method != 'CAPNHAT'){
             this.submitted.check = true;
             if (this.form.invalid) {
-                this._messageService.showErrorMessage("Thông báo", "Chưa nhập đủ trường bắt buộc!")
+                //this._messageService.showErrorMessage("Thông báo", "Chưa nhập đủ trường bắt buộc!")
                 return;
             }
-        }
+      //  }
         if (this.form.get('danhSachThanhVien').value.length > 0) {
             let listTV: any[] = this.form.get('danhSachThanhVien').value;
             if (listTV.filter(n => n.maThanhVien == null || n.maThanhVien == '').length > 0) {
@@ -1164,7 +1164,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
             maFolder: item?.maFolder,
             fileName: item?.fileName,
             ghiChu: item?.ghiChu,
-            listFile: this._formBuilder.array([], ArrayValidators.minLength(1)),
+            listFile: this._formBuilder.array([], ArrayValidators.minLength(0)),
         });
     }
 

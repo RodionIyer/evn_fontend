@@ -375,30 +375,109 @@ export class ApiPheDuyetDinhHuongDetailsComponent implements OnInit {
        // this.getYearSubscription.unsubscribe();
         //this.getStatusSubscription.unsubscribe();
     }
+    // onSubmit(status) {
+    //     // this.submitted.check = true;
+    //     // if (this.form.invalid) {
+    //     //   return;
+    //     // }
+    //     console.log(this.form.value);
+    //     let email = 0;
+    //     if(status=="DA_PHE_DUYET" || status=="Y_CAU_HIEU_CHINH"){
+    //         email = this.record.lock?1:0;
+    //     }
+    //     let yKienNguoiPheDuyet ='';
+    //     if(this.form.value != undefined  && this.form.value != null && this.form.value.yKienNguoiPheDuyet != undefined &&  this.form.value.yKienNguoiPheDuyet != null){
+    //         yKienNguoiPheDuyet = this.form.value.yKienNguoiPheDuyet;
+    //     }
+    //     this._serviceApi.execServiceLogin("6E5C53E6-AB86-4865-97D2-83E048B47B56", [{"name":"MA_TRANG_THAI","value":status},{"name":"IS_EMAIL","value":email},{"name":"NAM","value":this.selectedYear},{"name":"GHI_CHU","value":yKienNguoiPheDuyet},{"name":"MA_KE_HOACH","value":this.idParam},{"name":"USERID","value":"STR"}]).subscribe((data) => {
+    //       //  this.listChiTietImport = data.data || [];
+    //         this._messageService.showSuccessMessage("Thông báo", (status=="DA_PHE_DUYET"?"Duyệt":status=="LUU"?"Lưu":status=="DGIAO"?"Đã giao":"Yêu cầu hiệu chỉnh")+" thành công.");
+    //         if(status == 'DGIAO'){
+    //             this._router.navigateByUrl('nghiepvu/detainhiemvu/lstdetaicuatoi');
+    //         } else {
+    //             this._router.navigateByUrl('nghiepvu/kehoach/pheduyetdinhhuong');
+    //         }
+    //     })
+
+    // }
+
     onSubmit(status) {
-        // this.submitted.check = true;
-        // if (this.form.invalid) {
-        //   return;
-        // }
-        console.log(this.form.value);
-        let email = 0;
-        if(status=="DA_PHE_DUYET" || status=="Y_CAU_HIEU_CHINH"){
-            email = this.record.lock?1:0;
+        this.submitted.check = true;
+        if (this.form.invalid || this.listupload.length == 0) {
+            return;
         }
-        let yKienNguoiPheDuyet ='';
-        if(this.form.value != undefined  && this.form.value != null && this.form.value.yKienNguoiPheDuyet != undefined &&  this.form.value.yKienNguoiPheDuyet != null){
-            yKienNguoiPheDuyet = this.form.value.yKienNguoiPheDuyet;
+        console.log(this.form);
+        let name = this.form.value.name;
+        let nam = this.form.value.year;
+        let listChiTiet = [];
+        let listFile = this.listupload;
+        let capTao ='TCT';
+        if(this.actionType='TH_EVN'){
+            capTao ='EVN';
         }
-        this._serviceApi.execServiceLogin("6E5C53E6-AB86-4865-97D2-83E048B47B56", [{"name":"MA_TRANG_THAI","value":status},{"name":"IS_EMAIL","value":email},{"name":"NAM","value":this.selectedYear},{"name":"GHI_CHU","value":yKienNguoiPheDuyet},{"name":"MA_KE_HOACH","value":this.idParam},{"name":"USERID","value":"STR"}]).subscribe((data) => {
-          //  this.listChiTietImport = data.data || [];
-            this._messageService.showSuccessMessage("Thông báo", (status=="DA_PHE_DUYET"?"Duyệt":status=="LUU"?"Lưu":status=="DGIAO"?"Đã giao":"Yêu cầu hiệu chỉnh")+" thành công.");
-            if(status == 'DGIAO'){
-                this._router.navigateByUrl('nghiepvu/detainhiemvu/lstdetaicuatoi');
-            } else {
-                this._router.navigateByUrl('nghiepvu/kehoach/pheduyetdinhhuong');
+         
+        let kehoach = { name: name, nam: nam, maTrangThai: status, maKeHoach: this.idParam,tongHop:true,capTao:capTao };
+        for (let i = 0; i < this.form.value.listNhiemVu.length; i++) {
+            for (let j = 0; j < this.form.value.listNhiemVu[i].listNhiemVu_cap2.length; j++) {
+                let chitiet2 = this.form.value.listNhiemVu[i].listNhiemVu_cap2[j];
+                if(chitiet2 != null && chitiet2.action=="add"){
+                    listChiTiet.push(chitiet2);
+                }
+                if (chitiet2 != undefined && chitiet2.listNhiemVu_cap3 != undefined && chitiet2.listNhiemVu_cap3.length > 0) {
+                    for (let k = 0; k < chitiet2.listNhiemVu_cap3.length; k++) {
+
+                        let itemChiTiet = chitiet2.listNhiemVu_cap3[k];
+                        if(itemChiTiet != null && itemChiTiet.action=="add"){
+                            listChiTiet.push(itemChiTiet);
+                        }
+
+                        if (itemChiTiet.listNhiemVu_cap4 != undefined && itemChiTiet.listNhiemVu_cap4.length > 0) {
+                            for(let n=0;n<itemChiTiet.listNhiemVu_cap4.length;n++){
+                                let itemChiTiet4 = itemChiTiet.listNhiemVu_cap4[n];
+                                if(itemChiTiet4 != null && itemChiTiet4.action=="add"){
+                                    listChiTiet.push(itemChiTiet4);
+                                }
+                                // listChiTiet.push(itemChiTiet.listNhiemVu_cap4[i]);
+                            }
+                        }
+                    }
+                 } 
+                 
+                 //else {
+
+                //     if (chitiet2.listNhiemVu_cap3 != undefined && chitiet2.listNhiemVu_cap3.length > 0) {
+                //         for(let i=0;i<chitiet2.listNhiemVu_cap3.length;i++){
+
+                //             listChiTiet.push(chitiet2.listNhiemVu_cap3[i]);
+                //         }
+                //     }
+                // }
+
+
+            }
+        }
+        if(status=='CHO_PHE_DUYET' && listChiTiet.length ==0){
+            this._messageService.showErrorMessage("Thông báo", "Vui lòng thêm thông tin đăng ký định hướng.");
+            return;
+        }
+        debugger;
+        var token = localStorage.getItem("accessToken");
+        this._serviceApi.execServiceLogin("404ABE65-3B92-448F-A8F0-9543503AE1E3", [{ "name": "LIST_FILE", "value": JSON.stringify(listFile) }, { "name": "LIST_KE_HOACH_CHI_TIET", "value": JSON.stringify(listChiTiet) }, { "name": "TOKEN_LINK", "value": "Bearer " + token }, { "name": "KE_HOACH", "value": JSON.stringify(kehoach) }]).subscribe((data) => {
+            // this._messageService.showSuccessMessage("Thông báo", data.message);
+            // this._router.navigateByUrl('nghiepvu/kehoach/dinhhuong');
+            switch (data.status) {
+                case 1:
+                    this._messageService.showSuccessMessage("Thông báo", data.message);
+                        this._router.navigateByUrl('nghiepvu/kehoach/pheduyetdinhhuong');
+                    break;
+                case 0:
+                    this._messageService.showErrorMessage("Thông báo", "Không tìm thấy bản ghi");
+                    break;
+                case -1:
+                    this._messageService.showErrorMessage("Thông báo", "Xảy ra lỗi khi thực hiện");
+                    break;
             }
         })
-
     }
 
     onSubmitTongHop(status,capTao) {

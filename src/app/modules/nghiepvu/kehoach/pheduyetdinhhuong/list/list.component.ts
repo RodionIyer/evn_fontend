@@ -174,8 +174,6 @@ export class ApiPheduyetdinhhuongListComponent implements OnInit {
          if(this.selectedYear != null && this.selectedYear.length >0 ){
             nam = this.selectedYear.join(',');
          }
-
-         this.selectedYear
         this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("038D4EB5-55D0-49C4-8FDB-C242E6759955", [{"name":"MA_TRANG_THAI","value":this.selectedStatus},{"name":"NAM_LIST","value":nam},{"name":"PAGE_NUM","value":this.pageIndex},{"name":"PAGE_ROW_NUM","value":this.pageSize}]).subscribe((data) => {
           this.listDinhHuong = data.data || [];
              if(data.data != null && data.data.length >0){

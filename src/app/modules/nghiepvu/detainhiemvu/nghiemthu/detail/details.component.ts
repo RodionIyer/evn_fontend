@@ -164,7 +164,7 @@ export class DetailsComponent implements OnInit {
                     'listFolderFileHD'
                 ) as FormArray;
 
-                if (data.data.listFolderFile != null) {
+                if (data.data.listFolderFile != null && data.data.listFolderFile.length >0) {
                     for (let i = 0; i < data.data.listFolderFile.length; i++) {
                         formDocParent.push(
                             this.addListDocParent(data.data.listFolderFile[i])
@@ -191,7 +191,7 @@ export class DetailsComponent implements OnInit {
                     }
                 }
 
-                if (data.data.listFolderFileTamUng != null) {
+                if (data.data.listFolderFileTamUng != null &&  data.data.listFolderFileTamUng.length >0) {
                     for (
                         let i = 0;
                         i < data.data.listFolderFileTamUng.length;
@@ -229,7 +229,7 @@ export class DetailsComponent implements OnInit {
                     }
                 }
 
-                if (data.data.listFolderFileThucHien != null) {
+                if (data.data.listFolderFileThucHien != null && data.data.listFolderFileThucHien.length >0) {
                     for (
                         let i = 0;
                         i < data.data.listFolderFileThucHien.length;
@@ -267,7 +267,7 @@ export class DetailsComponent implements OnInit {
                     }
                 }
 
-                if (data.data.listFolderFileHD != null) {
+                if (data.data.listFolderFileHD != null && data.data.listFolderFileHD.length >0) {
                     for (
                         let i = 0;
                         i < data.data.listFolderFileHD.length;
@@ -301,7 +301,7 @@ export class DetailsComponent implements OnInit {
                     }
                 }
 
-                if (data.data.danhSachThanhVien != null) {
+                if (data.data.danhSachThanhVien != null && data.data.danhSachThanhVien.length >0) {
                     let formThanhVien = this.form.get(
                         'danhSachThanhVien'
                     ) as FormArray;
@@ -317,7 +317,7 @@ export class DetailsComponent implements OnInit {
                     }
                 }
 
-                if (data.data.danhSachThanhVienHD != null) {
+                if (data.data.danhSachThanhVienHD != null && data.data.danhSachThanhVienHD.length >0) {
                     let formThanhVien = this.form.get(
                         'danhSachThanhVienHD'
                     ) as FormArray;

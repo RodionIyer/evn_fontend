@@ -38,7 +38,7 @@
                         <!-- <td></td> -->
                     </tr>
                     <ng-container formArrayName="listNhiemVu_cap2">
-                        <ng-container
+                        <ng-container 
                             *ngFor="let itemc of item.get('listNhiemVu_cap2')['controls']; let c = index;">
                             <ng-container  *ngIf="itemc.get('action').value=='add'"  [formGroupName]="c">
                                 <tr class="">
@@ -52,12 +52,12 @@
                                          <!-- <input type="text" class="form-control" formControlName="NguonKinhPhi" /> -->
                                           <ng-select [items]="listNguonKinhPhi" bindLabel="TEN_NGUON_KINH_PHI" bindValue="MA_NGUON_KINH_PHI" placeholder="Lựa chọn"
                                         formControlName="nguonKinhPhi">
-                                    </ng-select>
+                                    </ng-select>  
                                 </td>
                                     <td><input type="text" class="form-control text-right"  formControlName="duToan" money   [options]="{
                                         numeral: true,
                                         numeralIntegerScale: 15
-                                      }"/></td><!--money-->
+                                      }"/></td><!--money-->  
                                     <td><input type="text" class="form-control" formControlName="donViChuTri" /></td>
                                     <td><input type="text" class="form-control" formControlName="chuNhiemNhiemVu" /></td>
                                     <td><input type="text" class="form-control" formControlName="noiDungHoatDong" /></td>
@@ -73,7 +73,7 @@
                             </ng-container>
                         </ng-container>
                     </ng-container>
-
+                  
                     <ng-container *ngIf="item.get('listNhiemVu_cap2').value.length > 0" formArrayName="listNhiemVu_cap2">
                         <ng-container *ngFor="let items of item.get('listNhiemVu_cap2')['controls']; let j = index;">
                             <ng-container *ngIf="items.get('action').value=='view'" [formGroupName]="j">
@@ -108,11 +108,11 @@
                                                      <!-- <input type="text" class="form-control" formControlName="NguonKinhPhi" /> -->
                                                       <ng-select [items]="listNguonKinhPhi" bindLabel="TEN_NGUON_KINH_PHI" bindValue="MA_NGUON_KINH_PHI" placeholder="Lựa chọn"
                                                     formControlName="nguonKinhPhi">
-                                                </ng-select>
+                                                </ng-select>  
                                             </td>
                                                 <td><input type="text" class="form-control text-right" formControlName="duToan" money  [options]="{
                                                     numeral: true,
-                                                    numeralIntegerScale: 4
+                                                    numeralIntegerScale: 15
                                                   }" /></td><!--money-->
                                                 <td><input type="text" class="form-control" formControlName="donViChuTri" /></td>
                                                 <td><input type="text" class="form-control" formControlName="chuNhiemNhiemVu" /></td>
@@ -131,7 +131,7 @@
                                 </ng-container>
                                 <ng-container  *ngIf="items.get('listNhiemVu_cap3') != null  && items.get('listNhiemVu_cap3').value.length > 0" formArrayName="listNhiemVu_cap3">
                                     <ng-container *ngFor="let items2 of items.get('listNhiemVu_cap3')['controls']; let k = index;">
-                                        <ng-container *ngIf="items2.get('action').value=='view' && items2.get('listNhiemVu_cap4').value.length >0 " [formGroupName]="k">
+                                        <ng-container *ngIf="items2.get('action').value=='view' && items2.get('listNhiemVu_cap4').value.length >0 " [formGroupName]="k" >
                                             <tr class="italic font-semibold">
                                                 <td class="text-center">{{i+1}}.{{j+1}}.{{k+1}}</td>
                                                 <td class="">{{items2.get('noiDungDangKy').value}}</td>
@@ -163,11 +163,11 @@
                                                                  <!-- <input type="text" class="form-control" formControlName="NguonKinhPhi" /> -->
                                                                   <ng-select [items]="listNguonKinhPhi"  bindLabel="TEN_NGUON_KINH_PHI" bindValue="MA_NGUON_KINH_PHI" placeholder="Lựa chọn"
                                                                 formControlName="nguonKinhPhi">
-                                                            </ng-select>
+                                                            </ng-select>  
                                                         </td>
                                                             <td><input type="text" class="form-control text-right" formControlName="duToan" money  [options]="{
     numeral: true,
-    numeralIntegerScale: 4
+    numeralIntegerScale: 15
   }"/></td><!--money-->
                                                             <td><input type="text" class="form-control" formControlName="donViChuTri" /></td>
                                                             <td><input type="text" class="form-control" formControlName="chuNhiemNhiemVu" /></td>

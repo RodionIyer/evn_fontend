@@ -3,7 +3,9 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ServiceService } from 'app/shared/service/service.service';
 import { CommonModule } from '@angular/common';
 import { String } from 'lodash';
-import { Subscription, of, Subject } from 'rxjs';
+import { Subscription, of, Subject,takeUntil } from 'rxjs';
+import { UserService } from 'app/core/user/user.service';
+import { User } from 'app/core/user/user.types';
 @Component({
     selector: 'table-plans',
     templateUrl: './table-plans.component.html',
@@ -20,10 +22,11 @@ export class TablePlansComponent {
     itemsAdd: FormArray;
     public listKeHoachChiTiet = [];
     public listImport = [];
+    user: User;
     @Input() submitted;
     // @Input('dataImport') dataImport:Subject<any>;
-
-    constructor(private _formBuilder: FormBuilder, private _serviceApi: ServiceService) {
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
+    constructor(private _formBuilder: FormBuilder, private _serviceApi: ServiceService, private _userService: UserService) {
     }
 
     ngOnInit() {
@@ -39,6 +42,12 @@ export class TablePlansComponent {
     keHoach;
     addFormtoParent() {
         this.form.addControl('listNhiemVu', this._formBuilder.array([]))
+        this._userService.user$
+        .pipe(takeUntil(this._unsubscribeAll))
+        .subscribe((user: any) => {
+            this.user = user;
+            
+        });
 
         this._serviceApi.execServiceLogin("030A9A96-90D5-4AD0-80E4-C596AED63EE7", null).subscribe((data) => {
             this.listDonvi = data.data || [];
@@ -161,7 +170,7 @@ export class TablePlansComponent {
         }
         
         if(this.listKeHoachChiTiet !=null && this.listKeHoachChiTiet.length >0){
-            let listChiTiet = this.listKeHoachChiTiet.filter(c => c.maNhom==item.MA_NHOM && (c.maDonVi==null || c.maDonVi==''))
+            let listChiTiet = this.listKeHoachChiTiet.filter(c => c.maNhom==item.MA_NHOM && (c.maDonVi==null || c.maDonVi=='' || c.maNhom=='CHI_PHI'))
             for (let i = 0; i < listChiTiet.length; i++) {
                 //console.log(listNhiemVu1[i].MA_NHOM); //use i instead of 0
                 listNhiemVu2.push(this.newItemNhiemvu(listChiTiet[i]));
@@ -200,10 +209,13 @@ export class TablePlansComponent {
        // let itemArr = [];
       //  if (this.keHoach.capTao=='TCT') {
             let listNhiemVu3 = [];
-            if (this.keHoach.capTao=='TCT' && this.listDonvi != null && this.listDonvi.length > 0) {
+            if ((this.keHoach.capTao=='TCT' || this.keHoach.capTao=='EVN') && this.listDonvi != null && this.listDonvi.length > 0) {
                 for (let i = 0; i < this.listDonvi.length; i++) {
                     //console.log(listNhiemVu1[i].MA_NHOM); //use i instead of 0
-                    listNhiemVu3.push(this.newNhiemvu_cap3(this.listDonvi[i], item));
+                    let listChiTiet = this.listKeHoachChiTiet.filter(c => c.maNhom==item.MA_NHOM && (c.maDonVi==this.listDonvi[i].maNhom))
+                    if(listChiTiet != null && listChiTiet.length >0){
+                        listNhiemVu3.push(this.newNhiemvu_cap3(this.listDonvi[i], item));
+                    }
                 }
             }
             if(this.listKeHoachChiTiet !=null && this.listKeHoachChiTiet.length >0){
@@ -277,6 +289,7 @@ export class TablePlansComponent {
             thoiGianDuKien: item.thoiGianDuKien,
             yKienNguoiPheDuyet: item.yKienNguoiPheDuyet,
             opinion: '',
+            nguoiTao:item.nguoiTao,
             chiTiet:0,
             action:"add"
         })
