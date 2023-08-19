@@ -427,77 +427,78 @@
         <input type="file" name="" id="chontep1" hidden />
     </div> -->
     <div class="flex flex-row row items-center" formArrayName="listFolderFile"
-         *ngFor="let item of form.get('listFolderFile')['controls']; let i = index" >
-       <ng-conainer [formGroupName]="i">
-        <div class="flex">
-            <label for="" class="w-100">{{item.get('fileName').value}}<span *ngIf="item.get('maFolder').value=='VBDANGKY'">(*)</span></label>
-            <label class="custom-file-upload add_button-import">
-                <input type="file" multiple (change)="handleUpload($event,item,i)" #fileUpload2/>
-                <i class="fa fa-cloud-upload"></i> Upload file
-            </label>
-        </div>
+         *ngFor="let item of form.get('listFolderFile')['controls']; let i = index">
+        <ng-conainer [formGroupName]="i">
+            <div class="flex">
+                <label for="" class="w-100">{{item.get('fileName').value}}<span
+                    *ngIf="item.get('maFolder').value=='VBDANGKY'">(*)</span></label>
+                <label class="custom-file-upload add_button-import">
+                    <input type="file" multiple (change)="handleUpload($event,item,i)" #fileUpload2/>
+                    <i class="fa fa-cloud-upload"></i> Upload file
+                </label>
+            </div>
 
-        <div class="list-file" *ngIf="item.get('listFile').value.length > 0">
-        <table class="table table_custom action-table">
-            <tbody formArrayName="listFile" class="table_listfile" style="width:100% !important">
-            <ng-container *ngFor="let item2 of item.get('listFile')['controls'];let k = index" >
-                <tr [formGroupName]="k">
-                    <td>
-                        <!-- <i
-                            class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
-                        ></i> -->
-                        {{ item2.get("fileName").value }}
-                    </td>
-                    <td>
-                        {{
-                            item2.get("size").value >
-                            1024 * 1024
-                                ? (
-                                      item2.get("size").value /
-                                      (1024 * 1024)
-                                  ).toFixed(1) + "(MB)"
-                                : item2.get("size").value > 1024
-                                ? (
-                                      item2.get("size").value /
-                                      1024
-                                  ).toFixed(1) + "(KB)"
-                                : item2
-                                      .get("size")
-                                      .value.toFixed(1) + "K"
-                        }}
-                    </td>
+            <div class="list-file" *ngIf="item.get('listFile').value.length > 0">
+                <table class="table table_custom action-table">
+                    <tbody formArrayName="listFile" class="table_listfile" style="width:100% !important">
+                    <ng-container *ngFor="let item2 of item.get('listFile')['controls'];let k = index">
+                        <tr [formGroupName]="k">
+                            <td>
+                                <!-- <i
+                                    class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
+                                ></i> -->
+                                {{ item2.get("fileName").value }}
+                            </td>
+                            <td>
+                                {{
+                                item2.get("size").value >
+                                1024 * 1024
+                                    ? (
+                                    item2.get("size").value /
+                                    (1024 * 1024)
+                                ).toFixed(1) + "(MB)"
+                                    : item2.get("size").value > 1024
+                                    ? (
+                                        item2.get("size").value /
+                                        1024
+                                    ).toFixed(1) + "(KB)"
+                                    : item2
+                                        .get("size")
+                                        .value.toFixed(1) + "K"
+                                }}
+                            </td>
 
-                    <!-- <td>{{ item2.get("sovanban").value }}</td> -->
-                    <td class="text-right">
-                        <i
-                            style="
+                            <!-- <td>{{ item2.get("sovanban").value }}</td> -->
+                            <td class="text-right">
+                                <i
+                                    style="
                                 color: red;
                                 cursor: pointer;
                                 margin-right: 3px;
                             "
-                            (click)="deleteItemFile(item, k)"
-                            class="fa fa-trash"
-                            title="Xóa bỏ"
-                        ></i>
-                        <i
-                            class="fa fa-cloud-download"
-                            style="
+                                    (click)="deleteItemFile(item, k)"
+                                    class="fa fa-trash"
+                                    title="Xóa bỏ"
+                                ></i>
+                                <i
+                                    class="fa fa-cloud-download"
+                                    style="
                                 color: green;
                                 cursor: pointer;
                             "
-                            aria-hidden="true"
-                            (click)="downLoadFile(item2)"
-                            title="Download file"
-                        ></i>
-                    </td>
-                </tr>
-            </ng-container>
-            </tbody>
-        </table>
-    </div>
+                                    aria-hidden="true"
+                                    (click)="downLoadFile(item2)"
+                                    title="Download file"
+                                ></i>
+                            </td>
+                        </tr>
+                    </ng-container>
+                    </tbody>
+                </table>
+            </div>
 
 
-    </ng-conainer>
+        </ng-conainer>
     </div>
 
     <div class="action-all-f">
@@ -516,6 +517,7 @@
 <div
     *ngIf="actionType == 'CHITIET'"
     class="flex flex-col flex-auto overflow-y-auto bg-card dark:bg-default content-detail p-3"
+    [formGroup]="form"
 >
     <div class="">
         <h1 class="title-component">CHI TIẾT THÔNG TIN SÁNG KIẾN</h1>
@@ -620,13 +622,15 @@
                 </tbody>
             </table>
             <div class="flex items-center mt-3">
-                <div style="width: 200px;"><label>Đơn đăng ký : </label></div><br>
+                <div style="width: 200px;"><label>Đơn đăng ký : </label></div>
+                <br>
                 <div
                     class="list-file"
-                    *ngIf="listFileVB.length > 0"
+                    *ngIf="listFileVB?.length > 0"
                 >
-                    <table class="table table_custom action-table" style="width: auto; padding: 10px; text-align: center">
-<!--                        formArrayName="listFile"-->
+                    <table class="table table_custom action-table"
+                           style="width: auto; padding: 10px; text-align: center">
+                        <!--                        formArrayName="listFile"-->
                         <tbody
 
                             class="table_listfile"
@@ -638,7 +642,7 @@
                                 <i
                                     class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
                                 ></i>
-                                {{item2.fileName}}
+                                {{item2?.fileName}}
                             </td>
                             <td style="width: 70px;  text-align: center">
                                 {{
@@ -652,7 +656,7 @@
                             </td>
 
                             <td>
-                                {{item2.sovanban}}
+                                {{item2?.sovanban}}
                             </td>
                             <td class="text-right">
                                 <i
@@ -669,13 +673,14 @@
                 </div>
             </div>
             <div class="flex items-center mt-3">
-                <div style="width: 200px;"><label>Hồ sơ tài liệu đính kèm: </label></div><br>
+                <div style="width: 200px;"><label>Hồ sơ tài liệu đính kèm: </label></div>
+                <br>
                 <div
                     class="list-file"
-                    *ngIf="listFileOther.length > 0"
+                    *ngIf="listFileOther?.length > 0"
                 >
-                    <table class="table table_custom action-table"  style="width: auto; padding: 10px;">
-<!--                        formArrayName="listFile"-->
+                    <table class="table table_custom action-table" style="width: auto; padding: 10px;">
+                        <!--                        formArrayName="listFile"-->
                         <tbody
 
                             class="table_listfile"
@@ -683,13 +688,13 @@
                         <tr
                             *ngFor="let item3 of listFileOther;let l = index"
                         >
-                            <td  style="width: auto;">
+                            <td style="width: auto;">
                                 <i
                                     class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
                                 ></i>
                                 {{item3.fileName}}
                             </td>
-                            <td  style="width: 70px;  text-align: center">
+                            <td style="width: 70px;  text-align: center">
                                 {{
                                 item3.size > 1024 * 1024 ?
                                     (item3.size / (1024 * 1024)).toFixed(1) + "(MB)"
@@ -778,42 +783,85 @@
                     <th>Ghi chú</th>
                 </tr>
                 </thead>
-                <tbody>
-                <tr>
-                    <td class="stt_table">1</td>
-                    <td>Noi dung</td>
-                    <td>Noi dung</td>
-                    <td>Noi dung</td>
+                <tbody *ngIf="lstDanhSachThanhVienHD?.length > 0" style="text-align: center">
+                <tr
+                    *ngFor="
+                            let thanhvien of lstDanhSachThanhVienHD;let i = index
+                        "
+                >
+                    <td class="stt_table">{{ i + 1 }}</td>
+                    <td>
+                        {{ thanhvien.username }}
+                    </td>
+                    <td>
+                        {{ thanhvien.vaiTro }}
+                    </td>
+                    <td></td>
+                    <!-- <td>{{thanhvien.email}}</td>
+                    <td>{{thanhvien.donViCongTac}}</td> -->
                 </tr>
                 </tbody>
             </table>
 
-            <table class="table table_custom mt-5">
+            <label class="tiite_lale" for=""
+            >Danh sách các văn bản liên quan</label
+            >
+            <table class="table table_custom" style="margin-top: 0">
                 <thead>
                 <tr>
                     <th class="stt_table">STT</th>
-                    <th>Văn bản liên quan</th>
+                    <th>Tên văn bản</th>
                     <th>Số ký hiệu</th>
                     <th>Ngày văn bản</th>
                     <th>File nội dung</th>
                 </tr>
                 </thead>
-                <tbody>
-                <tr>
-                    <td class="stt_table">1</td>
-                    <td>Noi dung</td>
-                    <td class="text-center">Noi dung</td>
-                    <td class="text-center">Noi dung</td>
-                    <td class="text-center">
-                        <button
-                            class="bg-sky-500 color text-white px-8 py-2 rounded-md"
+                <tbody formArrayName="listFolderFile">
+                <tr
+                    *ngFor="
+                            let item of form.get('listFolderFile')['controls'];
+                            let i = index
+                        "
+                    [formGroupName]="i"
+                >
+                    <td class="stt_table">{{ i + 1 }}</td>
+                    <td class="font-medium">
+                        {{ item.get("fileName").value }}
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <div
+                            class="list-file"
+                            *ngIf="item.get('listFile').value.length > 0"
                         >
-                            <i class="fa fa-cloud-download"></i> Tải về
-                        </button>
+                            <table class="table table_custom action-table">
+                                <tbody
+                                    formArrayName="listFile"
+                                    class="table_listfile"
+                                >
+                                <tr
+                                    *ngFor="
+                                                let item2 of item.get(
+                                                    'listFile'
+                                                )['controls'];
+                                                let k = index
+                                            "
+                                >
+                                    <td>
+                                        {{
+                                        item2.get("fileName").value
+                                        }}
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </td>
                 </tr>
                 </tbody>
             </table>
+
 
             <div class="flex flex-row row gap-4">
                 <div class="basis-1/6">

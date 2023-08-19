@@ -6,8 +6,8 @@ import {
     ViewChild,
     ViewEncapsulation,
 } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription, takeUntil } from 'rxjs';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Subscription, takeUntil} from 'rxjs';
 import {
     FormArray,
     FormBuilder,
@@ -16,19 +16,19 @@ import {
     UntypedFormGroup,
     Validators,
 } from '@angular/forms';
-import { MessageService } from 'app/shared/message.services';
-import { SnotifyToast } from 'ng-alt-snotify';
-import { State } from 'app/shared/commons/conmon.types';
-import { BaseDetailInterface } from 'app/shared/commons/basedetail.interface';
-import { UserService } from 'app/core/user/user.service';
-import { BaseComponent } from 'app/shared/commons/base.component';
-import { FunctionService } from 'app/core/function/function.service';
-import { xetduyetService } from '../xetduyet.service';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatSort } from '@angular/material/sort';
-import { ServiceService } from 'app/shared/service/service.service';
-import { MatDialog } from '@angular/material/dialog';
-import { PopupCbkhComponent } from './popup-cbkh/popup-cbkh.component';
+import {MessageService} from 'app/shared/message.services';
+import {SnotifyToast} from 'ng-alt-snotify';
+import {State} from 'app/shared/commons/conmon.types';
+import {BaseDetailInterface} from 'app/shared/commons/basedetail.interface';
+import {UserService} from 'app/core/user/user.service';
+import {BaseComponent} from 'app/shared/commons/base.component';
+import {FunctionService} from 'app/core/function/function.service';
+import {xetduyetService} from '../xetduyet.service';
+import {MatTableDataSource} from '@angular/material/table';
+import {MatSort} from '@angular/material/sort';
+import {ServiceService} from 'app/shared/service/service.service';
+import {MatDialog} from '@angular/material/dialog';
+import {PopupCbkhComponent} from './popup-cbkh/popup-cbkh.component';
 
 @Component({
     selector: 'component-details',
@@ -45,8 +45,8 @@ export class DetailsComponent implements OnInit {
     public form;
     public method;
     public idParam;
-    public submitted = { check: false };
-    public listChucDanh=[];
+    public submitted = {check: false};
+    public listChucDanh = [];
 
     constructor(
         private _formBuilder: UntypedFormBuilder,
@@ -57,7 +57,7 @@ export class DetailsComponent implements OnInit {
         public dialog: MatDialog
     ) {
         this.initForm();
-       // this.initFormUpdateActionKQXDCN();
+        // this.initFormUpdateActionKQXDCN();
         this.idParam = this._activatedRoute.snapshot.paramMap.get('id');
         this._activatedRoute.queryParams.subscribe((params) => {
             debugger
@@ -68,24 +68,25 @@ export class DetailsComponent implements OnInit {
             }
             if (this.actionType == 'updateActionRaSoat') {
                 this.method = 'RASOAT';
-            } else  if (this.actionType == 'updateActionHDXDCN') {
+            } else if (this.actionType == 'updateActionHDXDCN') {
                 this.method = 'HOIDONGXD';
-            }  else  if (this.actionType == 'updateActionKQXDCN') {
+            } else if (this.actionType == 'updateActionKQXDCN') {
                 this.method = 'KETQUAXD';
-            }  else  if (this.actionType == 'updateActionKQ') {
+            } else if (this.actionType == 'updateActionKQ') {
                 this.method = 'CHUNGNHANSK';
-            } else  if (this.actionType == 'CHINHSUA') {
+            } else if (this.actionType == 'CHINHSUA') {
                 this.method = 'CAPNHAT';
             }
             console.log(this.actionType);
             this.detail(this.method);
         });
     }
+
     detail(method) {
         this._serviceApi
             .execServiceLogin('0CCBA90A-07BA-482E-85AA-A129FD4B7EE5', [
-                { name: 'MA_SANGKIEN', value: this.idParam },
-                { name: 'METHOD_BUTTON', value: method },
+                {name: 'MA_SANGKIEN', value: this.idParam},
+                {name: 'METHOD_BUTTON', value: method},
             ])
             .subscribe((data) => {
                 console.log(data.data)
@@ -120,8 +121,8 @@ export class DetailsComponent implements OnInit {
                         }
                     }
                 }
-                  // danh sách thành viên
-                  if (data.data.danhSachThanhVien != null) {
+                // danh sách thành viên
+                if (data.data.danhSachThanhVien != null) {
                     let formThanhVien = this.form.get(
                         'danhSachThanhVien'
                     ) as FormArray;
@@ -137,12 +138,13 @@ export class DetailsComponent implements OnInit {
                     }
                 }
 
-                if(method=='HOIDONGXD'){
+                if (method == 'HOIDONGXD') {
                     this.form.get('maTrangThai').setValue('DA_TLHDXDTC');
                 }
 
             });
     }
+
     THEM_THANHVIEN(item?: any): FormGroup {
         return this._formBuilder.group({
             maThanhVien: item?.maThanhVien || null,
@@ -162,6 +164,7 @@ export class DetailsComponent implements OnInit {
             listFile: this._formBuilder.array([]),
         });
     }
+
     addListDocChild(item?: any) {
         return this._formBuilder.group({
             fileName: item?.fileName || null,
@@ -173,24 +176,25 @@ export class DetailsComponent implements OnInit {
             tenFolder: item?.tenFolder || null,
         });
     }
+
     initForm() {
         this.form = this._formBuilder.group({
-            method:[null],
-            maSangKien:[null],
+            method: [null],
+            maSangKien: [null],
             tenGiaiPhap: [null, [Validators.required]],
             capDoSangKien: [null],
-            tenCapDoSangKien:[null],
+            tenCapDoSangKien: [null],
             nam: [null],
             tacGia: [null],
-            tenTacGia:[null],
+            tenTacGia: [null],
             donViCongTac: [null],
-            tenDonViCongTac:[null],
+            tenDonViCongTac: [null],
             donViThucHien: [null],
             tenDonViThucHien: [null],
             vanBan: this._formBuilder.array([]),
             danhSachThanhVien: this._formBuilder.array([]),
             maTrangThai: [null],
-            isEmail:[null],
+            isEmail: [null],
             quyetDinhThanhLapHoiDing: [null],
             diemHop: [null],
             thoiGianHop: [null],
@@ -205,11 +209,11 @@ export class DetailsComponent implements OnInit {
             guiMail: [false],
             listFolderFile: this._formBuilder.array([]),
             listFile: this._formBuilder.array([]),
-            noiDungGuiMail:[null],
-            ghiChu:[null],
-            tacGiaGiaiPhap:[null],
-            sovanban:[null],
-            ngayVanBan:[null]
+            noiDungGuiMail: [null],
+            ghiChu: [null],
+            tacGiaGiaiPhap: [null],
+            sovanban: [null],
+            ngayVanBan: [null]
         });
     }
 
@@ -224,15 +228,16 @@ export class DetailsComponent implements OnInit {
     ngOnInit(): void {
         this.geListYears();
         this.getListChucDanh();
-        if (this.actionType == 'updateActionHDXDCN'){
+        if (this.actionType == 'updateActionHDXDCN') {
             this.getListTrangThaiHSXD();
-        }else  if (this.actionType == 'updateActionKQXDCN') {
+        } else if (this.actionType == 'updateActionKQXDCN') {
             this.getListTrangThaiKQXD();
-        }else  if (this.actionType == 'updateActionKQ') {
+        } else if (this.actionType == 'updateActionKQ') {
             this.getListTrangThaiCNXK();
         }
-       // this._messageService.showSuccessMessage('Thông báo', 'Thành công');
+        // this._messageService.showSuccessMessage('Thông báo', 'Thành công');
     }
+
     getListTrangThaiHSXD() {
         this._serviceApi
             .execServiceLogin('F78D616F-CB41-46B3-A5A2-429E9F9C07AD', null)
@@ -355,7 +360,7 @@ export class DetailsComponent implements OnInit {
                 item.get('donViCongTac').setValue(data.data.noiLamViec);
                 item.get('maThanhVien').setValue(data.data.userId);
                 item.get('maThanhVien').setValue(data.data.userId);
-            }else if (type == 'HOIDONGSK') {
+            } else if (type == 'HOIDONGSK') {
                 let formThanhVien = this.form.get(
                     'danhSachThanhVien'
                 ) as FormArray;
@@ -373,11 +378,13 @@ export class DetailsComponent implements OnInit {
             }
         });
     }
+
     removeItem(items, i) {
         // remove address from the list
         const control = items.get('danhSachThanhVien');
         control.removeAt(i);
     }
+
     addMember() {
         return this._formBuilder.group({
             maThanhVien: '',
@@ -388,6 +395,7 @@ export class DetailsComponent implements OnInit {
             donViCongTac: '',
         });
     }
+
     addThanhVien() {
         let ar = this.form.get('danhSachThanhVien') as FormArray;
         ar.push(this.addMember());
@@ -401,52 +409,56 @@ export class DetailsComponent implements OnInit {
         console.log(this.form.value);
         this.form.get('method').setValue(method);
         this.form.get('nam').setValue(new Date().getFullYear());
-        if(method=="SUA"){
+        if (method == "SUA") {
             // if(status=="LUU"){
             //     this.form.get('maTrangThai').setValue('SOAN');
             // }else if(status=="LUUGUI"){
             //     this.form.get('maTrangThai').setValue('CHO_RA_SOAT');
             // }
-        }else  if(method=="RASOAT"){
-            if(status=="TRALAI"){
+        } else if (method == "RASOAT") {
+            if (status == "TRALAI") {
                 this.form.get('maTrangThai').setValue('KHONG_CONG_NHAN');
-            }else if(status=="CHAPTHUAN"){
+            } else if (status == "CHAPTHUAN") {
                 this.form.get('maTrangThai').setValue('DA_RA_SOAT');
             }
-        }else if( method = 'CHUNGNHANSK'){
+        } else if (method = 'CHUNGNHANSK') {
             let tenTrangThai = "";
-            let lstTrangThai = this.listTrangThai.filter(c => c.ID ==this.form.get('maTrangThai').value);
-            if(lstTrangThai !=null && lstTrangThai.length >0){
+            let lstTrangThai = this.listTrangThai.filter(c => c.ID == this.form.get('maTrangThai').value);
+            if (lstTrangThai != null && lstTrangThai.length > 0) {
                 tenTrangThai = lstTrangThai[0].NAME;
             }
-            let noiDung = tenTrangThai+' '+ this.form.get('tenGiaiPhap').value;
+            let noiDung = tenTrangThai + ' ' + this.form.get('tenGiaiPhap').value;
             this.form.get('noiDungGuiMail').setValue(noiDung);
         }
         var token = localStorage.getItem("accessToken");
         this._serviceApi
-        .execServiceLogin('09E301E6-9C2E-424C-A3C3-FD46CE8CB18C', [{"name":"SANG_KIEN","value":JSON.stringify(this.form.value)},{"name":"TOKEN_LINK","value":token}])
-        .subscribe((data) => {
-            if (data.status == 1) {
-                this._messageService.showSuccessMessage(
-                    'Thông báo',
-                    data.message
-                );
-                // if (this.screen) {
-                //     this._router.navigateByUrl(this.screen);
-                // } else {
+            .execServiceLogin('09E301E6-9C2E-424C-A3C3-FD46CE8CB18C', [{
+                "name": "SANG_KIEN",
+                "value": JSON.stringify(this.form.value)
+            }, {"name": "TOKEN_LINK", "value": token}])
+            .subscribe((data) => {
+                if (data.status == 1) {
+                    this._messageService.showSuccessMessage(
+                        'Thông báo',
+                        data.message
+                    );
+                    // if (this.screen) {
+                    //     this._router.navigateByUrl(this.screen);
+                    // } else {
                     this._router.navigateByUrl(
                         'nghiepvu/sangkien/xetduyet'
                     );
-               // }
-            } else {
-                this._messageService.showErrorMessage(
-                    'Thông báo',
-                    data.message
-                );
-            }
+                    // }
+                } else {
+                    this._messageService.showErrorMessage(
+                        'Thông báo',
+                        data.message
+                    );
+                }
 
-        })
+            })
     }
+
     handleUpload(event, item, index) {
         let arr = item.get('listFile') as FormArray;
         for (var i = 0; i < event.target.files.length; i++) {
@@ -459,46 +471,52 @@ export class DetailsComponent implements OnInit {
         }
         console.log(item);
     }
-    addFile(item,itemVal,base64){
+
+    addFile(item, itemVal, base64) {
         return this._formBuilder.group({
-       fileName: itemVal.name,
-       base64: base64,
-       size: itemVal.size,
-       sovanban: "",
-       mafile: "",
-        })
-   }
-   deleteItemFile(items, i) {
-    // remove address from the list
-        const control = items.get('listFile');
-        control.removeAt(i);
-
-}
-downloadTempExcel(userInp, fileName) {
-    var mediaType = "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,";
-
-    const downloadLink = document.createElement('a');
-
-    downloadLink.href = mediaType + userInp;
-    downloadLink.download = fileName;
-    downloadLink.click();
-}
-downLoadFile(item) {
-    if (item.base64 != undefined && item.base64 != '') {
-        let link = item.base64.split(',');
-        let url = "";
-        if (link.length > 1) {
-            url = link[1];
-        } else {
-            url = link[0];
-        }
-        this.downloadTempExcel(url, item.fileName);
-    } else {
-        var token = localStorage.getItem("accessToken");
-        this._serviceApi.execServiceLogin("2269B72D-1A44-4DBB-8699-AF9EE6878F89", [{ "name": "DUONG_DAN", "value": item.duongdan }, { "name": "TOKEN_LINK", "value": "Bearer " + token }]).subscribe((data) => {
-            console.log("downloadFile:" + JSON.stringify(data));
+            fileName: itemVal.name,
+            base64: base64,
+            size: itemVal.size,
+            sovanban: "",
+            mafile: "",
         })
     }
 
-}
+    deleteItemFile(items, i) {
+        debugger
+        const control = items.get('listFile');
+        control.removeAt(i);
+    }
+
+    downloadTempExcel(userInp, fileName) {
+        var mediaType = "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,";
+
+        const downloadLink = document.createElement('a');
+
+        downloadLink.href = mediaType + userInp;
+        downloadLink.download = fileName;
+        downloadLink.click();
+    }
+
+    downLoadFile(item) {
+        if (item.base64 != undefined && item.base64 != '') {
+            let link = item.base64.split(',');
+            let url = "";
+            if (link.length > 1) {
+                url = link[1];
+            } else {
+                url = link[0];
+            }
+            this.downloadTempExcel(url, item.fileName);
+        } else {
+            var token = localStorage.getItem("accessToken");
+            this._serviceApi.execServiceLogin("2269B72D-1A44-4DBB-8699-AF9EE6878F89", [{
+                "name": "DUONG_DAN",
+                "value": item.duongdan
+            }, {"name": "TOKEN_LINK", "value": "Bearer " + token}]).subscribe((data) => {
+                console.log("downloadFile:" + JSON.stringify(data));
+            })
+        }
+
+    }
 }

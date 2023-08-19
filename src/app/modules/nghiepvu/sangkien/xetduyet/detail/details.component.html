@@ -195,9 +195,6 @@
                         <i class="fa fa-link"></i> Upload file
                     </button> -->
                 </td>
-                <td class="text-center">
-
-                </td>
             </tr>
         </tbody>
     </table>
@@ -871,32 +868,6 @@
         </ng-select>
     </div>
 
-
-
-    <!-- <div style="display: flex; margin-top: 10px; align-items: center">
-        <div class="basis-1/5">
-            <label for="">Giấy chứng nhận sáng kiến</label>
-        </div>
-        <div class="basis-1/5">
-           <button style="background: #ccc; padding: 5px 16px; border-radius: 5px;">Chọn tệp...</button>
-        </div>
-    </div>
-    <div style="display: flex; margin-top: 10px; align-items: center">
-        <div class="basis-1/5">
-            <label for="">Quyết định công nhận sáng kiến</label>
-        </div>
-        <div class="basis-1/5">
-           <button style="background: #ccc; padding: 5px 16px; border-radius: 5px;">Chọn tệp...</button>
-        </div>
-    </div>
-    <div style="display: flex; margin-top: 10px; align-items: center">
-        <div class="basis-1/5">
-            <label for="">Quyết định chi trả thù lao</label>
-        </div>
-        <div class="basis-1/5">
-           <button style="background: #ccc; padding: 5px 16px; border-radius: 5px;">Chọn tệp...</button>
-        </div>
-    </div> -->
     <div class="flex flex-row row items-center"  *ngFor="let item of form.get('listFolderFile')['controls']; let i = index">
 
         <label for="" class="w-100">{{item.get('fileName').value}}</label>
@@ -1034,7 +1005,7 @@
                 </div> -->
 
                 <label class="custom-file-upload add_button-import">
-                    <input type="file" multiple (change)="handleUpload($event,item,i)" #fileUpload2 />
+                    <input style="width: auto !important;" type="file" multiple (change)="handleUpload($event,item,i)" #fileUpload2 />
                     <i class="fa fa-cloud-upload"></i> Upload file
                 </label>
     </div>
