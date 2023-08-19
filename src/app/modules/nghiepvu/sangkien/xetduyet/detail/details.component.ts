@@ -89,6 +89,7 @@ export class DetailsComponent implements OnInit {
             ])
             .subscribe((data) => {
                 console.log(data.data)
+                debugger
                 this.form.patchValue(data.data);
                 let formDocParent = this.form.get(
                     'listFolderFile'
@@ -139,7 +140,7 @@ export class DetailsComponent implements OnInit {
                 if(method=='HOIDONGXD'){
                     this.form.get('maTrangThai').setValue('DA_TLHDXDTC');
                 }
-                
+
             });
     }
     THEM_THANHVIEN(item?: any): FormGroup {
@@ -205,8 +206,10 @@ export class DetailsComponent implements OnInit {
             listFolderFile: this._formBuilder.array([]),
             listFile: this._formBuilder.array([]),
             noiDungGuiMail:[null],
-            ghiChu:[null]
-
+            ghiChu:[null],
+            tacGiaGiaiPhap:[null],
+            sovanban:[null],
+            ngayVanBan:[null]
         });
     }
 

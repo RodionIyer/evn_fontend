@@ -33,7 +33,7 @@
             <label for="">Tác giả:</label>
         </div>
         <div class="basis-2/5">
-            <span>{{form.get('tenTacGia').value}}</span>
+            <span>{{form.get('tacGiaGiaiPhap').value}}</span>
         </div>
         <div class="basis-1/12">
             <label for="">Đơn vị công tác:</label>
@@ -74,19 +74,6 @@
                     *ngIf="item.get('listFile').value.length > 0"
                 >
                     <table class="table table_custom action-table">
-                        <!-- <thead>
-                            <tr>
-                                <th class="stt_table">STT</th>
-                                <th>Tên file</th>
-                                <th class="text-center">Kích thước
-                                </th>
-                                <th class="text-center">Số văn bản
-                                </th>
-                                <th class="text-center">
-                                </th>
-                                <th style="width: 100px;"></th>
-                            </tr>
-                        </thead> -->
                         <tbody>
                             <ng-container
                                 formArrayName="listFile"
@@ -319,7 +306,7 @@
             <label for="">Tác giả:</label>
         </div>
         <div class="basis-2/5">
-            <span>{{form.get('tenTacGia').value}}</span>
+            <span>{{form.get('tacGiaGiaiPhap').value}}</span>
         </div>
         <div class="basis-1/12">
             <label for="">Đơn vị công tác:</label>

@@ -92,7 +92,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
             });
     }
 
-   
+
     getListCapDoSK() {
         this._serviceApi
             .execServiceLogin('825C8F49-51DE-417E-AACD-FBDB437346AB', null)
@@ -125,6 +125,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
         });
     }
     timKiem() {
+        debugger
         let obj ={
             capDo:this.capDo,
             trangThai:this.trangThai,
@@ -156,8 +157,8 @@ export class ListItemComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.getYearSubscription.unsubscribe();
-        this.getGiaoSubcription.unsubscribe();
+        // this.getYearSubscription.unsubscribe();
+        // this.getGiaoSubcription.unsubscribe();
     }
 
     // getListDinhHuong() {
@@ -195,6 +196,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
     }
 
     detail(item) {
+        debugger
         this._router.navigate(
             ['/nghiepvu/sangkien/lstsangkiencuatoi/' + item.maSangKien],
             { queryParams: { type: 'CHITIET' } }

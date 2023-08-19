@@ -39,6 +39,7 @@
                 placeholder="Lựa chọn"
                 formControlName="nam"
                 style="width: 100%;"
+                [(ngModel)]="selectedYear"
             >
             </ng-select>
             <div
@@ -494,7 +495,7 @@
             </tbody>
         </table>
     </div>
-      
+
 
     </ng-conainer>
     </div>
@@ -532,46 +533,46 @@
                 </tr>
                 <tr>
                     <td>Cấp độ sáng kiến</td>
-                    <td>{{data.capDoSangKien}}</td>
+                    <td>{{data?.tenCapDo}}</td>
                 </tr>
                 <tr>
                     <td>Lĩnh vực áp dụng sáng kiến</td>
-                    <td>{{data.linhVucNghienCuu}}</td>
+                    <td>{{data?.lstTenLinhVucNghienCuu}}</td>
                 </tr>
                 <tr>
                     <td>Đơn vị chủ đầu tư</td>
-                    <td>{{data.donViChuDauTu}}</td>
+                    <td>{{data?.donViChuDauTu}}</td>
                 </tr>
                 <tr>
                     <td>Ưu nhược điểm của giải pháp kỹ thuật</td>
-                    <td>{{data.uuNhuocDiem}}</td>
+                    <td>{{data?.uuNhuocDiem}}</td>
                 </tr>
                 <tr>
                     <td>Năm</td>
-                    <td>{{data.nam}}</td>
+                    <td>{{data?.nam}}</td>
                 </tr>
                 <tr>
                     <td>Nội dung giải pháp</td>
-                    <td>{{data.noiDungGiaiPhap}}</td>
+                    <td>{{data?.noiDungGiaiPhap}}</td>
                 </tr>
                 <tr>
                     <td>Ngày áp dụng chính thức</td>
-                    <td>{{data.ngayApDung}}</td>
+                    <td>{{data?.ngayApDung  | date:'mm/dd/yyyy'  }}</td>
                 </tr>
                 <tr>
                     <td>
                         Quá trình áp dụng giải pháp trên thực tiễn hoặc áp
                         dụng thử
                     </td>
-                    <td>{{data.quaTrinhApDung}}</td>
+                    <td>{{data?.quaTrinhApDung}}</td>
                 </tr>
                 <tr>
                     <td>Hiệu quả thực tế thu được khi áp dụng giải pháp</td>
-                    <td>{{data.hieuQuaThucTe}}</td>
+                    <td>{{data?.hieuQuaThucTe}}</td>
                 </tr>
                 <tr>
                     <td>Tóm tắt: Bản chất của giải pháp/sáng kiến</td>
-                    <td>{{data.tomTat}}</td>
+                    <td>{{data?.tomTat}}</td>
                 </tr>
                 <tr>
                     <td>
@@ -590,15 +591,15 @@
                             <th>Nội dung tham gia</th>
                             </thead>
                             <tbody>
-                            <ng-container *ngFor="let item of data.danhSachThanhVien; let i = index">
+                            <ng-container *ngFor="let item of data?.danhSachThanhVien; let i = index">
                                 <tr>
                                     <td>{{i + 1}}</td>
-                                    <td>{{item.ten}}</td>
-                                    <td>{{item.chucDanh}}</td>
-                                    <td>{{item.namSinh}}</td>
-                                    <td>{{item.diaChiNoiLamViec}}</td>
-                                    <td>{{item.thanhTuu}}</td>
-                                    <td>{{item.noiDungThamGia}}</td>
+                                    <td>{{item?.ten}}</td>
+                                    <td>{{item?.tenChucDanh}}</td>
+                                    <td>{{item?.namSinh}}</td>
+                                    <td>{{item?.diaChiNoiLamViec}}</td>
+                                    <td>{{item?.thanhTuu}}</td>
+                                    <td>{{item?.noiDungThamGia}}</td>
                                     <td></td>
                                 </tr>
                             </ng-container>
@@ -610,11 +611,11 @@
                     <td>
                         Số tiền làm lợi trong năm đầu tiên áp dụng giải pháp
                     </td>
-                    <td>{{data.soTienLamLoi}}</td>
+                    <td>{{data?.soTienLamLoi}}</td>
                 </tr>
                 <tr>
                     <td>Tác giả là thủ trưởng đơn vị</td>
-                    <td>{{data.thuTruongDonVi}}</td>
+                    <td>{{data?.thuTruongDonVi}}</td>
                 </tr>
                 </tbody>
             </table>
@@ -733,7 +734,7 @@
                 <tr *ngFor="let item4 of listAuthor;let l = index">
                     <td class="stt_table">{{l + 1}}</td>
                     <td>{{item4.ten}}</td>
-                    <td>{{item4.chucDanh}}</td>
+                    <td>{{item4.tenChucDanh}}</td>
                     <td>{{item4.diaChiNoiLamViec}}</td>
                     <td>{{item4.thanhTuu}}</td>
                     <td>{{item4.noiDungThamGia}}</td>
@@ -747,13 +748,13 @@
                     <label class="tiite_lale" for="">Trạng thái</label>
                 </div>
                 <div class="w-40">
-                    <span>{{data.maTrangThai}}</span>
+                    <span>{{data?.maTrangThai}}</span>
                 </div>
                 <div class="w-40">
                     <label class="tiite_lale" for="">Ngày xét duyệt</label>
                 </div>
                 <div class="w-40">
-                    <span>{{data.ngayApDung}}</span>
+                    <span>{{data?.ngayApDung}}</span>
                 </div>
             </div>
 
@@ -761,7 +762,7 @@
             >Luận giải của hội đồng khoa học về kết quả đánh giá: </label
             >
             <label class="tiite_lale flex">Kiến nghị của Hội đồng: </label>
-            <label class="tiite_lale flex">Thù lao cho sáng kiến: <span>{{data.soTienLamLoi}}</span></label>
+            <label class="tiite_lale flex">Thù lao cho sáng kiến: <span>{{data?.soTienLamLoi}}</span></label>
             <label
                 class="tiite_lale"
                 style="margin-top: 20px; display: block"

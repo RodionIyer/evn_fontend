@@ -101,6 +101,7 @@ export class DetailsComponent implements OnInit {
     ) {
         this.idParam = this._activatedRoute.snapshot.paramMap.get('id');
         this._activatedRoute.queryParams.subscribe((params) => {
+            debugger
             if (params?.type) {
                 this.actionType = params?.type;
             } else {
@@ -122,7 +123,7 @@ export class DetailsComponent implements OnInit {
             if(this.idParam){
                 this.detail(this.method);
             }
-               
+
         });
     }
 
@@ -450,6 +451,7 @@ export class DetailsComponent implements OnInit {
     }
 
     onSubmit(status, method) {
+        debugger
         this.submitted.check = true;
         if (this.form.invalid) {
             return;
