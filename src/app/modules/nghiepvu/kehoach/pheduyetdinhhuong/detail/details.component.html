@@ -108,6 +108,7 @@
                         <i class="fa fa-user"></i> Giao thực hiện
                     </button>
                     <button
+                    (click)="exportMau()"
                         class="add_button-export"
                         *ngIf="
                             checkChiTiet == 'TH_DonVi' ||

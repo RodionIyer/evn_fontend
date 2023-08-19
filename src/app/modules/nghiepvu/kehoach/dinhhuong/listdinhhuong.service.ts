@@ -32,7 +32,7 @@ export class ListdinhhuongService {
   }
 
   geListYears() {
-    this._serviceApi.execServiceLogin("E5050E10-799D-4F5F-B4F2-E13AFEA8543B", null).subscribe((data) => {
+    this._serviceApi.execServiceLogin("E5050E10-799D-4F5F-B4F2-E13AFEA8543B", [{"name":"ORGID","value":"STR"}]).subscribe((data) => {
       let value = data.data || [];
      
       this.setValueYear(value)

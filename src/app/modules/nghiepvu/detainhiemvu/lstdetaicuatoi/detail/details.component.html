@@ -571,10 +571,13 @@
         <div class="basis-1/5">
             <label for="">Tổng kinh phí<span>(*)</span></label>
             <input
-                class="form-control"
+                class="form-control text-right"
                 placeholder="VNĐ"
                 formControlName="tongKinhPhi"
-
+                money  [options]="{
+                    numeral: true,
+                    numeralIntegerScale: 15
+                  }"
                 type="text"
                 name=""
                 id=""
@@ -602,25 +605,33 @@
         <div class="basis-1/5">
             <label for="">Khinh phí khoán</label>
             <input
-                class="form-control"
+                class="form-control text-right"
                 placeholder="VNĐ"
                 type="text"
                 name=""
 
                 formControlName="kinhPhiKhoan"
                 id=""
+                money  [options]="{
+                    numeral: true,
+                    numeralIntegerScale: 15
+                  }"
             />
         </div>
         <div class="basis-1/5">
             <label for="">Kinh phí không khoán</label>
             <input
-                class="form-control"
+                class="form-control text-right"
                 placeholder="VNĐ"
                 type="text"
                 name=""
 
                 formControlName="kinhPhiKhongKhoan"
                 id=""
+                money  [options]="{
+                    numeral: true,
+                    numeralIntegerScale: 15
+                  }"
             />
         </div>
     </div>
@@ -989,7 +1000,7 @@
                                     {{ item.get("fileName").value }}
                                 </td>
                                 <td style="text-align: center">{{nguoiSua}}</td>
-                                <td style="text-align: center">{{ ngayTao | date:'mm/dd/yyyy' }}</td>
+                                <td  style="text-align: center">{{ ngayTao | date:'mm/dd/yyyy' }}</td>
                                 <td>
                                     <div
                                         class="list-file"
@@ -3684,7 +3695,7 @@
     [formGroup]="form"
 >
     <div class="">
-        <h1 class="title-component">CẬP NHẬP HỒ SƠ THANH QUYẾT TOÁN</h1>
+        <h1 class="title-component">CẬP NHẬT HỒ SƠ QUYẾT TOÁN</h1>
         <div class="title-section">
             <i class="fa fa-minus-circle"></i> Thông tin đề tài:
         </div>
@@ -3866,7 +3877,7 @@
         </tbody> -->
     </table>
 
-    <!-- <div style="display: flex; margin-top: 10px; align-items: center">
+    <div style="display: flex; margin-top: 10px; align-items: center">
         <label for="" style="margin-right: 10px"
         >Trạng thái <span>(*)</span></label
         >
@@ -3879,7 +3890,7 @@
             style="width: 200px"
         >
         </ng-select>
-    </div> -->
+    </div> 
 
     <div
         class="flex items-center"

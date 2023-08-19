@@ -4,7 +4,7 @@
     <ng-container *ngIf="!actionClick">
         <div class="flex items-center justify-between">
             <h1 class="title-component">SÁNG KIẾN ĐÃ CÓ QĐ CHI TRẢ THÙ LAO</h1>
-
+           
         </div>
         <div class="flex flex-row row gap-4 items-center mb-3	">
             <div class="basic-1/5">
@@ -61,93 +61,89 @@
         </div>
 
 
-            <div class="header-list-dinh-huong">
-                <div class="serach-box">
-
-
-                </div>
+        <div class="header-list-dinh-huong">
+            <div class="serach-box">
+              
+               
             </div>
-            <table class="table table_custom">
-                <thead>
+        </div>
+        <table class="table table_custom">
+            <thead>
                 <tr>
                     <th class="stt_table">STT</th>
-                    <th>Tên giải pháp</th>
+                    <th>Tên giải pháp                    </th>
                     <th class="text-center">Cấp độ sáng kiến</th>
                     <th class="text-center">Đơn vị thực hiện</th>
                     <th class="text-center">Năm</th>
                     <th class="text-center">Trạng thái</th>
                     <th class="text-center action-table"></th>
                 </tr>
-                </thead>
-                <tr *ngFor="let item of listGiao; let i = index">
-                    <td class="stt_table">{{ i + 1}}</td>
-                    <td>{{item.tenGiaiPhap}}</td>
-                    <td class="text-center">{{item.tenCapDoSangKien}}</td>
-                    <td class="text-center">{{item.tenDonViChuDauTu}}</td>
-                    <td class="text-center">{{item.nam}}</td>
-                    <td class="text-center">{{item.tenTrangThai}}</td>
-                    <td class="action-table">
-                        <div class="flex justify-evenly" style="float: left;">
-                            <i class="fa fa-info-circle cursor-point" (click)="detail(item)" title="Xem chi tiết"></i>
-                            <i class="fa fa-clock-o cursor-point" (click)="lichsu(item)" title="Xem lịch sử"></i>
-                            <i (click)="updateAction(item)" title="Nâng cấp sáng kiến" class="fa fa-retweet"></i>
-                            <i *ngIf="item.maTrangThai=='SOAN' || item.maTrangThai=='Y_CAU_HIEU_CHINH' "
-                               class="fa fa-pencil cursor-point" [routerLink]="[item.maSangKien]"
-                               [queryParams]="{type: 'CHINHSUA'}" title="Chỉnh sửa"></i>
-                            <i *ngIf="item.maTrangThai=='SOAN' || item.maTrangThai=='Y_CAU_HIEU_CHINH' "
-                               class="fa fa-trash cursor-point" (click)="xoa(item)" title="Xóa bỏ"></i>
+            </thead>
+            <tr *ngFor="let item of listGiao; let i = index">
+                <td class="stt_table">{{ i+ 1}}</td>
+                <td>{{item.tenGiaiPhap}}</td>
+                <td class="text-center">{{item.tenCapDoSangKien}}</td>
+                <td class="text-center">{{item.tenDonViChuDauTu}}</td>
+                <td class="text-center">{{item.nam}}</td>
+                <td class="text-center">{{item.tenTrangThai}}</td>
+                <td class="action-table">
+                    <div class="flex justify-evenly"  style="float: left;">
+                       
+                        <i class="fa fa-info-circle cursor-point" (click)="detail(item)" title="Xem chi tiết"></i>
+                      <i class="fa fa-clock-o cursor-point" (click)="lichsu(item)" title="Xem lịch sử"></i> 
+                         <i  (click)="updateAction(item)" title="Nâng cấp sáng kiến" class="fa fa-retweet"></i>
+                        </div>
+                </td>
+            </tr>
+            <!-- <tbody>
+                <tr>
+                    <td class="stt_table">1</td>
+                    <td>Bản đăng ký định hướng 2023</td>
+                    <td>Cấp EVN</td>
+                    <td class="text-center">Trần Văn A</td>
+                    <td>Ban kế toán</td>
+                    <td class="text-center">01/06/2023 9:10:30</td>
+                    <td class="text-center action-table">
+                        <div class="flex justify-evenly">
+                            <i (click)="detail($event)"
+                                class="fa fa-info-circle"
+                                title="Xem chi tiết"
+                            ></i>
+                            <i class="fa fa-clock-o"  title="Xem lịch sử"></i>
+                            <i  (click)="updateAction($event)" title="Nâng cấp sáng kiến" class="fa fa-retweet"></i>
                         </div>
                     </td>
                 </tr>
-                <!-- <tbody>
-                    <tr>
-                        <td class="stt_table">1</td>
-                        <td>Bản đăng ký định hướng 2023</td>
-                        <td>Cấp EVN</td>
-                        <td class="text-center">Trần Văn A</td>
-                        <td>Ban kế toán</td>
-                        <td class="text-center">01/06/2023 9:10:30</td>
-                        <td class="text-center action-table">
-                            <div class="flex justify-evenly">
-                                <i (click)="detail($event)"
-                                    class="fa fa-info-circle"
-                                    title="Xem chi tiết"
-                                ></i>
-                                <i class="fa fa-clock-o"  title="Xem lịch sử"></i>
-                                <i  (click)="updateAction($event)" title="Nâng cấp sáng kiến" class="fa fa-retweet"></i>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody> -->
-            </table>
-            <!-- phan trang -->
-            <mat-paginator
-                (page)="handlePageEvent($event)"
-                [length]="length"
-                [pageSize]="pageSize"
-                [showFirstLastButtons]="showFirstLastButtons"
-                [pageSizeOptions]="pageSizeOptions"
-                [pageIndex]="pageIndex"
-                aria-label="Select page"
-            >
-            </mat-paginator>
-        </ng-container>
-        <!-- No template -->
-        <!-- <ng-template #noObjects>
-        <div
-          class="z-100 absolute inset-0 flex flex-auto flex-col items-center justify-center bg-gray-100 dark:bg-transparent">
-          <mat-icon class="icon-size-24" [svgIcon]="'heroicons_outline:cloud-upload'"></mat-icon>
-          <div class="mt-4 text-2xl font-semibold tracking-tight text-secondary">Chọn tham số đầu vào để xem</div>
-        </div>
-      </ng-template> -->
-
-        <!-- details -->
-        <ng-container *ngIf="actionClick">
-            <div
-                class="flex-auto z-20 absolute inset-0 lg:static lg:inset-auto flex"
-            >
-                <router-outlet></router-outlet>
-            </div>
-        </ng-container>
+            </tbody> -->
+        </table>
+        <!-- phan trang -->
+        <mat-paginator
+            (page)="handlePageEvent($event)"
+            [length]="length"
+            [pageSize]="pageSize"
+            [showFirstLastButtons]="showFirstLastButtons"
+            [pageSizeOptions]="pageSizeOptions"
+            [pageIndex]="pageIndex"
+            aria-label="Select page"
+        >
+        </mat-paginator>
+    </ng-container>
+    <!-- No template -->
+    <!-- <ng-template #noObjects>
+    <div
+      class="z-100 absolute inset-0 flex flex-auto flex-col items-center justify-center bg-gray-100 dark:bg-transparent">
+      <mat-icon class="icon-size-24" [svgIcon]="'heroicons_outline:cloud-upload'"></mat-icon>
+      <div class="mt-4 text-2xl font-semibold tracking-tight text-secondary">Chọn tham số đầu vào để xem</div>
     </div>
+  </ng-template> -->
+
+    <!-- details -->
+    <ng-container *ngIf="actionClick">
+        <div
+            class="flex-auto z-20 absolute inset-0 lg:static lg:inset-auto flex"
+        >
+            <router-outlet></router-outlet>
+        </div>
+    </ng-container>
+</div>
 </div>

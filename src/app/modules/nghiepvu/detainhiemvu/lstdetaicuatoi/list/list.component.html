@@ -17,7 +17,7 @@
                     name="serach"
                     (change)="timKiem()"
                     placeholder="Nhập từ khóa tìm kiếm: tên đề tài,nhiệm vụ, chủ nhiệm, đồng chủ nhiệm, thư ký"
-                    [(ngModel)]="name"
+                    [(ngModel)]="name" 
                     (change)="onChange()"
                 />
                 <button   (click)="timKiem()">
@@ -62,11 +62,11 @@
                             <i *ngIf="item.maTrangThai=='CHUA_GUI' || item.maTrangThai=='Y_CAU_HIEU_CHINH' || item.maTrangThai=='YCAU_CAP_NHAT_HS_NTHU'" class="fa fa-pencil" (click)="editer(item)" title="Chỉnh sửa"></i>
                             <i  *ngIf="item.maTrangThai=='DANG_THUC_HIEN'" (click)="updateActionHSTH(item)" title="Cập nhập HSTH" class="fa fa-caret-square-o-up"></i>
                             <i  *ngIf="item.maTrangThai=='DANG_THUC_HIEN'" (click)="updateActionTIENDO(item)" title="Cập nhật tiến độ thực hiện" class="fa fa-caret-square-o-up"></i>
-                            <i  *ngIf="item.maTrangThai=='DANG_THUC_HIEN' || item.maTrangThai=='YCAU_CAP_NHAT_HS_NTHU'" (click)="updateActionHSNT(item)" title="Cập nhật HSNT" class="fa fa-caret-square-o-up"></i>
+                            <i  *ngIf="item.maTrangThai=='DANG_THUC_HIEN'" (click)="updateActionHSNT(item)" title="Cập nhật HSNT" class="fa fa-caret-square-o-up"></i>
                             <i  *ngIf="item.maTrangThai=='DANG_THUC_HIEN'" (click)="updateActionHSQT(item)" title="Cập nhật HSQT" class="fa fa-caret-square-o-up"></i>
-
+                           
                             <i *ngIf="item.maTrangThai=='CHUA_GUI'" class="fa fa-trash" (click)="xoa(item)" title="Xóa bỏ"></i>
-
+                            
                         </div>
                     </td>
                 </tr>
