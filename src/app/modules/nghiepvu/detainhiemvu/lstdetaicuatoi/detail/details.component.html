@@ -2606,18 +2606,18 @@
                 <div class="basis-1/5">
                     <label for="">Kết quả đánh giá</label>
                     <ng-select
-                        [items]="listYears"
+                        [items]="listKetQuaNT"
                         bindLabel="NAME"
                         bindValue="ID"
                         placeholder="Chọn kết quả"
-                        [(ngModel)]="selectedYear"
-                        [ngModelOptions]="{ standalone: true }"
+                        formControlName="ketQuaPhieuDanhGia"
+                       [readonly]="true"
                     >
                     </ng-select>
                 </div>
                 <div class="basis-1/5">
                     <label for="">Điểm đánh giá</label>
-                    <input class="form-control" type="text" name="" id=""/>
+                    <input class="form-control" type="text" name="" id=""   formControlName="ketQuaPhieuDanhGia"/>
                 </div>
             </div>
 
@@ -3108,11 +3108,11 @@
                             ];
                             let i = index
                         "
+                        formGroupName="{{ i }}"
                 >
                     <td class="stt_table">{{ i + 1 }}</td>
                     <td class="font-medium">
                         {{ item.get("fileName").value }}
-                        {{ item.get("maFolder").value }}
                     </td>
                     <td></td>
                     <td>
@@ -3145,6 +3145,7 @@
                                                 )['controls'];
                                                 let k = index
                                             "
+                                            formGroupName="{{ k }}"
                                 >
                                     <td>
                                         <!-- <i
@@ -3890,7 +3891,7 @@
             style="width: 200px"
         >
         </ng-select>
-    </div>
+    </div> 
 
     <div
         class="flex items-center"

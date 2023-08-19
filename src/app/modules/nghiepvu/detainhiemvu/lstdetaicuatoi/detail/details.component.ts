@@ -96,7 +96,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
     public title_lichsu;
     public selectedLinhVucNghienCuu: [];
     public listLinhVucNghienCuu;
-    public listFolderFile: [{ TEN_LOAI_FILE: ''; listFile: [] }];
+    public listFolderFile: [{ TEN_LOAI_FILE: '',maFolder:String,fileName:'' , listFile: [] }];
     public method;
     public listTrangThai = [];
     public listThang = [];
@@ -199,13 +199,6 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
 
             }
         });
-    }
-    getListKQNT() {
-        this._serviceApi
-            .execServiceLogin('E8796F41-0A24-47F4-A063-303F8C21EB1C', null)
-            .subscribe((data) => {
-                this.listKetQuaNT = data.data || [];
-            });
     }
 
 
@@ -342,6 +335,18 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
         this.getListGioiTinh();
         this.getListChucDanh();
         this.getCheckQuyenDoffice();
+        if(this.method == 'DETAIL'){
+            this.getListKQNT();
+        }
+        
+    }
+
+    getListKQNT() {
+        this._serviceApi
+            .execServiceLogin('E8796F41-0A24-47F4-A063-303F8C21EB1C', null)
+            .subscribe((data) => {
+                this.listKetQuaNT = data.data || [];
+            });
     }
 
     getCheckQuyenDoffice() {
@@ -419,12 +424,10 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                 {name: 'METHOD_BUTTON', value: method},
             ])
             .subscribe((data) => {
-                debugger;
                 console.log('formData,', data.data);
                 this.ngayTao = new Date(data.data.ngayTao);
                 this.nguoiSua = data.data.nguoiSua;
                 this.nguoiTao = data.data.nguoiTao;
-                debugger;
                 this.form.patchValue(data.data);
                 let lanGiaHan = this.form.get("lanGiaHanThu").value;
                 if(lanGiaHan !=undefined && lanGiaHan !=''){
@@ -1227,6 +1230,9 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
             .execServiceLogin('61808455-D993-4C3A-8117-1978C43F20C9', null)
             .subscribe((data) => {
                 this.listFolderFile = data.data || [];
+
+                let listFolderDK = this.listFolderFile.filter(c => c.maFolder !="TAI_LIEU_RA_SOAT");
+
                 let val = this.form.get('listFolderFile') as FormArray;
                 for (let i = 0; i < this.listFolderFile.length; i++) {
 

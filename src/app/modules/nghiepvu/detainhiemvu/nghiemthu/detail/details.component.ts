@@ -116,6 +116,7 @@ export class DetailsComponent implements OnInit {
 
     ngOnInit(): void {
         this.getListChucDanh();
+        this.getListKQNT();
         if (this.actionType == 'updateActionHD') {
                 this.geListTrangThaiHDNT();
         }else  if (this.actionType == 'updateActionKQNT') {
@@ -291,9 +292,7 @@ export class DetailsComponent implements OnInit {
                             ) {
                                 formChild.push(
                                     this.addListDocChild(
-                                        data.data.listFolderFileHD[i].listFile[
-                                            j
-                                        ]
+                                        data.data.listFolderFileHD[i].listFile[j]
                                     )
                                 );
                             }
@@ -352,6 +351,14 @@ export class DetailsComponent implements OnInit {
                         .get('thoiGianHop')
                         .setValue(new Date(thoiGianHop));
                 }
+
+                let thoiGianHopNT = this.form.get('thoiGianHopNT').value;
+                if (thoiGianHopNT) {
+                    this.form
+                        .get('thoiGianHopNT')
+                        .setValue(new Date(thoiGianHopNT));
+                }
+
                  if (method== 'HOIDONGNT') {
                     this.form.get('maTrangThai').setValue('DA_TLHDNT');
                 }else if (method== 'THANHLAPHD') {
@@ -488,7 +495,7 @@ export class DetailsComponent implements OnInit {
             listFolderFile: this._formBuilder.array([]),
             listFile: this._formBuilder.array([]),
             listFolderFileHD: this._formBuilder.array([]),
-            maKetQuaNT:[null],
+          //  maKetQuaNT:[null],
             tenKetQuaNT:[null],
             tonTaiKhacNT:[null],
             loaiHD:[null],
@@ -514,6 +521,16 @@ export class DetailsComponent implements OnInit {
             listFolderBanGiao: this._formBuilder.array([]),
             listFolderQuyetToan: this._formBuilder.array([]),
             listFolderHSNT: this._formBuilder.array([]),
+            diemNghiemThu:[null],
+            ketQuaThucTeNghiemThu:[null],
+            ketQuaPhieuDanhGiaNT:[null],
+            thoiGianHopNT:[null],
+            lyDo:[null],
+            lyDoNT:[null],
+            maKetQuaNhiemThu:[null],
+            diaDiemNT:[null],
+            tonTaiKhacPhucNghiemThu:[null],
+            tongPhiQT:[null]
             // listFile1: this._formBuilder.array([]),
             // listFile2: this._formBuilder.array([]),
             // listFile3: this._formBuilder.array([]),

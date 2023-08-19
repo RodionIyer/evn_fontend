@@ -402,7 +402,7 @@
         <button class="add_button"><i class="fa fa-save"></i> Lưu</button>
     </div>
 </div>
-<div *ngIf="actionType == 'updateActionKQNT'"
+<div *ngIf="actionType == 'updateActionKQNT'" [formGroup]="form"
     class="flex flex-col flex-auto overflow-y-auto bg-card dark:bg-default content-detail p-3">
     <div class="">
         <h1 class="title-component">CẬP NHẬP KẾT QUẢ NGHIỆM THU ĐT/NV</h1>
@@ -438,53 +438,24 @@
     </div>
     <mat-tab-group class="detail_tab1" style="margin-top: 10px">
         <mat-tab label="Hồ sơ nghiệm thu">
-            <!-- <div style="display: flex; margin-top: 10px; align-items: center">
-                <div class="basis-60">
-                    <label for="">Quyết định thành lập hội đồng</label>
-                </div>
-                <div class="basis-40">
-                    <label for="">173/QĐ-EVN</label>
-                </div>
-                <div class="basis-40">
-                    <label for="">dd/mm/yyyy</label>
-                </div>
-                <div class="basis-40">
-                    <button style="color: #02a7f0">
-                        <i class="fa fa-cloud-download"></i> Tải về
-                    </button>
-                </div>
-            </div> -->
             <div formArrayName="listFolderFileHD" style="display: flex; margin-top: 10px; align-items: center" *ngFor="
                 let item of form.get('listFolderFileHD')['controls'];
-                let i = index
-            ">
-                <div class="basis-60">
+                let i = index"
+                >
+                <div class="basis-60" [formGroupName]="i">
                     <label for="" class="font-medium">{{
                         item.get("fileName").value
                         }}</label>
                 </div>
                 <div class="list-file" *ngIf="item.get('listFile').value.length > 0">
-                    <table class="table action-table" >
-                        <!-- <thead>
-                        <tr>
-                            <th class="stt_table">STT</th>
-                            <th>Tên file</th>
-                            <th class="text-center">Kích thước
-                            </th>
-                            <th class="text-center">Số văn bản
-                            </th>
-                            <th style="width: 100px;"></th>
-                        </tr>
-                    </thead> -->
+                    <table class="table" >
                         <tbody formArrayName="listFile" class="table_listfile">
-                            <tr *ngFor="
-                                let item2 of item.get('listFile')['controls'];
-                                let k = index
-                            ">
-                                <!-- <td class="stt_table">{{k+1}}</td> -->
-                                <td>{{ item2.get("fileName").value }}</td>
-                                <td>
-                                    {{
+                            <ng-container *ngFor="
+                            let item2 of item.get('listFile')['controls'];
+                            let k = index">
+                            <tr  [formGroupName]="k">
+                                <td>{{ item2.get("fileName").value }}
+                                    ({{
                                     item2.get("size").value > 1024 * 1024
                                     ? (
                                     item2.get("size").value /
@@ -495,7 +466,7 @@
                                     1
                                     ) + "(KB)"
                                     : item2.get("size").value.toFixed(1) + "K"
-                                    }}
+                                    }})
                                 </td>
 
                                 <td>{{ item2.get("sovanban").value }}</td>
@@ -504,16 +475,17 @@
                                         aria-hidden="true" (click)="downLoadFile(item2)" title="Download file"></i>
                                 </td>
                             </tr>
+                        </ng-container>
                         </tbody>
                     </table>
-                </div>
+                </div> 
             </div>
             <div class="flex mt-2 items-center">
                 <div class="basis-1/12">
                     <label for="">Địa điểm họp</label>
                 </div>
                 <div class="basis-11/12">
-                    <input type="text" class="form-control" formControlName="diaDiem" name="" id="" />
+                    <input type="text" class="form-control" formControlName="diaDiemNT" name="" id="" />
                 </div>
             </div>
 
@@ -521,7 +493,7 @@
                 <div class="basis-1/4">
                     <label for="">Thời gian họp</label>
                     <div class="form-date">
-                        <input matInput type="text" [matDatepicker]="picker" formControlName="thoiGianHop"
+                        <input matInput type="text" [matDatepicker]="picker" formControlName="thoiGianHopNT"
                             placeholder="dd/mm/yyyy" />
                         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
@@ -529,18 +501,18 @@
                 </div>
                 <div class="basis-1/4">
                     <label for="">Kết quả phiếu đánh giá</label>
-                    <input type="text" class="form-control" placeholder="Phiếu, tổng số phiếu" name="" id=""
-                        formControlName="ketQuaPhieuDanhGia" />
+                    <input type="text" class="form-control" placeholder="Phiếu, tổng số phiếu" formControlName="ketQuaPhieuDanhGiaNT" name="" id=""
+                        formControlName="ketQuaPhieuDanhGiaNT" />
                 </div>
                 <div class="basis-1/4">
                     <label for="">Điểm đánh giá</label>
-                    <input type="text" class="form-control" placeholder="Phiếu, tổng số phiếu" name="" id=""
+                    <input type="text" class="form-control" placeholder="Phiếu, tổng số phiếu"  name="" id=""
                         formControlName="diemNghiemThu" />
                 </div>
                 <div class="basis-1/4">
                     <label for="">Kết quả đánh giá</label>
-                    <ng-select [items]="listKetQuaNT" bindLabel="NAME" bindValue="ID" placeholder="Lựa chọn"
-                        formControlName="maKetQuaNT" style="width: 100%">
+                    <ng-select [items]="listKetQuaNT" bindLabel="NAME" bindValue="ID"  placeholder="Lựa chọn"
+                        formControlName="maKetQuaNhiemThu" style="width: 100%">
                     </ng-select>
                 </div>
             </div>
@@ -549,102 +521,15 @@
                 style="padding: 10px; min-height: 100px"></textarea>
 
             <label class="title_labe mt-1 mb-4" for="">Các tồn tại và đề xuất hướng/biện pháp giải quyết</label>
-            <textarea class="form-control" name="" id="" cols="30" rows="10" formControlName="tonTaiKhacNT"
+            <textarea class="form-control" name="" id="" cols="30" rows="10" formControlName="tonTaiKhacPhucNghiemThu"
                 style="padding: 10px; min-height: 100px"></textarea>
         </mat-tab>
-        <!-- <mat-tab label="Cập nhập KQNT cấp EVN">
-            <div style="display: flex; margin-top: 10px; align-items: center">
-                <div class="basis-60">
-                    <label for="">Quyết định thành lập hội đồng</label>
-                </div>
-                <div class="basis-40">
-                    <label for="">173/QĐ-EVN</label>
-                </div>
-                <div class="basis-40">
-                    <label for="">dd/mm/yyyy</label>
-                </div>
-                <div class="basis-40">
-                    <button style="color: #02a7f0">
-                        <i class="fa fa-cloud-download"></i> Tải về
-                    </button>
-                </div>
-            </div>
-            <div class="flex mt-2 items-center">
-                <div class="basis-1/12">
-                    <label for="">Địa điểm họp</label>
-                </div>
-                <div class="basis-11/12">
-                    <input type="text" class="form-control" name="" id="" />
-                </div>
-            </div>
-
-            <div class="flex mt-2 items-center flex-row row gap-4">
-                <div class="basis-1/4">
-                    <label for="">Thời gian họp</label>
-                    <input type="date" class="form-control" name="" id="" />
-                </div>
-                <div class="basis-1/4">
-                    <label for="">Kết quả phiếu đánh giá</label>
-                    <input
-                        type="text"
-                        class="form-control"
-                        placeholder="Phiếu, tổng số phiếu"
-                        name=""
-                        id=""
-                    />
-                </div>
-                <div class="basis-1/4">
-                    <label for="">Điểm đánh giá</label>
-                    <input
-                        type="text"
-                        class="form-control"
-                        placeholder=""
-                        name=""
-                        id=""
-                    />
-                </div>
-                <div class="basis-1/4">
-                    <label for="">Kết quả đánh giá</label>
-                    <ng-select
-                        [items]="listYears"
-                        bindLabel="NAME"
-                        bindValue="ID"
-                        placeholder="Lựa chọn"
-                        [(ngModel)]="selectedYear"
-                        style="width: 100%"
-                    >
-                    </ng-select>
-                </div>
-            </div>
-            <label class="title_labe mt-1 mb-4" for=""
-                >Kết quả thực tế đạt được của đề tài</label
-            >
-            <textarea
-                class="form-control"
-                name=""
-                id=""
-                cols="30"
-                rows="10"
-                style="padding: 10px; min-height: 100px"
-            ></textarea>
-
-            <label class="title_labe mt-1 mb-4" for=""
-                >Các tồn tại và đề xuất hướng/biện pháp giải quyết</label
-            >
-            <textarea
-                class="form-control"
-                name=""
-                id=""
-                cols="30"
-                rows="10"
-                style="padding: 10px; min-height: 100px"
-            ></textarea>
-        </mat-tab> -->
+       
     </mat-tab-group>
 
 
     <label class="title_labe" for="">Lý do</label>
-    <textarea class="form-control mb-3" name="" id="" cols="30" rows="10" formControlName="lyDo"
+    <textarea class="form-control mb-3" name="" id="" cols="30" rows="10" formControlName="lyDoNT"
         style="padding: 10px; min-height: 100px"></textarea>
 
     <!-- <div class="flex flex-row row gap-4">
@@ -1049,7 +934,7 @@
     <div class="flex flex-row row space-x-2">
         <div class="flex basis-1/3 mt-3">
             <label style="margin: auto;" for="">Tổng kinh phí quyết toán (đồng)</label>
-            <input class="form-control text-right" placeholder="VNĐ" formControlName="tongKinhPhi" money [options]="{
+            <input class="form-control text-right" placeholder="VNĐ" formControlName="tongPhiQT" money [options]="{
                 numeral: true,
                 numeralIntegerScale: 15
               }" type="text" name="" id="" />
