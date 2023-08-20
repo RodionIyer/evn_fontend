@@ -581,9 +581,8 @@
             <tbody formArrayName="listFile" class="table_listfile">
                 <ng-container *ngFor="let item2 of item.get('listFile')['controls'];let k = index" >
                     <tr [formGroupName]="k">
-                    <td>{{ item2.get("fileName").value }}</td>
-                    <td>
-                        {{
+                    <td>{{ item2.get("fileName").value }}
+                        ({{
                             item2.get("size").value > 1024 * 1024
                                 ? (
                                       item2.get("size").value /
@@ -594,14 +593,7 @@
                                       1
                                   ) + "(KB)"
                                 : item2.get("size").value.toFixed(1) + "K"
-                        }}
-                    </td>
-
-                    <td>
-
-                        {{ item2.get("sovanban").value }}
-                    </td>
-                    <td class="text-right">
+                        }})
                         <i
                             style="
                                 color: red;
@@ -612,13 +604,13 @@
                             class="fa fa-trash"
                             title="Xóa bỏ"
                         ></i>
-                        <i
+                        <!-- <i
                             class="fa fa-cloud-download"
                             style="color: green; cursor: pointer"
                             aria-hidden="true"
                             (click)="downLoadFile(item2)"
                             title="Download file"
-                        ></i>
+                        ></i> -->
                     </td>
                 </tr>
                 </ng-container>

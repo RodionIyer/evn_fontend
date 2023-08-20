@@ -407,6 +407,8 @@ export class DetailsComponent implements OnInit {
             fileName: item?.fileName || null,
             maFolder: item?.maFolder || null,
             listFile: this._formBuilder.array([]),
+            soKyHieu: item?.soKyHieu || null,
+            ngayVanBan: item?.ngayVanBan || null,
         });
     }
 
@@ -735,10 +737,12 @@ export class DetailsComponent implements OnInit {
             }else if (type == 'DOffice') {
                 this.dataFile = this._dOfficeApi.execTimKiemTheoFile(this.linkDoffice, data.ID_VB);
                 if (this.dataFile != null && this.dataFile.length > 0) {
-    
+                     item.get("soKyHieu").setvalue("123");
+                     item.get("ngayVanBan").setvalue(new Date());
                     for (var i = 0; i < this.dataFile.length; i++) {
                         let dataBase64 = this._dOfficeApi.execFileBase64(this.linkDoffice, this.dataFile[i].ID_FILE, this.user.ORGID, this.dataFile[i].ID_VB);
                         let arrFile = item.get("listFile") as FormArray;
+                      
                         arrFile.push({
                             fileName: this.dataFile[i].TEN_FILE,
                             base64: dataBase64,

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpBackend, HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { environment } from 'environments/environment';
 import { MessageService } from '../message.services';
 import { Router } from '@angular/router';
@@ -10,8 +10,8 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
     providedIn: 'root'
 })
 export class DOfficeService {
-
-    constructor(private _httpClient: HttpClient,
+    public headers = new HttpHeaders();
+    constructor(private _httpClient: HttpClient,private _httpClient2: HttpBackend,
         private _messageService: MessageService,
         private loader: LoadingService,
         private _router: Router) {
@@ -25,14 +25,28 @@ export class DOfficeService {
     /**
      * tìm kiem Doffice
      */
+
     execTimKiem(link,q, soKyHieu,loaiTK,nam,maDv): any {
         let exeParameter = { "MainKeyWord": q,'KY_HIEU':soKyHieu, "LoaiVB": loaiTK,'NAM':nam };
-        let option={
-            headers:{
-                "Authorization":"Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJJRERPTlZJIjoiMTE1IiwiSURfTlYiOiIxMzMyIiwiYWxpYXNDQSI6InN5cHZfcG1pc19ldm5pY3RfMDAxIiwibmhhTWFuZyI6IiIsInNpbUNBIjoiIiwic3ViIjoiRVZOSVRcXHN5cHYiLCJlbWFpbCI6InN5cHYuZXZuaXRAZXZuLmNvbS52biIsIm5iZiI6MTY5MDkzODU1OCwiZXhwIjoxNjkwOTU2Njc4fQ.rmTf6XfHPRSJQncXfcmekaSA0d40dIpc_OSEqnlT2AOZd_grXynn6O6WhKk7Lz4gES4YNqsbtLK3pTR3rns4fw"
-            }
-        }
-        return this._httpClient.post<any>(link+ '/' + 'v1/congviec/Searching/advancedsearch?madv='+maDv, exeParameter,option);
+        // let option={
+        //     headers:{
+        //         "Authorization":"Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJJRERPTlZJIjoiMTE1IiwiSURfTlYiOiIxMzMyIiwiYWxpYXNDQSI6InN5cHZfcG1pc19ldm5pY3RfMDAxIiwibmhhTWFuZyI6IiIsInNpbUNBIjoiIiwic3ViIjoiRVZOSVRcXHN5cHYiLCJlbWFpbCI6InN5cHYuZXZuaXRAZXZuLmNvbS52biIsIm5iZiI6MTY5MDkzODU1OCwiZXhwIjoxNjkwOTU2Njc4fQ.rmTf6XfHPRSJQncXfcmekaSA0d40dIpc_OSEqnlT2AOZd_grXynn6O6WhKk7Lz4gES4YNqsbtLK3pTR3rns4fw"
+        //     }
+        // }
+
+        let option = this.headers.set(
+                "Authorization","Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJJRERPTlZJIjoiMTE1IiwiSURfTlYiOiIxMzMyIiwiYWxpYXNDQSI6InN5cHZfcG1pc19ldm5pY3RfMDAxIiwibmhhTWFuZyI6IiIsInNpbUNBIjoiIiwic3ViIjoiRVZOSVRcXHN5cHYiLCJlbWFpbCI6InN5cHYuZXZuaXRAZXZuLmNvbS52biIsIm5iZiI6MTY5MDkzODU1OCwiZXhwIjoxNjkwOTU2Njc4fQ.rmTf6XfHPRSJQncXfcmekaSA0d40dIpc_OSEqnlT2AOZd_grXynn6O6WhKk7Lz4gES4YNqsbtLK3pTR3rns4fw222222"
+          );
+
+          return this._httpClient2
+          .handle(
+            new HttpRequest('GET', link+ '/' + 'v1/congviec/Searching/advancedsearch?madv='+maDv, exeParameter, {
+              headers: option,
+            })
+          )
+          .subscribe();
+
+       // return this._httpClient2.post<any>(link+ '/' + 'v1/congviec/Searching/advancedsearch?madv='+maDv, exeParameter,option);
     }
 
     execTimKiemTheoFile(link,idVb): any {

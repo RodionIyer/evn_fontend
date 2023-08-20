@@ -62,47 +62,8 @@
                     <td class="font-medium">
                         {{ item.get("fileName").value }}
                     </td>
-                    <td>  <div
-                        class="list-file" 
-                        *ngIf="item.get('listFile').value.length > 0"
-                    >
-                        <table class="table table_custom action-table">
-                            <!-- <thead>
-                            <tr> 
-                                <th class="stt_table">STT</th>
-                                <th>Tên file</th>
-                                <th class="text-center">Kích thước
-                                </th>
-                                <th class="text-center">Số văn bản
-                                </th>
-                                <th style="width: 100px;"></th>
-                            </tr>
-                        </thead> -->
-                            <tbody
-                                formArrayName="listFile"
-                                class="table_listfile"
-                            >
-                                <ng-container
-                                    *ngFor="
-                                        let item2 of item.get('listFile')[
-                                            'controls'
-                                        ];
-                                        let k = index
-                                    "
-                                >
-                                    <tr [formGroupName]="k">
-                                        <td>
-                                            {{
-                                                item2.get("fileName").value
-                                            }}
-                                        </td>
-                                    </tr>
-                                </ng-container>
-                            </tbody>
-                        </table>
-                    </div>
-                </td>
-                    <td></td>
+                    <td>  {{ item.get("soKyHieu").value }}</td>
+                    <td>  {{ item.get("ngayVanBan").value | date:'dd/MM/yyyy'}}</td>
                     <td>
                         <div
                             class="list-file" style="width: 100%;"
