@@ -986,12 +986,7 @@
                         </tr>
                         </thead>
                         <tbody formArrayName="listFolderHSDK">
-                        <ng-container
-                            *ngFor="
-                            let item of form.get('listFolderHSDK')['controls'];
-                            let i = index
-                        "
-                        >
+                        <ng-container *ngFor=" let item of form.get('listFolderHSDK')['controls'];let i = index">
                             <tr [formGroupName]="i">
                                 <td class="stt_table">{{ i + 1 }}</td>
                                 <td class="font-medium">
@@ -1240,14 +1235,10 @@
                             formArrayName="listFolderHSXD"
                             *ngIf="form.get('listFolderHSXD').value.length > 0"
                         >
+                        <ng-container *ngFor="let item of form.get('listFolderHSXD')['controls'];let i = index ">
                         <tr
-                            *ngFor="
-                                    let item of form.get('listFolderHSXD')[
-                                        'controls'
-                                    ];
-                                    let i = index
-                                "
-                            [formGroup]="item"
+                            
+                            [formGroupName]="i"
                         >
                             <td class="stt_table">{{ i + 1 }}</td>
                             <td class="font-medium">
@@ -1349,6 +1340,7 @@
                                 </button> -->
                             </td>
                         </tr>
+                    </ng-container>
                         </tbody>
                     </table>
                 </mat-tab>
@@ -1985,11 +1977,12 @@
                 </tr>
                 </thead>
                 <tbody formArrayName="listHDXD">
+                    <ng-container    *ngFor="
+                    let item of form.get('listHDXD')['controls'];
+                    let i = index
+                ">
                 <tr
-                    *ngFor="
-                            let item of form.get('listHDXD')['controls'];
-                            let i = index
-                        "
+                [formGroupName]="i"
                 >
                     <td class="stt_table">{{ i + 1 }}</td>
                     <td class="font-medium">
@@ -2088,6 +2081,7 @@
 
                     </td> -->
                 </tr>
+            </ng-container>
                 </tbody>
                 <!-- <tbody>
                     <tr>
@@ -2183,11 +2177,12 @@
                         <thead>
                         </thead>
                         <tbody formArrayName="listKQXD">
-                        <tr
-                            *ngFor="
+                            <ng-container  *ngFor="
                             let item of form.get('listKQXD')['controls'];
                             let i = index
-                        "
+                        ">
+                        <tr
+                        [formGroupName]="i" 
                         >
                             <td class="stt_table">{{ i + 1 }}</td>
                             <td class="font-medium">
@@ -2262,6 +2257,7 @@
                                 </div>
                             </td>
                         </tr>
+                    </ng-container>
                         </tbody>
                     </table>
                 </div>
@@ -2320,11 +2316,12 @@
                 </tr>
                 </thead>
                 <tbody formArrayName="listHDNT">
-                <tr
-                    *ngFor="
-                            let item of form.get('listHDNT')['controls'];
-                            let i = index
-                        "
+                    <ng-container    *ngFor="
+                    let item of form.get('listHDNT')['controls'];
+                    let i = index
+                ">
+                <tr [formGroupName]="i"
+                 
                 >
                     <td class="stt_table">{{ i + 1 }}</td>
                     <td class="font-medium">
@@ -2420,6 +2417,7 @@
 
                     </td> -->
                 </tr>
+            </ng-container>
                 </tbody>
             </table>
 
@@ -2532,11 +2530,12 @@
                         <thead>
                         </thead>
                         <tbody formArrayName="listKQNT">
-                        <tr
-                            *ngFor="
+                            <ng-container     *ngFor="
                             let item of form.get('listKQNT')['controls'];
                             let i = index
-                        "
+                        ">
+                        <tr
+                        [formGroupName]="i"
                             style="border: none"
                         >
                             <td class="stt_table">{{ i + 1 }}</td>
@@ -2611,6 +2610,7 @@
                                 </div>
                             </td>
                         </tr>
+                    </ng-container>
                         </tbody>
                     </table>
                 </div>
