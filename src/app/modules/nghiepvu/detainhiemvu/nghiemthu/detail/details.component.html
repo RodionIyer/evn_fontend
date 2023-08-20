@@ -430,13 +430,14 @@
     </div>
     <mat-tab-group class="detail_tab1" style="margin-top: 10px">
         <mat-tab label="Hồ sơ nghiệm thu">
-            <ng-container *ngFor="
+            <ng-container  formArrayName="listFolderFileHD"  *ngFor="
             let item of form.get('listFolderFileHD')['controls'];
             let i = index">
-            <div formArrayName="listFolderFileHD" style="display: flex; margin-top: 10px; align-items: center" 
-            [formGroupName]="i"
+            <div style="display: flex; margin-top: 10px; align-items: center" 
+           
                 >
-                <div class="basis-60" [formGroupName]="i">
+                <ng-container  [formGroupName]="i">
+                <div class="basis-60" >
                     <label for="" class="font-medium">{{
                         item.get("fileName").value
                         }}</label>
@@ -473,6 +474,7 @@
                         </tbody>
                     </table>
                 </div> 
+            </ng-container>
             </div>
         </ng-container>
             <div class="flex mt-2 items-center">
@@ -544,12 +546,12 @@
            <input type="file" placeholder="Chọn tệp" name="" id="">
         </div>
     </div> -->
-    <ng-container
+    <ng-container formArrayName="listFolderFile"
     *ngFor="
         let item of form.get('listFolderFile')['controls'];
         let i = index
     "
->
+><ng-container  [formGroupName]="i">
     <div style="display: flex; margin-top: 10px; align-items: center">
         <div class="basis-1/5">
             <label for="" class="font-medium">{{
@@ -624,6 +626,7 @@
             </tbody>
         </table>
     </div>
+</ng-container>
 </ng-container>
     <div class="flex items-center" style="margin-bottom: 10px; margin-top: 10px">
         <input type="checkbox" name="" id="" />

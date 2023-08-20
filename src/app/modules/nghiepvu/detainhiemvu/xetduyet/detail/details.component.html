@@ -430,8 +430,9 @@
             let item of form.get('listFolderFileHD')['controls'];
             let i = index
         "
-        [formGroupName]="i"
+
     >
+    <ng-container         [formGroupName]="i">
         <div class="basis-60">
             <label for="" class="font-medium">{{
                 item.get("fileName").value
@@ -498,6 +499,7 @@
                 </tbody>
             </table>
         </div>
+        </ng-container>
     </div>
     <!-- <div style="display: flex; margin-top: 10px; align-items: center">
         <div class="basis-60">
@@ -616,12 +618,8 @@
         >
     </div>
 
-    <ng-container
-        *ngFor="
-            let item of form.get('listFolderFile')['controls'];
-            let i = index
-        "
-    >
+    <ng-container  formArrayName="listFolderFile" *ngFor=" let item of form.get('listFolderFile')['controls']; let i = index">
+    <ng-container   [formGroupName]="i" >
         <div style="display: flex; margin-top: 10px; align-items: center">
             <div class="basis-1/5">
                 <label for="" class="font-medium">{{
@@ -647,17 +645,7 @@
             *ngIf="item.get('listFile').value.length > 0"
         >
             <table class="table table_custom action-table">
-                <!-- <thead>
-                <tr> 
-                    <th class="stt_table">STT</th>
-                    <th>Tên file</th>
-                    <th class="text-center">Kích thước
-                    </th>
-                    <th class="text-center">Số văn bản
-                    </th>
-                    <th style="width: 100px;"></th>
-                </tr>
-            </thead> -->
+    
                 <tbody formArrayName="listFile" class="table_listfile">
                     <ng-container  *ngFor="
                     let item2 of item.get('listFile')['controls'];
@@ -665,9 +653,7 @@
                 ">
 
                   
-                    <tr
-                    [formGroupName]="k"
-                    >
+                    <tr [formGroupName]="k">
                         <!-- <td class="stt_table">{{k+1}}</td> -->
                         <td>{{ item2.get("fileName").value }}
                             ({{
@@ -707,6 +693,7 @@
                 </tbody>
             </table>
         </div>
+    </ng-container>
     </ng-container>
     <!-- <div style="display: flex; margin-top: 10px; align-items: center">
         <div class="basis-1/5">
