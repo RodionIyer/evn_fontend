@@ -79,7 +79,7 @@ export class DetailsComponent implements OnInit {
         this.form = this._formBuilder.group({
             maDeTai: [null],
             lyDo: [null],
-            thang: [null],
+            thang: [null, [Validators.required]],
 
             lanGiaHanThu: [null],
             soLanGiaHan: 0,
