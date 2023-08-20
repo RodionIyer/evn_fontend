@@ -7,7 +7,7 @@ import {
     ViewEncapsulation,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription, takeUntil } from 'rxjs';
+import { Subject, Subscription, takeUntil } from 'rxjs';
 import {
     AbstractControl,
     FormArray,
@@ -30,6 +30,9 @@ import { MatSort } from '@angular/material/sort';
 import { ServiceService } from 'app/shared/service/service.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PopupCbkhComponent } from './popup-cbkh/popup-cbkh.component';
+import { User } from 'app/core/user/user.types';
+import { DOfficeService } from 'app/shared/service/doffice.service';
+import { DOfficeComponent } from 'app/shared/component/d-office/d-office.component';
 
 @Component({
     selector: 'component-details',
@@ -48,13 +51,22 @@ export class DetailsComponent implements OnInit {
     public idParam: string = null;
     public soLanGiaHan: number;
     submitted = {check: false};
+    //add
+    public dataFile = [];
+    public checkDOffice = false;
+    public linkDoffice = "";
+    user: User;
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
     constructor(
         private _formBuilder: UntypedFormBuilder,
         public _activatedRoute: ActivatedRoute,
         public _messageService: MessageService,
         public _router: Router,
         private _serviceApi: ServiceService,
-        public dialog: MatDialog
+        public dialog: MatDialog,
+        //add
+        private _userService: UserService,
+        private _dOfficeApi: DOfficeService,
     ) {
         this.idParam = this._activatedRoute.snapshot.paramMap.get('id');
         console.log('this.idParam',this.idParam);
@@ -228,6 +240,8 @@ export class DetailsComponent implements OnInit {
             fileName: item?.fileName || null,
             maFolder: item?.maFolder || null,
             listFile: this._formBuilder.array([]),
+            sovanban: item?.sovanban || null,
+            ngayVanBan: item?.ngayVanBan || null,
         });
     }
 
@@ -253,6 +267,7 @@ export class DetailsComponent implements OnInit {
 
 
     ngOnInit(): void {
+        this.getCheckQuyenDoffice();
         this.geListYears();
         if (this.actionType == 'updateActionGH') {
             this.getThang();
@@ -374,5 +389,58 @@ export class DetailsComponent implements OnInit {
                     );
                 }
             });
+    }
+    // add
+    getCheckQuyenDoffice() {
+        this._userService.user$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((user: any) => {
+                debugger;
+                this.user = user;
+                this._serviceApi.execServiceLogin("3FADE0E4-B2C2-4D9D-A0C7-06817ADE4FA3", [{ "name": "ORGID", "value": user.ORGID }]).subscribe((data) => {
+                    if (data.data.API_DOFFICE) {
+                        this.checkDOffice = true;
+                        this.linkDoffice = data.data.API_DOFFICE;
+                    }
+                })
+            });
+    }
+    openAlertDialogDoffice(type, item?: any) {
+        let data = this.dialog.open(DOfficeComponent, {
+            data: {
+                type: type,
+                message: 'HelloWorld',
+                buttonText: {
+                    cancel: 'Done',
+                },
+            },
+            width: '800px',
+            panelClass: 'custom-PopupCbkh',
+            position: {
+                top: '100px',
+            },
+        });
+
+        data.afterClosed().subscribe((data) => {
+            if (type == 'DOffice') {
+                this.dataFile = this._dOfficeApi.execTimKiemTheoFile(this.linkDoffice, data.ID_VB);
+                if (this.dataFile != null && this.dataFile.length > 0) {
+                    item.get("sovanban").setvalue(data.KY_HIEU);
+                    item.get("ngayVanBan").setvalue(data.NGAY_VB);
+                    for (var i = 0; i < this.dataFile.length; i++) {
+                        let dataBase64 = this._dOfficeApi.execFileBase64(this.linkDoffice, this.dataFile[i].ID_FILE, this.user.ORGID, this.dataFile[i].ID_VB);
+                        let arrFile = item.get("listFile") as FormArray;
+
+                        arrFile.push({
+                            fileName: this.dataFile[i].TEN_FILE,
+                            base64: dataBase64,
+                            size: 0,
+                            sovanban: data.KY_HIEU,
+                            mafile: ""
+                        })
+                    }
+                }
+            }
+        });
     }
 }

@@ -57,8 +57,8 @@
                     <td class="font-medium">
                         {{ item.get("fileName").value }}
                     </td>
-                    <td></td>
-                    <td></td>
+                    <td>  {{ item.get("sovanban").value }}</td>
+                     <td>  {{ item.get("ngayVanBan").value | date:'dd/MM/yyyy'}}</td>
                     <td>
                         <div class="list-file" *ngIf="item.get('listFile').value.length > 0">
                             <table class="table table_custom action-table">
@@ -140,7 +140,7 @@
                     </button> -->
                     </td>
                     <td>
-                        <button class="add_button" style="margin-left: 99px">
+                        <button class="add_button" style="margin-left: 99px" (click)="openAlertDialogDoffice('DOffice',item)" *ngIf="checkDOffice">
                             <i class="fa fa-search"></i> Tìm kiếm từ D-Office
                         </button>
                     </td>

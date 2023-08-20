@@ -62,7 +62,7 @@
                     <td class="font-medium">
                         {{ item.get("fileName").value }}
                     </td>
-                    <td>  {{ item.get("soKyHieu").value }}</td>
+                    <td>  {{ item.get("sovanban").value }}</td>
                     <td>  {{ item.get("ngayVanBan").value | date:'dd/MM/yyyy'}}</td>
                     <td>
                         <div
@@ -178,7 +178,7 @@
                     </button> -->
                     </td>
                     <td>
-                        <button class="add_button" style="margin-left: 99px"  (click)="openAlertDialog('DOffice',item)" *ngIf="checkDOffice==true">
+                        <button class="add_button" style="margin-left: 99px"  (click)="openAlertDialogDoffice('DOffice',item)" *ngIf="checkDOffice==true">
                             <i class="fa fa-search"></i> Tìm kiếm từ D-Office
                         </button>
                     </td>

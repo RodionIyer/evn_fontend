@@ -40,6 +40,7 @@ import {
     MAT_MOMENT_DATE_ADAPTER_OPTIONS,
     MomentDateAdapter,
 } from '@angular/material-moment-adapter';
+import { DOfficeComponent } from 'app/shared/component/d-office/d-office.component';
 
 export const MY_FORMATS = {
     parse: {
@@ -407,7 +408,7 @@ export class DetailsComponent implements OnInit {
             fileName: item?.fileName || null,
             maFolder: item?.maFolder || null,
             listFile: this._formBuilder.array([]),
-            soKyHieu: item?.soKyHieu || null,
+            sovanban: item?.sovanban || null,
             ngayVanBan: item?.ngayVanBan || null,
         });
     }
@@ -739,6 +740,45 @@ export class DetailsComponent implements OnInit {
                 if (this.dataFile != null && this.dataFile.length > 0) {
                      item.get("soKyHieu").setvalue("123");
                      item.get("ngayVanBan").setvalue(new Date());
+                    for (var i = 0; i < this.dataFile.length; i++) {
+                        let dataBase64 = this._dOfficeApi.execFileBase64(this.linkDoffice, this.dataFile[i].ID_FILE, this.user.ORGID, this.dataFile[i].ID_VB);
+                        let arrFile = item.get("listFile") as FormArray;
+                      
+                        arrFile.push({
+                            fileName: this.dataFile[i].TEN_FILE,
+                            base64: dataBase64,
+                            size: 0,
+                            sovanban: data.KY_HIEU,
+                            mafile: ""
+                        })
+                    }
+                }
+            }
+        });
+    }
+
+    openAlertDialogDoffice(type, item?: any) {
+        let data = this.dialog.open(DOfficeComponent, {
+            data: {
+                type: type,
+                message: 'HelloWorld',
+                buttonText: {
+                    cancel: 'Done',
+                },
+            },
+            width: '800px',
+            panelClass: 'custom-PopupCbkh',
+            position: {
+                top: '100px',
+            },
+        });
+
+        data.afterClosed().subscribe((data) => {
+             if (type == 'DOffice') {
+                this.dataFile = this._dOfficeApi.execTimKiemTheoFile(this.linkDoffice, data.ID_VB);
+                if (this.dataFile != null && this.dataFile.length > 0) {
+                     item.get("sovanban").setvalue(data.KY_HIEU);
+                     item.get("ngayVanBan").setvalue(data.NGAY_VB);
                     for (var i = 0; i < this.dataFile.length; i++) {
                         let dataBase64 = this._dOfficeApi.execFileBase64(this.linkDoffice, this.dataFile[i].ID_FILE, this.user.ORGID, this.dataFile[i].ID_VB);
                         let arrFile = item.get("listFile") as FormArray;
