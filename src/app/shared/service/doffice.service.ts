@@ -40,7 +40,7 @@ export class DOfficeService {
 
           return this._httpClient2
           .handle(
-            new HttpRequest('GET', link+ '/' + 'v1/congviec/Searching/advancedsearch?madv='+maDv, exeParameter, {
+            new HttpRequest('POST', link+ '/' + 'v1/congviec/Searching/advancedsearch?madv='+maDv, exeParameter, {
               headers: option,
             })
           )
