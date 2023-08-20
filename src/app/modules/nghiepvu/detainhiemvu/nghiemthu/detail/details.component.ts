@@ -7,7 +7,7 @@ import {
     ViewEncapsulation,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription, takeUntil } from 'rxjs';
+import { Subscription, takeUntil, timeout, Subject } from 'rxjs';
 import {
     UntypedFormBuilder,
     UntypedFormGroup,
@@ -39,6 +39,7 @@ import {
     MAT_MOMENT_DATE_ADAPTER_OPTIONS,
     MomentDateAdapter,
 } from '@angular/material-moment-adapter';
+import { User } from 'app/core/user/user.types';
 
 export const MY_FORMATS = {
     parse: {
@@ -76,13 +77,18 @@ export class DetailsComponent implements OnInit {
     public listTrangThai = [];
     public listChucDanh = [];
     public listKetQuaNT =[];
+    user: User;
+    public checkDOffice = false;
+    public linkDoffice = "";
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
     constructor(
         private _formBuilder: UntypedFormBuilder,
         public _activatedRoute: ActivatedRoute,
         public _messageService: MessageService,
         public _router: Router,
         private _serviceApi: ServiceService,
-        public dialog: MatDialog
+        public dialog: MatDialog,
+        private _userService: UserService,
     ) {
         this.initForm();
         this.idParam = this._activatedRoute.snapshot.paramMap.get('id');
@@ -115,6 +121,7 @@ export class DetailsComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.getCheckQuyenDoffice();
         this.getListChucDanh();
         this.getListKQNT();
         if (this.actionType == 'updateActionHD') {
@@ -125,6 +132,21 @@ export class DetailsComponent implements OnInit {
         } else if (this.actionType == 'updateActionHSQTNT') {
             this.getListTrangThaiQuyetToan();
         }
+    }
+    getCheckQuyenDoffice() {
+        this._userService.user$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((user: any) => {
+                this.user = user;
+                
+                this._serviceApi.execServiceLogin("3FADE0E4-B2C2-4D9D-A0C7-06817ADE4FA3", [{ "name": "ORGID", "value": user.ORGID }]).subscribe((data) => {
+                    if (data.data.API_DOFFICE) {
+                        this.checkDOffice = true;
+                        this.linkDoffice = data.data.API_DOFFICE;
+                    }
+                })
+            });
+
     }
     getListTrangThaiQuyetToan() {
         this._serviceApi
@@ -376,6 +398,8 @@ export class DetailsComponent implements OnInit {
             maFolder: item?.maFolder || null,
             listFile: this._formBuilder.array([]),
             ghiChu:item?.ghiChu || null,
+            nguoiSua:item?.nguoiSua || null,
+            ngaySua:item?.ngaySua || null,
         });
     }
     addListDocChild(item?: any) {
@@ -728,6 +752,8 @@ export class DetailsComponent implements OnInit {
 
     handleUpload(event, item, index) {
         let arr = item.get('listFile') as FormArray;
+        item.get("nguoiSua").setValue(this.user.userId);
+        item.get("ngaySua").setValue(new Date());
         for (var i = 0; i < event.target.files.length; i++) {
             const reader = new FileReader();
             let itemVal = event.target.files[i];

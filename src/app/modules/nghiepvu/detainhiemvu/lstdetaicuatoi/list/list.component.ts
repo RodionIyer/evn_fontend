@@ -92,7 +92,7 @@ export class LstdetaicuatoiListComponent implements OnInit, OnDestroy {
     timKiem() {
         this.getGiaoSubcription = this._serviceApi
             .execServiceLogin('00249219-4EE7-466D-BD84-269064AC9D9B', [
-                { name: 'TEN_DETAI', value: this.txtSeach },
+                { name: 'TEN_DETAI', value: this.name },
                 { name: 'PAGE_NUM', value: this.pageIndex },
                 { name: 'PAGE_ROW_NUM', value: this.pageSize },
             ])

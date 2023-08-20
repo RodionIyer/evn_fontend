@@ -7,7 +7,7 @@ import {
     ViewEncapsulation,
 } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Subscription, takeUntil} from 'rxjs';
+import {Subscription, takeUntil, timeout, Subject} from 'rxjs';
 import {
     FormArray,
     FormBuilder,
@@ -29,6 +29,8 @@ import {MatSort} from '@angular/material/sort';
 import {ServiceService} from 'app/shared/service/service.service';
 import {MatDialog} from '@angular/material/dialog';
 import {PopupCbkhComponent} from './popup-cbkh/popup-cbkh.component';
+import { User } from 'app/core/user/user.types';
+import { DOfficeService } from 'app/shared/service/doffice.service'
 import {
     DateAdapter,
     MAT_DATE_FORMATS,
@@ -94,6 +96,10 @@ export class DetailsComponent implements OnInit {
         loaiFile: '';
     };
     public screentype;
+    public checkDOffice = false;
+    public linkDoffice = "";
+    user: User;
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     constructor(
         private _formBuilder: UntypedFormBuilder,
@@ -101,7 +107,9 @@ export class DetailsComponent implements OnInit {
         public _messageService: MessageService,
         public _router: Router,
         private _serviceApi: ServiceService,
-        public dialog: MatDialog
+        public dialog: MatDialog,
+        private _userService: UserService,
+        private _dOfficeApi: DOfficeService,
     ) {
         this.idParam = this._activatedRoute.snapshot.paramMap.get('id');
         this._activatedRoute.queryParams.subscribe((params) => {
@@ -150,6 +158,7 @@ export class DetailsComponent implements OnInit {
         } else {
             this.geListTrangThaiThanhLapHD();
         }
+        this.getCheckQuyenDoffice();
     }
 
     // initFormHD(){
@@ -194,7 +203,7 @@ export class DetailsComponent implements OnInit {
                 let formDocParentHD = this.form.get(
                     'listFolderFileHD'
                 ) as FormArray;
-                 if(method=='RASOAT') {}else{  
+                
                 if (data.data.listFolderFile != null) {
                     for (let i = 0; i < data.data.listFolderFile.length; i++) {
                         formDocParent.push(
@@ -221,7 +230,7 @@ export class DetailsComponent implements OnInit {
                         }
                     }
                 }
-            }
+            
                 if (data.data.listFolderFileTamUng != null) {
                     for (
                         let i = 0;
@@ -401,6 +410,22 @@ export class DetailsComponent implements OnInit {
         });
     }
 
+    getCheckQuyenDoffice() {
+        this._userService.user$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((user: any) => {
+                debugger;
+                this.user = user;
+                this._serviceApi.execServiceLogin("3FADE0E4-B2C2-4D9D-A0C7-06817ADE4FA3", [{ "name": "ORGID", "value": user.ORGID }]).subscribe((data) => {
+                    if (data.data.API_DOFFICE) {
+                        this.checkDOffice = true;
+                        this.linkDoffice = data.data.API_DOFFICE;
+                    }
+                })
+            });
+
+    }
+
     addListDocChild(item?: any) {
         return this._formBuilder.group({
             fileName: item?.fileName || null,
@@ -412,6 +437,7 @@ export class DetailsComponent implements OnInit {
             tenFolder: item?.tenFolder || null,
             duongDan: item?.duongDan || null,
             rowid: item?.rowid || null,
+            ngayVanBan:item?.ngayVanBan || null,
         });
     }
 
@@ -472,7 +498,7 @@ export class DetailsComponent implements OnInit {
             maDeTai: [null],
             thoiGianHop: [null],
             ketQuaPhieuDanhGia: [null],
-            ketLuanKienNghiHD: [null],
+            ketLuanHoiDongXetDuyet: [null],
             diaDiem: [null],
             method: actionType,
             maTrangThai: [''],
@@ -629,6 +655,7 @@ export class DetailsComponent implements OnInit {
             });
     }
 
+    dataFile = [];
     openAlertDialog(type, item?: any) {
         let data = this.dialog.open(PopupCbkhComponent, {
             data: {
@@ -690,6 +717,7 @@ export class DetailsComponent implements OnInit {
                     );
                 }
             } else if (type == 'DETAIHOIDONGNT') {
+                debugger;
                 let formThanhVien = this.form.get(
                     'danhSachThanhVienHD'
                 ) as FormArray;
@@ -703,6 +731,22 @@ export class DetailsComponent implements OnInit {
                             data.data.danhSachThanhVienHD[i]
                         )
                     );
+                }
+            }else if (type == 'DOffice') {
+                this.dataFile = this._dOfficeApi.execTimKiemTheoFile(this.linkDoffice, data.ID_VB);
+                if (this.dataFile != null && this.dataFile.length > 0) {
+    
+                    for (var i = 0; i < this.dataFile.length; i++) {
+                        let dataBase64 = this._dOfficeApi.execFileBase64(this.linkDoffice, this.dataFile[i].ID_FILE, this.user.ORGID, this.dataFile[i].ID_VB);
+                        let arrFile = item.get("listFile") as FormArray;
+                        arrFile.push({
+                            fileName: this.dataFile[i].TEN_FILE,
+                            base64: dataBase64,
+                            size: 0,
+                            sovanban: data.KY_HIEU,
+                            mafile: ""
+                        })
+                    }
                 }
             }
         });

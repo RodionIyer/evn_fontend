@@ -68,12 +68,15 @@ export class ListItemComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.geListYears();
         this.timKiem()
+        this.getListCapQuanLy();
+        this.getListDonViChuTri();
     }
 
     getListDonViChuTri() {
         this._serviceApi
             .execServiceLogin('D3F0F915-DCA5-49D2-9A5B-A36EBF8CA5D1', null)
             .subscribe((data) => {
+                debugger;
                 this.listDonViChuTri = data.data || [];
             });
     }

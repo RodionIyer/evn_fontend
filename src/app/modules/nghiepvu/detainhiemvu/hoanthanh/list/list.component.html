@@ -27,7 +27,7 @@
             <div class="basis-1/5">
                 <ng-select
                     style="width: 200px;"
-                    [items]="listYears"
+                    [items]="listDonViChuTri"
                     bindLabel="NAME"
                     bindValue="ID"
                     placeholder="Lựa chọn"
@@ -52,7 +52,7 @@
             />
             </div>
             <div class="basis-1/4">
-                <button class="add_button">
+                <button class="add_button" (click)="timKiem()">
                     <i class="fa fa-search"></i>
                     Tìm kiếm
                 </button>

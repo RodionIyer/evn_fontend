@@ -68,6 +68,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.geListYears();
         this.timKiem()
+        this.getListCapQuanLy();
     }
 
     geListYears() {

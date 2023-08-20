@@ -40,10 +40,11 @@
                 class="form-control"
                 placeholder="Nhập từ khóa tìm kiếm: tên đề tài,nhiệm vụ, chủ nhiệm, đồng chủ nhiệm, thư ký"
                 [(ngModel)]="q"
+                
             />
             </div>
             <div class="basis-1/4">
-                <button class="add_button">
+                <button class="add_button"  (click)="timKiem()">
                     <i class="fa fa-search"></i>
                     Tìm kiếm
                 </button>
@@ -95,12 +96,12 @@
                             <i  *ngIf="item.maTrangThai=='DA_TLHDNT'" (click)="updateActionKQNT(item)" title="Cập nhập KQNT" class="fa fa-caret-square-o-up"></i>
                             <i  *ngIf="item.maTrangThai=='DA_NTHU'" (click)="updateActionHSQT(item)" title="Cập nhật HSQT" class="fa fa-caret-square-o-up"></i> -->
 
-                            <i class="fa fa-pencil" (click)="editer(item)" title="Chỉnh sửa"></i>
-                            <i  (click)="updateActionHSNT(item)" title="Cập nhập HSNT" class="fa fa-caret-square-o-up"></i>
-                            <i   (click)="updateActionHD(item)" title="Cập nhập HĐNT" class="fa fa-caret-square-o-up"></i>
-                            <i   (click)="updateActionKQNT(item)" title="Cập nhập KQNT" class="fa fa-caret-square-o-up"></i>
-                            <i   (click)="updateActionHSQT(item)" title="Cập nhật HSQT" class="fa fa-caret-square-o-up"></i>
-                            <i *ngIf="item.maTrangThai=='CHUA_GUI'" class="fa fa-trash" (click)="xoa(item)" title="Xóa bỏ"></i>
+                            <!-- <i class="fa fa-pencil" (click)="editer(item)" title="Chỉnh sửa"></i> -->
+                            <i *ngIf="item.maTrangThai=='YCAU_CAP_NHAT_HS_NTHU' || item.maTrangThai=='CHUA_GUI_HS_NTHU'" (click)="updateActionHSNT(item)" title="Cập nhập HSNT" class="fa fa-caret-square-o-up"></i>
+                            <i *ngIf="item.maTrangThai=='DA_RA_SOAT_HS_NTHU'" (click)="updateActionHD(item)" title="Cập nhập HĐNT" class="fa fa-caret-square-o-up"></i>
+                            <i *ngIf="item.maTrangThai=='DA_TLHDNT'"  (click)="updateActionKQNT(item)" title="Cập nhập KQNT" class="fa fa-caret-square-o-up"></i>
+                            <i *ngIf="item.maTrangThai=='DA_NTHU'"  (click)="updateActionHSQT(item)" title="Cập nhật HSQT" class="fa fa-caret-square-o-up"></i>
+                            <!-- <i *ngIf="item.maTrangThai=='CHUA_GUI'" class="fa fa-trash" (click)="xoa(item)" title="Xóa bỏ"></i> -->
                         </div>
                     </td>
                 </tr>

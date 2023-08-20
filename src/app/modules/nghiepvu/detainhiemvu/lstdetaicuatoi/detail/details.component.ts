@@ -254,6 +254,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
             danhSachThanhVien: this._formBuilder.array([]),
             danhSachThanhVienHD: this._formBuilder.array([]),
             danhSachThanhVienHDXT: this._formBuilder.array([]),
+            danhSachThanhVienHDNT: this._formBuilder.array([]),
             tenNguonKinhPhi: [null],
             nguonKinhPhi: [null, [Validators.required]],
             tongKinhPhi: [null, [Validators.required]],
@@ -286,6 +287,10 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
             lyDoNT:[null],
             diaDiemNT:[null],
             tongPhiQT:[null],
+            maKetQuaNhiemThu:[null],
+            tonTaiKhacPhucNghiemThu:[null],
+            diemNghiemThu:[null],
+            tenTrangThai:[null]
             // listFile1: this._formBuilder.array([]),
             // listFile2: this._formBuilder.array([]),
             // listFile3: this._formBuilder.array([]),
@@ -312,6 +317,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.getCheckQuyenDoffice();
         this.lstDanhSachThanhVienHD = [];
         if (this.actionType == 'updateActionHSTH') {
             this.getListTrangThaiHSThucHien();
@@ -334,9 +340,10 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
         this.getListLinhVucNghienCuu();
         this.getListGioiTinh();
         this.getListChucDanh();
-        this.getCheckQuyenDoffice();
         if(this.method == 'DETAIL'){
+            this.getListTrangThaiAll();
             this.getListKQNT();
+      
         }
         
     }
@@ -345,6 +352,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
         this._serviceApi
             .execServiceLogin('E8796F41-0A24-47F4-A063-303F8C21EB1C', null)
             .subscribe((data) => {
+                debugger;
                 this.listKetQuaNT = data.data || [];
             });
     }
@@ -399,7 +407,9 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
             fileName: item?.fileName || null,
             maFolder: item?.maFolder || null,
             listFile: this._formBuilder.array([]),
-            ghiChu: item?.ghiChu
+            ghiChu: item?.ghiChu,
+            nguoiSua: item?.nguoiSua,
+            ngaySua: item?.ngaySua,
         });
     }
 
@@ -435,6 +445,42 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                 }else{
                     this.lanGiaHanThu =1;
                 }
+                //lấy ten trạng thái
+                let trangThai = this.form.get('maTrangThai').value;
+                if(this.listTrangThai != null && this.listTrangThai.length >0){
+                    let tenTrangThai = this.listTrangThai.filter(c => c.ID==trangThai);
+                    if(tenTrangThai != null && tenTrangThai.length >0){
+                        this.form.get('tenTrangThai').setValue(tenTrangThai[0].NAME);
+                    }
+                }
+                //lấy đơn vị chủ trì
+                if(this.listDonViChuTri !=null && this.listDonViChuTri.length >0){
+                    let donViChuTri = this.form.get('donViChuTri').value;
+                    if(donViChuTri != undefined){
+                        let dvChuTri = this.listDonViChuTri.filter(c => c.ID==donViChuTri);
+                        if(dvChuTri != null && dvChuTri.length >0){
+                            this.form.get('tenDonViChuTri').setValue(dvChuTri[0].NAME);
+                        }
+                    }
+                   
+                }
+
+                //linhvuckhoahoc
+                if(this.listLinhVucNghienCuu != null && this.listLinhVucNghienCuu.length >0){
+                    let linhVuc = this.form.get('linhVucNghienCuu').value;
+                    if(linhVuc != null && linhVuc.length >0){
+                        let listLV = this.listLinhVucNghienCuu.filter(c =>linhVuc.includes(c.ID));
+                        if(listLV != null && listLV.length >0){
+                            var names = listLV.map(function(item) {
+                                return item['NAME'];
+                              });
+                              this.form.get('tenLinhVucNghienCuu').setValue( names.toString());
+                        }
+                    }
+                   
+                }
+              
+
                 if(this.form.get('chuNhiemDeTaiInfo').value != null){
                     this.form.get('chuNhiemDeTaiInfo').value.vaiTro = "Chủ nhiệm đề tài"
                     this.lstDanhSachThanhVienHD.push(this.form.get('chuNhiemDeTaiInfo').value);
@@ -578,6 +624,58 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                         );
                     }
                 }
+                //danh sach thành viên hội động xét duyệt
+                if (data.data.danhSachThanhVienHD != null && data.data.danhSachThanhVienHD.length >0 ) {
+                    let danhsachXD = data.data.danhSachThanhVienHD;
+                    let formThanhVien = this.form.get(
+                        'danhSachThanhVienHDXT'
+                    ) as FormArray;
+
+                    for (
+                        let i = 0;
+                        i < danhsachXD.length;
+                        i++
+                    ) {
+                        formThanhVien.push(
+                            this.THEM_THANHVIEN(danhsachXD[i])
+                        );
+                    }
+                }
+                //danh sách thành viên NT
+                if (data.data.danhSachThanhVienHDNT != null && data.data.danhSachThanhVienHDNT.length >0 ) {
+                    let danhsachXD = data.data.danhSachThanhVienHDNT;
+                    let formThanhVien = this.form.get(
+                        'danhSachThanhVienHDNT'
+                    ) as FormArray;
+
+                    for (
+                        let i = 0;
+                        i < danhsachXD.length;
+                        i++
+                    ) {
+                        formThanhVien.push(
+                            this.THEM_THANHVIEN(danhsachXD[i])
+                        );
+                    }
+                }
+
+                if (data.data.listTienDoCongViec != null && data.data.listTienDoCongViec.length >0 ) {
+                    let danhsachXD = data.data.listTienDoCongViec;
+                    let formTienDo = this.form.get(
+                        'listTienDoCongViec'
+                    ) as FormArray;
+
+                    for (
+                        let i = 0;
+                        i < danhsachXD.length;
+                        i++
+                    ) {
+                        formTienDo.push(
+                            this.TIEN_DO(danhsachXD[i])
+                        );
+                    }
+                }
+
                 let thoiGianTu = this.form.get('thoiGianThucHienTu').value;
                 if (thoiGianTu) {
                     this.form
@@ -597,6 +695,14 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                         .setValue(new Date(thoiGianHop));
                 }
 
+                let thoiGianHopNT = this.form.get('thoiGianHopNT')?.value;
+                if (thoiGianHopNT) {
+                    this.form
+                        .get('thoiGianHopNT')
+                        .setValue(new Date(thoiGianHopNT));
+                }
+
+                
                 console.log('form,', this.form);
                 if (method == 'DETAIL') { //|| method == 'CAPNHAT'
                     let formDocParentHSDK = this.form.get(
@@ -644,20 +750,17 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                         );
                         if (listHSDK != null && listHSDK.length > 0) {
                             for (let i = 0; i < listHSDK.length; i++) {
-                                let listFile = data.data.listFile.filter(
-                                    (c) => listHSDK[i].maFolder == c.maLoaiFile
-                                );
                                 formDocParentHSDK.push(
                                     this.addListDocParent(listHSDK[i])
                                 );
 
-                                if (listFile != null && listFile.length > 0) {
+                                if (listHSDK[i].listFile != null && listHSDK[i].listFile.length > 0) {
                                     let formChild = formDocParentHSDK
                                         .at(i)
                                         .get('listFile') as FormArray;
-                                    for (let j = 0; j < listFile.length; j++) {
+                                    for (let j = 0; j < listHSDK[i].listFile.length; j++) {
                                         formChild.push(
-                                            this.addListDocChild(listFile[j])
+                                            this.addListDocChild(listHSDK[i].listFile[j])
                                         );
                                     }
                                 }
@@ -857,7 +960,9 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                             (c) => c.ketQuaNghiemThu == true
                         );
                         if (listKQNT != null && listKQNT.length > 0) {
+                            debugger;
                             for (let i = 0; i < listKQNT.length; i++) {
+                                debugger;
                                 let listFile = data.data.listFile.filter(
                                     (c) => listKQNT[i].maFolder == c.maLoaiFile
                                 );
@@ -903,7 +1008,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                             }
                         }
                     }
-
+                  
                     // this.listFolderAll = data.data.listFolderAll;
                     // this.listFolderDK = data.data.listFolderAll.filter(c  => c.maFolder=='VBDANGKY');
                     //  this.listFolderDK.listFile = data.data.listFile;
@@ -1014,6 +1119,20 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
             email: item?.email || null,
             donViCongTac: item?.donViCongTac || null,
             tenChucDanh: item?.tenChucDanh || null,
+            ghiChu: item?.ghiChu || null,
+        });
+    }
+
+    TIEN_DO(item?: any): FormGroup {
+        debugger;
+        return this._formBuilder.group({
+            maTienDo: item?.maTienDo || null,
+            maDeTai: item?.maDeTai || null,
+            thang: item?.thang || null,
+            nam: item?.nam || null,
+            noiDungBaoCao: item?.noiDungBaoCao || null,
+            deXuatKienNghi: item?.deXuatKienNghi || null,
+            keHoachTiepTheo: item?.keHoachTiepTheo || null
         });
     }
 
@@ -1330,6 +1449,8 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
 
     handleUpload(event, item, index) {
         let arr = item.get('listFile') as FormArray;
+        item.get("nguoiSua").setValue(this.user.userId);
+        item.get("ngaySua").setValue(new Date());
         for (var i = 0; i < event.target.files.length; i++) {
             const reader = new FileReader();
             let itemVal = event.target.files[i];
@@ -1449,6 +1570,14 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                     return;
                 });
                 this.form.get('maTrangThai').setValue('DA_NTHU');
+            });
+    }
+
+    getListTrangThaiAll() {
+        this._serviceApi
+            .execServiceLogin('2EE0D143-CA88-4CFF-AC24-448236ECD72C', null)
+            .subscribe((data) => {
+                this.listTrangThai = data.data || [];
             });
     }
 }
