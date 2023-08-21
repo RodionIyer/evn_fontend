@@ -350,7 +350,7 @@ export class DetailsComponent implements OnInit {
          this.submitted.check = true;
          if (this.form.invalid) {
              // this._messageService.showErrorMessage("Thông báo", "Chưa nhập đủ trường bắt buộc!")
-             //debugger;
+
               return;
           }
         this.form.get('method').setValue(method);

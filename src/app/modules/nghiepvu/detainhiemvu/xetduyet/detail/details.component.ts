@@ -416,7 +416,6 @@ export class DetailsComponent implements OnInit {
         this._userService.user$
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((user: any) => {
-                debugger;
                 this.user = user;
                 this._serviceApi.execServiceLogin("3FADE0E4-B2C2-4D9D-A0C7-06817ADE4FA3", [{ "name": "ORGID", "value": user.ORGID }]).subscribe((data) => {
                     if (data.data.API_DOFFICE) {
@@ -719,7 +718,6 @@ export class DetailsComponent implements OnInit {
                     );
                 }
             } else if (type == 'DETAIHOIDONGNT') {
-                debugger;
                 let formThanhVien = this.form.get(
                     'danhSachThanhVienHD'
                 ) as FormArray;
@@ -818,7 +816,6 @@ export class DetailsComponent implements OnInit {
     // }
 
     onSubmit(status, method) {
-        debugger
         console.log(this.form.value);
         this.form.get('method').setValue(method);
         var token = localStorage.getItem('accessToken');

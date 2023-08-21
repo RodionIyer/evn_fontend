@@ -460,7 +460,6 @@ export class ApiPheDuyetDinhHuongDetailsComponent implements OnInit {
             this._messageService.showErrorMessage("Thông báo", "Vui lòng thêm thông tin đăng ký định hướng.");
             return;
         }
-        debugger;
         var token = localStorage.getItem("accessToken");
         this._serviceApi.execServiceLogin("404ABE65-3B92-448F-A8F0-9543503AE1E3", [{ "name": "LIST_FILE", "value": JSON.stringify(listFile) }, { "name": "LIST_KE_HOACH_CHI_TIET", "value": JSON.stringify(listChiTiet) }, { "name": "TOKEN_LINK", "value": "Bearer " + token }, { "name": "KE_HOACH", "value": JSON.stringify(kehoach) }]).subscribe((data) => {
             // this._messageService.showSuccessMessage("Thông báo", data.message);

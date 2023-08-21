@@ -241,7 +241,6 @@ export class ListItemComponent implements OnInit, OnDestroy {
             .execServiceLogin('8EBCEDE9-F218-4896-812B-DC9B7EE480CA', null)
             .subscribe((data) => {
                 this.listFolderFile = data.data || [];
-                debugger;
                 if(this.listFolderFile != null && this.listFolderFile.length >0){
                     let valDk = this.form.get('listFolderHSDK') as FormArray;
                     let listDK = this.listFolderFile.filter(c => c.DANG_KY==true);

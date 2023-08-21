@@ -60,7 +60,6 @@ export class DetailsComponent implements OnInit {
         // this.initFormUpdateActionKQXDCN();
         this.idParam = this._activatedRoute.snapshot.paramMap.get('id');
         this._activatedRoute.queryParams.subscribe((params) => {
-            debugger
             if (params?.type) {
                 this.actionType = params?.type;
             } else {
@@ -90,7 +89,6 @@ export class DetailsComponent implements OnInit {
             ])
             .subscribe((data) => {
                 console.log(data.data)
-                debugger
                 this.form.patchValue(data.data);
                 let formDocParent = this.form.get(
                     'listFolderFile'
@@ -483,7 +481,6 @@ export class DetailsComponent implements OnInit {
     }
 
     deleteItemFile(items, i) {
-        debugger
         const control = items.get('listFile');
         control.removeAt(i);
     }

@@ -104,7 +104,6 @@ export class PopupCbkhComponent implements OnInit {
            })
     }
     timkiemHoiDong(){
-        debugger;
         this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("D5738375-3591-4986-94FC-E523F645A858", [{"name":"TEN_NGUOI_THUC_HIEN","value":this.q},{"name":"MA_DON_VI","value":this.maDonVi}]).subscribe((data) => {
                 this.listHoiDong = data.data || [];
            })

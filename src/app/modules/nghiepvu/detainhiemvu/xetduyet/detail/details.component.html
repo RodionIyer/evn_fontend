@@ -62,8 +62,8 @@
                     <td class="font-medium">
                         {{ item.get("fileName").value }}
                     </td>
-                    <td>  {{ item.get("soKyHieu").value }}</td>
-                    <td>  {{ item.get("ngayVanBan").value | date:'dd/MM/yyyy'}}</td>
+                    <td></td>
+                    <td></td>
                     <td>
                         <div
                             class="list-file" style="width: 100%;"
@@ -393,7 +393,7 @@
         "
 
     >
-    <ng-container         [formGroupName]="i">
+    <ng-container [formGroupName]="i">
         <div class="basis-60">
             <label for="" class="font-medium">{{
                 item.get("fileName").value

@@ -352,7 +352,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
         this._serviceApi
             .execServiceLogin('E8796F41-0A24-47F4-A063-303F8C21EB1C', null)
             .subscribe((data) => {
-                debugger;
+           
                 this.listKetQuaNT = data.data || [];
             });
     }
@@ -960,9 +960,9 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                             (c) => c.ketQuaNghiemThu == true
                         );
                         if (listKQNT != null && listKQNT.length > 0) {
-                            debugger;
+                        
                             for (let i = 0; i < listKQNT.length; i++) {
-                                debugger;
+                             
                                 let listFile = data.data.listFile.filter(
                                     (c) => listKQNT[i].maFolder == c.maLoaiFile
                                 );
@@ -1124,7 +1124,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
     }
 
     TIEN_DO(item?: any): FormGroup {
-        debugger;
+       
         return this._formBuilder.group({
             maTienDo: item?.maTienDo || null,
             maDeTai: item?.maDeTai || null,

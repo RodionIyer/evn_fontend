@@ -653,7 +653,8 @@
            <!-- <button style="background: #ccc; padding: 5px 16px; border-radius: 5px;">Chọn tệp...</button> -->
         </div>
     </div>
-    <ng-container *ngFor="let item of form.get('listFolderFile')['controls']; let i = index">
+    <ng-container formArrayName="listFolderFile" *ngFor="let item of form.get('listFolderFile')['controls']; let i = index">
+        <ng-container [formGroupName]="i">
     <div
     class="list-file table_listfile" style="width: 25%;"
     *ngIf="item.get('listFile').value.length > 0"
@@ -676,16 +677,14 @@
             <ng-container
                 formArrayName="listFile"
                 class="table_listfile"
+                *ngFor="
+                let item2 of item.get('listFile')[
+                    'controls'
+                ];
+                let k = index
+            "
             >
-                <tr
-                    *ngFor="
-                        let item2 of item.get('listFile')[
-                            'controls'
-                        ];
-                        let k = index
-                    "
-                    formGroupName="{{ k }}"
-                >
+                <tr [formGroupName]="k" >
                     <td>
                         <!-- <i
                             class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
@@ -710,12 +709,6 @@
                                       .value.toFixed(1) +
                                   "K"
                         }})
-                    </td>
-
-                    <td>
-                        {{ item2.get("sovanban").value }}
-                    </td>
-                    <td class="text-right">
                         <i
                             style="
                                 color: red;
@@ -728,16 +721,6 @@
                             class="fa fa-trash"
                             title="Xóa bỏ"
                         ></i>
-                        <i
-                            class="fa fa-cloud-download"
-                            style="
-                                color: green;
-                                cursor: pointer;
-                            "
-                            aria-hidden="true"
-                            (click)="downLoadFile(item2)"
-                            title="Download file"
-                        ></i>
                     </td>
                 </tr>
             </ng-container>
@@ -745,6 +728,7 @@
     </table>
 
 </div>
+</ng-container>
 </ng-container>
     <!-- <ng-container *ngFor="let item of form.get('listFolderFile')['controls']; let i = index">
         <div class="list-file" style="width: 40%;" *ngIf="item.get('listFile').value.length >0">

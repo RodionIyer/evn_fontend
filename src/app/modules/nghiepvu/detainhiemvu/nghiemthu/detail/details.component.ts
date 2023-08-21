@@ -170,7 +170,7 @@ export class DetailsComponent implements OnInit {
             ])
             .subscribe((data) => {
                 this.form.patchValue(data.data);
-                debugger;
+              
                 let formDocParent = this.form.get(
                     'listFolderFile'
                 ) as FormArray;
@@ -789,7 +789,7 @@ export class DetailsComponent implements OnInit {
             this.form.get('methodType').setValue('NGHIEMTHU'); 
         }
         console.log(this.form.value);
-        debugger;
+     
         this._serviceApi
             .execServiceLogin('8565DAF2-842B-438E-B518-79A47096E2B5', [
                 { name: 'DE_TAI', value: JSON.stringify(this.form.value) },

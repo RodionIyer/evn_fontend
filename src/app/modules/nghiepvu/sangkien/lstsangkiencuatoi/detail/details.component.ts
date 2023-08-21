@@ -102,7 +102,6 @@ export class DetailsComponent implements OnInit {
     ) {
         this.idParam = this._activatedRoute.snapshot.paramMap.get('id');
         this._activatedRoute.queryParams.subscribe((params) => {
-            debugger
             if (params?.type) {
                 this.actionType = params?.type;
             } else {
@@ -268,7 +267,6 @@ export class DetailsComponent implements OnInit {
             .subscribe((data) => {
                 this.form.patchValue(data.data);
                 this.data = data.data;
-                debugger
                 let formDocParent = this.form.get(
                     'listFolderFile'
                 ) as FormArray;
@@ -441,7 +439,6 @@ export class DetailsComponent implements OnInit {
         this._serviceApi
             .execServiceLogin('1FF27415-DF4B-4087-BAE4-21A03E397961', null)
             .subscribe((data) => {
-                debugger
                 this.listChucDanh = data.data || [];
             });
     }
@@ -453,7 +450,6 @@ export class DetailsComponent implements OnInit {
     }
 
     onSubmit(status, method) {
-        debugger
         this.submitted.check = true;
         if (this.form.invalid) {
             return;
