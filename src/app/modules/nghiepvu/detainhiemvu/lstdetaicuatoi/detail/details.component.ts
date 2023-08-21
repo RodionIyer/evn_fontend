@@ -1280,6 +1280,8 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                 fileName: item?.fileName,
                 ghiChu: item?.ghiChu,
                 listFile: this._formBuilder.array([]),
+                nguoiSua:item?.nguoiSua,
+                ngaySua:item?.ngaySua,
             });
         }
         return this._formBuilder.group({
@@ -1287,6 +1289,8 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
             fileName: item?.fileName,
             ghiChu: item?.ghiChu,
             listFile: this._formBuilder.array([], ArrayValidators.minLength(0)),
+            nguoiSua:item?.nguoiSua,
+            ngaySua:item?.ngaySua,
         });
     }
 

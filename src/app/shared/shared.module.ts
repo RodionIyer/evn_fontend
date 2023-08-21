@@ -25,7 +25,7 @@ import { TextMaskModule } from 'angular2-text-mask';
         PopupConfirmComponent,
         LichsuComponent,
         LichsuKeHoachComponent,
-        moneyDirective
+        moneyDirective,
     ],
     exports: [
         CommonModule,

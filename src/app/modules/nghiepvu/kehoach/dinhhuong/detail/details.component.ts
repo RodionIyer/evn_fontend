@@ -18,6 +18,7 @@ import { PopupFileComponent } from 'app/shared/component/popup-file/popup-fileco
 import { PopupCbkhComponent } from './popup-cbkh/popup-cbkh.component';
 import { User } from 'app/core/user/user.types';
 import { DOfficeService } from 'app/shared/service/doffice.service'
+import { DOfficeComponent } from 'app/shared/component/d-office/d-office.component';
 
 @Component({
     selector: 'component-details',
@@ -102,8 +103,11 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
         this.geListNhomDonVi();
         this.selectedYear = (new Date()).getFullYear();
         // console.log(this.form.value);
+        this.getCheckQuyenDoffice()
 
     }
+
+    
     getCheckQuyenDoffice() {
         this._userService.user$
             .pipe(takeUntil(this._unsubscribeAll))
@@ -386,7 +390,7 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
     }
     dataFile = [];
     openAlertDialog(type) {
-        let data = this.dialog.open(PopupCbkhComponent, {
+        let data = this.dialog.open(DOfficeComponent, {
             data: {
                 type: type,
                 linkApi: this.linkDoffice,
@@ -460,6 +464,45 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
 
             // })
         }
+    }
+
+    openAlertDialogDoffice(type, item?: any) {
+        let data = this.dialog.open(DOfficeComponent, {
+            data: {
+                type: type,
+                message: 'HelloWorld',
+                buttonText: {
+                    cancel: 'Done',
+                },
+            },
+            width: '800px',
+            panelClass: 'custom-PopupCbkh',
+            position: {
+                top: '100px',
+            },
+        });
+
+        data.afterClosed().subscribe((data) => {
+            if (type == 'DOffice') {
+                this.dataFile = this._dOfficeApi.execTimKiemTheoFile(this.linkDoffice, data.ID_VB);
+                if (this.dataFile != null && this.dataFile.length > 0) {
+                    item.get("sovanban").setvalue(data.KY_HIEU);
+                    item.get("ngayVanBan").setvalue(data.NGAY_VB);
+                    for (var i = 0; i < this.dataFile.length; i++) {
+                        let dataBase64 = this._dOfficeApi.execFileBase64(this.linkDoffice, this.dataFile[i].ID_FILE, this.user.ORGID, this.dataFile[i].ID_VB);
+                        let arrFile = item.get("listFile") as FormArray;
+
+                        arrFile.push({
+                            fileName: this.dataFile[i].TEN_FILE,
+                            base64: dataBase64,
+                            size: 0,
+                            sovanban: data.KY_HIEU,
+                            mafile: ""
+                        })
+                    }
+                }
+            }
+        });
     }
 
 }

@@ -191,6 +191,7 @@ export class DetailsComponent implements OnInit {
             tenDonViThucHien: [null],
             vanBan: this._formBuilder.array([]),
             danhSachThanhVien: this._formBuilder.array([]),
+            danhSachThanhVienHD: this._formBuilder.array([]),
             maTrangThai: [null],
             isEmail: [null],
             quyetDinhThanhLapHoiDing: [null],
@@ -360,7 +361,7 @@ export class DetailsComponent implements OnInit {
                 item.get('maThanhVien').setValue(data.data.userId);
             } else if (type == 'HOIDONGSK') {
                 let formThanhVien = this.form.get(
-                    'danhSachThanhVien'
+                    'danhSachThanhVienHD'
                 ) as FormArray;
                 for (
                     let i = 0;

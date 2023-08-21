@@ -31,6 +31,7 @@ export class PopupCbkhComponent implements OnInit {
     public listThanhVien = [];
     public listHoiDong = [];
     public listDonVi= [];
+    public maDonVi="";
     public q;
     public getDinhHuongSubcription: Subscription;
     constructor(
@@ -75,6 +76,11 @@ export class PopupCbkhComponent implements OnInit {
             q:this.q
         }
         this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("8AC97350-516A-4757-BCD1-741FB86FFD8D", [{"name":"TIM_KIEM","value":JSON.stringify(obj)}]).subscribe((data) => {
+                this.listHoiDong = data.data || [];
+           })
+    }
+    timkiemHoiDong(){
+        this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("D5738375-3591-4986-94FC-E523F645A858", [{"name":"TEN_NGUOI_THUC_HIEN","value":this.q},{"name":"MA_DON_VI","value":this.maDonVi}]).subscribe((data) => {
                 this.listHoiDong = data.data || [];
            })
     }

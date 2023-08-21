@@ -62,8 +62,8 @@
                     <td class="font-medium">
                         {{ item.get("fileName").value }}
                     </td>
-                    <td></td>
-                    <td></td>
+                    <td>  {{ item.get("sovanban").value }}</td>
+                    <td>  {{ item.get("ngayVanBan").value | date:'dd/MM/yyyy'}}</td>
                     <td>
                         <div
                             class="list-file" style="width: 100%;"
@@ -71,7 +71,7 @@
                         >
                             <table class="table table_custom action-table">
                                 <!-- <thead>
-                                <tr> 
+                                <tr>
                                     <th class="stt_table">STT</th>
                                     <th>Tên file</th>
                                     <th class="text-center">Kích thước
@@ -102,7 +102,7 @@
                                                 {{
                                                     item2.get("fileName").value
                                                 }}
-                                                
+
                                                 ({{
                                                     item2.get("size").value >
                                                     1024 * 1024
@@ -161,7 +161,7 @@
                                 </tbody>
                             </table>
                         </div>
-                    
+
                     </td>
                     <td class="text-center">
                         <label class="custom-file-upload add_button-import">
@@ -178,7 +178,7 @@
                     </button> -->
                     </td>
                     <td>
-                        <button class="add_button" style="margin-left: 99px"  (click)="openAlertDialog('DOffice',item)" *ngIf="checkDOffice==true">
+                        <button class="add_button" style="margin-left: 99px"  (click)="openAlertDialogDoffice('DOffice',item)" *ngIf="checkDOffice==true">
                             <i class="fa fa-search"></i> Tìm kiếm từ D-Office
                         </button>
                     </td>
@@ -393,7 +393,7 @@
         "
 
     >
-    <ng-container [formGroupName]="i">
+    <ng-container         [formGroupName]="i">
         <div class="basis-60">
             <label for="" class="font-medium">{{
                 item.get("fileName").value
@@ -402,7 +402,7 @@
         <div class="list-file" *ngIf="item.get('listFile').value.length > 0">
             <table class="table">
                 <!-- <thead>
-                    <tr> 
+                    <tr>
                         <th class="stt_table">STT</th>
                         <th>Tên file</th>
                         <th class="text-center">Kích thước
@@ -606,14 +606,14 @@
             *ngIf="item.get('listFile').value.length > 0"
         >
             <table class="table table_custom action-table">
-    
+
                 <tbody formArrayName="listFile" class="table_listfile">
                     <ng-container  *ngFor="
                     let item2 of item.get('listFile')['controls'];
                     let k = index
                 ">
 
-                  
+
                     <tr [formGroupName]="k">
                         <!-- <td class="stt_table">{{k+1}}</td> -->
                         <td>{{ item2.get("fileName").value }}
@@ -726,7 +726,7 @@
         <div class="list-file" *ngIf="item.get('listFile').value.length > 0">
             <table class="table table_custom action-table">
                 <!-- <thead>
-                    <tr> 
+                    <tr>
                         <th class="stt_table">STT</th>
                         <th>Tên file</th>
                         <th class="text-center">Kích thước
@@ -924,7 +924,7 @@
         >
             <table class="table table_custom action-table">
                 <!-- <thead>
-                <tr> 
+                <tr>
                     <th class="stt_table">STT</th>
                     <th>Tên file</th>
                     <th class="text-center">Kích thước
@@ -1034,7 +1034,7 @@
             bindLabel="NAME"
             bindValue="ID"
             placeholder="Lựa chọn"
-            formControlName="maTrangThai" 
+            formControlName="maTrangThai"
             style="width: 200px"
         >
         </ng-select>

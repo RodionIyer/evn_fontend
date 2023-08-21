@@ -269,3 +269,57 @@
                     </div>
                 </div>
                 </ng-container>
+
+                <ng-container *ngIf="checkType=='HOIDONG'">
+                    <div class="title-popup">
+                        <i class="fa fa-search"></i> Tìm kiếm hội đồng
+                    </div>
+                    <div class="content-popup">
+                        <div class="box-search flex items-center	">
+                            <label for="">Tìm kiếm</label>
+                            <input type="text" class="form-control" (ngModelChange)="timkiemHoiDong()" [(ngModel)]="q" placeholder="Nhập từ khóa cần tìm..." name="" id="">
+                            <label for="">Mã đơn vị</label>
+                            <ng-select class="form-control"
+                            [items]="listDonVi"
+                            bindLabel="NAME"
+                            bindValue="ID"
+                            placeholder="Chọn đơn vị"
+                            [(ngModel)]="maDonVi"
+                            (change)="timkiemHoiDong()"
+                        >
+                        </ng-select>
+                        </div>
+                    
+                        <table class="table table_custom">
+                            <thead>
+                                <tr>
+                                    <th class="stt_table">STT</th>
+                                    <th>Họ và tên</th>
+                                    <th class="text-center">Đơn vị
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <ng-container  *ngFor="let item of listHoiDong; let i = index">
+                
+                               
+                                    <tr (click)="submit(item)">
+                                        <td class="stt_table">{{i+1}}</td>
+                                        <td>{{item.username}}</td>
+                                        <td>{{item.orgName}} </td>
+                                    </tr>
+                            </ng-container>
+                    
+                            </tbody>
+                        </table>
+                    
+                        <div class="action-pop">
+                            <!-- <button class="add_button"><i class="fa fa-plus"></i>
+                                Tìm kiếm</button>
+                            <button class="add_button selectbtn"><i class="fa fa-plus"></i>
+                                Chọn</button> -->
+                            <button (click)="onCloseClick()" class="add_button"><i class="fa fa-times"></i>
+                                Hủy</button>
+                        </div>
+                    </div>
+                    </ng-container>
