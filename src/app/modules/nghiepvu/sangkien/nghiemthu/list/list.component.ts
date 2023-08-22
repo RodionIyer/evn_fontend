@@ -23,7 +23,7 @@ import { SnotifyToast } from 'ng-alt-snotify';
 export class ListItemComponent implements OnInit, OnDestroy {
 
     public selectedYear: number;
-    public actionClick: string = null; 
+    public actionClick: string = null;
     public getYearSubscription: Subscription;
     public getGiaoSubcription: Subscription;
     public listYears = [];
@@ -78,7 +78,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
             });
     }
 
-   
+
     getListCapDoSK() {
         this._serviceApi
             .execServiceLogin('825C8F49-51DE-417E-AACD-FBDB437346AB', null)
@@ -123,7 +123,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
     pageIndex = 0;
     pageSizeOptions = [5, 10, 25];
     showFirstLastButtons = true;
-  
+
     handlePageEvent(event: PageEvent) {
       this.length = event.length;
       this.pageSize = event.pageSize;
@@ -131,8 +131,9 @@ export class ListItemComponent implements OnInit, OnDestroy {
     }
 
     lichsu(item){
+        debugger
         this._router.navigate(
-            ['/nghiepvu/sangkien/lstdetaicuatoi/'+item.maDeTai],
+            ['/nghiepvu/sangkien/lstsangkiencuatoi/'+item.maSangKien],
             { queryParams: { type: 'LICHSU', title:'LỊCH SỬ PHÊ DUYỆT, CẬP NHẬP ĐỊNH HƯỚNG ĐĂNG KÝ' } }
           );
        }
@@ -191,7 +192,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
     }
 
     updateAction(item){
-        this._router.navigate( 
+        this._router.navigate(
             ['/nghiepvu/sangkien/lstsangkiencuatoi/'+item.maSangKien],
             { queryParams: { type: 'THONGTINSK' } }
           );
