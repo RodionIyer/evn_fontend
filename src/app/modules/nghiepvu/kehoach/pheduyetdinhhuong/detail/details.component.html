@@ -67,7 +67,7 @@
                             class="statust-right"
                             style="float: left; margin-left: 20px"
                         >
-                            <label for="">Kỳ tổng hợp</label>
+                            <label class="titleTH" for="">Kỳ tổng hợp</label>
                             <ng-select
                                 [items]="listYears"
                                 bindLabel="NAME"
@@ -164,7 +164,7 @@
                 />
                 <i class="fa fa-cloud-upload"></i> Upload file
             </label>
-            <button class="add_button" style="margin-left: 99px" (click)="openAlertDialogDoffice('DOffice')" *ngIf="checkDOffice">
+            <button class="add_button" style="margin-left: 99px" (click)="openAlertDialogDoffice('DOffice',listupload)" *ngIf="checkDOffice">
                 <i class="fa fa-search"></i> Tìm kiếm từ D-Office
             </button>
         </div>

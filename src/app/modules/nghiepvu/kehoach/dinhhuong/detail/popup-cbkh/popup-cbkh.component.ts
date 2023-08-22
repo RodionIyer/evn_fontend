@@ -108,6 +108,7 @@ export class PopupCbkhComponent implements OnInit {
     timkiemDoffice(){
        this._dOfficeApi.execTimKiem(this.linkOffice,this.q,this.soKyHieu,this.loaiTK,this.selectedYear,this.maDv).subscribe((data) => {
             this.listDOffice = data.data || [];
+            console.log(data);
               
            })
     }

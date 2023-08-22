@@ -439,7 +439,7 @@ export class DetailsComponent implements OnInit {
                 if (data.status == 1) {
                     this._messageService.showSuccessMessage(
                         'Thông báo',
-                        data.message
+                        "Thành công"
                     );
                     // if (this.screen) {
                     //     this._router.navigateByUrl(this.screen);

@@ -805,7 +805,7 @@ export class DetailsComponent implements OnInit {
                 if (data.status == 1) {
                     this._messageService.showSuccessMessage(
                         'Thông báo',
-                        data.message
+                        "Thành công"
                     );
                         this._router.navigateByUrl(
                             '/nghiepvu/detainhiemvu/nghiemthu/'
@@ -820,10 +820,12 @@ export class DetailsComponent implements OnInit {
             });
     }
 
-    openAlertDialogDoffice(type, item?: any) {
+    async openAlertDialogDoffice(type, item?: any) {
         let data = this.dialog.open(DOfficeComponent, {
             data: {
                 type: type,
+                linkApi: this.linkDoffice,
+                maDv: this.user.ORGID,
                 message: 'HelloWorld',
                 buttonText: {
                     cancel: 'Done',
@@ -836,26 +838,52 @@ export class DetailsComponent implements OnInit {
             },
         });
 
-        data.afterClosed().subscribe((data) => {
+         data.afterClosed().subscribe((data) => {
+            debugger;
+           let kyHieu =data.data.KY_HIEU;
+           let ngayVB =data.data.NGAY_VB;
+           item.get("sovanban").setValue(kyHieu);
+           item.get("ngayVanBan").setValue(ngayVB);
             if (type == 'DOffice') {
-                this.dataFile = this._dOfficeApi.execTimKiemTheoFile(this.linkDoffice, data.ID_VB);
+                  this._dOfficeApi.execTimKiemTheoFile(this.linkDoffice, data.data.ID_VB).then(data=>{
+                this.dataFile = data.body.Data;
+                console.log("thong tin file");
+                console.log(data);
                 if (this.dataFile != null && this.dataFile.length > 0) {
-                    item.get("sovanban").setvalue(data.KY_HIEU);
-                    item.get("ngayVanBan").setvalue(data.NGAY_VB);
-                    for (var i = 0; i < this.dataFile.length; i++) {
-                        let dataBase64 = this._dOfficeApi.execFileBase64(this.linkDoffice, this.dataFile[i].ID_FILE, this.user.ORGID, this.dataFile[i].ID_VB);
-                        let arrFile = item.get("listFile") as FormArray;
-
-                        arrFile.push({
-                            fileName: this.dataFile[i].TEN_FILE,
-                            base64: dataBase64,
-                            size: 0,
-                            sovanban: data.KY_HIEU,
-                            mafile: ""
-                        })
-                    }
+                   for (var i = 0; i < this.dataFile.length; i++) {
+                    this.getFileFromDoffice(item, this.dataFile[i].ID_FILE, this.user.ORGID, this.dataFile[i].ID_VB,
+                         this.dataFile[i].TEN_FILE, this.dataFile[i].KY_HIEU);
+                //         let dataFile =  this.dataFile[i];
+                //         setTimeout(() => {
+                            
+                     
+                   
+                // }, 1000);
+                //     }
                 }
             }
+            }); 
+            }
+        });
+    }
+    async getFileFromDoffice(item,idFile,orgId,idVB,tenFile,kyHieu){
+        this._dOfficeApi.execFileBase64(this.linkDoffice, idFile, orgId, idVB).then(data=>{
+            console.log("file base64");
+            var base64str = data.body;
+            var decoded = atob(base64str);
+             let arrFile = item.get("listFile") as FormArray;
+             arrFile.push(this.addListDocChildView(tenFile,base64str,decoded,kyHieu))
+            });
+            
+    }
+
+    addListDocChildView(tenFile,base64str,decoded,kyHieu) {
+        return this._formBuilder.group({
+            fileName: tenFile,
+            base64: base64str,
+            size: decoded.length,
+            sovanban: kyHieu,
+            mafile: ""
         });
     }
 }

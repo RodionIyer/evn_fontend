@@ -177,8 +177,8 @@
             <label for="">Thời gian thực hiện từ</label>
         </div>
         <div class="basis-1/5">
-            {{ form.get("thoiGianThucHienTu").value | date : "dd/MM/yyyy" }} -
-            {{ form.get("thoiGianThucHienDen").value | date : "dd/MM/yyyy" }}
+            {{ form.get("thoiGianThucHienTu").value | date : "MM/yyyy" }} -
+            {{ form.get("thoiGianThucHienDen").value | date : "MM/yyyy" }}
             <!-- <input type="date" class="form-control" formControlName="thoiGianThucHienTu" name="" id="" /> -->
         </div>
     </div>
@@ -209,7 +209,7 @@
         </div>
     </div>
 
-    <div class="flex items-center">
+    <!-- <div class="flex items-center">
         <div class="basis-1/12">
             <label for="">Lần gia hạn thứ</label>
         </div>
@@ -223,7 +223,7 @@
                 readonly
             />
         </div>
-    </div>
+    </div> -->
     <!-- formControlName="lanGiaHanThu" -->
 
     <label class="title_labe" for="">Lý do</label>
