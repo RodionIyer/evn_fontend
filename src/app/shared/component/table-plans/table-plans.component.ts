@@ -170,7 +170,7 @@ export class TablePlansComponent {
         }
         
         if(this.listKeHoachChiTiet !=null && this.listKeHoachChiTiet.length >0){
-            let listChiTiet = this.listKeHoachChiTiet.filter(c => c.maNhom==item.MA_NHOM && (c.maDonVi==null || c.maDonVi=='' || c.maNhom=='CHI_PHI'))
+            let listChiTiet = this.listKeHoachChiTiet.filter(c => c.maNhom==item.MA_NHOM && (c.maDonVi==null || c.maDonVi=='' || c.maNhom=='CHI_PHI' || c.maDonVi==this.user.ORGID))
             for (let i = 0; i < listChiTiet.length; i++) {
                 //console.log(listNhiemVu1[i].MA_NHOM); //use i instead of 0
                 listNhiemVu2.push(this.newItemNhiemvu(listChiTiet[i]));
@@ -219,7 +219,7 @@ export class TablePlansComponent {
                 }
             }
             if(this.listKeHoachChiTiet !=null && this.listKeHoachChiTiet.length >0){
-                let listChiTiet = this.listKeHoachChiTiet.filter(c => c.maNhom==item.MA_NHOM && (c.maDonVi==null || c.maDonVi==''))
+                let listChiTiet = this.listKeHoachChiTiet.filter(c => c.maNhom==item.MA_NHOM && (c.maDonVi==null || c.maDonVi=='' || c.maDonVi==this.user.ORGID))
                 for (let i = 0; i < listChiTiet.length; i++) {
                     //console.log(listNhiemVu1[i].MA_NHOM); //use i instead of 0
                     listNhiemVu3.push(this.newItemNhiemvu(listChiTiet[i]));

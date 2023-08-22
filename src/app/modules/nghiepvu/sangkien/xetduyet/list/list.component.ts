@@ -65,6 +65,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
             } else {
                 this.actionClick = null;
             }
+            this.timKiem();
         });
     }
 
@@ -125,7 +126,6 @@ export class ListItemComponent implements OnInit, OnDestroy {
         });
     }
     timKiem() {
-        debugger
         let obj ={
             capDo:this.capDo,
             trangThai:this.trangThai,
@@ -196,7 +196,6 @@ export class ListItemComponent implements OnInit, OnDestroy {
     }
 
     detail(item) {
-        debugger
         this._router.navigate(
             ['/nghiepvu/sangkien/lstsangkiencuatoi/' + item.maSangKien],
             { queryParams: { type: 'CHITIET' } }

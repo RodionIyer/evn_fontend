@@ -448,28 +448,22 @@
                                     class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
                                 ></i> -->
                                 {{ item2.get("fileName").value }}
-                            </td>
-                            <td>
-                                {{
+                                ({{
                                 item2.get("size").value >
                                 1024 * 1024
                                     ? (
                                     item2.get("size").value /
                                     (1024 * 1024)
-                                ).toFixed(1) + "(MB)"
+                                ).toFixed(1) + " MB"
                                     : item2.get("size").value > 1024
                                     ? (
                                         item2.get("size").value /
                                         1024
-                                    ).toFixed(1) + "(KB)"
+                                    ).toFixed(1) + " KB"
                                     : item2
                                         .get("size")
                                         .value.toFixed(1) + "K"
-                                }}
-                            </td>
-
-                            <!-- <td>{{ item2.get("sovanban").value }}</td> -->
-                            <td class="text-right">
+                                }})
                                 <i
                                     style="
                                 color: red;
@@ -480,7 +474,7 @@
                                     class="fa fa-trash"
                                     title="Xóa bỏ"
                                 ></i>
-                                <i
+                                <!-- <i
                                     class="fa fa-cloud-download"
                                     style="
                                 color: green;
@@ -489,7 +483,7 @@
                                     aria-hidden="true"
                                     (click)="downLoadFile(item2)"
                                     title="Download file"
-                                ></i>
+                                ></i> -->
                             </td>
                         </tr>
                     </ng-container>

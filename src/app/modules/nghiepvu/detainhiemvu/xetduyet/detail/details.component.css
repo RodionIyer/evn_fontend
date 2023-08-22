@@ -71,3 +71,6 @@ label {
         text-align: center;
     }
 }
+.list-file tbody tr{
+    border: 0 !important;
+}

@@ -576,7 +576,6 @@ export class ListItemComponent implements OnInit, OnDestroy {
 
     //    let listDK = this.form.get('listFolderHSDK').value;
     //    let listHSXD = this.form.get('listFolderHSXD').value;
-    //    debugger;
     //    let listFile = this.form.get('listFolder') as FormArray;
     //    if(listDK != null && listDK.length >0){
     //     for(let i=0;i<listDK.length;i++){

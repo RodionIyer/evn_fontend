@@ -110,14 +110,6 @@
                                                 1
                                                 ) + "K"
                                                 }})
-                                            </td>
-
-                                            <td>
-                                                {{
-                                                item2.get("sovanban").value
-                                                }}
-                                            </td>
-                                            <td class="text-right">
                                                 <i style="
                                                         color: red;
                                                         cursor: pointer;
@@ -125,12 +117,12 @@
                                                     " (click)="
                                                         deleteItemFile(item, k)
                                                     " class="fa fa-trash" title="Xóa bỏ"></i>
-                                                <i class="fa fa-cloud-download" style="
+                                                <!-- <i class="fa fa-cloud-download" style="
                                                         color: green;
                                                         cursor: pointer;
                                                     " aria-hidden="true" (click)="
                                                         downLoadFile(item2)
-                                                    " title="Download file"></i>
+                                                    " title="Download file"></i> -->
                                             </td>
                                         </tr>
                                     </ng-container>
@@ -438,11 +430,14 @@
     </div>
     <mat-tab-group class="detail_tab1" style="margin-top: 10px">
         <mat-tab label="Hồ sơ nghiệm thu">
-            <div formArrayName="listFolderFileHD" style="display: flex; margin-top: 10px; align-items: center" *ngFor="
-                let item of form.get('listFolderFileHD')['controls'];
-                let i = index"
+            <ng-container  formArrayName="listFolderFileHD"  *ngFor="
+            let item of form.get('listFolderFileHD')['controls'];
+            let i = index">
+            <div style="display: flex; margin-top: 10px; align-items: center" 
+           
                 >
-                <div class="basis-60" [formGroupName]="i">
+                <ng-container  [formGroupName]="i">
+                <div class="basis-60" >
                     <label for="" class="font-medium">{{
                         item.get("fileName").value
                         }}</label>
@@ -479,7 +474,9 @@
                         </tbody>
                     </table>
                 </div> 
+            </ng-container>
             </div>
+        </ng-container>
             <div class="flex mt-2 items-center">
                 <div class="basis-1/12">
                     <label for="">Địa điểm họp</label>
@@ -549,12 +546,12 @@
            <input type="file" placeholder="Chọn tệp" name="" id="">
         </div>
     </div> -->
-    <!-- <ng-container
+    <ng-container formArrayName="listFolderFile"
     *ngFor="
         let item of form.get('listFolderFile')['controls'];
         let i = index
     "
->
+><ng-container  [formGroupName]="i">
     <div style="display: flex; margin-top: 10px; align-items: center">
         <div class="basis-1/5">
             <label for="" class="font-medium">{{
@@ -584,9 +581,8 @@
             <tbody formArrayName="listFile" class="table_listfile">
                 <ng-container *ngFor="let item2 of item.get('listFile')['controls'];let k = index" >
                     <tr [formGroupName]="k">
-                    <td>{{ item2.get("fileName").value }}</td>
-                    <td>
-                        {{
+                    <td>{{ item2.get("fileName").value }}
+                        ({{
                             item2.get("size").value > 1024 * 1024
                                 ? (
                                       item2.get("size").value /
@@ -597,14 +593,7 @@
                                       1
                                   ) + "(KB)"
                                 : item2.get("size").value.toFixed(1) + "K"
-                        }}
-                    </td>
-
-                    <td>
-
-                        {{ item2.get("sovanban").value }}
-                    </td>
-                    <td class="text-right">
+                        }})
                         <i
                             style="
                                 color: red;
@@ -615,13 +604,13 @@
                             class="fa fa-trash"
                             title="Xóa bỏ"
                         ></i>
-                        <i
+                        <!-- <i
                             class="fa fa-cloud-download"
                             style="color: green; cursor: pointer"
                             aria-hidden="true"
                             (click)="downLoadFile(item2)"
                             title="Download file"
-                        ></i>
+                        ></i> -->
                     </td>
                 </tr>
                 </ng-container>
@@ -629,7 +618,8 @@
             </tbody>
         </table>
     </div>
-</ng-container> -->
+</ng-container>
+</ng-container>
     <div class="flex items-center" style="margin-bottom: 10px; margin-top: 10px">
         <input type="checkbox" name="" id="" />
         <span style="margin-left: 5px">
@@ -822,6 +812,7 @@
                 <th>Tên hồ sơ</th>
                 <th>Người cập nhập</th>
                 <th>Ngày cập nhập</th>
+                <th></th>
                 <th>File đính kèm</th>
                 <th>Ghi chú</th>
             </tr>
@@ -834,12 +825,12 @@
                 <td class="stt_table">{{ i + 1 }}</td>
                 <td class="font-medium">
                     {{ item.get("fileName").value }}
-                    {{ item.get("maFolder").value }}
                 </td>
-                <td></td>
+                <td>{{ item.get("nguoiSua").value }}</td>
+                <td>{{ item.get("ngaySua").value | date:'dd/MM/yyyy' }}</td>
                 <td>
                     <div class="list-file" *ngIf="item.get('listFile').value.length > 0">
-                        <table class="table table_custom action-table">
+                        <table class="table">
                             <tbody formArrayName="listFile" class="table_listfile">
                                 <tr *ngFor="
                                         let item2 of item.get('listFile')[
@@ -852,38 +843,32 @@
                                     class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
                                 ></i> -->
                                         {{ item2.get("fileName").value }}
-                                    </td>
-                                    <td>
-                                        {{
+                                        ({{
                                         item2.get("size").value >
                                         1024 * 1024
                                         ? (
                                         item2.get("size").value /
                                         (1024 * 1024)
-                                        ).toFixed(1) + "(MB)"
+                                        ).toFixed(1) + " MB"
                                         : item2.get("size").value > 1024
                                         ? (
                                         item2.get("size").value /
                                         1024
-                                        ).toFixed(1) + "(KB)"
+                                        ).toFixed(1) + " KB"
                                         : item2
                                         .get("size")
                                         .value.toFixed(1) + "K"
-                                        }}
-                                    </td>
-
-                                    <td>{{ item2.get("sovanban").value }}</td>
-                                    <td class="text-right">
+                                        }})
                                         <i style="
                                                 color: red;
                                                 cursor: pointer;
                                                 margin-right: 3px;
                                             " (click)="deleteItemFile(item, k)" class="fa fa-trash" title="Xóa bỏ"></i>
-                                        <i class="fa fa-cloud-download" style="
+                                        <!-- <i class="fa fa-cloud-download" style="
                                                 color: green;
                                                 cursor: pointer;
                                             " aria-hidden="true" (click)="downLoadFile(item2)"
-                                            title="Download file"></i>
+                                            title="Download file"></i> -->
                                     </td>
                                 </tr>
                             </tbody>

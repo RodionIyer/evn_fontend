@@ -36,6 +36,7 @@
                     <th class="text-center">Ngày gửi</th>
                     <th class="text-center">Năm</th>
                     <th class="text-center">Trạng thái</th>
+                    <th class="text-center">Ý kiến người phê duyệt</th>
                     <th class="text-center action-table"></th>
                     <th class="text-center action-table-check"><input type="checkbox" name="all" [checked]="isAllChecked()" (change)="checkAll($event)"/></th>
                 </tr>
@@ -44,11 +45,11 @@
                 <tr *ngFor="let item of listDinhHuong; let i = index">
                     <td class="stt_table">{{ i+ 1}}</td>
                     <td>{{item.name}}</td>
-                    <td class="text-center">{{item.nguoiGui}}</td>
+                    <td>{{item.nguoiGui}}</td>
                     <td class="text-center">{{item.ngayGui}}</td>
-                    <td class="text-center">{{item.nam}}</td>
-                    <td class="text-center">{{item.tenTrangThai}}</td>
-                    <td class="text-center">{{item.ykienNguoiPheDuyet}}</td>
+                    <td class="text-right">{{item.nam}}</td>
+                    <td>{{item.tenTrangThai}}</td>
+                    <td>{{item.ykienNguoiPheDuyet}}</td>
                     <td class="action-table">
                         <div class="flex justify-evenly" style="float: left;">
                             <i class="fa fa-info-circle" (click)="addNew()" [routerLink]="[item.maKeHoach]"  [queryParams]="{type: 'chitiet'}" title="Xem chi tiết"></i>

@@ -79,7 +79,7 @@ export class DetailsComponent implements OnInit {
         this.form = this._formBuilder.group({
             maDeTai: [null],
             lyDo: [null],
-            thang: [null],
+            thang: [null, [Validators.required]],
 
             lanGiaHanThu: [null],
             soLanGiaHan: 0,
@@ -350,7 +350,7 @@ export class DetailsComponent implements OnInit {
          this.submitted.check = true;
          if (this.form.invalid) {
              // this._messageService.showErrorMessage("Thông báo", "Chưa nhập đủ trường bắt buộc!")
-             //debugger;
+
               return;
           }
         this.form.get('method').setValue(method);
