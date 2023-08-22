@@ -1,46 +1,59 @@
 <div class="relative eco_conntent">
+    <div class="bg-white p-3">
     <!--màn hình danh sách-->
     <ng-container *ngIf="!actionClick">
         <div class="flex items-center justify-between">
-            <h1 class="title-component">ĐỀ TÀI, NHIỆM VỤ ĐANG THỰC HIỆN            </h1>
+            <h1 class="title-component">XÉT DUYỆT KẾT QUẢ CÔNG NHẬN SÁNG KIẾN CÓ TÁC GIẢ LÀ THỦ TRƯỞNG ĐƠN VỊ            </h1>
            
         </div>
         <div class="flex flex-row row gap-4 items-center mb-3	">
-            <div class="basic-1/4">
-                <label for="">Cấp quản lý</label>
-            </div>
-            <div class="basis-1/2">
+            <div class="basis-1/4 flex items-center">
+                <label for="" class="mr-2">Đơn vị thực hiện</label>
                 <ng-select
                     style="width: 200px;"
                     [items]="listYears"
                     bindLabel="NAME"
                     bindValue="ID"
-                    placeholder="Chọn năm"
+                    placeholder="Chọn đơn vị"
                     [(ngModel)]="selectedYear"
                 >
                 </ng-select>
             </div>
-            <!-- <div class="basis-1/4">
+            <div class="basis-1/4 flex items-center">
+                <label for="" class="mr-8">Trạng thái</label>
+                <ng-select
+                    style="width: 200px;"
+                    [items]="listYears"
+                    bindLabel="NAME"
+                    bindValue="ID"
+                    placeholder="Lựa cọn"
+                    [(ngModel)]="selectedYear"
+                >
+                </ng-select>
+            </div>
+            <div class="basis-1/5">
                 <button class="add_button" (click)="addNew()">
                     <i class="fa fa-plus"></i> Tạo bản ghi mới
                 </button>
-            </div> -->
+            </div>
         </div>
 
 
         <div class="flex flex-row row gap-4 items-center">
-            <div class="basic-1/4" style="margin-right: 13px;">
-                <label for="">Tìm kiếm</label>
+            <div class="basis-1/4 flex items-center"></div>
+            <div class="basis-1/4 flex items-center">
+                <label for="" class="mr-2">Năm đăng ký</label>
+                <ng-select
+                    style="width: 200px;"
+                    [items]="listYears"
+                    bindLabel="NAME"
+                    bindValue="ID"
+                    placeholder="Lựa chọn"
+                    [(ngModel)]="selectedYear"
+                >
+                </ng-select>
             </div>
-            <div class="basis-1/2">
-                <input
-                style="width: 80%"
-                type="text"
-                class="form-control"
-                placeholder="Nhập từ khóa tìm kiếm: tên đề tài,nhiệm vụ, chủ nhiệm, đồng chủ nhiệm, thư ký"
-            />
-            </div>
-            <div class="basis-1/4">
+            <div class="basis-1/5">
                 <button class="add_button">
                     <i class="fa fa-search"></i>
                     Tìm kiếm
@@ -59,13 +72,12 @@
             <thead>
                 <tr>
                     <th class="stt_table">STT</th>
-                    <th>Tên đề tài/ nhiệm vụ KHCN</th>
-                    <th class="text-center">Cấp quản lý</th>
-                    <th class="text-center">Chủ nhiệm đề tài</th>
-                    <th class="text-center">Đơn vị chủ trì</th>
-                    <th class="text-center">Thời gian thực hiện</th>
+                    <th>Tên giải pháp</th>
+                    <th class="text-center">Cấp sáng kiến</th>
+                    <th class="text-center">Đơn vị thực hiện</th>
+                    <th class="text-center">Năm</th>
+                    <th class="text-center">Tác giả là thủ trưởng đơn vị</th>
                     <th class="text-center">Trạng thái</th>
-                    <th class="text-center">Năm đăng ký</th>
                     <th class="text-center action-table">Thao tác</th>
                 </tr>
             </thead>
@@ -75,21 +87,18 @@
                     <td>Bản đăng ký định hướng 2023</td>
                     <td>Cấp EVN</td>
                     <td class="text-center">Trần Văn A</td>
-                    <td>Ban kế toán</td>
-                    <td class="text-center">01/06/2023 9:10:30</td>
+                    <td>2023</td>
+                    <td class="text-center">Không</td>
                     <td>Đang thực hiện</td>
-                    <td class="text-center">2023</td>
                     <td class="text-center action-table">
                         <div class="flex justify-evenly">
-                            <i (click)="updateActionHSTH($event)" title="Cập nhập HSTH" class="fa fa-retweet"></i>
-                            <i  (click)="updateActionGH($event)" title="Gia hạn" class="fa fa-retweet"></i>
+                           
                             <i (click)="detail($event)"
                                 class="fa fa-info-circle"
                                 title="Xem chi tiết"
                             ></i>
                             <i class="fa fa-repeat"  title="Xem lịch sử"></i>
-                            <i class="fa fa-pencil" (click)="editer($event)"
-                            class="fa fa-pencil" title="Chỉnh sửa"></i>
+                            <i (click)="updateActionXDCNKQ($event)" title="Cập nhập HSTH" class="fa fa-retweet"></i>
                             <!-- <i class="fa fa-trash" title="Xóa bỏ"></i> -->
                         </div>
                     </td>
@@ -107,7 +116,6 @@
             aria-label="Select page"
         >
         </mat-paginator>
-        <button (click)="openAlertDialog()" >Mop pup up fille</button>
     </ng-container>
     <!-- No template -->
     <!-- <ng-template #noObjects>
@@ -126,4 +134,5 @@
             <router-outlet></router-outlet>
         </div>
     </ng-container>
+</div>
 </div>

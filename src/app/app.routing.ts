@@ -125,7 +125,7 @@ export const appRoutes: Route[] = [
                         path: 'sangkien', children: [
                             { path: 'lstsangkiencuatoi', loadChildren: () => import('app/modules/nghiepvu/sangkien/lstsangkiencuatoi/lstsangkiencuatoi.module').then(m => m.LstsangkiencuatoiModule) },
                             { path: 'xetduyet', loadChildren: () => import('app/modules/nghiepvu/sangkien/xetduyet/xetduyet.module').then(m => m.XetDuyetModule) },
-                            { path: 'dangthuchien', loadChildren: () => import('app/modules/admin/listorganization/listorganization.module').then(m => m.OrganizationModule) },
+                            { path: 'xetduyet2', loadChildren: () => import('app/modules/nghiepvu/sangkien/dangthuchien/dangthuchien.module').then(m => m.DanthuchienModule) },
                             { path: 'thulao', loadChildren: () => import('app/modules/nghiepvu/sangkien/nghiemthu/nghiemthu.module').then(m => m.ThuLaoModule) },
                             { path: 'capnhat', loadChildren: () => import('app/modules/nghiepvu/tracuu/capnhat-sangkien/capnhat-sangkien.module').then(m => m.CapNhatSangKienModule) } 
                             
