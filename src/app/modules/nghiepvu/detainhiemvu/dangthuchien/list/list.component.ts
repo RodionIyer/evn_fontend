@@ -20,6 +20,7 @@ import { PageEvent } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { PopupFileComponent } from 'app/shared/component/popup-file/popup-filecomponent';
 import { PopupConfirmComponent } from 'app/shared/component/popup-confirm/popup-confirmcomponent';
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
     selector: 'component-list',
@@ -53,7 +54,8 @@ export class ListItemComponent implements OnInit, OnDestroy {
         private _functionService: FunctionService,
         private el: ElementRef,
         private _serviceApi: ServiceService,
-        public dialog: MatDialog
+        public dialog: MatDialog,
+        private spinner: NgxSpinnerService
     ) {
         this._activatedRoute.queryParams.subscribe((params) => {
             if (params?.type) {

@@ -1,3 +1,4 @@
+import { NgxSpinnerService } from 'ngx-spinner';
 import {
     Component,
     ElementRef,
@@ -53,7 +54,8 @@ export class ListItemComponent implements OnInit, OnDestroy {
         private _functionService: FunctionService,
         private el: ElementRef,
         private _serviceApi: ServiceService,
-        public dialog: MatDialog
+        public dialog: MatDialog,
+        private spinner: NgxSpinnerService
     ) {
         this._activatedRoute.queryParams.subscribe((params) => {
             if (params?.type) {
@@ -125,7 +127,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
         });
     }
     timKiem() {
-        console.log("tim kiem");
+        this.spinner.show();
         let obj={
             capQuanLy:this.capQuanLy,
             q:this.q
@@ -139,7 +141,8 @@ export class ListItemComponent implements OnInit, OnDestroy {
             ])
             .subscribe((data) => {
                 this.listGiao = data.data || [];
-                console.log(this.listGiao);
+               this.spinner.hide()
+             
             });
     }
 

@@ -25,10 +25,14 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ErrorCatchingInterceptor } from './error-catching.interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 
 
-
+// Available options
+interface NgxSpinnerConfig {
+    type?: string;
+  }
 
 
 
@@ -78,6 +82,7 @@ const routerConfig: ExtraOptions = {
         FuseModule,
         FuseConfigModule.forRoot(appConfig),
         FuseMockApiModule.forRoot(mockApiServices),
+        NgxSpinnerModule.forRoot({ type: 'ball-scale-multiple' }),
 
         // Core module of your application
         CoreModule,
