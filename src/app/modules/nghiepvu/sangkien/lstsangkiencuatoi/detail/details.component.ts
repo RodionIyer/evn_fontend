@@ -18,7 +18,7 @@ import {
     Validators,
 } from '@angular/forms';
 import {MessageService} from 'app/shared/message.services';
-import {SnotifyToast} from 'ng-alt-snotify';
+import {SnotifyToast, ToastComponent} from 'ng-alt-snotify';
 import {State} from 'app/shared/commons/conmon.types';
 import {BaseDetailInterface} from 'app/shared/commons/basedetail.interface';
 import {UserService} from 'app/core/user/user.service';
@@ -91,6 +91,10 @@ export class DetailsComponent implements OnInit {
     public typeLichSu;
     public title_lichsu;
     public lstDanhSachThanhVienHD: any[] = [];
+    vndMoney: string;
+    orgId = "";
+    tacgias: any[];
+    tenDonviCongtac: string;
 
     constructor(
         private _formBuilder: UntypedFormBuilder,
@@ -266,6 +270,8 @@ export class DetailsComponent implements OnInit {
             ])
             .subscribe((data) => {
                 this.form.patchValue(data.data);
+                console.log("detail:");
+                console.log(this.form);
                 this.data = data.data;
                 let formDocParent = this.form.get(
                     'listFolderFile'
@@ -306,7 +312,7 @@ export class DetailsComponent implements OnInit {
                 ;
 
                 // danh sách thành viên
-                if (data.data.tacGiaGiaiPhap != null) {
+                if (data.data != null && data.data.tacGiaGiaiPhap != null) {
                     let formThanhVien = this.form.get(
                         'tacGiaGiaiPhap'
                     ) as FormArray;
@@ -321,7 +327,7 @@ export class DetailsComponent implements OnInit {
                         );
                     }
                 }
-                this.selectedYear = parseInt(data.data.nam);
+                //this.selectedYear = parseInt(data.data.nam);
                 this.data.listFolderFile.forEach(n => {
                     if (n.maFolder == 'VBDANGKY') {
                         this.listFileVB = n.listFile;
@@ -391,12 +397,14 @@ export class DetailsComponent implements OnInit {
         let data = this.dialog.open(PopupCbkhComponent, {
             data: {
                 type: type,
+                orgId: this.orgId,
                 message: 'HelloWorld',
                 buttonText: {
                     cancel: 'Done',
                 },
             },
             width: '800px',
+            maxHeight: '80vh',
             panelClass: 'custom-PopupCbkh',
             position: {
                 top: '100px',
@@ -431,13 +439,15 @@ export class DetailsComponent implements OnInit {
                 //  item.get('ten').setValue(data.data.username);
                 item.get('donViApDung').setValue(data.data.name);
                 item.get('donViApDungInfo').setValue(data.data);
+                this.orgId = data.data.id;
+                this.tenDonviCongtac = data.data.name;
             }
         });
     }
 
     getListChucDanh() {
         this._serviceApi
-            .execServiceLogin('1FF27415-DF4B-4087-BAE4-21A03E397961', null)
+            .execServiceLogin('1450CB9E-4224-408C-900D-1CB4B7E643EF', null)
             .subscribe((data) => {
                 this.listChucDanh = data.data || [];
             });
@@ -452,6 +462,7 @@ export class DetailsComponent implements OnInit {
     onSubmit(status, method) {
         this.submitted.check = true;
         if (this.form.invalid) {
+            console.log("invalid");
             return;
         }
 
@@ -459,12 +470,51 @@ export class DetailsComponent implements OnInit {
         this.form.get('method').setValue(method);
         //this.form.get('nam').setValue(new Date().getFullYear());
        // if (method == 'SUA') {
+            let maTrangThai = this.form.get('maTrangThai').value;
             this.form.get('maSangKien').setValue(this.idParam);
             if (status == 'LUU') {
+                if (maTrangThai != null && maTrangThai != '') {
+                } else {
+                    this.form.get('maTrangThai').setValue('CHUA_GUI');
+                }
                 this.form.get('maTrangThai').setValue('SOAN');
             } else if (status == 'LUUGUI') {
+               
+
+                const listFolder: any[] = this.form.get('listFolderFile').value;
+                const hasApplicationForm = listFolder.find(e => e.maFolder === 'VBDANGKY' && e.listFile && e.listFile.length > 0);
+                if (!hasApplicationForm) {
+                    this._messageService.showErrorMessage(
+                        'Thông báo',
+                        'Vui lòng nhập đơn đăng ký.'
+                    );
+                    return;
+                }
+                if (maTrangThai != null && maTrangThai != '' && maTrangThai != 'SOAN' && maTrangThai != 'CHUA_GUI' && maTrangThai != 'Y_CAU_HIEU_CHINH' && maTrangThai !='KHONG_CONG_NHAN') {
+                } else {
                 this.form.get('maTrangThai').setValue('CHO_RA_SOAT');
+                }
             }
+            if (this.actionType == 'THONGTINSK') {
+                this.form.get('maSangKien').setValue('');
+                if (status == 'LUU') {
+                
+                        this.form.get('maTrangThai').setValue('SOAN');
+                  
+                } else if (status == 'LUUGUI') {
+                    const listFolder: any[] = this.form.get('listFolderFile').value;
+                    const hasApplicationForm = listFolder.find(e => e.maFolder === 'VBDANGKY' && e.listFile && e.listFile.length > 0);
+                    if (!hasApplicationForm) {
+                        this._messageService.showErrorMessage(
+                            'Thông báo',
+                            'Vui lòng nhập đơn đăng ký.'
+                        );
+                        return;
+                    }
+                    this.form.get('maTrangThai').setValue('CHO_RA_SOAT');
+                }
+            }
+
       //  }
         var token = localStorage.getItem('accessToken');
         this._serviceApi
@@ -476,13 +526,9 @@ export class DetailsComponent implements OnInit {
                 if (data.status == 1) {
                     this._messageService.showSuccessMessage(
                         'Thông báo',
-                       "Thành công"
+                       data.message
                     );
-                    if (this.screen) {
-                        this._router.navigateByUrl(this.screen);
-                    } else {
-                        this._router.navigateByUrl('nghiepvu/sangkien/lstsangkiencuatoi');
-                    }
+                    window.history.back();
                 } else {
                     this._messageService.showErrorMessage(
                         'Thông báo',
@@ -549,6 +595,26 @@ export class DetailsComponent implements OnInit {
                     console.log('downloadFile:' + JSON.stringify(data));
                 });
         }
+    }
+
+    checkYear(event) {
+        let now = new Date();
+        let year = now.getFullYear();
+        if (event.target.value >= year) {
+            this._messageService.showErrorMessage("Lỗi!", "Năm sinh của tác giả không được lớn hơn hiện tại");
+            event.target.value = null;
+        }
+        else {
+            return;
+        }
+    }
+    formatVND(input): string {
+        let money: number = +input;
+        let vnd = money.toLocaleString('it-IT', {style : 'currency', currency : 'VND'});
+        return vnd;
+    }
+    formatVNDChange(event) {
+        this.vndMoney = this.formatVND(event.target.value);
     }
 }
 

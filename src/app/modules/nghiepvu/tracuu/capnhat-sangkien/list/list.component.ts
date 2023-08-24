@@ -406,4 +406,16 @@ export class ListItemComponent implements OnInit, OnDestroy {
                 }
             });
     }
+    
+    checkYear(event)  {
+        let now = new Date();
+        let year = now.getFullYear();
+        console.log(year);
+        if (event.target.value >= year) {
+            this._messageService.showErrorMessage("Lỗi!", "Năm sinh của tác giả không được lớn hơn hiện tại");
+        }
+        else {
+            return;
+        }
+    }
 }

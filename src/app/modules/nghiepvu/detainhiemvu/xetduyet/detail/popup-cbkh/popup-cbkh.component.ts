@@ -97,7 +97,7 @@ export class PopupCbkhComponent implements OnInit {
     }
 
     timkiemKehoach(){
-        this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("34A59664-4613-482F-95CA-CCF346E2140A", [{"name":"TEN_KE_HOACH","value":""}]).subscribe((data) => {
+        this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("34A59664-4613-482F-95CA-CCF346E2140A", [{"name":"TEN_KE_HOACH","value":this.q}]).subscribe((data) => {
             console.log(data.data);
             this.listKehoach = data.data || [];
               
@@ -109,7 +109,7 @@ export class PopupCbkhComponent implements OnInit {
            })
     }
     timkiemNguoi(type){
-        this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("395A68D9-587F-4603-9E1D-DCF1987517B4", [{"name":"TEN_NGUOI_THUC_HIEN","value":""}]).subscribe((data) => {
+        this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("395A68D9-587F-4603-9E1D-DCF1987517B4", [{"name":"TEN_NGUOI_THUC_HIEN","value":this.q}]).subscribe((data) => {
             if(type=="CHUNHIEM"){
                 this.listChuNhiem = data.data || [];
             }else if(type=="DONGCHUNHIEM"){

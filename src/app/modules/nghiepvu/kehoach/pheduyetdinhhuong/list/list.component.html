@@ -3,7 +3,7 @@
     <div class="bg-white p-3">
     <ng-container *ngIf="!actionClick">
         <div class="flex items-center justify-between">
-            <h1 class="title-component">DANH SÁCH BẢN ĐĂNG KÝ ĐỊNH HƯỚNG</h1>
+            <h1 class="title-component">DANH SÁCH BẢNG ĐĂNG KÝ ĐỊNH HƯỚNG CHỜ PHÊ DUYỆT</h1>
         </div>
         <div class="header-list-dinh-huong">
             <div class="year-left">
@@ -32,6 +32,7 @@
                 <tr>
                     <th class="stt_table">STT</th>
                     <th>Tên bản đăng ký</th>
+                    <th>Đơn vị gửi</th>
                     <th class="text-center">Người gửi</th>
                     <th class="text-center">Ngày gửi</th>
                     <th class="text-center">Năm</th>
@@ -45,6 +46,7 @@
                 <tr *ngFor="let item of listDinhHuong; let i = index">
                     <td class="stt_table">{{ i+ 1}}</td>
                     <td>{{item.name}}</td>
+                    <td>{{item.tenDonVi}}</td>
                     <td>{{item.nguoiGui}}</td>
                     <td class="text-center">{{item.ngayGui}}</td>
                     <td class="text-right">{{item.nam}}</td>
@@ -59,7 +61,7 @@
                         </div>
                     </td>
                     <td class="text-center action-table-check">
-                        <input type="checkbox" name="sizecb[]" value="{{item.id}}" [(ngModel)]="item.state"/>
+                        <input type="checkbox" name="sizecb[]" value="{{item.id}}" (click)="checkTongHop(item)" [(ngModel)]="item.state"/>
                     </td>
                    
                 </tr>

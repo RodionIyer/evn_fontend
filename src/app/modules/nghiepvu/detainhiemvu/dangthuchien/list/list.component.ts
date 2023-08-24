@@ -61,6 +61,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
             } else {
                 this.actionClick = null;
             }
+            this.timKiem();
         });
     }
 
@@ -165,7 +166,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
     updateActionHSTH(item) {
         this._router.navigate(
             ['/nghiepvu/detainhiemvu/lstdetaicuatoi/' + item.maDeTai],
-            { queryParams: { type: 'updateActionHSTH' } }
+            { queryParams: { type: 'updateActionHSTH',screen:"/nghiepvu/detainhiemvu/dangthuchien/" } }
         );
     }
 

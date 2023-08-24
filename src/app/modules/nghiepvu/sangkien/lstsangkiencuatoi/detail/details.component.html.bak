@@ -202,7 +202,7 @@
 
     <div class="flex flex-row row gap-4 items-center mt-3">
         <div class="basis-1/2">
-            <label for="">Lĩnh vực áp dụng sáng kiến</label>
+            <label for="">Lĩnh vực áp dụng sáng kiến<span>(*)</span></label>
             <ng-select
                 [items]="listLinhVucNghienCuu"
                 bindLabel="NAME"
@@ -346,8 +346,9 @@
             class="form-control w-100 ml-4 mr-4"
             name=""
             id=""
-            formControlName="soTienLamLoi"
+            formControlName="soTienLamLoi" (change)="formatVNDChange($event)"
         />
+        <span>{{this.vndMoney}}</span>
         <label for="">(Lần tháng lương cơ sơ)</label>
     </div>
     <!-- <div *ngFor="let item of form.get('listFolderFile')['controls']; let i = index" class="flex flex-row row items-center">

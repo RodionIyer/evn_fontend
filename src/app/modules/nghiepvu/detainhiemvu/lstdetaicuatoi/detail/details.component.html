@@ -132,15 +132,15 @@
                 </div>
             </div>
         </div>
-        <div class="basis-1/4"></div>
+        <!-- <div class="basis-1/4"></div>
         <div class="basis-1/4"></div>
         <div class="basis-1/4"></div>
     </div>
-    <div class="flex flex-row row">
+    <div class="flex flex-row row"> -->
         <div class="basis-1/2">
             <div class="flex flex-row row">
                 <div class="basis-1/2 flex justify-between items-center">
-                    <label for="">Thời gian thực hiện từ<span>(*)</span></label>
+                    <label for="">Thời gian thực hiện<span>(*)</span></label>
                     <label style="margin-right: 10px">Từ</label>
                 </div>
                 <div class="basis-1/2 flex date-customt" style="">
@@ -901,8 +901,8 @@
                 <tr>
                     <td>Thời gian thực hiện</td>
                     <td>
-                        {{ form.get("thoiGianThucHienTu").value | date : "dd/MM/yyyy" }} -
-                        {{ form.get("thoiGianThucHienDen").value | date : "dd/MM/yyyy" }}
+                        {{ form.get("thoiGianThucHienTu").value | date : "MM/yyyy" }} -
+                        {{ form.get("thoiGianThucHienDen").value | date : "MM/yyyy" }}
                     </td>
                     <!-- <td>{{form.get('thoiGianThucHienTu')?.value | date:"dd/MM/yyyy" +' - '+
                         form.get('thoiGianThucHienDen')?.value }}</td> -->
@@ -3128,7 +3128,7 @@
         </mat-tab>
     </mat-tab-group>
 
-    <div style="display: flex; margin-top: 10px; align-items: center">
+    <div [class.khongthaotac]="listRole.indexOf('KHCN_ROLE_CANBO_KHCN') <=-1" style="display: flex; margin-top: 10px; align-items: center">
         <label for="" style="margin-right: 10px"
         >Trạng thái <span>(*)</span></label
         >

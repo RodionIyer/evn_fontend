@@ -89,3 +89,7 @@ label {
     height: 70px; /* Độ cao tối đa của khung chứa danh sách */
 }
 
+.khongthaotac{
+    pointer-events: none;
+    opacity: 0.8;
+}

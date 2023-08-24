@@ -138,8 +138,14 @@ export class DetailsComponent implements OnInit {
 
                 if (method == 'HOIDONGXD') {
                     this.form.get('maTrangThai').setValue('DA_TLHDXDTC');
+                }else
+                if (method == 'KETQUAXD') {
+                    this.form.get('maTrangThai').setValue('DA_CONG_NHAN');
+                }else
+                if (method == 'CHUNGNHANSK') {
+                    this.form.get('maTrangThai').setValue('DA_TRA_THU_LAO');
                 }
-
+                
             });
     }
 
@@ -152,6 +158,7 @@ export class DetailsComponent implements OnInit {
             email: item?.email || null,
             donViCongTac: item?.donViCongTac || null,
             tenChucDanh: item?.tenChucDanh || null,
+            ghiChu:item?.ghiChu|| null,
         });
     }
 
@@ -218,7 +225,15 @@ export class DetailsComponent implements OnInit {
 
     getListChucDanh() {
         this._serviceApi
-            .execServiceLogin('AF87AA00-EC9C-4B1E-9443-CE0D6E88F1C6', null)
+            .execServiceLogin('1450CB9E-4224-408C-900D-1CB4B7E643EF', null)
+            .subscribe((data) => {
+                this.listChucDanh = data.data || [];
+            });
+    }
+
+    getListChucDanhHD() {
+        this._serviceApi
+            .execServiceLogin('0C10C696-1E6B-41FD-8E8F-135BBCA9883E', null)
             .subscribe((data) => {
                 this.listChucDanh = data.data || [];
             });
@@ -226,7 +241,12 @@ export class DetailsComponent implements OnInit {
 
     ngOnInit(): void {
         this.geListYears();
-        this.getListChucDanh();
+        if (this.actionType == 'updateActionHDXDCN') {
+            this.getListChucDanhHD();
+        }else{
+            this.getListChucDanh();
+        }
+       
         if (this.actionType == 'updateActionHDXDCN') {
             this.getListTrangThaiHSXD();
         } else if (this.actionType == 'updateActionKQXDCN') {
@@ -297,7 +317,7 @@ export class DetailsComponent implements OnInit {
     }
 
     openAlertDialog(type, item?: any) {
-        let data = this.dialog.open(PopupCbkhComponent, {
+        const matDialog = this.dialog.open(PopupCbkhComponent, {
             data: {
                 type: type,
                 message: 'HelloWorld',
@@ -312,7 +332,7 @@ export class DetailsComponent implements OnInit {
             },
         });
 
-        data.afterClosed().subscribe((data) => {
+        matDialog.afterClosed().subscribe((data) => {
             if (type == 'KEHOACH') {
                 console.log('data2', data);
                 this.form.get('canCuThucHien').setValue(data.data.name);
@@ -361,7 +381,7 @@ export class DetailsComponent implements OnInit {
                 item.get('maThanhVien').setValue(data.data.userId);
             } else if (type == 'HOIDONGSK') {
                 let formThanhVien = this.form.get(
-                    'danhSachThanhVienHD'
+                    'danhSachThanhVien'
                 ) as FormArray;
                 for (
                     let i = 0;
@@ -374,6 +394,13 @@ export class DetailsComponent implements OnInit {
                         )
                     );
                 }
+            }else if (type == 'HOIDONG') {
+                item.get('maThanhVien').setValue(data.data.userId);
+                item.get('ten').setValue(data.data.username);
+                item.get('soDienThoai').setValue(data.data.sdt);
+                item.get('email').setValue(data.data.email);
+                item.get('donViCongTac').setValue(data.data.noiLamViec);
+                item.get('maThanhVien').setValue(data.data.userId);
             }
         });
     }
@@ -392,6 +419,7 @@ export class DetailsComponent implements OnInit {
             soDienThoai: '',
             email: '',
             donViCongTac: '',
+            ghiChu:''
         });
     }
 
@@ -416,7 +444,7 @@ export class DetailsComponent implements OnInit {
             // }
         } else if (method == "RASOAT") {
             if (status == "TRALAI") {
-                this.form.get('maTrangThai').setValue('KHONG_CONG_NHAN');
+                this.form.get('maTrangThai').setValue('Y_CAU_HIEU_CHINH');
             } else if (status == "CHAPTHUAN") {
                 this.form.get('maTrangThai').setValue('DA_RA_SOAT');
             }

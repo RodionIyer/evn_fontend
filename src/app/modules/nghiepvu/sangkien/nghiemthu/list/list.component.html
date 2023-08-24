@@ -4,7 +4,7 @@
     <ng-container *ngIf="!actionClick">
         <div class="flex items-center justify-between">
             <h1 class="title-component">SÁNG KIẾN ĐÃ CÓ QĐ CHI TRẢ THÙ LAO</h1>
-           
+
         </div>
         <div class="flex flex-row row gap-4 items-center mb-3	">
             <div class="basic-1/5">
@@ -63,8 +63,8 @@
 
         <div class="header-list-dinh-huong">
             <div class="serach-box">
-              
-               
+
+
             </div>
         </div>
         <table class="table table_custom">
@@ -83,14 +83,14 @@
                 <td class="stt_table">{{ i+ 1}}</td>
                 <td>{{item.tenGiaiPhap}}</td>
                 <td class="text-center">{{item.tenCapDoSangKien}}</td>
-                <td class="text-center">{{item.tenDonViChuDauTu}}</td>
+                <td class="text-left">{{item.tenDonViChuDauTu}}</td>
                 <td class="text-center">{{item.nam}}</td>
                 <td class="text-center">{{item.tenTrangThai}}</td>
                 <td class="action-table">
                     <div class="flex justify-evenly"  style="float: left;">
-                       
+
                         <i class="fa fa-info-circle cursor-point" (click)="detail(item)" title="Xem chi tiết"></i>
-                      <i class="fa fa-clock-o cursor-point" (click)="lichsu(item)" title="Xem lịch sử"></i> 
+                      <i class="fa fa-clock-o cursor-point" (click)="lichsu(item)" title="Xem lịch sử"></i>
                          <i  (click)="updateAction(item)" title="Nâng cấp sáng kiến" class="fa fa-retweet"></i>
                         </div>
                 </td>

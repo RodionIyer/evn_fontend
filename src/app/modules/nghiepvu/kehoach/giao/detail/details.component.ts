@@ -485,6 +485,16 @@ export class ApiGiaoDetailsComponent implements OnInit {
                 })
             });
     }
+    exportMau() {
+        if (this.idParam != undefined && this.idParam != null) {
+            this._serviceApi.execServiceLogin("FC95C3F7-942F-4C7E-88D7-46E12BFE9185", [{ "name": "MA_KE_HOACH", "value": this.idParam }]).subscribe((data) => {
+                this.downloadTempExcel(data.data, "DANH_SACH_DANG_KY_DINH_HUONG.docx");
+
+           })
+        } else {
+            this._messageService.showWarningMessage("Thông báo", "Chức năng này không được sử dụng.");
+        }
+    }
     async openAlertDialogDoffice(type, item?: any) {
         let data = this.dialog.open(DOfficeComponent, {
             data: {
@@ -504,7 +514,6 @@ export class ApiGiaoDetailsComponent implements OnInit {
         });
 
          data.afterClosed().subscribe((data) => {
-            debugger;
            let kyHieu =data.data.KY_HIEU;
            let ngayVB =data.data.NGAY_VB;
            item.get("sovanban").setValue(kyHieu);

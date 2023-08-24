@@ -491,7 +491,6 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
         });
 
          data.afterClosed().subscribe((data) => {
-            debugger;
            let kyHieu =data.data.KY_HIEU;
            let ngayVB =data.data.NGAY_VB;
            //item.get("sovanban").setValue(kyHieu);

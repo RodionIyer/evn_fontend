@@ -23,7 +23,8 @@ export class PopupCbkhComponent implements OnInit {
     confirmButtonText = "Yes"
     cancelButtonText = "Cancel"
     public tenKeHoach="";
-    public checkType=""
+    public checkType="";
+    public checkOrgId="";
     public listKehoach = [];
     public listChuNhiem = [];
     public listDongChuNhiem = [];
@@ -46,6 +47,7 @@ export class PopupCbkhComponent implements OnInit {
     ) {
         if (data) {
             this.checkType=data.type;
+            this.checkOrgId=data.orgId;
             this.message = data.message || this.message;
             if (data.buttonText) {
                 this.confirmButtonText = data.buttonText.ok || this.confirmButtonText;
@@ -63,7 +65,7 @@ export class PopupCbkhComponent implements OnInit {
         if(this.checkType=="KEHOACH"){
             this.timkiemKehoach();
         }else{
-            this.timkiemNguoi(this.checkType);
+            this.timkiemNguoi(this.checkType, this.checkOrgId);
         }
        
         
@@ -96,8 +98,8 @@ export class PopupCbkhComponent implements OnInit {
               
            })
     }
-    timkiemNguoi(type){
-        this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("395A68D9-587F-4603-9E1D-DCF1987517B4", [{"name":"TEN_NGUOI_THUC_HIEN","value":""}]).subscribe((data) => {
+    timkiemNguoi(type, orgId){
+        this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("395A68D9-587F-4603-9E1D-DCF1987517B4", [{"name":"TEN_NGUOI_THUC_HIEN","value":"", "orgId":orgId}]).subscribe((data) => {
             if(type=="CHUNHIEM"){
                 this.listChuNhiem = data.data || [];
             }else if(type=="DONGCHUNHIEM"){

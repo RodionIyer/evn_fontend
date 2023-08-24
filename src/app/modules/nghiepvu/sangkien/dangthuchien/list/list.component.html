@@ -4,18 +4,18 @@
     <ng-container *ngIf="!actionClick">
         <div class="flex items-center justify-between">
             <h1 class="title-component">XÉT DUYỆT KẾT QUẢ CÔNG NHẬN SÁNG KIẾN CÓ TÁC GIẢ LÀ THỦ TRƯỞNG ĐƠN VỊ            </h1>
-           
+
         </div>
         <div class="flex flex-row row gap-4 items-center mb-3	">
             <div class="basis-1/4 flex items-center">
                 <label for="" class="mr-2">Đơn vị thực hiện</label>
                 <ng-select
                     style="width: 200px;"
-                    [items]="listYears"
-                    bindLabel="NAME"
-                    bindValue="ID"
+                    [items]="listDonVi"
+                    bindLabel="name"
+                    bindValue="id"
                     placeholder="Chọn đơn vị"
-                    [(ngModel)]="selectedYear"
+                    [(ngModel)]="donVi"
                 >
                 </ng-select>
             </div>
@@ -23,11 +23,11 @@
                 <label for="" class="mr-8">Trạng thái</label>
                 <ng-select
                     style="width: 200px;"
-                    [items]="listYears"
+                    [items]="listTrangThai"
                     bindLabel="NAME"
                     bindValue="ID"
                     placeholder="Lựa cọn"
-                    [(ngModel)]="selectedYear"
+                    [(ngModel)]="trangThai"
                 >
                 </ng-select>
             </div>
@@ -64,8 +64,8 @@
 
         <div class="header-list-dinh-huong">
             <div class="serach-box">
-              
-               
+
+
             </div>
         </div>
         <table class="table table_custom">
@@ -82,23 +82,23 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td class="stt_table">1</td>
-                    <td>Bản đăng ký định hướng 2023</td>
-                    <td>Cấp EVN</td>
-                    <td class="text-center">Trần Văn A</td>
-                    <td>2023</td>
-                    <td class="text-center">Không</td>
-                    <td>Đang thực hiện</td>
+                <tr *ngFor="let item of listGiao; let i = index">
+                    <td class="stt_table">{{ i+ 1}}</td>
+                    <td>{{item.tenGiaiPhap}}</td>
+                    <td class="text-center">{{item.tenCapDoSangKien}}</td>
+                    <td class="text-left">{{item.tenDonViChuDauTu}}</td>
+                    <td class="text-center">{{item.nam}}</td>
+                    <td class="text-center">{{item.thuTruongDonVi==true?"Có":"Không"}}</td>
+                    <td class="text-center">{{item.tenTrangThai}}</td>
                     <td class="text-center action-table">
                         <div class="flex justify-evenly">
-                           
-                            <i (click)="detail($event)"
+
+                            <i (click)="detail(item)"
                                 class="fa fa-info-circle"
                                 title="Xem chi tiết"
                             ></i>
-                            <i class="fa fa-repeat"  title="Xem lịch sử"></i>
-                            <i (click)="updateActionXDCNKQ($event)" title="Cập nhập HSTH" class="fa fa-retweet"></i>
+                            <i class="fa fa-repeat"  (click)="detail(item)" title="Xem lịch sử"></i>
+                            <i (click)="updateActionXDCNKQ(item)" title="XD/CN KQ" class="fa fa-retweet"></i>
                             <!-- <i class="fa fa-trash" title="Xóa bỏ"></i> -->
                         </div>
                     </td>

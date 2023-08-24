@@ -94,21 +94,35 @@ export class PopupCbkhComponent implements OnInit {
             });
     }
     timkiemNguoi(type) {
-        this.getDinhHuongSubcription = this._serviceApi
-            .execServiceLogin('395A68D9-587F-4603-9E1D-DCF1987517B4', [
-                { name: 'TEN_NGUOI_THUC_HIEN', value: this.q },
-            ])
-            .subscribe((data) => {
-                if (type == 'CHUNHIEM') {
-                    this.listChuNhiem = data.data || [];
-                } else if (type == 'DONGCHUNHIEM') {
-                    this.listDongChuNhiem = data.data || [];
-                } else if (type == 'THUKY') {
-                    this.listThuKy = data.data || [];
-                } else if (type == 'THANHVIEN') {
-                    this.listThanhVien = data.data || [];
-                }
-            });
+        this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("395A68D9-587F-4603-9E1D-DCF1987517B4", [{"name":"TEN_NGUOI_THUC_HIEN","value":"", "orgId":""}]).subscribe((data) => {
+            if(type=="CHUNHIEM"){
+                this.listChuNhiem = data.data || [];
+            }else if(type=="DONGCHUNHIEM"){
+                this.listDongChuNhiem = data.data || [];
+            }else if(type=="THUKY"){
+                this.listThuKy = data.data || [];
+            }else if(type=="THANHVIEN"){
+                this.listThanhVien = data.data || [];
+            }else if(type=="DKAPDUNGSK"){
+                this.listThanhVien = data.data || [];
+            }
+              
+           })
+        // this.getDinhHuongSubcription = this._serviceApi
+        //     .execServiceLogin('395A68D9-587F-4603-9E1D-DCF1987517B4', [
+        //         { name: 'TEN_NGUOI_THUC_HIEN', value: this.q },{ "orgId":""}
+        //     ])
+        //     .subscribe((data) => {
+        //         if (type == 'CHUNHIEM') {
+        //             this.listChuNhiem = data.data || [];
+        //         } else if (type == 'DONGCHUNHIEM') {
+        //             this.listDongChuNhiem = data.data || [];
+        //         } else if (type == 'THUKY') {
+        //             this.listThuKy = data.data || [];
+        //         } else if (type == 'THANHVIEN') {
+        //             this.listThanhVien = data.data || [];
+        //         }
+        //     });
     }
     // ngOnDestroy() {
     //     this.getDinhHuongSubcription.unsubscribe()

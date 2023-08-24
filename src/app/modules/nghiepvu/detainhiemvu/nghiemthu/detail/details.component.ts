@@ -384,6 +384,10 @@ export class DetailsComponent implements OnInit {
                         .get('thoiGianHopNT')
                         .setValue(new Date(thoiGianHopNT));
                 }
+                let tongQT = this.form.get('tongPhiQT').value;
+                if(!tongQT){
+                    this.form.get('tongPhiQT').setValue(0);
+                }
 
                  if (method== 'HOIDONGNT') {
                     this.form.get('maTrangThai').setValue('DA_TLHDNT');
@@ -560,7 +564,7 @@ export class DetailsComponent implements OnInit {
             maKetQuaNhiemThu:[null],
             diaDiemNT:[null],
             tonTaiKhacPhucNghiemThu:[null],
-            tongPhiQT:[null]
+            tongPhiQT:0
             // listFile1: this._formBuilder.array([]),
             // listFile2: this._formBuilder.array([]),
             // listFile3: this._formBuilder.array([]),
@@ -839,7 +843,6 @@ export class DetailsComponent implements OnInit {
         });
 
          data.afterClosed().subscribe((data) => {
-            debugger;
            let kyHieu =data.data.KY_HIEU;
            let ngayVB =data.data.NGAY_VB;
            item.get("sovanban").setValue(kyHieu);

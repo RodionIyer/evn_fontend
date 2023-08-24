@@ -437,6 +437,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                 {name: 'METHOD_BUTTON', value: method},
             ])
             .subscribe((data) => {
+                debugger;
                 console.log('formData,', data.data);
                 this.ngayTao = new Date(data.data.ngayTao);
                 this.nguoiSua = data.data.nguoiSua;
@@ -1163,7 +1164,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
       //  }
         if (this.form.get('danhSachThanhVien').value.length > 0) {
             let listTV: any[] = this.form.get('danhSachThanhVien').value;
-            if (listTV.filter(n => n.maThanhVien == null || n.maThanhVien == '').length > 0) {
+            if (listTV.filter(n => n.ten == null || n.ten == '').length > 0) {
                 this._messageService.showErrorMessage("Thông báo", "Xóa thành viên trống trong danh sách thành viên hội đồng!");
                 return;
             }
@@ -1208,11 +1209,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                         this.form.get('tenDeTai').value
                     );
             } else if (status == 'LUUGUI') {
-                if (maTrangThai != null && maTrangThai != '' && maTrangThai != 'CHUA_GUI' && maTrangThai != 'Y_CAU_HIEU_CHINH') {
-                } else {
-                    this.form.get('maTrangThai').setValue('DA_GUI');
-                }
-
+                
                 let listFolder = this.form.get('listFolderFile').value;
                 let check = false;
                 if (listFolder != null && listFolder.length > 0) {
@@ -1231,6 +1228,11 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                     );
                     return;
                 }
+                if (maTrangThai != null && maTrangThai != '' && maTrangThai != 'CHUA_GUI' && maTrangThai != 'Y_CAU_HIEU_CHINH') {
+                } else {
+                    this.form.get('maTrangThai').setValue('DA_GUI');
+                }
+
 
 
                 this.form
@@ -1391,7 +1393,13 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
         this._serviceApi
             .execServiceLogin('1B009679-0ABB-4DBE-BBCF-E70CBE239042', null)
             .subscribe((data) => {
-                this.listHocHam = data.data || [];
+                var obj = {ID: '', NAME: '--Chọn--'};
+                let hocHam = [];
+                hocHam.push(obj)
+                for(let i=0;i<data.data.length;i++){
+                    hocHam.push(data.data[i]);
+                }
+                this.listHocHam = hocHam || [];
             });
     }
 
@@ -1399,7 +1407,14 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
         this._serviceApi
             .execServiceLogin('654CB6D4-9DD7-48B7-B3FD-8FDAC07FE950', null)
             .subscribe((data) => {
-                this.listHocVi = data.data || [];
+                var obj = {ID: '', NAME: '--Chọn--'};
+                let hocVi = [];
+                hocVi.push(obj)
+                for(let i=0;i<data.data.length;i++){
+                    hocVi.push(data.data[i]);
+                }
+                this.listHocVi = hocVi || [];
+               // this.listHocVi = data.data || [];
             });
     }
 

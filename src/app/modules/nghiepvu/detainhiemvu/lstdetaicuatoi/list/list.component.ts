@@ -55,13 +55,15 @@ export class LstdetaicuatoiListComponent implements OnInit, OnDestroy {
         public dialog: MatDialog
     ) {
         this._activatedRoute.queryParams.subscribe((params) => {
+           
             if (params?.type) {
                 this.actionClick = params?.type;
             } else {
                 this.actionClick = null;
             }
-            this.timKiem();
+          
         });
+        this.timKiem();
     }
 
     ngOnInit(): void {

@@ -107,9 +107,19 @@ export class ApiPheduyetdinhhuongListComponent implements OnInit {
           { queryParams: { type: 'LICHSU',makehoach:item.maKeHoach } }
         );
      }
-
+  
+    listTongHop = [];
+    checkTongHop(item){
+       console.log(item);
+       if(item.state != true){
+        this.listTongHop.push(item)
+       }else{
+        this.listTongHop  = this.listTongHop.filter((c) => c.maKeHoach != item.maKeHoach);
+       }
+       
+    }
      async tonghop(status) {
-      let arr = this.listDinhHuong.filter((c) => c.state == true);
+      let arr =this.listTongHop; // this.listDinhHuong.filter((c) => c.state == true);
       if(arr != undefined && arr.length != 0){
           this.addNew();
           // let listKeHoach = [];
@@ -178,6 +188,16 @@ export class ApiPheduyetdinhhuongListComponent implements OnInit {
           this.listDinhHuong = data.data || [];
              if(data.data != null && data.data.length >0){
                 this.length = data.data[0].totalPage;
+             }
+
+             if(this.listTongHop.length > 0){
+              for( let i = 0; i < this.listDinhHuong.length; i++){
+                   for(let j = 0; j < this.listTongHop.length;j++){
+                          if( this.listTongHop[j].maKeHoach == this.listDinhHuong[i].maKeHoach){
+                            this.listDinhHuong[i].state = true
+                          }
+                   }
+              }
              }
 
          })

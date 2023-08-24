@@ -105,6 +105,9 @@ export class ListItemComponent implements OnInit, OnDestroy {
             "value": this.pageSize
         }]).subscribe((data) => {
             this.listGiao = data.data || [];
+            if(this.listGiao != null && this.listGiao.length >0){
+                this.length =data.data[0].totalPage;
+            }
         })
     }
 

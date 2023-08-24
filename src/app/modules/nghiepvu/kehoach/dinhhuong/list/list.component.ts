@@ -120,6 +120,7 @@ export class ApiDinhHuongListComponent implements OnInit, OnDestroy {
         this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("DEA672A5-4533-4C16-8D99-7E6D4D277941", [{"name":"MA_TRANG_THAI","value":this.selectedStatus},{"name":"NAM","value":nam},{"name":"PAGE_NUM","value":this.pageIndex},{"name":"PAGE_ROW_NUM","value":this.pageSize}]).subscribe((data) => {
          
           this.listDinhHuong = data.data || [];
+          this.length =0;
              if(data.data != null && data.data.length >0){
                 this.length = data.data[0].totalPage;
              }

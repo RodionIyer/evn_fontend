@@ -774,7 +774,6 @@ export class DetailsComponent implements OnInit {
         });
 
          data.afterClosed().subscribe((data) => {
-            debugger;
            let kyHieu =data.data.KY_HIEU;
            let ngayVB =data.data.NGAY_VB;
            item.get("sovanban").setValue(kyHieu);
@@ -848,9 +847,7 @@ export class DetailsComponent implements OnInit {
     }
 
     downLoadFile(item) {
-        debugger;
         if (item.get("base64") != undefined && item.get("base64") != '') {
-            debugger;
             let link = item.get("base64").value;
             let url = 'data:application/pdf;base64,';
             if (link.length > 1) {
@@ -894,7 +891,6 @@ export class DetailsComponent implements OnInit {
       }
 
     downloadPdf2(base64String, fileName) {
-        debugger;
         const source = `data:application/pdf;base64,${base64String}`;
         const link = document.createElement("a");
         link.href = source;

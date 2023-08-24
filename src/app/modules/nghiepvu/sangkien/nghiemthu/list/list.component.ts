@@ -178,6 +178,9 @@ export class ListItemComponent implements OnInit, OnDestroy {
         }
         this._serviceApi.execServiceLogin("45283A19-1068-4FEF-8357-89924E2A5D47", [{"name":"LOAI_TIM_KIEM","value":"NGHIEMTHU"},{"name":"TIM_KIEM","value":JSON.stringify(obj)},{"name":"PAGE_NUM","value":this.pageIndex},{"name":"PAGE_ROW_NUM","value":this.pageSize}]).subscribe((data) => {
             this.listGiao = data.data || [];
+            if(data.data != null && data.data.length >0){
+                this.length = data.data[0].totalPage;
+            }
         })
     }
 

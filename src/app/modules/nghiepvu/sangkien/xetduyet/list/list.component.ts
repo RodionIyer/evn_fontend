@@ -60,12 +60,13 @@ export class ListItemComponent implements OnInit, OnDestroy {
         public dialog: MatDialog
     ) {
         this._activatedRoute.queryParams.subscribe((params) => {
+            this.timKiem();
             if (params?.type) {
                 this.actionClick = params?.type;
             } else {
                 this.actionClick = null;
             }
-            this.timKiem();
+           
         });
     }
 
@@ -141,12 +142,15 @@ export class ListItemComponent implements OnInit, OnDestroy {
             ])
             .subscribe((data) => {
                 this.listGiao = data.data || [];
-                this.length = data.data[0].totalPage;
+                if(data.data != null && data.data.length >0){
+                    this.length = data.data[0].totalPage;
+                }
+
             });
     }
     lichsu(item) {
         this._router.navigate(
-            ['/nghiepvu/sangkien/lstsangkiencuatoi/' + item.maDeTai],
+            ['/nghiepvu/sangkien/lstsangkiencuatoi/' + item.maSangKien],
             {
                 queryParams: {
                     type: 'LICHSU',

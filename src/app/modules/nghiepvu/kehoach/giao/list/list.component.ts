@@ -131,6 +131,7 @@ export class ApiGiaoListComponent implements OnInit, OnDestroy {
             "value": this.pageSize
         }]).subscribe((data) => {
             this.listDinhHuong = data.data || [];
+            this.length =0;
             if (data.data != null && data.data.length > 0) {
                 this.length = data.data[0].totalPage;
             }
