@@ -217,7 +217,7 @@
     <div class="flex flex-row row space-x-4">
         <div class="basis-1/4">
             <label for="">Chủ nhiệm đề tài<span> *</span></label>
-            <div class="select-cbkh flex items-center form-control">
+            <div class="select-cbkh flex items-center form-control" [class.is-invalid-border]="f.chuNhiemDeTai.invalid && (f.chuNhiemDeTai.dirty || f.chuNhiemDeTai.touched)">
                 <input
                     class="inputselect"
                     type="text"
@@ -225,7 +225,7 @@
                     id=""
                     maxlength="200"
                     formControlName="chuNhiemDeTai"
-                    [class.is-invalid-border]="f.chuNhiemDeTai.invalid && (f.chuNhiemDeTai.dirty || f.chuNhiemDeTai.touched)"
+                    
                 />
                 <i
                     (click)="openAlertDialog('CHUNHIEM')"
@@ -297,7 +297,7 @@
     <div class="flex flex-row row space-x-4">
         <div class="basis-1/4">
             <label for="">Đồng chủ nhiệm đề tài<span> *</span></label>
-            <div class="select-cbkh flex items-center form-control">
+            <div class="select-cbkh flex items-center form-control"  [class.is-invalid-border]="f.dongChuNhiemDeTai.invalid && (f.dongChuNhiemDeTai.dirty || f.dongChuNhiemDeTai.touched)">
                 <input
                     class="inputselect"
                     type="text"
@@ -305,7 +305,7 @@
                     id=""
                     maxlength="200"
                     formControlName="dongChuNhiemDeTai"
-                    [class.is-invalid-border]="f.dongChuNhiemDeTai.invalid && (f.dongChuNhiemDeTai.dirty || f.dongChuNhiemDeTai.touched)"
+                   
                 />
                 <i
                     (click)="openAlertDialog('DONGCHUNHIEM')"
