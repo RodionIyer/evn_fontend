@@ -38,7 +38,6 @@ tbody tr:last-child{
     border-bottom: 1px solid #ccc;
 }
 .eco_conntent {
-    padding: 10px;
     width: 100%;
 }
 
@@ -130,7 +129,7 @@ button.add_button:hover {
     width: 100%;
     height: 30px;
     border: 1px solid #ccc;
-    border-radius: 3px;
+    border-radius: 6px;
 }
 
 input {
@@ -250,6 +249,126 @@ input[type="file"] {
 .nguonkinhphi .ng-select span{
     color: #5860aa !important;
 }
+/*custom css*/
+.header-custom{
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+    border-bottom: 1px solid rgb(226, 232, 240);
+    --tw-bg-opacity: 1 !important;
+    background-color: rgb(248 250 252 / var(--tw-bg-opacity)) !important;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.header-custom .action-all-f{
+    margin: 0px;
+}
+.content-page-all{
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+    background-color: #fff;
+    padding-top: 25px;
+}
+.title-component{
+    text-transform: uppercase !important;
+    font-weight: 600 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    margin-left: 0.5rem !important;
+    font-size: 12px  !important;
+    color: rgb(42, 52, 147);
+}
+.table-fix-header{
+    overflow-y: auto;
+    margin-top: 30px;
+}
+.table-fix-header>table{
+    margin-top: 0px !important;
+}
+  .table-fix-header thead tr {
+    position: sticky;
+    top: 0;
+    border-bottom:1px solid rgb(226, 232, 240) !important;
+    z-index: 99;
+  }
+  .table-fix-header thead{
+    border:none;
+    border-image: none;
+    background-color: #fff;
+  }
+  .table-fix-header thead th{
+    border-bottom:1px solid rgb(226, 232, 240) !important;
+  }
+  .icon-group-table{
+    position: relative;
+    display: inline-block;
+  }
+  .icon-group-table i{
+    padding: 5px;
+    border:none;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-right: 0;
+  }
+  .icon-group-table div.flex{
+    display: none !important;
+  }
+  .icon-group-table:hover div.flex{
+    display: block !important;
+    top: 14px;
+    right: -228%;
+    z-index: 99;
+    position: absolute;
+    width: 160px;
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 5px;
+    box-shadow: rgba(50, 50, 105, 0.15) 0px 2px 5px 0px, rgba(0, 0, 0, 0.05) 0px 1px 1px 0px;
+  }
+  .icon-group-table div.flex div{
+    display: flex;
+    cursor: pointer;
+    border-bottom: 1px solid #e7e7e7;
+    align-items: center;
+    padding: 2px 0px;
+  }
+  .icon-group-table div.flex div:last-of-type{
+    border-bottom: none;
+  }
+  .icon-group-table div.flex div i{
+    width: 22px;
+  }
+  .icon-group-table div.flex div span{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .is-invalid-border, .is-invalid-border .ng-select-container{
+    border-color: red !important;
+  }
+  .header-popups {
+    background-color: #fff !important;
+    color: #2A3493 !important;
+    font-weight: 600
+
+  }
+  .header-popups svg{
+    width: 30px;
+    height: 30px;
+    padding: 5px;
+    border-radius: 4px;
+    display: flex;
+    fill: #2A3493 !important;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    cursor: pointer;
+  }
+  .header-popups svg:hover{
+    background-color: #e4e3e3;
+  }
+// end
 
 @media screen and (min-width: 1200px) and (max-width: 1400px) {
     .dinhhuong-name input.input-form{

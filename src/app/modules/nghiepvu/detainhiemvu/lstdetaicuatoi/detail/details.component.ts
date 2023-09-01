@@ -1177,6 +1177,14 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
     }
 
     onSubmit(status, method) {
+
+        if (this.form.invalid) {
+            for (const control of Object.keys(this.form.controls)) {
+                this.form.controls[control].markAsTouched();
+            }
+            return;
+        }
+        
         //if (method != 'CAPNHATHSTHUCHIEN'){
             this.submitted.check = true;
             if (this.form.invalid) {

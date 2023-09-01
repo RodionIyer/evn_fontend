@@ -1,19 +1,30 @@
 <div
     *ngIf="actionType == 'THEMMOI' || actionType == 'CHINHSUA'"
-    class="flex flex-col flex-auto overflow-y-auto bg-card dark:bg-default content-detail p-3"
+    class="flex flex-col flex-auto overflow-y-auto bg-card dark:bg-default content-detail"
     [formGroup]="form"
     novalidate
 >
-    <div class="">
+    <div class="header-custom">
         <h1 class="title-component">THÔNG TIN ĐỀ TÀI, NHIỆM VỤ</h1>
-        <div class="title-section">
-            <i class="fa fa-minus-circle"></i> Thông tin đề tài:
+        <div class="action-all-f">
+            <button class="add_button" (click)="onSubmit('LUU', 'CAPNHAT')">
+                <i class="fa fa-save"></i> Lưu
+            </button>
+            <button *ngIf="(actionType == 'CHINHSUA' &&(user.userId==nguoiTao || listRole.indexOf('KHCN_ROLE_CANBO_KHCN') ==-1) || actionType != 'CHINHSUA') "class="add_button" (click)="onSubmit('LUUGUI', 'CAPNHAT')">
+                <i class="fa fa-save"></i> Lưu và gửi
+            </button>
         </div>
     </div>
-    <div class="flex flex-row space-x-4">
+    <div class="content-page-all">
+        <div class="title-section">
+            <i class="fa fa-minus-circle"></i> Thông tin đề tài:
+
+    </div>
+    <div class="flex flex-row ">
         <div class="basis-1/2">
-            <label for="">Tên đề tài, nhiệm vụ KHCN<span>(*)</span></label>
+            <label for="">Tên đề tài, nhiệm vụ KHCN<span> *</span></label>
             <input
+                [class.is-invalid-border]="f.tenDeTai.invalid && (f.tenDeTai.dirty || f.tenDeTai.touched)"
                 type="text"
                 placeholder="Nhập tên đề tài"
                 class="form-control"
@@ -24,15 +35,13 @@
             />
 
             <div
-                *ngIf="submitted.check && f?.tenDeTai?.errors"
-                class="invalid-feedback"
-            >
+                *ngIf="submitted.check && f?.tenDeTai?.errors" class="invalid-feedback">
                 <div *ngIf="f.tenDeTai.errors.required">
                     Trường bắt buộc nhập
                 </div>
             </div>
         </div>
-        <div class="basis-1/2">
+        <div class="basis-[49.3%]  ml-auto">
             <label for="">Căn cứ thực hiện (từ bản định hướng)</label>
             <div class="select-cbkh flex items-center form-control">
                 <input
@@ -40,8 +49,7 @@
                     type="text"
                     name=""
                     id=""
-                    formControlName="canCuThucHien"
-                />
+                    formControlName="canCuThucHien"/>
                 <i
                     (click)="openAlertDialog('KEHOACH')"
                     class="fa fa-search"
@@ -49,12 +57,13 @@
             </div>
         </div>
     </div>
-    <div class="flex flex-row row space-x-4">
+    <div class="flex flex-row row">
         <div class="basis-1/2">
             <div class="flex flex-row row space-x-4">
-                <div class="basis-1/2">
-                    <label for="">Cấp quản lý<span>(*)</span></label>
+                <div class="basis-[49%]">
+                    <label for="">Cấp quản lý<span> *</span></label>
                     <ng-select
+                        [class.is-invalid-border]="f.capQuanLy.invalid && (f.capQuanLy.dirty || f.capQuanLy.touched)"
                         [items]="listCapQuanLy"
                         bindLabel="NAME"
                         bindValue="ID"
@@ -86,7 +95,7 @@
                 </div>
             </div>
         </div>
-        <div class="basis-1/2 mt-2">
+        <div class="basis-[49.3%] mt-2 ml-auto">
             <label for="">Lĩnh vực nghiên cứu</label>
             <ng-select
                 [items]="listLinhVucNghienCuu"
@@ -118,8 +127,9 @@
 
     <div class="flex flex-row row space-x-4">
         <div class="basis-1/4">
-            <label for="">Đơn vị chủ trì<span>(*)</span></label>
+            <label for="">Đơn vị chủ trì<span> *</span></label>
             <ng-select
+                [class.is-invalid-border]="f.donViChuTri.invalid && (f.donViChuTri.dirty || f.donViChuTri.touched)"
                 [items]="listDonViChuTri"
                 bindLabel="NAME"
                 bindValue="ID"
@@ -138,13 +148,14 @@
         </div>
         <div class="basis-1/12"></div>
         <div class="basis-2/12 text-right flex items-center">
-            <label for="">Thời gian thực hiện<span>(*)</span></label>
+            <label for="">Thời gian thực hiện<span> *</span></label>
         </div>
 
         <div class="basis-1/4">
             <label for="">Từ</label>
-            <div class="form-date">
+            <div class="form-date" [class.is-invalid-border]="f.thoiGianThucHienTu.invalid && (f.thoiGianThucHienTu.dirty || f.thoiGianThucHienTu.touched)">
                 <input
+                
                     matInput
                     [matDatepicker]="picker"
                     formControlName="thoiGianThucHienTu"
@@ -173,7 +184,7 @@
         </div>
         <div class="basis-1/4">
             <label for="">Đến</label>
-            <div class="form-date">
+            <div class="form-date" [class.is-invalid-border]="f.thoiGianThucHienDen.invalid && (f.thoiGianThucHienDen.dirty || f.thoiGianThucHienDen.touched)">
 
                 <input
                     matInput
@@ -205,7 +216,7 @@
 
     <div class="flex flex-row row space-x-4">
         <div class="basis-1/4">
-            <label for="">Chủ nhiệm đề tài<span>(*)</span></label>
+            <label for="">Chủ nhiệm đề tài<span> *</span></label>
             <div class="select-cbkh flex items-center form-control">
                 <input
                     class="inputselect"
@@ -214,6 +225,7 @@
                     id=""
                     maxlength="200"
                     formControlName="chuNhiemDeTai"
+                    [class.is-invalid-border]="f.chuNhiemDeTai.invalid && (f.chuNhiemDeTai.dirty || f.chuNhiemDeTai.touched)"
                 />
                 <i
                     (click)="openAlertDialog('CHUNHIEM')"
@@ -284,7 +296,7 @@
     </div>
     <div class="flex flex-row row space-x-4">
         <div class="basis-1/4">
-            <label for="">Đồng chủ nhiệm đề tài<span>(*)</span></label>
+            <label for="">Đồng chủ nhiệm đề tài<span> *</span></label>
             <div class="select-cbkh flex items-center form-control">
                 <input
                     class="inputselect"
@@ -293,6 +305,7 @@
                     id=""
                     maxlength="200"
                     formControlName="dongChuNhiemDeTai"
+                    [class.is-invalid-border]="f.dongChuNhiemDeTai.invalid && (f.dongChuNhiemDeTai.dirty || f.dongChuNhiemDeTai.touched)"
                 />
                 <i
                     (click)="openAlertDialog('DONGCHUNHIEM')"
@@ -572,13 +585,14 @@
     </div>
     <div class="flex flex-row row space-x-4">
         <div class="basis-1/5">
-            <label for="">Nguồn kinh phí<span>(*)</span></label>
+            <label for="">Nguồn kinh phí<span> *</span></label>
             <ng-select
                 [items]="listNguonKinhPhi"
                 bindLabel="NAME"
                 bindValue="ID"
                 placeholder="Nguồn kinh phí"
                 formControlName="nguonKinhPhi"
+                [class.is-invalid-border]="f.nguonKinhPhi.invalid && (f.nguonKinhPhi.dirty || f.nguonKinhPhi.touched)"
             >
             </ng-select>
             <div
@@ -591,9 +605,10 @@
             </div>
         </div>
         <div class="basis-1/5">
-            <label for="">Tổng kinh phí<span>(*)</span></label>
+            <label for="">Tổng kinh phí<span> *</span></label>
             <input
-                class="form-control text-right"
+              [class.is-invalid-border]="f.tongKinhPhi.invalid && (f.tongKinhPhi.dirty || f.tongKinhPhi.touched)"
+                class="form-control text-right pr-[10px]"
                 placeholder="VNĐ"
                 formControlName="tongKinhPhi"
                 money  [options]="{
@@ -627,7 +642,7 @@
         <div class="basis-1/5">
             <label for="">Kinh phí khoán</label>
             <input
-                class="form-control text-right"
+                class="form-control text-right  pr-[10px]"
                 placeholder="VNĐ"
                 type="text"
                 name=""
@@ -643,7 +658,7 @@
         <div class="basis-1/5">
             <label for="">Kinh phí không khoán</label>
             <input
-                class="form-control text-right"
+                class="form-control text-right  pr-[10px]"
                 placeholder="VNĐ"
                 type="text"
                 name=""
@@ -884,13 +899,7 @@
             </table>
         </div>
     </div>
-    <div class="action-all-f">
-        <button class="add_button" (click)="onSubmit('LUU', 'CAPNHAT')">
-            <i class="fa fa-save"></i> Lưu
-        </button>
-        <button *ngIf="(actionType == 'CHINHSUA' &&(user.userId==nguoiTao || listRole.indexOf('KHCN_ROLE_CANBO_KHCN') ==-1) || actionType != 'CHINHSUA') "class="add_button" (click)="onSubmit('LUUGUI', 'CAPNHAT')">
-            <i class="fa fa-save"></i> Lưu và gửi
-        </button>
+
     </div>
 </div>
 <!--chi tiết-->
@@ -3200,7 +3209,7 @@
 
     <div [class.khongthaotac]="listRole.indexOf('KHCN_ROLE_CANBO_KHCN') <=-1" style="display: flex; margin-top: 10px; align-items: center">
         <label for="" style="margin-right: 10px"
-        >Trạng thái <span>(*)</span></label
+        >Trạng thái <span> *</span></label
         >
         <ng-select
             [items]="listTrangThai"
@@ -3666,7 +3675,7 @@
     </mat-tab-group>
 
     <div style="display: flex; margin-top: 10px; align-items: center" *ngIf="screentype =='nghiemthu'">
-        <label for="" style="margin-right: 10px">Trạng thái <span>(*)</span></label>
+        <label for="" style="margin-right: 10px">Trạng thái <span> *</span></label>
         <ng-select
             [items]="listTrangThai"
             bindLabel="NAME"
@@ -3897,7 +3906,7 @@
 
     <!-- <div style="display: flex; margin-top: 10px; align-items: center">
         <label for="" style="margin-right: 10px"
-        >Trạng thái <span>(*)</span></label
+        >Trạng thái <span> *</span></label
         >
         <ng-select
             [items]="listTrangThai"

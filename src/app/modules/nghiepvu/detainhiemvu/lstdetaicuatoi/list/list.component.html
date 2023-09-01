@@ -1,85 +1,84 @@
 <div class="relative eco_conntent">
-    <div class="bg-white px-3 content-screen">
+    <div class="content-screen">
     <!--màn hình danh sách-->
     <ng-container *ngIf="!actionClick">
-        <div class="flex items-center justify-between">
+        <div class="flex items-center justify-between header-custom">
             <h1 class="title-component">ĐỀ TÀI, NHIỆM VỤ CỦA TÔI</h1>
             <button class="add_button" (click)="addNew()">
                 <i class="fa fa-plus"></i> Đăng ký mới
             </button>
         </div>
-        <div class="header-list-dinh-huong">
-            <div class="serach-box">
-                <input
-                    type="text"
-                    class="form-control"
-                    name="serach"
-                    placeholder="Nhập từ khóa tìm kiếm: tên đề tài,nhiệm vụ, chủ nhiệm, đồng chủ nhiệm, thư ký"
-                    [(ngModel)]="name"
-                />
-                <!-- (change)="timKiem()"  (change)="onChange()" -->
-                <button class="detai-search"  (click)="timKiem()">
-                    <i class="fa fa-search"></i>
-                    Tìm kiếm
-                </button>
+
+        <div class="content-page-all">
+            <div class="header-list-dinh-huong">
+                <div class="serach-box">
+                    <input type="text" class="form-control" name="serach"
+                        placeholder="Nhập từ khóa tìm kiếm: tên đề tài,nhiệm vụ, chủ nhiệm, đồng chủ nhiệm, thư ký"
+                        [(ngModel)]="name" />
+                    <!-- (change)="timKiem()"  (change)="onChange()" -->
+                    <button class="detai-search" (click)="timKiem()">
+                        <i class="fa fa-search"></i>
+                        Tìm kiếm
+                    </button>
+                </div>
             </div>
+            <div class="table-fix-header" style="height: calc(100vh - 255px)">
+                <table class="table table_custom">
+                    <thead>
+                        <tr>
+                            <th class="stt_table">STT</th>
+                            <th>Tên đề tài/ nhiệm vụ KHCN</th>
+                            <th class="text-center">Cấp quản lý</th>
+                            <th class="text-center">Chủ nhiệm đề tài</th>
+                            <th class="text-center">Đơn vị chủ trì</th>
+                            <th class="text-center">Thời gian thực hiện</th>
+                            <th class="text-center">Trạng thái</th>
+                            <th class="text-center">Năm đăng ký</th>
+                            <th class="text-center action-table">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                        <tr *ngFor="let item of listGiao; let i = index">
+                            <td class="stt_table">{{ (i+(pageIndex * pageSize))+ 1}}</td>
+                            <td>{{item.tenDeTai}}</td>
+                            <td>{{item.tenCapQuanLy}}</td>
+                            <td class="text-center">{{item.chuNhiemDeTai}}</td>
+                            <td>{{item.tenDonViChuTri}}</td>
+                            <td class="text-center">{{item.thoiGianThucHienTu | date:'MM/yyyy' }} - {{item.thoiGianThucHienDen |
+                                date:'MM/yyyy' }}</td>
+                            <td>{{item.tenTrangThai}}</td>
+                            <td class="text-center">{{item.ngayTao | date:'yyyy' }}</td>
+                            <td class="text-center action-table">
+                                <div class="icon-group-table">
+                                    <i class="fa  fa-ellipsis-h"></i>
+                                    <div class="flex">
+                                        <div (click)="detail(item)"><i  class="fa fa-info-circle" title="Xem chi tiết"></i><span>Xem chi tiết</span></div>
+                                        <div  (click)="lichsu(item)"><i class="fa fa-clock-o" title="Xem lịch sử"></i><span>Xem lịch sử</span></div>
+                                        <div *ngIf="item.maTrangThai=='CHUA_GUI' || item.maTrangThai=='Y_CAU_HIEU_CHINH' || item.maTrangThai=='YCAU_CAP_NHAT_HS_NTHU'"  (click)="editer(item)" ><i 
+                                            class="fa fa-pencil"title="Chỉnh sửa"></i><span>Chỉnh sửa</span></div>
+                                        <div  (click)="updateActionHSTH(item)"  *ngIf="item.maTrangThai=='DANG_THUC_HIEN' || item.maTrangThai=='CHUA_GUI_HS_NTHU' || item.maTrangThai=='YCAU_CAP_NHAT_HS_NTHU'"><i 
+                                           title="Cập nhập HSTH" class="fa fa-caret-square-o-up"></i><span>Cập nhập HSTH</span></div>
+                                        <div *ngIf="item.maTrangThai=='DANG_THUC_HIEN'" (click)="updateActionTIENDO(item)"><i 
+                                            title="Cập nhật tiến độ thực hiện" class="fa fa-caret-square-o-up"></i><span>Cập nhật tiến độ</span></div>
+                                        <div *ngIf="item.maTrangThai=='DANG_THUC_HIEN' || item.maTrangThai=='YCAU_CAP_NHAT_HS_NTHU'" (click)="updateActionHSNT(item)"><i 
+                                             title="Cập nhật HSNT" class="fa fa-caret-square-o-up" ></i><span>Cập nhật HSNT</span></div>
+                                        <div *ngIf="item.maTrangThai=='DA_NTHU'" (click)="updateActionHSQT(item)" ><i   title="Cập nhật HSQT"
+                                            class="fa fa-caret-square-o-up"></i><span>Cập nhật HSQT</span></div>
+                                        <div *ngIf="item.maTrangThai=='CHUA_GUI'" (click)="xoa(item)"><i  class="fa fa-trash" title="Xóa bỏ"></i><span>Xóa bỏ</span></div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- phan trang -->
+            <mat-paginator (page)="handlePageEvent($event)" [length]="length" [pageSize]="pageSize"
+                [showFirstLastButtons]="showFirstLastButtons" [pageSizeOptions]="pageSizeOptions" [pageIndex]="pageIndex"
+                aria-label="Select page">
+            </mat-paginator>
         </div>
-        <table class="table table_custom">
-            <thead>
-                <tr>
-                    <th class="stt_table">STT</th>
-                    <th>Tên đề tài/ nhiệm vụ KHCN</th>
-                    <th class="text-center">Cấp quản lý</th>
-                    <th class="text-center">Chủ nhiệm đề tài</th>
-                    <th class="text-center">Đơn vị chủ trì</th>
-                    <th class="text-center">Thời gian thực hiện</th>
-                    <th class="text-center">Trạng thái</th>
-                    <th class="text-center">Năm đăng ký</th>
-                    <th class="text-center action-table">Thao tác</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <tr *ngFor="let item of listGiao; let i = index">
-                        <td class="stt_table">{{ (i+(pageIndex * pageSize))+ 1}}</td>
-                        <td>{{item.tenDeTai}}</td>
-                        <td>{{item.tenCapQuanLy}}</td>
-                        <td class="text-center">{{item.chuNhiemDeTai}}</td>
-                        <td>{{item.tenDonViChuTri}}</td>
-                        <td class="text-center">{{item.thoiGianThucHienTu | date:'MM/yyyy' }} - {{item.thoiGianThucHienDen | date:'MM/yyyy' }}</td>
-                        <td>{{item.tenTrangThai}}</td>
-                        <td class="text-center">{{item.ngayTao | date:'yyyy' }}</td>
-                    <td class="text-center action-table">
-                        <div class="flex">
-                            <i (click)="detail(item)"
-                                class="fa fa-info-circle"
-                                title="Xem chi tiết"
-                            ></i>
-                            <i class="fa fa-clock-o" (click)="lichsu(item)" title="Xem lịch sử"></i>
-                            <i *ngIf="item.maTrangThai=='CHUA_GUI' || item.maTrangThai=='Y_CAU_HIEU_CHINH' || item.maTrangThai=='YCAU_CAP_NHAT_HS_NTHU'" class="fa fa-pencil" (click)="editer(item)" title="Chỉnh sửa"></i>
-                            <i  *ngIf="item.maTrangThai=='DANG_THUC_HIEN' || item.maTrangThai=='CHUA_GUI_HS_NTHU' || item.maTrangThai=='YCAU_CAP_NHAT_HS_NTHU'" (click)="updateActionHSTH(item)" title="Cập nhập HSTH" class="fa fa-caret-square-o-up"></i>
-                            <i  *ngIf="item.maTrangThai=='DANG_THUC_HIEN'" (click)="updateActionTIENDO(item)" title="Cập nhật tiến độ thực hiện" class="fa fa-caret-square-o-up"></i>
-                            <i  *ngIf="item.maTrangThai=='DANG_THUC_HIEN' || item.maTrangThai=='YCAU_CAP_NHAT_HS_NTHU'" (click)="updateActionHSNT(item)" title="Cập nhật HSNT" class="fa fa-caret-square-o-up"></i>
-                            <i  *ngIf="item.maTrangThai=='DA_NTHU'" (click)="updateActionHSQT(item)" title="Cập nhật HSQT" class="fa fa-caret-square-o-up"></i>
-
-                            <i *ngIf="item.maTrangThai=='CHUA_GUI'" class="fa fa-trash" (click)="xoa(item)" title="Xóa bỏ"></i>
-
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <!-- phan trang -->
-        <mat-paginator
-            (page)="handlePageEvent($event)"
-            [length]="length"
-            [pageSize]="pageSize"
-            [showFirstLastButtons]="showFirstLastButtons"
-            [pageSizeOptions]="pageSizeOptions"
-            [pageIndex]="pageIndex"
-            aria-label="Select page"
-        >
-        </mat-paginator>
         <!-- <button (click)="openAlertDialog()" >Mop pup up fille</button> -->
     </ng-container>
 
