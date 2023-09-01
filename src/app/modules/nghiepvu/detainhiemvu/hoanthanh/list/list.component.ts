@@ -79,6 +79,8 @@ export class ListItemComponent implements OnInit, OnDestroy {
             .subscribe((data) => {
             
                 this.listDonViChuTri = data.data || [];
+                let obj ={"ID":"","NAME":"Tất cả"}
+                this.listDonViChuTri.unshift(obj);
             });
     }
 
@@ -124,6 +126,8 @@ export class ListItemComponent implements OnInit, OnDestroy {
             .execServiceLogin('2977F0EA-A6C6-4A32-A36B-8617898B710D', null)
             .subscribe((data) => {
                 this.listCapQuanLy = data.data || [];
+                let obj ={"ID":"","NAME":"Tất cả"}
+                this.listCapQuanLy.unshift(obj);
             });
     }
     timKiem() {

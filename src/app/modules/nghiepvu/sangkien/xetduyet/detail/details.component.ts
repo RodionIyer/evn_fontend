@@ -7,7 +7,7 @@ import {
     ViewEncapsulation,
 } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Subscription, takeUntil} from 'rxjs';
+import {Subscription, takeUntil,Subject} from 'rxjs';
 import {
     FormArray,
     FormBuilder,
@@ -29,11 +29,42 @@ import {MatSort} from '@angular/material/sort';
 import {ServiceService} from 'app/shared/service/service.service';
 import {MatDialog} from '@angular/material/dialog';
 import {PopupCbkhComponent} from './popup-cbkh/popup-cbkh.component';
+import { User } from 'app/core/user/user.types';
+import { DOfficeService } from 'app/shared/service/doffice.service'
+import { DOfficeComponent } from 'app/shared/component/d-office/d-office.component';
+import {
+    DateAdapter,
+    MAT_DATE_FORMATS,
+    MAT_DATE_LOCALE,
+} from '@angular/material/core';
+import {
+    MAT_MOMENT_DATE_ADAPTER_OPTIONS,
+    MomentDateAdapter,
+} from '@angular/material-moment-adapter';
+export const MY_FORMATS = {
+    parse: {
+        dateInput: 'DD/MM/YYYY',
+    },
+    display: {
+        dateInput: 'DD/MM/YYYY',
+        monthYearLabel: 'MMM YYYY',
+        dateA11yLabel: 'LL',
+        monthYearA11yLabel: 'MMMM YYYY',
+    },
+};
 
 @Component({
     selector: 'component-details',
     templateUrl: './details.component.html',
     styleUrls: ['./details.component.css'],
+    providers: [
+        {
+            provide: DateAdapter,
+            useClass: MomentDateAdapter,
+        },
+
+        {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+    ],
     encapsulation: ViewEncapsulation.None,
 })
 export class DetailsComponent implements OnInit {
@@ -47,6 +78,11 @@ export class DetailsComponent implements OnInit {
     public idParam;
     public submitted = {check: false};
     public listChucDanh = [];
+    public screentype;
+    public checkDOffice = false;
+    public linkDoffice = "";
+    user: User;
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     constructor(
         private _formBuilder: UntypedFormBuilder,
@@ -54,6 +90,8 @@ export class DetailsComponent implements OnInit {
         public _messageService: MessageService,
         public _router: Router,
         private _serviceApi: ServiceService,
+        private _userService: UserService,
+        private _dOfficeApi: DOfficeService,
         public dialog: MatDialog
     ) {
         this.initForm();
@@ -90,6 +128,10 @@ export class DetailsComponent implements OnInit {
             .subscribe((data) => {
                 console.log(data.data)
                 this.form.patchValue(data.data);
+                const initiative = this.form.get('danhSachThanhVien') as FormArray;
+                if (!initiative || initiative.length === 0) {
+                    this.addThanhVien();
+                }
                 let formDocParent = this.form.get(
                     'listFolderFile'
                 ) as FormArray;
@@ -140,12 +182,27 @@ export class DetailsComponent implements OnInit {
                     this.form.get('maTrangThai').setValue('DA_TLHDXDTC');
                 }else
                 if (method == 'KETQUAXD') {
-                    this.form.get('maTrangThai').setValue('DA_CONG_NHAN');
+                    debugger;
+                    if(data.data.thuTruongDonVi==true){
+                        if(data.data.maTrangThai =='DA_PHE_DUYET'){
+                            this.getListTrangThaiKQXD();
+                            this.form.get('maTrangThai').setValue('DA_CONG_NHAN');
+                        }else{
+                            this.getListTrangThaiGuiThuTruong();
+                            this.form.get('maTrangThai').setValue('CHO_PHE_DUYET');
+                        }
+                    }else{
+
+                        this.getListTrangThaiKQXD();
+                        this.form.get('maTrangThai').setValue('DA_CONG_NHAN');
+                    }
+
                 }else
                 if (method == 'CHUNGNHANSK') {
                     this.form.get('maTrangThai').setValue('DA_TRA_THU_LAO');
                 }
-                
+                console.log('this.form', this.form);
+
             });
     }
 
@@ -163,10 +220,27 @@ export class DetailsComponent implements OnInit {
     }
 
     addListDocParent(item?: any) {
+        let ngaySua = item?.ngaySua;
+        if (ngaySua) {
+            ngaySua = new Date(ngaySua);
+        }else{
+            ngaySua =null;
+        }
+        let ngayVanBan = item?.ngayVanBan;
+        if (ngayVanBan) {
+            ngayVanBan = new Date(ngayVanBan);
+        }else{
+            ngayVanBan =null;
+        }
         return this._formBuilder.group({
             fileName: item?.fileName || null,
             maFolder: item?.maFolder || null,
             listFile: this._formBuilder.array([]),
+            nguoiSua:item?.nguoiSua || null,
+            nguoiCapnhap:item?.nguoiSua || null,
+            ngaySua:ngaySua || null,
+            sovanban: item?.sovanban || null,
+            ngayVanBan: ngayVanBan || null,
         });
     }
 
@@ -219,7 +293,9 @@ export class DetailsComponent implements OnInit {
             ghiChu: [null],
             tacGiaGiaiPhap: [null],
             sovanban: [null],
-            ngayVanBan: [null]
+            ngayVanBan: [null],
+            tenCapDo: [null],
+            tenDonViChuDauTu: [null]
         });
     }
 
@@ -241,20 +317,34 @@ export class DetailsComponent implements OnInit {
 
     ngOnInit(): void {
         this.geListYears();
+        this.getCheckQuyenDoffice();
         if (this.actionType == 'updateActionHDXDCN') {
             this.getListChucDanhHD();
         }else{
             this.getListChucDanh();
         }
-       
+
         if (this.actionType == 'updateActionHDXDCN') {
             this.getListTrangThaiHSXD();
-        } else if (this.actionType == 'updateActionKQXDCN') {
-            this.getListTrangThaiKQXD();
         } else if (this.actionType == 'updateActionKQ') {
             this.getListTrangThaiCNXK();
         }
         // this._messageService.showSuccessMessage('Thông báo', 'Thành công');
+    }
+
+    getCheckQuyenDoffice() {
+        this._userService.user$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((user: any) => {
+                this.user = user;
+                this._serviceApi.execServiceLogin("3FADE0E4-B2C2-4D9D-A0C7-06817ADE4FA3", [{ "name": "ORGID", "value": user.ORGID }]).subscribe((data) => {
+                    if (data.data.API_DOFFICE) {
+                        this.checkDOffice = true;
+                        this.linkDoffice = data.data.API_DOFFICE;
+                    }
+                })
+            });
+
     }
 
     getListTrangThaiHSXD() {
@@ -288,6 +378,22 @@ export class DetailsComponent implements OnInit {
                     return;
                 });
                 this.form.get('maTrangThai').setValue('DA_CONG_NHAN');
+            });
+    }
+
+    getListTrangThaiGuiThuTruong() {
+        this._serviceApi
+            .execServiceLogin('F78D616F-CB41-46B3-A5A2-429E9F9C07AD', null)
+            .subscribe((data) => {
+                this.listTrangThai = data.data || [];
+                this.listTrangThai = this.listTrangThai.filter(function (str) {
+                    if (
+                        str.ID == 'CHO_PHE_DUYET' || str.ID == 'Y_CAU_HIEU_CHINH' ||  str.ID == 'KHONG_CONG_NHAN'
+                    ) {
+                        return str;
+                    }
+                    return;
+                });
             });
     }
 
@@ -431,6 +537,7 @@ export class DetailsComponent implements OnInit {
     onSubmit(status, method) {
         this.submitted.check = true;
         if (this.form.invalid) {
+            this._messageService.showErrorMessage("Thông báo", "Chưa nhập đủ trường bắt buộc!")
             return;
         }
         console.log(this.form.value);
@@ -485,6 +592,72 @@ export class DetailsComponent implements OnInit {
 
             })
     }
+    dataFile = [];
+    async openAlertDialogDoffice(type, item?: any) {
+        let data = this.dialog.open(DOfficeComponent, {
+            data: {
+                type: type,
+                linkApi: this.linkDoffice,
+                maDv: this.user.ORGID,
+                message: 'HelloWorld',
+                buttonText: {
+                    cancel: 'Done',
+                },
+            },
+            width: '800px',
+            panelClass: 'custom-PopupCbkh',
+            position: {
+                top: '100px',
+            },
+        });
+
+         data.afterClosed().subscribe((data) => {
+           let kyHieu =data.data.KY_HIEU;
+           let ngayVB =data.data.NGAY_VB;
+           item.get("sovanban").setValue(kyHieu);
+           item.get("ngayVanBan").setValue(ngayVB);
+            if (type == 'DOffice') {
+                  this._dOfficeApi.execTimKiemTheoFile(this.linkDoffice, data.data.ID_VB).then(data=>{
+                this.dataFile = data.body.Data;
+                console.log("thong tin file");
+                console.log(data);
+                if (this.dataFile != null && this.dataFile.length > 0) {
+                   for (var i = 0; i < this.dataFile.length; i++) {
+                    this.getFileFromDoffice(item, this.dataFile[i].ID_FILE, this.user.ORGID, this.dataFile[i].ID_VB,
+                         this.dataFile[i].TEN_FILE, this.dataFile[i].KY_HIEU);
+                //         let dataFile =  this.dataFile[i];
+                //         setTimeout(() => {
+                            
+                     
+                   
+                // }, 1000);
+                //     }
+                }
+            }
+            }); 
+            }
+        });
+    }
+    async getFileFromDoffice(item,idFile,orgId,idVB,tenFile,kyHieu){
+        this._dOfficeApi.execFileBase64(this.linkDoffice, idFile, orgId, idVB).then(data=>{
+            console.log("file base64");
+            var base64str = data.body;
+            var decoded = atob(base64str);
+             let arrFile = item.get("listFile") as FormArray;
+             arrFile.push(this.addListDocChildView(tenFile,base64str,decoded,kyHieu))
+            });
+            
+    }
+
+    addListDocChildView(tenFile,base64str,decoded,kyHieu) {
+        return this._formBuilder.group({
+            fileName: tenFile,
+            base64: base64str,
+            size: decoded.length,
+            sovanban: kyHieu,
+            mafile: ""
+        });
+    }
 
     handleUpload(event, item, index) {
         let arr = item.get('listFile') as FormArray;
@@ -496,7 +669,7 @@ export class DetailsComponent implements OnInit {
                 arr.push(this.addFile(item, itemVal, reader.result));
             };
         }
-        console.log(item);
+        event.target.value = null;
     }
 
     addFile(item, itemVal, base64) {
@@ -525,24 +698,97 @@ export class DetailsComponent implements OnInit {
     }
 
     downLoadFile(item) {
-        if (item.base64 != undefined && item.base64 != '') {
-            let link = item.base64.split(',');
-            let url = "";
+        if (item.value.base64 != undefined && item.value.base64 != '') {
+            let link = item.value.base64.split(',');
+            let url = '';
             if (link.length > 1) {
                 url = link[1];
             } else {
                 url = link[0];
             }
-            this.downloadTempExcel(url, item.fileName);
+            this.downloadAll(url, item.value.fileName);
         } else {
-            var token = localStorage.getItem("accessToken");
-            this._serviceApi.execServiceLogin("2269B72D-1A44-4DBB-8699-AF9EE6878F89", [{
-                "name": "DUONG_DAN",
-                "value": item.duongdan
-            }, {"name": "TOKEN_LINK", "value": "Bearer " + token}]).subscribe((data) => {
-                console.log("downloadFile:" + JSON.stringify(data));
-            })
+            var token = localStorage.getItem('accessToken');
+            this._serviceApi
+                .execServiceLogin('2269B72D-1A44-4DBB-8699-AF9EE6878F89', [
+                    {name: 'DUONG_DAN', value: item.duongdan},
+                    {name: 'TOKEN_LINK', value: 'Bearer ' + token},
+                ])
+                .subscribe((data) => {
+                });
         }
+    }
 
+   async downloadAll(base64String, fileName){
+    let typeFile =  await this.detectMimeType(base64String, fileName);
+    let mediaType = `data:${typeFile};base64,`;
+    const downloadLink = document.createElement('a');
+
+        downloadLink.href = mediaType + base64String;
+        downloadLink.download = fileName;
+        downloadLink.click();
+    }
+
+   async detectMimeType(base64String, fileName) {
+        var ext = fileName.substring(fileName.lastIndexOf(".") + 1);
+        if (ext === undefined || ext === null || ext === "") ext = "bin";
+        ext = ext.toLowerCase();
+        const signatures = {
+          JVBERi0: "application/pdf",
+          R0lGODdh: "image/gif",
+          R0lGODlh: "image/gif",
+          iVBORw0KGgo: "image/png",
+          TU0AK: "image/tiff",
+          "/9j/": "image/jpg",
+          UEs: "application/vnd.openxmlformats-officedocument.",
+          PK: "application/zip",
+        };
+        for (var s in signatures) {
+          if (base64String.indexOf(s) === 0) {
+            var x = signatures[s];
+            // if an office file format
+            if (ext.length > 3 && ext.substring(0, 3) === "ppt") {
+              x += "presentationml.presentation";
+            } else if (ext.length > 3 && ext.substring(0, 3) === "xls") {
+              x += "spreadsheetml.sheet";
+            } else if (ext.length > 3 && ext.substring(0, 3) === "doc") {
+              x += "wordprocessingml.document";
+            }
+            // return
+            return x;
+          }
+        }
+        // if we are here we can only go off the extensions
+        const extensions = {
+          xls: "application/vnd.ms-excel",
+          ppt: "application/vnd.ms-powerpoint",
+          doc: "application/msword",
+          xml: "text/xml",
+          mpeg: "audio/mpeg",
+          mpg: "audio/mpeg",
+          txt: "text/plain",
+        };
+        for (var e in extensions) {
+          if (ext.indexOf(e) === 0) {
+            var xx = extensions[e];
+            return xx;
+          }
+        }
+        // if we are here – not sure what type this is
+        return "unknown";
+      }
+    onKeyUp($event): void {
+        const data = {'ketQuaPhieuDanhGia': this.formatVotingResultInput($event.target.value)};
+        this.form.patchValue(data);
+    }
+    formatVotingResultInput(input: string): string {
+        input = input.replace(/\//g, '');
+        if (input.length <= 1) {
+            return input;
+        }
+        const firstPartLength = Math.floor(input.length / 2);
+        const firstPartString = input.slice(0, firstPartLength);
+        const secondPartString = input.slice(firstPartLength, input.length);
+        return `${firstPartString}/${secondPartString}`;
     }
 }

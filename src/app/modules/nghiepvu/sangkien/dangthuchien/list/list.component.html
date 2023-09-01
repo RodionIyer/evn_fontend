@@ -1,4 +1,4 @@
-<div class="relative eco_conntent">
+<div class="relative overflow-y-auto eco_conntent">
     <div class="bg-white p-3">
     <!--màn hình danh sách-->
     <ng-container *ngIf="!actionClick">
@@ -26,14 +26,14 @@
                     [items]="listTrangThai"
                     bindLabel="NAME"
                     bindValue="ID"
-                    placeholder="Lựa cọn"
+                    placeholder="Lựa chọn"
                     [(ngModel)]="trangThai"
                 >
                 </ng-select>
             </div>
             <div class="basis-1/5">
                 <button class="add_button" (click)="addNew()">
-                    <i class="fa fa-plus"></i> Tạo bản ghi mới
+                    <i class="fa fa-plus"></i> Đăng ký mới
                 </button>
             </div>
         </div>
@@ -41,7 +41,7 @@
 
         <div class="flex flex-row row gap-4 items-center">
             <div class="basis-1/4 flex items-center"></div>
-            <div class="basis-1/4 flex items-center">
+            <div class="basis-1/4 flex items-center" style="gap: .15em;">
                 <label for="" class="mr-2">Năm đăng ký</label>
                 <ng-select
                     style="width: 200px;"
@@ -76,19 +76,21 @@
                     <th class="text-center">Cấp sáng kiến</th>
                     <th class="text-center">Đơn vị thực hiện</th>
                     <th class="text-center">Năm</th>
-                    <th class="text-center">Tác giả là thủ trưởng đơn vị</th>
+                    <th class="text-center">Tác giả</th>
+<!--                    <th class="text-center">Tác giả là thủ trưởng đơn vị</th>-->
                     <th class="text-center">Trạng thái</th>
                     <th class="text-center action-table">Thao tác</th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let item of listGiao; let i = index">
-                    <td class="stt_table">{{ i+ 1}}</td>
+                    <td class="stt_table">{{ (i+(pageIndex * pageSize))+ 1}}</td>
                     <td>{{item.tenGiaiPhap}}</td>
                     <td class="text-center">{{item.tenCapDoSangKien}}</td>
                     <td class="text-left">{{item.tenDonViChuDauTu}}</td>
                     <td class="text-center">{{item.nam}}</td>
-                    <td class="text-center">{{item.thuTruongDonVi==true?"Có":"Không"}}</td>
+                    <td class="text-left">{{item.tacGiaGiaiPhap[0]?.ten}}</td>
+<!--                    <td class="text-center">{{item.thuTruongDonVi==true?"Có":"Không"}}</td>-->
                     <td class="text-center">{{item.tenTrangThai}}</td>
                     <td class="text-center action-table">
                         <div class="flex justify-evenly">
@@ -97,7 +99,7 @@
                                 class="fa fa-info-circle"
                                 title="Xem chi tiết"
                             ></i>
-                            <i class="fa fa-repeat"  (click)="detail(item)" title="Xem lịch sử"></i>
+                            <i class="fa fa-clock-o cursor-point"  (click)="detail(item)" title="Xem lịch sử"></i>
                             <i (click)="updateActionXDCNKQ(item)" title="XD/CN KQ" class="fa fa-retweet"></i>
                             <!-- <i class="fa fa-trash" title="Xóa bỏ"></i> -->
                         </div>
@@ -107,6 +109,7 @@
         </table>
         <!-- phan trang -->
         <mat-paginator
+            *ngIf="listGiao && listGiao.length > 0"
             (page)="handlePageEvent($event)"
             [length]="length"
             [pageSize]="pageSize"

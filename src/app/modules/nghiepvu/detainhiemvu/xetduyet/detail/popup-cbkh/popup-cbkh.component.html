@@ -278,6 +278,10 @@
             <label for="">Tìm kiếm</label>
             <input type="text" class="form-control" [(ngModel)]="q" (ngModelChange)="timkiemDeTaiHoiDong(0)"
                 placeholder="Nhập từ khóa cần tìm..." name="" id="">
+                <label style="margin: 0px 10px;" for="">Mã đơn vị</label>
+            <ng-select class="form-control" [items]="listDonVi" bindLabel="NAME" bindValue="ID"
+                placeholder="Chọn đơn vị" [(ngModel)]="maDonVi" (change)="timkiemDeTaiHoiDong(0)">
+            </ng-select>
         </div>
         <div class="tableFixHead">
             <table class="table table_custom">
@@ -322,6 +326,10 @@
             <label for="">Tìm kiếm</label>
             <input type="text" class="form-control" (ngModelChange)="timkiemDeTaiHoiDong(1)"
                 placeholder="Nhập từ khóa cần tìm..." name="" id="">
+                <label style="margin: 0px 10px;" for="">Đơn vị</label>
+            <ng-select class="form-control" [items]="listDonVi" bindLabel="NAME" bindValue="ID"
+                placeholder="Chọn đơn vị" [(ngModel)]="maDonVi" (change)="timkiemDeTaiHoiDong(1)">
+            </ng-select>
         </div>
         <div class="tableFixHead">
         <table class="table table_custom">

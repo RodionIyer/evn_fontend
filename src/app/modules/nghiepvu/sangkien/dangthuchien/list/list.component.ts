@@ -153,6 +153,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
                 { name: 'PAGE_ROW_NUM', value: this.pageSize },
             ])
             .subscribe((data) => {
+           
                 this.listGiao = data.data || [];
                 if(data.data != null && data.data.length >0){
                     this.length = data.data[0].totalPage;
@@ -161,16 +162,17 @@ export class ListItemComponent implements OnInit, OnDestroy {
             });
     }
     //phân trang
-    length = 500;
-    pageSize = 10;
+    length = 0;
+    pageSize = 20;
     pageIndex = 0;
-    pageSizeOptions = [5, 10, 25];
+    pageSizeOptions = [10, 20, 50, 100];
     showFirstLastButtons = true;
-  
+
     handlePageEvent(event: PageEvent) {
-      this.length = event.length;
-      this.pageSize = event.pageSize;
-      this.pageIndex = event.pageIndex;
+        this.length = event.length;
+        this.pageSize = event.pageSize;
+        this.pageIndex = event.pageIndex;
+        this.timKiem();
     }
 
    // mo popup file
@@ -210,7 +212,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
     }
 
     updateActionXDCNKQ(item){
-        debugger;
+     
         this._router.navigate(
             ['/nghiepvu/sangkien/xetduyetttdv/' + item.maSangKien],
             { queryParams: { type: 'updateActionRaSoat' } }

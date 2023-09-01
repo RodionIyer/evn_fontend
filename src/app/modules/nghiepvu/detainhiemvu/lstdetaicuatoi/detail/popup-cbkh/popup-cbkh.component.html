@@ -10,7 +10,7 @@
                 type="text"
                 class="form-control"
                 [(ngModel)]="q"
-                (keyup)="timkiemKehoach()"
+                (ngModelChange)="timkiemKehoach()"
                 placeholder="Nhập từ khóa cần tìm..."
                 name=""
                 id=""
@@ -24,6 +24,7 @@
                     <th>Tên bản đăng ký định hướng
                         giao thực hiện
                     </th>
+                    <th class="text-center">Năm</th>
                     <th class="text-center">Người giao</th>
                     <th class="text-center">Tên đề tài, nhiệm vụ</th>
                 </tr>
@@ -33,6 +34,7 @@
                     <tr (click)="submit(item)" class="cursor-point">
                         <td class="stt_table">{{ i + 1 }}</td>
                         <td>{{ item.name }}</td>
+                        <td>{{ item?.ngayTao | date:'yyyy' }}</td>
                         <td>{{ item.nguoiGui }}</td>
                         <td style="text-align: center;">{{ item.tenDeTai }}</td>
                     </tr>
@@ -53,7 +55,7 @@
 </ng-container>
 
 <ng-container *ngIf="checkType == 'CHUNHIEM'">
-    <div class="title-popup"><i class="fa fa-search"></i> Tìm kiếm</div>
+    <div class="title-popup"><i class="fa fa-search"></i> Tìm kiếm chủ nhiệm</div>
     <div class="content-popup">
         <div class="box-search flex items-center">
             <label for="">Tìm kiếm</label>
@@ -61,11 +63,15 @@
                 type="text"
                 class="form-control"
                 [(ngModel)]="q"
-                (keyup)="timkiemNguoi(checkType)"
+                (ngModelChange)="timkiemNguoi(checkType)"
                 placeholder="Nhập từ khóa cần tìm..."
                 name=""
                 id=""
             />
+            <label style="margin: 0px 10px;" for="">Đơn vị</label>
+            <ng-select class="form-control" [items]="listDonVi" bindLabel="NAME" bindValue="ID"
+                placeholder="Chọn đơn vị" [(ngModel)]="maDonVi" (change)="timkiemNguoi(checkType)">
+            </ng-select> 
         </div>
         <div class="tableFixHead">
         <table class="table table_custom">
@@ -100,7 +106,7 @@
 </ng-container>
 <ng-container *ngIf="checkType == 'DONGCHUNHIEM'">
     <div class="title-popup">
-        <i class="fa fa-search"></i> Tìm kiếm Chu nhiệm
+        <i class="fa fa-search"></i> Tìm kiếm đồng chủ nhiệm
     </div>
     <div class="content-popup">
         <div class="box-search flex items-center">
@@ -114,6 +120,10 @@
                 name=""
                 id=""
             />
+            <label style="margin: 0px 10px;" for="">Đơn vị</label>
+            <ng-select class="form-control" [items]="listDonVi" bindLabel="NAME" bindValue="ID"
+                placeholder="Chọn đơn vị" [(ngModel)]="maDonVi" (change)="timkiemNguoi(checkType)">
+            </ng-select> 
         </div>
         <div class="tableFixHead">
         <table class="table table_custom">
@@ -150,7 +160,7 @@
 </ng-container>
 <ng-container *ngIf="checkType == 'THUKY'">
     <div class="title-popup">
-        <i class="fa fa-search"></i> Tìm kiếm Chu nhiệm
+        <i class="fa fa-search"></i> Tìm kiếm thư ký
     </div>
     <div class="content-popup">
         <div class="box-search flex items-center">
@@ -164,6 +174,10 @@
                 name=""
                 id=""
             />
+            <label style="margin: 0px 10px;" for="">Đơn vị</label>
+            <ng-select class="form-control" [items]="listDonVi" bindLabel="NAME" bindValue="ID"
+                placeholder="Chọn đơn vị" [(ngModel)]="maDonVi" (change)="timkiemNguoi(checkType)">
+            </ng-select> 
         </div>
         <div class="tableFixHead">
         <table class="table table_custom">
@@ -210,6 +224,10 @@
                 name=""
                 id=""
             />
+            <label style="margin: 0px 10px;" for="">Đơn vị</label>
+            <ng-select class="form-control" [items]="listDonVi" bindLabel="NAME" bindValue="ID"
+                placeholder="Chọn đơn vị" [(ngModel)]="maDonVi" (change)="timkiemNguoi(checkType)">
+            </ng-select> 
         </div>
         <div class="tableFixHead">
         <table class="table table_custom">

@@ -29,11 +29,14 @@ export class PopupCbkhComponent implements OnInit {
     public listChuNhiem = [];
     public listDongChuNhiem = [];
     public listThuKy = [];
+    public listThanhVienAll = [];
     public listThanhVien = [];
     public listDonViChuDauTu =[];
     public getDinhHuongSubcription: Subscription;
     public searchname:String=null;
     public listDonViChuDauTuAll=[];
+    public maDonVi = '';
+    public listDonVi = [];
     constructor(
         @Inject(MAT_DIALOG_DATA) private data: any,
         private _formBuilder: UntypedFormBuilder,
@@ -42,7 +45,7 @@ export class PopupCbkhComponent implements OnInit {
         public _router: Router,
         private _serviceApi: ServiceService,
         public dialog: MatDialog,
-        
+
         private dialogRef: MatDialogRef<PopupCbkhComponent>
     ) {
         if (data) {
@@ -65,18 +68,34 @@ export class PopupCbkhComponent implements OnInit {
         if(this.checkType=="KEHOACH"){
             this.timkiemKehoach();
         }else{
-            this.timkiemNguoi(this.checkType, this.checkOrgId);
+            this.donViChuTri();
+            this.timkiemNguoi(this.checkType);
         }
-       
+
+    }
+
+    donViChuTri(){
         
-       
+        this._serviceApi.execServiceLogin("D3F0F915-DCA5-49D2-9A5B-A36EBF8CA5D1", null).subscribe((data) => {
+            console.log(data.data);
+            this.listDonVi = data.data || [];
+            var obj ={ID:"",NAME:"Tất cả"}
+            this.listDonVi.unshift(obj);
+           })
     }
 
     timKiemNgay(){
-        if(this.searchname)
-             this.listDonViChuDauTu = this.listDonViChuDauTuAll.filter(c => c.name.toLowerCase().includes(this.searchname.toLowerCase()) );
-        else
+        if(this.searchname) {
+            console.log('searchName', this.listDonViChuDauTuAll);
+            this.listDonViChuDauTu = this.listDonViChuDauTuAll.filter(c =>
+                c.name.toLowerCase().includes(this.searchname.toLowerCase()) ||
+                c.id.toLowerCase().includes(this.searchname.toLowerCase()));
+            this.listThanhVien = this.listThanhVienAll.filter(e => e.username?.toLowerCase().includes(this.searchname.toLowerCase()));
+        }
+        else {
+            this.listThanhVien = this.listThanhVienAll;
             this.listDonViChuDauTu = this.listDonViChuDauTuAll;
+        }
     }
 
 
@@ -95,11 +114,14 @@ export class PopupCbkhComponent implements OnInit {
         this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("34A59664-4613-482F-95CA-CCF346E2140A", [{"name":"TEN_KE_HOACH","value":""}]).subscribe((data) => {
             console.log(data.data);
             this.listKehoach = data.data || [];
-              
+
            })
     }
-    timkiemNguoi(type, orgId){
-        this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("395A68D9-587F-4603-9E1D-DCF1987517B4", [{"name":"TEN_NGUOI_THUC_HIEN","value":"", "orgId":orgId}]).subscribe((data) => {
+    timkiemNguoi(type){
+        let obj ={
+            donVi:this.maDonVi
+        }
+        this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("395A68D9-587F-4603-9E1D-DCF1987517B4", [{"name":"TEN_NGUOI_THUC_HIEN","value":""},{"name":"TIM_KIEM","value":JSON.stringify(obj)}]).subscribe((data) => {
             if(type=="CHUNHIEM"){
                 this.listChuNhiem = data.data || [];
             }else if(type=="DONGCHUNHIEM"){
@@ -107,11 +129,13 @@ export class PopupCbkhComponent implements OnInit {
             }else if(type=="THUKY"){
                 this.listThuKy = data.data || [];
             }else if(type=="THANHVIEN"){
-                this.listThanhVien = data.data || [];
+                this.listThanhVienAll = data.data || [];
+                this.listThanhVien = this.listThanhVienAll;
             }else if(type=="DKAPDUNGSK"){
-                this.listThanhVien = data.data || [];
+                this.listThanhVienAll = data.data || [];
+                this.listThanhVien = this.listThanhVienAll;
             }
-              
+
            })
     }
 

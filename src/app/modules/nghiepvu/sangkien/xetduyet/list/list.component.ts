@@ -30,6 +30,7 @@ import { SnotifyToast } from 'ng-alt-snotify';
 export class ListItemComponent implements OnInit, OnDestroy {
     public selectedYear: number;
     public actionClick: string = null;
+    public searchKeyword: string;
     public getYearSubscription: Subscription;
     public getGiaoSubcription: Subscription;
     public listYears = [];
@@ -60,13 +61,13 @@ export class ListItemComponent implements OnInit, OnDestroy {
         public dialog: MatDialog
     ) {
         this._activatedRoute.queryParams.subscribe((params) => {
-            this.timKiem();
+
             if (params?.type) {
                 this.actionClick = params?.type;
             } else {
                 this.actionClick = null;
             }
-           
+            this.timKiem();
         });
     }
 
@@ -99,26 +100,18 @@ export class ListItemComponent implements OnInit, OnDestroy {
         this._serviceApi
             .execServiceLogin('825C8F49-51DE-417E-AACD-FBDB437346AB', null)
             .subscribe((data) => {
-                console.log(data.data);
                 this.listCapDo = data.data || [];
             });
     }
 
     geListYears() {
-        // this.getYearSubscription = this._serviceApi
-        //     .execServiceLogin('E5050E10-799D-4F5F-B4F2-E13AFEA8543B', null)
-        //     .subscribe((data) => {
-        //         this.listYears = data.data || [];
-        //     });
-        var obj = { "NAME": 0, "ID": 0 };
-        var year = (new Date()).getFullYear();
-        var yearStart = 2023;
-        var yearEnd = (new Date()).getFullYear();
-        for (let i = yearStart; i <= yearEnd; i++) {
-            obj = { "NAME": i, "ID": i }
-            this.listYears.push(obj);
-        }
-        this.selectedYear = (new Date()).getFullYear();
+        this._serviceApi
+            .execServiceLogin('E5050E10-799D-4F5F-B4F2-E13AFEA8543B', null)
+            .subscribe((data) => {
+                console.log(data);
+                this.listYears = data.data || [];
+            });
+        this.selectedYear = null;
     }
 
     addNew(): void {
@@ -127,12 +120,13 @@ export class ListItemComponent implements OnInit, OnDestroy {
         });
     }
     timKiem() {
-        let obj ={
+        const obj ={
             capDo:this.capDo,
             trangThai:this.trangThai,
             donVi:this.donVi,
-            nam:this.selectedYear
-        }
+            nam:this.selectedYear,
+            q: this.searchKeyword,
+        };
         this._serviceApi
             .execServiceLogin('45283A19-1068-4FEF-8357-89924E2A5D47', [
                 { name: 'LOAI_TIM_KIEM', value: 'XETDUYET' },
@@ -173,16 +167,18 @@ export class ListItemComponent implements OnInit, OnDestroy {
     //         });
     // }
     //phân trang
-    length = 20;
+    length = 0;
     pageSize = 20;
     pageIndex = 0;
-    pageSizeOptions = [5, 10, 25];
+    pageSizeOptions = [10, 20, 50, 100];
     showFirstLastButtons = true;
 
     handlePageEvent(event: PageEvent) {
         this.length = event.length;
         this.pageSize = event.pageSize;
         this.pageIndex = event.pageIndex;
+        this.timKiem();
+
     }
 
     // mo popup file
@@ -259,6 +255,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
                                     'Thông báo',
                                     'Xóa bản đăng ký thành công'
                                 );
+                                this.timKiem();
                                 break;
                             case 0:
                                 this._messageService.showErrorMessage(

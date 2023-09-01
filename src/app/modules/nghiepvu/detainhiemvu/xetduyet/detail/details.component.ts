@@ -112,6 +112,7 @@ export class DetailsComponent implements OnInit {
         private _userService: UserService,
         private _dOfficeApi: DOfficeService,
     ) {
+             debugger;
         this.idParam = this._activatedRoute.snapshot.paramMap.get('id');
         this._activatedRoute.queryParams.subscribe((params) => {
             if (params?.type) {
@@ -126,6 +127,7 @@ export class DetailsComponent implements OnInit {
             if (this.actionType == 'updateActionKQ') {
                 this.method = 'THANHLAPHD';
             } else if (this.actionType == 'updateActionHD') {
+               
                 if (this.screentype == 'nghiemthu') {
                     this.method = 'HOIDONGNT';
                 } else {
@@ -135,7 +137,7 @@ export class DetailsComponent implements OnInit {
             } else if (this.actionType == 'updateActionRaSoat') {
                 this.method = 'RASOAT';
             }
-
+       
             this.initForm(this.method);
             this.detail(this.method);
             if (this.actionType == 'updateActionHD') {
@@ -162,6 +164,29 @@ export class DetailsComponent implements OnInit {
         this.getCheckQuyenDoffice();
     }
 
+    checkAddMember(){
+        debugger;
+        let ar = this.form.get('danhSachThanhVien') as FormArray;
+        if(ar !=undefined && ar.length >0){
+
+        }else{
+            ar.push(this.addMember());
+        }
+
+        // let ar2 = this.form.get('danhSachThanhVienHDXT') as FormArray;
+        // if(ar2 !=undefined && ar2.length >0){
+
+        // }else{
+        //     ar2.push(this.addMember());
+        // }
+
+        let ar3 = this.form.get('danhSachThanhVienHD') as FormArray;
+        if(ar3 !=undefined && ar3.length >0){
+
+        }else{
+            ar3.push(this.addMember());
+        }
+    }
     // initFormHD(){
     //     this._serviceApi.execServiceLogin('F360054F-7458-443A-B90E-50DB237B5642', [{"name":"MA_DE_TAI","value":this.idParam}]).subscribe((data) => {
     //         this.form = this._formBuilder.group({
@@ -205,7 +230,7 @@ export class DetailsComponent implements OnInit {
                     'listFolderFileHD'
                 ) as FormArray;
                 
-                if (data.data.listFolderFile != null) {
+                if (data.data != null && data.data.listFolderFile != null) {
                     for (let i = 0; i < data.data.listFolderFile.length; i++) {
                         formDocParent.push(
                             this.addListDocParent(data.data.listFolderFile[i])
@@ -393,23 +418,43 @@ export class DetailsComponent implements OnInit {
                         .get('thoiGianHop')
                         .setValue(new Date(thoiGianHop));
                 }
+                debugger;
                 if (method == 'HOIDONG') {
                     this.form.get('maTrangThai').setValue('DA_TLHDXD');
+                    this.checkAddMember();
                 } else if (method == 'HOIDONGNT') {
                     this.form.get('maTrangThai').setValue('DA_TLHDNT');
+                    this.checkAddMember();
                 } else if (method == 'THANHLAPHD') {
                     this.form.get('maTrangThai').setValue('DANG_THUC_HIEN');
                 }
+                
             });
     }
 
     addListDocParent(item?: any) {
+        debugger;
+        let ngaySua = item?.ngaySua;
+        if (ngaySua) {
+            ngaySua = new Date(ngaySua);
+        }else{
+            ngaySua =null;
+        }
+        let ngayVanBan = item?.ngayVanBan;
+        if (ngayVanBan) {
+            ngayVanBan = new Date(ngayVanBan);
+        }else{
+            ngayVanBan =null;
+        }
         return this._formBuilder.group({
             fileName: item?.fileName || null,
             maFolder: item?.maFolder || null,
             listFile: this._formBuilder.array([]),
+            nguoiSua:item?.nguoiSua || null,
+            nguoiCapnhap:item?.nguoiSua || null,
+            ngaySua:ngaySua || null,
             sovanban: item?.sovanban || null,
-            ngayVanBan: item?.ngayVanBan || null,
+            ngayVanBan: ngayVanBan || null,
         });
     }
 
@@ -429,6 +474,12 @@ export class DetailsComponent implements OnInit {
     }
 
     addListDocChild(item?: any) {
+        let ngayVanBan = item?.ngayVanBan;
+        if (ngayVanBan) {
+            ngayVanBan = new Date(ngayVanBan);
+        }else{
+            ngayVanBan =null;
+        }
         return this._formBuilder.group({
             fileName: item?.fileName || null,
             base64: item?.base64 || null,
@@ -439,7 +490,7 @@ export class DetailsComponent implements OnInit {
             tenFolder: item?.tenFolder || null,
             duongDan: item?.duongDan || null,
             rowid: item?.rowid || null,
-            ngayVanBan:item?.ngayVanBan || null,
+            ngayVanBan:ngayVanBan || null,
         });
     }
 
@@ -598,6 +649,7 @@ export class DetailsComponent implements OnInit {
                 arr.push(this.addFile(item, itemVal, reader.result));
             };
         }
+        event.target.value = null;
     }
 
     handleUpload(event, item, index) {
@@ -610,7 +662,7 @@ export class DetailsComponent implements OnInit {
                 arr.push(this.addFile(item, itemVal, reader.result));
             };
         }
-        console.log(item);
+        event.target.value = null;
     }
 
     geListTrangThaiHD() {
@@ -847,15 +899,15 @@ export class DetailsComponent implements OnInit {
     }
 
     downLoadFile(item) {
-        if (item.get("base64") != undefined && item.get("base64") != '') {
-            let link = item.get("base64").value;
-            let url = 'data:application/pdf;base64,';
+        if (item.value.base64 != undefined && item.value.base64 != '') {
+            let link = item.value.base64.split(',');
+            let url = '';
             if (link.length > 1) {
                 url = link[1];
             } else {
                 url = link[0];
             }
-            this.downloadPdf2(url,"sample");
+            this.downloadAll(url, item.value.fileName);
         } else {
             var token = localStorage.getItem('accessToken');
             this._serviceApi
@@ -864,10 +916,68 @@ export class DetailsComponent implements OnInit {
                     {name: 'TOKEN_LINK', value: 'Bearer ' + token},
                 ])
                 .subscribe((data) => {
-                    console.log('downloadFile:' + JSON.stringify(data));
                 });
         }
     }
+
+   async downloadAll(base64String, fileName){
+    let typeFile =  await this.detectMimeType(base64String, fileName);
+    let mediaType = `data:${typeFile};base64,`;
+    const downloadLink = document.createElement('a');
+
+        downloadLink.href = mediaType + base64String;
+        downloadLink.download = fileName;
+        downloadLink.click();
+    }
+
+   async detectMimeType(base64String, fileName) {
+        var ext = fileName.substring(fileName.lastIndexOf(".") + 1);
+        if (ext === undefined || ext === null || ext === "") ext = "bin";
+        ext = ext.toLowerCase();
+        const signatures = {
+          JVBERi0: "application/pdf",
+          R0lGODdh: "image/gif",
+          R0lGODlh: "image/gif",
+          iVBORw0KGgo: "image/png",
+          TU0AK: "image/tiff",
+          "/9j/": "image/jpg",
+          UEs: "application/vnd.openxmlformats-officedocument.",
+          PK: "application/zip",
+        };
+        for (var s in signatures) {
+          if (base64String.indexOf(s) === 0) {
+            var x = signatures[s];
+            // if an office file format
+            if (ext.length > 3 && ext.substring(0, 3) === "ppt") {
+              x += "presentationml.presentation";
+            } else if (ext.length > 3 && ext.substring(0, 3) === "xls") {
+              x += "spreadsheetml.sheet";
+            } else if (ext.length > 3 && ext.substring(0, 3) === "doc") {
+              x += "wordprocessingml.document";
+            }
+            // return
+            return x;
+          }
+        }
+        // if we are here we can only go off the extensions
+        const extensions = {
+          xls: "application/vnd.ms-excel",
+          ppt: "application/vnd.ms-powerpoint",
+          doc: "application/msword",
+          xml: "text/xml",
+          mpeg: "audio/mpeg",
+          mpg: "audio/mpeg",
+          txt: "text/plain",
+        };
+        for (var e in extensions) {
+          if (ext.indexOf(e) === 0) {
+            var xx = extensions[e];
+            return xx;
+          }
+        }
+        // if we are here – not sure what type this is
+        return "unknown";
+      }
 
     convertBase64ToBlobData(base64Data: string) {
         const byteCharacters = atob(base64Data);
@@ -942,7 +1052,7 @@ export class DetailsComponent implements OnInit {
         }
         let list: any[] = this.form.value.danhSachThanhVienHD;
         if (list.filter(n => n.ten == null).length > 0) {
-            this._messageService.showErrorMessage("Thông báo", "Xóa thành viên trống trong danh sách thành viên hội đồng!");
+            this._messageService.showWarningMessage("Thông báo", "Xóa thành viên trống trong danh sách thành viên hội đồng!");
         } else {
             this._serviceApi
                 .execServiceLogin('8565DAF2-842B-438E-B518-79A47096E2B5', [

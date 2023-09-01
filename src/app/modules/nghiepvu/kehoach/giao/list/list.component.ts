@@ -11,6 +11,7 @@ import {ApiGiaoComponent} from '../giao.component';
 import {ServiceService} from 'app/shared/service/service.service';
 import {PageEvent} from '@angular/material/paginator';
 import {ListdinhhuongService} from '../../dinhhuong/listdinhhuong.service';
+import { SnotifyToast } from 'ng-alt-snotify';
 
 @Component({
     selector: 'component-list',
@@ -58,8 +59,9 @@ export class ApiGiaoListComponent implements OnInit, OnDestroy {
                         this.actionClick = params?.type
                     } else {
                         this.actionClick = null
-                        this.timKiem();
+                       
                     }
+                    this.timKiem();
                 }
             );
 
@@ -68,14 +70,15 @@ export class ApiGiaoListComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.selectedYear = [];
         this.actionClick = null;
-        this._listdinhhuongService.getValueYear().subscribe((values: any) => {
-            if (values) {
-                this.listYears = values;
-                // this.listYears.push({"NAME":2024,"ID":2024});
-                // this.listYears.push({"NAME":2025,"ID":2025})
-            }
+        this.geListYears();
+        // this._listdinhhuongService.getValueYear().subscribe((values: any) => {
+        //     if (values) {
+        //         this.listYears = values;
+        //         // this.listYears.push({"NAME":2024,"ID":2024});
+        //         // this.listYears.push({"NAME":2025,"ID":2025})
+        //     }
 
-        })
+        // })
         // this.getStatusSubscription = this._listdinhhuongService.getValueStatus().subscribe((values: any) => {
         //     if (values)
         //         this.listStatus = values;
@@ -89,6 +92,15 @@ export class ApiGiaoListComponent implements OnInit, OnDestroy {
         this.timKiem();
     }
 
+    geListYears() {
+        this._serviceApi.execServiceLogin("3E0F3D82-66AE-4ABC-9FA7-B5C4B0355836", [{"name":"LOAI_TIM_KIEM","value":"GIAOVIEC"}]).subscribe((data) => {
+       
+          this.listYears = data.data || [];
+          let obj = {"id":"","name":"Tất cả"}
+          this.listYears.unshift(obj);
+         
+        })
+      }
 
     onApiSelected(object: any): void {
 
@@ -159,4 +171,46 @@ export class ApiGiaoListComponent implements OnInit, OnDestroy {
         this.pageIndex = event.pageIndex;
         this.timKiem();
     }
+    xoa(item){
+        this._messageService.showConfirm("Thông báo", "Bạn chắc chắn muốn xóa \"" + item.name + "\"", (toast: SnotifyToast) => {
+          this._messageService.notify().remove(toast.id);
+       
+          this._serviceApi.execServiceLogin("CC1C9234-D950-4493-8189-1C65C07BE01C", [{"name":"MA_KE_HOACH","value":item.maKeHoach},{"name":"USERID","value":"STR"}]).subscribe((data) => {
+            console.log(data);
+            switch (data.data) {
+                              case 1:
+                                  this._messageService.showSuccessMessage("Thông báo", "Xóa bản đăng ký thành công");
+                                  this.timKiem();
+                                  this.geListYears();
+                                  // this._router.navigated = false;
+                                  // this._router.navigate([data.data], { relativeTo: this._activatedRoute.parent });
+                                  break;
+                              case 0:
+                                  this._messageService.showErrorMessage("Thông báo", "Không tìm thấy bản đăng ký cần xóa");
+                                  break;
+                              case -1:
+                                  this._messageService.showErrorMessage("Thông báo", "Xảy ra lỗi khi thực hiện xóa bản đăng ký");
+                                  break;
+                          }
+           })
+          // if (State.create==1) {
+          //     this._apiService.deleteObject(this.api?.API_SERVICEID)
+          //         .pipe(takeUntil(this._unsubscribeAll))
+          //         .subscribe((result: any) => {
+          //             switch (result) {
+          //                 case 1:
+          //                     this._messageService.showSuccessMessage("Thông báo", "Xóa dịch vụ thành công");
+          //                     break;
+          //                 case 0:
+          //                     this._messageService.showErrorMessage("Thông báo", "Không tìm thấy dịch vụ cần xóa");
+          //                     break;
+          //                 case -1:
+          //                     this._messageService.showErrorMessage("Thông báo", "Xảy ra lỗi khi thực hiện xóa dịch vụ");
+          //                     break;
+          //             }
+    
+          //         });
+          // }
+        })
+       }
 }

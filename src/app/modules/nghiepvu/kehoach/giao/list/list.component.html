@@ -12,8 +12,8 @@
                     <label for="">Năm</label>
                     <ng-select
                         [items]="listYears"
-                        bindLabel="NAME"
-                        bindValue="ID"
+                        bindLabel="name"
+                        bindValue="id"
                         (change)="timKiem()"
                         placeholder="Chọn năm"
                         [multiple]="true"
@@ -79,7 +79,7 @@
                                     [queryParams]="{ type: 'CHINHSUA' }"
                                     title="Chỉnh sửa"
                                 ></i>
-                                <i
+                                <i (click)="xoa(item)"
                                     *ngIf="item.maTrangThai == 'CGIAO'"
                                     class="fa fa-trash"
                                     title="Xóa bỏ"

@@ -156,7 +156,7 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
     updateKeHoach() {
         if (this.idParam != undefined && this.idParam != null) {
             this._serviceApi.execServiceLogin("DC2F3F51-09CC-4237-9284-13EBB85C83C1", [{ "name": "MA_KE_HOACH", "value": this.idParam }]).subscribe((data) => {
-                //console.log(data.data);
+                console.log(data.data);
                 this._serviceApi.dataKeHoach.next(data.data);
                 this.listFile = data.data || [];
                 this.listFile = data.data.listFile;
@@ -276,6 +276,7 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
     onSubmit(status) {
         this.submitted.check = true;
         if (this.form.invalid || this.listupload.length == 0) {
+            this._messageService.showWarningMessage("Thông báo", "Chưa nhập đủ trường bắt buộc!")
             return;
         }
         console.log(this.form);
@@ -340,7 +341,7 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
             }
         }
         if(status=='CHO_PHE_DUYET' && listChiTiet.length ==0){
-            this._messageService.showErrorMessage("Thông báo", "Vui lòng thêm thông tin đăng ký định hướng.");
+            this._messageService.showWarningMessage("Thông báo", "Vui lòng thêm thông tin đăng ký định hướng.");
             return;
         }
    
@@ -382,6 +383,7 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
                 });
             };
         }
+        event.target.value = null;
 
     }
 
@@ -440,23 +442,91 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
     }
 
     downLoadFile(item) {
+        // var ext = item.fileName.substring(item.fileName.lastIndexOf(".") + 1);
+        // if(ext =='pdf'){
+        //         window.open(url, "_blank");
+        // }   
+        debugger;
         if (item.base64 != undefined && item.base64 != '') {
             let link = item.base64.split(',');
-            let url = "";
+            let url = '';
             if (link.length > 1) {
                 url = link[1];
             } else {
                 url = link[0];
             }
-            this.downloadTempExcel(url, item.fileName);
+            this.downloadAll(url, item.fileName);
         } else {
-            var token = localStorage.getItem("accessToken");
-            this._serviceApi.execServiceLogin("2269B72D-1A44-4DBB-8699-AF9EE6878F89", [{ "name": "DUONG_DAN", "value": item.duongdan }, { "name": "TOKEN_LINK", "value": "Bearer " + token }]).subscribe((data) => {
-                console.log("downloadFile:" + JSON.stringify(data));
-            })
+            var token = localStorage.getItem('accessToken');
+            this._serviceApi
+                .execServiceLogin('2269B72D-1A44-4DBB-8699-AF9EE6878F89', [
+                    {name: 'DUONG_DAN', value: item.duongdan},
+                    {name: 'TOKEN_LINK', value: 'Bearer ' + token},
+                ])
+                .subscribe((data) => {
+                });
         }
-
     }
+
+   async downloadAll(base64String, fileName){
+    let typeFile =  await this.detectMimeType(base64String, fileName);
+    let mediaType = `data:${typeFile};base64,`;
+    const downloadLink = document.createElement('a');
+
+        downloadLink.href = mediaType + base64String;
+        downloadLink.download = fileName;
+       // window.open(mediaType + base64String); 
+        downloadLink.click();
+    }
+
+   async detectMimeType(base64String, fileName) {
+        var ext = fileName.substring(fileName.lastIndexOf(".") + 1);
+        if (ext === undefined || ext === null || ext === "") ext = "bin";
+        ext = ext.toLowerCase();
+        const signatures = {
+          JVBERi0: "application/pdf",
+          R0lGODdh: "image/gif",
+          R0lGODlh: "image/gif",
+          iVBORw0KGgo: "image/png",
+          TU0AK: "image/tiff",
+          "/9j/": "image/jpg",
+          UEs: "application/vnd.openxmlformats-officedocument.",
+          PK: "application/zip",
+        };
+        for (var s in signatures) {
+          if (base64String.indexOf(s) === 0) {
+            var x = signatures[s];
+            // if an office file format
+            if (ext.length > 3 && ext.substring(0, 3) === "ppt") {
+              x += "presentationml.presentation";
+            } else if (ext.length > 3 && ext.substring(0, 3) === "xls") {
+              x += "spreadsheetml.sheet";
+            } else if (ext.length > 3 && ext.substring(0, 3) === "doc") {
+              x += "wordprocessingml.document";
+            }
+            // return
+            return x;
+          }
+        }
+        // if we are here we can only go off the extensions
+        const extensions = {
+          xls: "application/vnd.ms-excel",
+          ppt: "application/vnd.ms-powerpoint",
+          doc: "application/msword",
+          xml: "text/xml",
+          mpeg: "audio/mpeg",
+          mpg: "audio/mpeg",
+          txt: "text/plain",
+        };
+        for (var e in extensions) {
+          if (ext.indexOf(e) === 0) {
+            var xx = extensions[e];
+            return xx;
+          }
+        }
+        // if we are here – not sure what type this is
+        return "unknown";
+      }
 
     deleteItemFile(items) {
         if (items.mafile != undefined && items.mafile != '') {

@@ -1,0 +1,41 @@
+<div class="flex flex-col flex-auto overflow-y-auto lg:overflow-hidden bg-card dark:bg-default">
+    <div class="z-10 relative flex flex-col flex-0 w-full border-b">
+        <!-- Toolbar -->
+        <div class="flex items-center justify-between h-16 px-4 border-b bg-gray-50 dark:bg-transparent w-full">
+            <div>
+                <button mat-icon-button (click)="onCancelViewOrEdit()">
+                    <mat-icon [svgIcon]="'mat_outline:close'"></mat-icon>
+                </button>
+
+                <button mat-flat-button [color]="'primary'" *ngIf="actionSave" (click)="onSaveObject()">
+                    <mat-icon svgIcon="mat_outline:save"></mat-icon>
+                    <span class="ml-2 mr-1">Ghi</span>
+                </button>
+
+                <button mat-flat-button [color]="'warn'" class="mx-1" *ngIf="actionDelete && !obj.DA_DUYET"
+                    (click)="onDeleteObject()">
+                    <mat-icon svgIcon="mat_outline:delete"></mat-icon>
+                    <span class="ml-2 mr-1">Xóa</span>
+                </button>
+
+                <button mat-flat-button [color]="'accent'" class="mx-1" *ngIf="actionEdit && !obj.DA_DUYET"
+                    (click)="onEditObject()">
+                    <mat-icon svgIcon="mat_outline:edit"></mat-icon>
+                    <span class="ml-2 mr-1">Sửa</span>
+                </button>
+
+                <button mat-flat-button [color]="'accent'" class="mx-1" *ngIf="actionCancel" (click)="onCancelObject()">
+                    <mat-icon svgIcon="mat_outline:restore"></mat-icon>
+                    <span class="ml-2 mr-1">Hủy bỏ</span>
+                </button>
+            </div>
+
+        </div>
+    </div>
+    <div class="overflow-auto h-full">
+
+        <details-input *ngIf="inputMode;"></details-input>
+
+        <details-view *ngIf="viewMode;"></details-view>
+    </div>
+</div>

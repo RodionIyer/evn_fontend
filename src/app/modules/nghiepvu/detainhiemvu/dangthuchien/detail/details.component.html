@@ -150,7 +150,7 @@
     </div>
 
     <div class="flex flex-row row gap-4">
-        <div class="basis-1/12">
+        <div class="basis-1/6">
             <label for="">Tên đề tài/ nhiệm vụ:</label>
         </div>
         <div class="basis-2/5">
@@ -158,13 +158,13 @@
         </div>
     </div>
     <div class="flex flex-row row gap-4">
-        <div class="basis-1/12">
+        <div class="basis-1/6">
             <label for="">Chủ nhiệm:</label>
         </div>
         <div class="basis-2/5">
             <span>{{ form.get("chuNhiemDeTai").value }}</span>
         </div>
-        <div class="basis-1/12">
+        <div class="basis-1/6">
             <label for="">Số lần gia hạn:</label>
         </div>
         <div class="basis-1/5">
@@ -173,7 +173,7 @@
         </div>
     </div>
     <div class="flex flex-row row gap-4">
-        <div class="basis-1/12">
+        <div class="basis-1/6">
             <label for="">Thời gian thực hiện từ</label>
         </div>
         <div class="basis-1/5">
@@ -183,7 +183,7 @@
         </div>
     </div>
     <div class="flex flex-row row gap-4 mt-1 mb-1">
-        <div class="basis-1/12">
+        <div class="basis-1/6">
             <label for=""
                 >Thời gian gian hạn thêm (tháng)<span>(*)</span></label
             >
@@ -244,6 +244,7 @@
                 <th>Tên văn bản</th>
                 <th>Số ký hiệu</th>
                 <th>Ngày văn bản</th>
+                <th></th>
                 <th>File nội dung</th>
                 <th>Tìm kiếm văn bản từ D-Office</th>
             </tr>
@@ -258,13 +259,27 @@
             >
                 <td class="stt_table">{{ i + 1 }}</td>
                 <td class="font-medium">{{ item.get("fileName").value }}</td>
-                <td></td>
+                <td><input type="text"  class="form-control" formControlName="sovanban" /></td>
+                <td>  <div class="form-date">
+                    <input
+                        matInput
+                        type="text"
+                        [matDatepicker]="picker"
+                        formControlName="ngayVanBan"
+                        placeholder="dd/mm/yyyy"
+                    />
+                    <mat-datepicker-toggle
+                        matIconSuffix
+                        [for]="picker"
+                    ></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </div></td>
                 <td>
                     <div
                         class="list-file table_listfile"
                         *ngIf="item.get('listFile').value.length > 0"
                     >
-                        <table class="table table_custom action-table">
+                        <table class="table">
                             <!-- <thead>
                                 <tr>
                                     <th class="stt_table">STT</th>

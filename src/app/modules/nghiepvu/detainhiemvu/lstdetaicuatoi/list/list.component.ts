@@ -61,7 +61,7 @@ export class LstdetaicuatoiListComponent implements OnInit, OnDestroy {
             } else {
                 this.actionClick = null;
             }
-          
+            this.timKiem();
         });
         this.timKiem();
     }
@@ -193,6 +193,7 @@ export class LstdetaicuatoiListComponent implements OnInit, OnDestroy {
                                     'Thông báo',
                                     'Xóa bản đăng ký thành công'
                                 );
+                                this.timKiem();
                                 break;
                             case 0:
                                 this._messageService.showErrorMessage(

@@ -171,6 +171,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
                 switch (data.status) {
                     case 1:
                         this._messageService.showSuccessMessage("Thông báo", "Xóa bản đăng ký thành công");
+                        this.timKiem();
                         break;
                     case 0:
                         this._messageService.showErrorMessage("Thông báo", "Không tìm thấy bản đăng ký cần xóa");

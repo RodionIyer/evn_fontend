@@ -1,0 +1,60 @@
+<div class="flex flex-col flex-auto shrink-0 lg:shrink p-3 lg:overflow-y-auto" fuseScrollReset>
+    <!-- Thread -->
+    <div class="flex flex-col flex-0 w-full">
+        <div class="grid grid-cols-3 w-full border py-5 px-6">
+            <div class="mb-2 col-span-3">
+                <span class="leading-4 truncate text-xl">Tiêu đề: </span>
+                <span class="leading-4 truncate text-green-500 text-lg">{{obj.TIEU_DE_BAI_VIET}}</span>
+            </div>
+            <div class="mb-2 col-span-3">
+                <span class="leading-4 truncate text-xl">Danh mục: </span>
+                <span class="leading-4 truncate text-green-500 text-lg">{{obj.TEN_DANH_MUC}}</span>
+            </div>
+            <div class="mb-2">
+                <span class="leading-4 truncate text-xl">Từ khóa: </span>
+                <span class="leading-4 text-green-500 text-lg">{{obj.TU_KHOA}}</span>
+            </div>
+
+            <div class="mb-2">
+                <span *ngIf="obj.TIN_NOI_BAT" class="leading-4 truncate text-green-500 text-lg">Là tin nổi bật</span>
+                <span *ngIf="!obj.TIN_NOI_BAT" class="leading-4 truncate text-green-500 text-lg">Không phải tin nổi
+                    bật</span>
+            </div>
+            <div class="mb-2">
+                <span *ngIf="obj.DA_DUYET" class="leading-4 truncate text-green-500 text-lg">Đã duyệt</span>
+                <span *ngIf="!obj.DA_DUYET" class="leading-4 truncate text-green-500 text-lg">Chưa duyệt</span>
+            </div>
+            <div *ngIf="obj.MA_DANH_MUC_TIN_TUC != 'TB'" class="mb-2 col-span-3">
+                <span class="leading-4 truncate text-xl">Hình ảnh: </span>
+                <span *ngIf="obj.ANH_DAI_DIEN == null || obj.ANH_DAI_DIEN == '' "
+                    class="leading-4 text-green-500 text-lg">Không có ảnh</span>
+                <img *ngIf="obj.ANH_DAI_DIEN != null && obj.ANH_DAI_DIEN != '' " class="object-contain h-48"
+                    src="{{obj.ANH_DAI_DIEN}}">
+
+            </div>
+            <div class="mb-2 col-span-3">
+                <span class="leading-4 truncate text-xl">Tóm tắt: </span>
+                <p class="leading-4 text-green-500 text-lg text-justify">{{obj.TOM_TAT}}</p>
+            </div>
+            <div class="mb-2 col-span-3">
+                <span class="leading-4 truncate text-xl">Nội dung: </span>
+
+                <p class="leading-4 text-green-500 text-lg text-justify" [innerHtml]="safeHtmlContent"></p>
+            </div>
+            <div class="mb-2 col-span-3" *ngIf="obj.listFile.length >0">
+                <span class="leading-4 truncate text-xl">Tệp đính kèm: </span>
+                <div class="flex" *ngFor="let item of obj.listFile; let i = index">
+                    <label class="wp-15" style="margin-right: 55px;" for=""></label>
+                    <div>{{item.TEN_FILE}} ({{item.KICH_THUOC >(1024 * 1024)?(item.KICH_THUOC/(1024*1024)).toFixed(1)+'
+                        MB':item.KICH_THUOC >1024?(item.KICH_THUOC/(1024)).toFixed(1)+' KB':item.KICH_THUOC.toFixed(1)
+                        +" K"}})</div>
+                    <div>
+                        <i class="fa fa-cloud-download" style="color: green; cursor: pointer;" aria-hidden="true"
+                            (click)="downLoadFile(item)" title="Download file"></i>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -66,8 +66,21 @@
             <tr *ngFor="let item of form.get('listFolderFile')['controls']; let i = index"  [formGroupName]="i">
                 <td class="stt_table">{{i+1}}</td>
                 <td>{{item.get('fileName').value}}</td>
-                <td></td>
-                <td></td>
+                <td><input type="text"  class="form-control" formControlName="sovanban" /></td>
+                <td>  <div class="form-date">
+                    <input
+                        matInput
+                        type="text"
+                        [matDatepicker]="picker"
+                        formControlName="ngayVanBan"
+                        placeholder="dd/mm/yyyy"
+                    />
+                    <mat-datepicker-toggle
+                        matIconSuffix
+                        [for]="picker"
+                    ></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </div></td> 
                 <td>
                     <div
                     class="list-file table_listfile"
@@ -188,6 +201,11 @@
                     <!-- <button class="add_button">
                         <i class="fa fa-link"></i> Upload file
                     </button> -->
+                </td>
+                <td>
+                    <button class="add_button" style="margin-left: 99px"  (click)="openAlertDialogDoffice('DOffice',item)" *ngIf="checkDOffice==true">
+                        <i class="fa fa-search"></i> Tìm kiếm từ D-Office
+                    </button>
                 </td>
             </tr>
         </tbody>
@@ -356,8 +374,19 @@
         <div class="basis-1/4">
             <label for="">Thời gian họp</label>
         </div>
-        <div class="basis-1/5">
-            <input type="date" class="form-control" name="" id="" formControlName="thoiGianHop" />
+        <div class="basis-1/5 form-date">
+            <input
+            matInput
+            type="text"
+            [matDatepicker]="picker"
+            formControlName="thoiGianHop"
+            placeholder="dd/mm/yyyy"
+        />
+        <mat-datepicker-toggle
+            matIconSuffix
+            [for]="picker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
         </div>
     </div>
     <div style="display: flex; margin-top: 10px; align-items: center">
@@ -371,8 +400,10 @@
                 placeholder="Phiếu/Tổng số phiếu"
                 name=""
                 id=""
+               
                 formControlName="ketQuaPhieuDanhGia"
             />
+             <!-- (keyup)="onKeyUp($event)" -->
         </div>
     </div>
 
@@ -383,11 +414,16 @@
         <div class="basis-1/5">
             <input
                 type="text"
-                class="form-control"
+                class="form-control text-right"
                 placeholder=""
                 name=""
                 id=""
                 formControlName="thuLaoTacGia"
+                money
+                [options]="{
+                    numeral: true,
+                    numeralIntegerScale: 15
+                  }"
             />
         </div>
     </div>
@@ -398,11 +434,16 @@
         <div class="basis-1/5">
             <input
                 type="text"
-                class="form-control"
+                class="form-control  text-right"
                 placeholder=""
                 name=""
                 id=""
                 formControlName="thuLaoChoNguoiLanDau"
+                money
+                [options]="{
+                    numeral: true,
+                    numeralIntegerScale: 15
+                  }"
             />
         </div>
     </div>
@@ -414,18 +455,23 @@
         <div class="basis-1/5">
             <input
                 type="text"
-                class="form-control"
+                class="form-control  text-right"
                 placeholder=""
                 name=""
                 id=""
                 formControlName="thoaThuanChiPhi"
+                money
+                [options]="{
+                    numeral: true,
+                    numeralIntegerScale: 15
+                  }"
             />
         </div>
     </div>
 
-    <div style="display: flex; margin-top: 10px; align-items: center">
+    <div class="basis-1/5" style="display: flex; margin-top: 10px; align-items: center;width: 20%;">
         <label for=""  class="basis-1/4" >Trạng thái<span>(*)</span></label>
-        <ng-select
+        <ng-select style="width: 300px;"
             [items]="listTrangThai"
             bindLabel="NAME"
             bindValue="ID"
@@ -754,8 +800,8 @@
         </div>
         </ng-container> -->
     <div class="action-all-f">
-        <button class="add_button" (click)="onSubmit('CHAPTHUAN','RASOAT')"><i class="fa fa-save"></i> Chấp thuận</button>
-        <button class="add_button bg-sky-500"  (click)="onSubmit('TRALAI','RASOAT')"><i class="fa fa-save"></i> Trả lại</button>
+        <button class="add_button" (click)="onSubmit('CHAPTHUAN','RASOAT')"><i class="fa fa-check-square"></i> Chấp thuận</button>
+        <button class="add_button" style="background-color: #dc2626" (click)="onSubmit('TRALAI','RASOAT')"><i class="fa fa-caret-square-o-down"></i> Trả lại</button>
     </div>
 </div>
 

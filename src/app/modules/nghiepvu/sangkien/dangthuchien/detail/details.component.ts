@@ -165,10 +165,29 @@ export class DetailsComponent implements OnInit {
     }
 
     addListDocParent(item?: any) {
+        let ngaySua = item?.ngaySua;
+        if (ngaySua) {
+            ngaySua = new Date(ngaySua);
+        }else{
+            ngaySua =null;
+        }
+
+        let ngayVanBan = item?.ngayVanBan;
+        if (ngayVanBan) {
+            ngayVanBan = new Date(ngayVanBan);
+        }else{
+            ngayVanBan =null;
+        }
+
         return this._formBuilder.group({
             fileName: item?.fileName || null,
             maFolder: item?.maFolder || null,
             listFile: this._formBuilder.array([]),
+            nguoiSua:item?.nguoiSua || null,
+            nguoiCapnhap:item?.nguoiSua || null,
+            ngaySua:ngaySua || null,
+            sovanban: item?.sovanban || null,
+            ngayVanBan: ngayVanBan || null,
         });
     }
 
@@ -433,6 +452,7 @@ export class DetailsComponent implements OnInit {
     onSubmit(status, method) {
         this.submitted.check = true;
         if (this.form.invalid) {
+            this._messageService.showErrorMessage("Thông báo", "Chưa nhập đủ trường bắt buộc!")
             return;
         }
         console.log(this.form.value);
@@ -498,7 +518,7 @@ export class DetailsComponent implements OnInit {
                 arr.push(this.addFile(item, itemVal, reader.result));
             };
         }
-        console.log(item);
+        event.target.value = null;
     }
 
     addFile(item, itemVal, base64) {
@@ -527,25 +547,84 @@ export class DetailsComponent implements OnInit {
     }
 
     downLoadFile(item) {
-        if (item.base64 != undefined && item.base64 != '') {
-            let link = item.base64.split(',');
-            let url = "";
+        if (item.value.base64 != undefined && item.value.base64 != '') {
+            let link = item.value.base64.split(',');
+            let url = '';
             if (link.length > 1) {
                 url = link[1];
             } else {
                 url = link[0];
             }
-            this.downloadTempExcel(url, item.fileName);
+            this.downloadAll(url, item.value.fileName);
         } else {
-            var token = localStorage.getItem("accessToken");
-            this._serviceApi.execServiceLogin("2269B72D-1A44-4DBB-8699-AF9EE6878F89", [{
-                "name": "DUONG_DAN",
-                "value": item.duongdan
-            }, {"name": "TOKEN_LINK", "value": "Bearer " + token}]).subscribe((data) => {
-                console.log("downloadFile:" + JSON.stringify(data));
-            })
+            var token = localStorage.getItem('accessToken');
+            this._serviceApi
+                .execServiceLogin('2269B72D-1A44-4DBB-8699-AF9EE6878F89', [
+                    {name: 'DUONG_DAN', value: item.duongdan},
+                    {name: 'TOKEN_LINK', value: 'Bearer ' + token},
+                ])
+                .subscribe((data) => {
+                });
         }
-
     }
+
+   async downloadAll(base64String, fileName){
+    let typeFile =  await this.detectMimeType(base64String, fileName);
+    let mediaType = `data:${typeFile};base64,`;
+    const downloadLink = document.createElement('a');
+
+        downloadLink.href = mediaType + base64String;
+        downloadLink.download = fileName;
+        downloadLink.click();
+    }
+
+   async detectMimeType(base64String, fileName) {
+        var ext = fileName.substring(fileName.lastIndexOf(".") + 1);
+        if (ext === undefined || ext === null || ext === "") ext = "bin";
+        ext = ext.toLowerCase();
+        const signatures = {
+          JVBERi0: "application/pdf",
+          R0lGODdh: "image/gif",
+          R0lGODlh: "image/gif",
+          iVBORw0KGgo: "image/png",
+          TU0AK: "image/tiff",
+          "/9j/": "image/jpg",
+          UEs: "application/vnd.openxmlformats-officedocument.",
+          PK: "application/zip",
+        };
+        for (var s in signatures) {
+          if (base64String.indexOf(s) === 0) {
+            var x = signatures[s];
+            // if an office file format
+            if (ext.length > 3 && ext.substring(0, 3) === "ppt") {
+              x += "presentationml.presentation";
+            } else if (ext.length > 3 && ext.substring(0, 3) === "xls") {
+              x += "spreadsheetml.sheet";
+            } else if (ext.length > 3 && ext.substring(0, 3) === "doc") {
+              x += "wordprocessingml.document";
+            }
+            // return
+            return x;
+          }
+        }
+        // if we are here we can only go off the extensions
+        const extensions = {
+          xls: "application/vnd.ms-excel",
+          ppt: "application/vnd.ms-powerpoint",
+          doc: "application/msword",
+          xml: "text/xml",
+          mpeg: "audio/mpeg",
+          mpg: "audio/mpeg",
+          txt: "text/plain",
+        };
+        for (var e in extensions) {
+          if (ext.indexOf(e) === 0) {
+            var xx = extensions[e];
+            return xx;
+          }
+        }
+        // if we are here – not sure what type this is
+        return "unknown";
+      }
 
 }

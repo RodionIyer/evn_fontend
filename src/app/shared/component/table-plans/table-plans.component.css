@@ -31,4 +31,10 @@
 td textarea{
     padding: 4px;
     margin-top: 5px;
+    min-height: 50px;
 }
+td label{
+    font-weight: 400;
+}
+
+

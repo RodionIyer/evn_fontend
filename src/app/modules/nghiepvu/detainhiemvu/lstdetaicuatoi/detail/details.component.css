@@ -17,30 +17,30 @@ label {
     border-radius: 3px !important;
 }
 
-.ng-select .ng-clear-wrapper{
+.ng-select .ng-clear-wrapper {
     display: none;
 }
 
 .select-cbkh {
     position: relative;
+}
 
-    .inputselect {
-        width: 100%;
-    }
+.select-cbkh .inputselect {
+    width: 100%;
+}
 
-    .fa-search {
-        position: absolute;
-        top: 0px;
-        right: 0px;
-        background: #ccc;
-        height: 100%;
-        width: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #000;
-        cursor: pointer;
-    }
+.select-cbkh .fa-search {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: #ccc;
+    height: 100%;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+    cursor: pointer;
 }
 
 .list_check {
@@ -56,24 +56,25 @@ label {
 .item_list_check span {
     margin-left: 3px;
 }
-.dem-pading{
+.dem-pading {
     padding: 0px 20px;
     padding-top: 6px;
 }
-.date-customt .form-control{
+.date-customt .form-control {
     max-width: 200px;
 }
-.content-detail{
+.content-detail {
     height: calc(100vh - 80px);
 }
-.action-all-f{
+.action-all-f {
     margin-bottom: 20px;
     margin-top: 20px;
-    .add_button{
-        margin-right: 20px;
-        min-width: 150px;
-        text-align: center;
-    }
+}
+
+.action-all-f .add_button {
+    margin-right: 20px;
+    min-width: 150px;
+    text-align: center;
 }
 
 .checkbox-list {
@@ -89,7 +90,7 @@ label {
     height: 70px; /* Độ cao tối đa của khung chứa danh sách */
 }
 
-.khongthaotac{
+.khongthaotac {
     pointer-events: none;
     opacity: 0.8;
 }

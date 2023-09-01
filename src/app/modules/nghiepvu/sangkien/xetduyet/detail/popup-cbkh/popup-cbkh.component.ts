@@ -60,11 +60,11 @@ export class PopupCbkhComponent implements OnInit {
         // this._messageService.showSuccessMessage("Thông báo", "Thành công")
         if(this.checkType=="HOIDONG"){
             this.timkiemHoiDong();
-            //this.donViChuTri();
+            this.donViChuTri();
         }else 
         if(this.checkType=="HOIDONGSK"){
             this.timkiemHoiDongSk();
-            //this.donViChuTri();
+            this.donViChuTri();
         }else 
         if(this.checkType=="KEHOACH"){
             this.timkiemKehoach();
@@ -88,19 +88,22 @@ export class PopupCbkhComponent implements OnInit {
     //    this._serviceApi.execServiceLogin("D5738375-3591-4986-94FC-E523F645A858", [{"name":"TEN_NGUOI_THUC_HIEN","value":this.q},{"name":"MA_DON_VI","value":this.maDonVi}]).subscribe((data) => {
     //         this.listHoiDong = data.data || [];
     //        })
-           this._serviceApi.execServiceLogin("395A68D9-587F-4603-9E1D-DCF1987517B4", [{"name":"TEN_NGUOI_THUC_HIEN","value":this.q},{"name":"MA_DON_VI","value":this.maDonVi}]).subscribe((data) => {
+    let obj ={
+        donVi:this.maDonVi
+    }
+           this._serviceApi.execServiceLogin("395A68D9-587F-4603-9E1D-DCF1987517B4", [{"name":"TEN_NGUOI_THUC_HIEN","value":this.q},,{"name":"TIM_KIEM","value":JSON.stringify(obj)}]).subscribe((data) => {
        
          this.listHoiDong = data.data || [];
         })
     }
 
-    // donViChuTri(){
+    donViChuTri(){
         
-    //     this._serviceApi.execServiceLogin("D3F0F915-DCA5-49D2-9A5B-A36EBF8CA5D1", null).subscribe((data) => {
-    //         console.log(data.data);
-    //         this.listDonVi = data.data || [];
-    //        })
-    // }
+        this._serviceApi.execServiceLogin("D3F0F915-DCA5-49D2-9A5B-A36EBF8CA5D1", null).subscribe((data) => {
+            console.log(data.data);
+            this.listDonVi = data.data || [];
+           })
+    }
 
 
     onCloseClick(): void {
@@ -122,7 +125,10 @@ export class PopupCbkhComponent implements OnInit {
            })
     }
     timkiemNguoi(type){
-        this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("395A68D9-587F-4603-9E1D-DCF1987517B4", [{"name":"TEN_NGUOI_THUC_HIEN","value":""}]).subscribe((data) => {
+        let obj ={
+            donVi:this.maDonVi
+        }
+        this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("395A68D9-587F-4603-9E1D-DCF1987517B4", [{"name":"TEN_NGUOI_THUC_HIEN","value":this.q},{"name":"TIM_KIEM","value":JSON.stringify(obj)}]).subscribe((data) => {
             if(type=="CHUNHIEM"){
                 this.listChuNhiem = data.data || [];
             }else if(type=="DONGCHUNHIEM"){

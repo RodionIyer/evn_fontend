@@ -6,6 +6,7 @@ import { String } from 'lodash';
 import { Subscription, of, Subject,takeUntil } from 'rxjs';
 import { UserService } from 'app/core/user/user.service';
 import { User } from 'app/core/user/user.types';
+import { ActivatedRoute } from '@angular/router';
 @Component({
     selector: 'table-plans',
     templateUrl: './table-plans.component.html',
@@ -23,10 +24,18 @@ export class TablePlansComponent {
     public listKeHoachChiTiet = [];
     public listImport = [];
     user: User;
+    public actionType=null;
     @Input() submitted;
     // @Input('dataImport') dataImport:Subject<any>;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
-    constructor(private _formBuilder: FormBuilder, private _serviceApi: ServiceService, private _userService: UserService) {
+    constructor(private _formBuilder: FormBuilder, private _serviceApi: ServiceService, private _userService: UserService, public _activatedRoute: ActivatedRoute) {
+        this._activatedRoute.queryParams.subscribe((params) => {
+            if (params?.type) {
+                this.actionType = params?.type;
+
+            } 
+            console.log(this.actionType);
+        });
     }
 
     ngOnInit() {

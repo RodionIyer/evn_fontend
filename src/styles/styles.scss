@@ -1,6 +1,10 @@
 @import "~@ng-select/ng-select/themes/default.theme.css";
 @import "~font-awesome/css/font-awesome.css";
 
+* {
+  box-sizing: border-box;
+}
+
 h1.title-component {
     font-size: 20px;
     margin: 15px 0px;
@@ -216,3 +220,68 @@ input[type="file"] {
 .form-date input{
     width: 100%;
 }
+.tableFixHead          { overflow: auto; height: 500px; }
+.tableFixHead thead th { position: sticky; top: 0; z-index: 1;
+    background: #fff; }
+
+    .dinhhuong-name .titleTH {
+        width: 70px !important;
+    }
+
+    .dinhhuong-name.dinhhuong {
+        width: 55% !important;
+    }
+.text-bold{
+    font-weight: bold;
+}
+.khongthaotac textarea, .khongthaotac input {
+    pointer-events: all !important;
+}
+.nguonkinhphi .ng-select .ng-select-container{
+    border: none !important;
+   pointer-events: none !important;
+}
+.nguonkinhphi .ng-clear-wrapper , .nguonkinhphi .ng-arrow-wrapper{
+    display: none !important;
+}
+.nguonkinhphi .ng-select span{
+    color: #5860aa !important;
+}
+
+@media screen and (min-width: 1200px) and (max-width: 1400px) {
+    .dinhhuong-name input.input-form{
+        width: 340px;
+    }
+    .dinhhuong-name {
+        width: 55% !important;
+    }
+    .dinhhuong-name, .dinhhuong-name.khongthaotac {
+        width: 55% !important;
+    }
+
+  }
+
+//   css firefox
+@-moz-document url-prefix(){
+    component-list{
+        overflow: hidden !important;
+    }
+    .fa-search {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        background: #ccc;
+        height: 100%;
+        width: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #000;
+        cursor: pointer;
+    }
+    button .fa.fa-search {
+        display: contents !important;
+        color: #fff;
+    }
+}
+

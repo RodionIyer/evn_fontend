@@ -48,6 +48,7 @@ export class ApiPheDuyetDinhHuongDetailsComponent implements OnInit {
     public listFileDelete=[];
     public actionType;
     public makehoach;
+    public keHoach;
     //add
     public dataFile = [];
     public checkDOffice = false;
@@ -72,6 +73,10 @@ export class ApiPheDuyetDinhHuongDetailsComponent implements OnInit {
         this._activatedRoute.queryParams.subscribe( params =>{
             this.checkChiTiet = params["type"];
             this.updateKeHoach();
+            if(this.checkChiTiet=='TH_EVN' || this.checkChiTiet=='TH_DonVi'){
+                debugger;
+                this.updateFile();
+            }
             this.getUserByMaKeHoach();
             if (params?.type) {
                 this.actionType = params?.type;
@@ -93,7 +98,11 @@ export class ApiPheDuyetDinhHuongDetailsComponent implements OnInit {
 
     ngOnInit() {
 this.getCheckQuyenDoffice()
-        this.updateFile();
+if(this.checkChiTiet=='TH_EVN' || this.checkChiTiet=='TH_DonVi'){
+    debugger;
+    this.updateFile();
+}
+      
         this.geListYears()
         this.getListStatus()
         this.geListNhomDonVi();
@@ -208,7 +217,10 @@ this.getCheckQuyenDoffice()
                 typeRecord:this.checkChiTiet,
                 yKienNguoiPheDuyet:'',
                 year: [(new Date()).getFullYear(), [Validators.required]],
-                listNhiemVu:this._formBuilder.array([])
+                listNhiemVu:this._formBuilder.array([]),
+                maDonVi:null,
+                kyTongHop:null,
+                tenBangTongHop:null
             }
             )
         // }
@@ -235,13 +247,17 @@ this.getCheckQuyenDoffice()
             this._serviceApi.execServiceLogin("DC2F3F51-09CC-4237-9284-13EBB85C83C1", [{ "name": "MA_KE_HOACH", "value": this.idParam }]).subscribe((data) => {
 
                 this._serviceApi.dataKeHoach.next(data.data);
-                this.listFile = data.data || [];
+                this.keHoach = data.data || [];
+                debugger;
                 this.listFile =data.data.listFile;
 
                 this.form.get("name").patchValue(data.data.name);
                 this.form.get("yKienNguoiPheDuyet").patchValue(data.data.ykienNguoiPheDuyet);
                 this.form.get("year").patchValue(data.data.nam);
                 this.form.get("maKeHoach").patchValue(this.idParam);
+                this.form.get("maDonVi").patchValue(data.data.maDonVi);
+                this.form.get("kyTongHop").patchValue(data.data.kyTongHop);
+                this.form.get("tenBangTongHop").patchValue(data.data.tenBangTongHop);
                 if (this.listFile != null && this.listFile.length > 0) {
                     for (let i = 0; i < this.listFile.length; i++) {
 
@@ -416,12 +432,18 @@ this.getCheckQuyenDoffice()
     onSubmit(status) {
         this.submitted.check = true;
         if (this.form.invalid || this.listupload.length == 0) {
+            this._messageService.showErrorMessage("Thông báo", "Chưa nhập đủ trường bắt buộc!")
             return;
         }
+        this.keHoach;
+        debugger;
         console.log(this.form);
         let name = this.form.value.name;
         let nam = this.form.value.year;
         let yKienNguoiPheDuyet = this.form.value.yKienNguoiPheDuyet;
+        let maDonVi = this.form.value.maDonVi;
+        let kyTongHop = this.form.value.kyTongHop;
+        let tenBangTongHop = this.form.value.tenBangTongHop;
         let listChiTiet = [];
         let listFile = this.listupload;
         let capTao ='TCT';
@@ -429,7 +451,8 @@ this.getCheckQuyenDoffice()
             capTao ='EVN';
         }
          
-        let kehoach = { name: name, nam: nam, maTrangThai: status, maKeHoach: this.idParam,tongHop:true,capTao:capTao, yKienNguoiPheDuyet:yKienNguoiPheDuyet };
+        let kehoach = { name: name, nam: nam, maTrangThai: status, maKeHoach: this.idParam,tongHop:true,
+            capTao:capTao, yKienNguoiPheDuyet:yKienNguoiPheDuyet,maDonVi:maDonVi,kyTongHop: kyTongHop,tenBangTongHop:tenBangTongHop};
         for (let i = 0; i < this.form.value.listNhiemVu.length; i++) {
             for (let j = 0; j < this.form.value.listNhiemVu[i].listNhiemVu_cap2.length; j++) {
                 let chitiet2 = this.form.value.listNhiemVu[i].listNhiemVu_cap2[j];
@@ -577,24 +600,86 @@ this.getCheckQuyenDoffice()
         });
     }
 
-    downLoadFile(item){
-        if(item.base64 !=undefined && item.base64 !=''){
-           let link = item.base64.split(',');
-           let url ="";
-           if(link.length >1){
-            url =link[1];
-           }else{
-            url =link[0];
-           }
-            this.downloadTempExcel(url,item.fileName);
-        }else{
-            var token = localStorage.getItem("accessToken");
-            this._serviceApi.execServiceLogin("2269B72D-1A44-4DBB-8699-AF9EE6878F89", [{"name":"DUONG_DAN","value":item.duongdan},{"name":"TOKEN_LINK","value":"Bearer "+token}]).subscribe((data) => {
-                console.log("downloadFile:"+JSON.stringify(data));
-            })
+    downLoadFile(item) {
+        if (item.value.base64 != undefined && item.value.base64 != '') {
+            let link = item.value.base64.split(',');
+            let url = '';
+            if (link.length > 1) {
+                url = link[1];
+            } else {
+                url = link[0];
+            }
+            this.downloadAll(url, item.value.fileName);
+        } else {
+            var token = localStorage.getItem('accessToken');
+            this._serviceApi
+                .execServiceLogin('2269B72D-1A44-4DBB-8699-AF9EE6878F89', [
+                    {name: 'DUONG_DAN', value: item.duongdan},
+                    {name: 'TOKEN_LINK', value: 'Bearer ' + token},
+                ])
+                .subscribe((data) => {
+                });
         }
-
     }
+
+   async downloadAll(base64String, fileName){
+    let typeFile =  await this.detectMimeType(base64String, fileName);
+    let mediaType = `data:${typeFile};base64,`;
+    const downloadLink = document.createElement('a');
+
+        downloadLink.href = mediaType + base64String;
+        downloadLink.download = fileName;
+        downloadLink.click();
+    }
+
+   async detectMimeType(base64String, fileName) {
+        var ext = fileName.substring(fileName.lastIndexOf(".") + 1);
+        if (ext === undefined || ext === null || ext === "") ext = "bin";
+        ext = ext.toLowerCase();
+        const signatures = {
+          JVBERi0: "application/pdf",
+          R0lGODdh: "image/gif",
+          R0lGODlh: "image/gif",
+          iVBORw0KGgo: "image/png",
+          TU0AK: "image/tiff",
+          "/9j/": "image/jpg",
+          UEs: "application/vnd.openxmlformats-officedocument.",
+          PK: "application/zip",
+        };
+        for (var s in signatures) {
+          if (base64String.indexOf(s) === 0) {
+            var x = signatures[s];
+            // if an office file format
+            if (ext.length > 3 && ext.substring(0, 3) === "ppt") {
+              x += "presentationml.presentation";
+            } else if (ext.length > 3 && ext.substring(0, 3) === "xls") {
+              x += "spreadsheetml.sheet";
+            } else if (ext.length > 3 && ext.substring(0, 3) === "doc") {
+              x += "wordprocessingml.document";
+            }
+            // return
+            return x;
+          }
+        }
+        // if we are here we can only go off the extensions
+        const extensions = {
+          xls: "application/vnd.ms-excel",
+          ppt: "application/vnd.ms-powerpoint",
+          doc: "application/msword",
+          xml: "text/xml",
+          mpeg: "audio/mpeg",
+          mpg: "audio/mpeg",
+          txt: "text/plain",
+        };
+        for (var e in extensions) {
+          if (ext.indexOf(e) === 0) {
+            var xx = extensions[e];
+            return xx;
+          }
+        }
+        // if we are here – not sure what type this is
+        return "unknown";
+      }
     listupload = []
     handleUpload(event) {
         for (var i = 0; i < event.target.files.length; i++) {
@@ -611,6 +696,7 @@ this.getCheckQuyenDoffice()
                 });
             };
         }
+        event.target.value = null;
 
     }
     deleteItemFile(items) {

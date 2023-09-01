@@ -27,9 +27,9 @@ export class ListItemComponent implements OnInit, OnDestroy {
     public listYears = [];
     public listGiao = [];
     public listHoatDongKHCN = [];
-    public hoatDongKhCN: any;
+    public hoatDongKhCN: String =null;
     public listLinhVucNghienCuu = [];
-    public linhVucNghienCuu: String = null;
+    public linhVucNghienCuu: [];
     public listCapQuanLy = [];
     public capQuanLy: String = null;
     public tenDeTaiSK: String = null;
@@ -40,7 +40,6 @@ export class ListItemComponent implements OnInit, OnDestroy {
         {id: 3, name: 'ten_file2', kichthuoc: '20mb'}
     ];
     public listData = [];
-
 
     /**
      * Constructor
@@ -64,7 +63,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
                         this.actionClick = null
                     }
                     console.log(this.actionClick);
-
+                    this.timKiem();
                 }
             );
     }
@@ -82,11 +81,14 @@ export class ListItemComponent implements OnInit, OnDestroy {
             .subscribe((data) => {
                 console.log(data.data);
                 this.listCapQuanLy = data.data || [];
+               let obj ={ NAME:"Tất cả",ID:''}
+                this.listCapQuanLy.unshift(obj);
             });
     }
 
     getlistHoatDongKHCN() {
         this.listHoatDongKHCN = [
+            {"id": "", "name": "Tất cả"},
             {"id": "DETAI", "name": "Đề tài NCKH"},
             {"id": "SANGKIEN", "name": "Sáng kiến"}
         ];
@@ -98,18 +100,22 @@ export class ListItemComponent implements OnInit, OnDestroy {
             .subscribe((data) => {
                 console.log(data.data);
                 this.listLinhVucNghienCuu = data.data || [];
+                let obj ={ NAME:"Tất cả",ID:''}
+                this.listLinhVucNghienCuu.unshift(obj);
             });
     }
 
     geListYears() {
-        var obj = {NAME: 0, ID: 0};
+        var obj = {NAME: '', ID: 0};
         var year = new Date().getFullYear();
         var yearStart = 2023;
         var yearEnd = new Date().getFullYear() + 2;
         for (let i = yearStart; i <= yearEnd; i++) {
-            obj = {NAME: i, ID: i};
+            obj = {NAME: i+'', ID: i};
             this.listYears.push(obj);
         }
+        obj ={ NAME:"Tất cả",ID:null}
+        this.listYears.unshift(obj);
     }
 
 
@@ -128,21 +134,25 @@ export class ListItemComponent implements OnInit, OnDestroy {
     getListDinhHuong() {
         this.getGiaoSubcription = this._serviceApi.execServiceLogin("E5050E10-799D-4F5F-B4F2-E13AFEA8543B", null).subscribe((data) => {
             this.listGiao = data.data || [];
+     
+            if(this.listGiao  != null && this.listGiao.length >0 ){
+                this.length = this.listGiao[0].totalPage;
+            }
         })
     }
 
     //phân trang
     length = 0;
-    pageSize = 10;
+    pageSize = 20;
     pageIndex = 0;
-    pageSizeOptions = [10, 20, 50];
+    pageSizeOptions = [10, 20, 50,100];
     showFirstLastButtons = true;
 
     handlePageEvent(event: PageEvent) {
-        this.length = event.length;
-        this.pageSize = event.pageSize;
-        this.pageIndex = event.pageIndex;
-        this.timKiem();
+      this.length = event.length;
+      this.pageSize = event.pageSize;
+      this.pageIndex = event.pageIndex;
+      this.timKiem();
     }
 
     // mo popup file
@@ -202,7 +212,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
         }]).subscribe((data) => {
             this.listData = data.data || [];
             if (data.data != null && data.data.length > 0) {
-                this.length = data.data.length;
+                this.length = data.data[0].totalPage;
             }
         })
     }

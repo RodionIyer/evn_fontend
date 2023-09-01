@@ -91,10 +91,10 @@ export class DetailsComponent implements OnInit {
     public typeLichSu;
     public title_lichsu;
     public lstDanhSachThanhVienHD: any[] = [];
+    private oldInitiativeRank = '';
     vndMoney: string;
     orgId = "";
-    tacgias: any[];
-    tenDonviCongtac: string;
+    hoidongs: any[];
 
     constructor(
         private _formBuilder: UntypedFormBuilder,
@@ -139,6 +139,8 @@ export class DetailsComponent implements OnInit {
         this.getListChucDanh();
         if (this.actionType == 'THEMMOI') {
             this.getListFolderFile();
+            this.addTacGia();
+            this.addFirstTimeAdopter();
         }
     }
 
@@ -191,8 +193,19 @@ export class DetailsComponent implements OnInit {
         this._serviceApi
             .execServiceLogin('825C8F49-51DE-417E-AACD-FBDB437346AB', null)
             .subscribe((data) => {
-                console.log(data.data);
-                this.listCapDo = data.data || [];
+                let allRank = data?.data;
+                if (this.actionType === 'NANGCAPSK') {
+                    const newArray = [];
+                    for (let i = 0; i < allRank.length; i++) {
+                        if (allRank[i].ID !== this.oldInitiativeRank) {
+                            newArray.push(allRank[i]);
+                            continue;
+                        }
+                        break;
+                    }
+                    allRank = newArray;
+                }
+                this.listCapDo = allRank || [];
             });
     }
 
@@ -218,6 +231,7 @@ export class DetailsComponent implements OnInit {
             donViChuDauTu: [null, [Validators.required]],
             tenGiaiPhap: [null, [Validators.required]],
             tacGiaGiaiPhap: this._formBuilder.array([]),
+            firstTimeAdopters: this._formBuilder.array([]),
             linhVucNghienCuu: [null, [Validators.required]],
             uuNhuocDiem: [null, [Validators.required]],
             noiDungGiaiPhap: [null, [Validators.required]],
@@ -226,11 +240,14 @@ export class DetailsComponent implements OnInit {
             hieuQuaThucTe: [null],
             tomTat: [null],
             thamGiaToChuc: [null],
-            soTienLamLoi: [null],
+            soTienLamLoi: 0,
             donDangKy: [null],
             thuTruongDonVi: [null],
             taiLieuDinhKem: [null],
             listFolderFile: this._formBuilder.array([]),
+            listFolderFileThuLao: this._formBuilder.array([]),
+            listFolderFileHDXD: this._formBuilder.array([]),
+            danhSachThanhVienHD: this._formBuilder.array([]),
         });
     }
 
@@ -259,7 +276,6 @@ export class DetailsComponent implements OnInit {
             };
         }
         event.target.files.value = null;
-        console.log(item);
     }
 
     detail(method) {
@@ -270,9 +286,10 @@ export class DetailsComponent implements OnInit {
             ])
             .subscribe((data) => {
                 this.form.patchValue(data.data);
-                console.log("detail:");
-                console.log(this.form);
+                this.oldInitiativeRank = data.data?.capDoSangKien;
                 this.data = data.data;
+                this.hoidongs = data.data.danhSachThanhVienHD;
+               // this.lstDanhSachThanhVienHD =data.data?.danhSachThanhVienHD;
                 let formDocParent = this.form.get(
                     'listFolderFile'
                 ) as FormArray;
@@ -303,13 +320,96 @@ export class DetailsComponent implements OnInit {
                     }
                 }
 
+
+                let formDocParentHDXD = this.form.get(
+                    'listFolderFileHDXD'
+                ) as FormArray;
+                if (data.data?.listFolderFileHDXD != null) {
+                    let listFolderHDXD = data.data.listFolderFileHDXD;
+
+                    for (let i = 0; i < listFolderHDXD.length; i++) {
+                        formDocParentHDXD.push(
+                            this.addListDocParent(listFolderHDXD[i])
+                        );
+                        if (
+                            listFolderHDXD[i].listFile != null &&
+                            listFolderHDXD[i].listFile.length > 0
+                        ) {
+                            let formChild = formDocParentHDXD
+                                .at(i)
+                                .get('listFile') as FormArray;
+                            for (
+                                let j = 0;
+                                j < listFolderHDXD[i].listFile.length;
+                                j++
+                            ) {
+                                formChild.push(
+                                    this.addListDocChild(
+                                        listFolderHDXD[i].listFile[j]
+                                    )
+                                );
+                            }
+                        }
+                    }
+                }
+
+
+                let formDocParentThuLao = this.form.get(
+                    'listFolderFileThuLao'
+                ) as FormArray;
+                if (data.data?.listFolderFileThuLao != null) {
+                    let listFolderThuLao = data.data.listFolderFileThuLao;
+
+                    for (let i = 0; i < listFolderThuLao.length; i++) {
+                        formDocParentThuLao.push(
+                            this.addListDocParent(listFolderThuLao[i])
+                        );
+                        if (
+                            listFolderThuLao[i].listFile != null &&
+                            listFolderThuLao[i].listFile.length > 0
+                        ) {
+                            let formChild = formDocParentThuLao
+                                .at(i)
+                                .get('listFile') as FormArray;
+                            for (
+                                let j = 0;
+                                j < listFolderThuLao[i].listFile.length;
+                                j++
+                            ) {
+                                formChild.push(
+                                    this.addListDocChild(
+                                        listFolderThuLao[i].listFile[j]
+                                    )
+                                );
+                            }
+                        }
+                    }
+                }
+
                 let linhVucNghienCuu = this.form.get('linhVucNghienCuu').value;
                 if (linhVucNghienCuu) {
                     this.form
                         .get('linhVucNghienCuu')
                         .setValue(linhVucNghienCuu);
                 }
-                ;
+
+                 // danh sách hoi dong
+                 if (data.data != null && data.data.danhSachThanhVienHD != null) {
+                    let listHD =data.data.danhSachThanhVienHD;
+                    let formThanhVienHD = this.form.get(
+                        'danhSachThanhVienHD'
+                    ) as FormArray;
+
+                    for (
+                        let i = 0;
+                        i < listHD.length;
+                        i++
+                    ) {
+                        formThanhVienHD.push(
+                            this.THEM_THANHVIEN(listHD[i])
+                        );
+                    }
+                }
 
                 // danh sách thành viên
                 if (data.data != null && data.data.tacGiaGiaiPhap != null) {
@@ -327,12 +427,28 @@ export class DetailsComponent implements OnInit {
                         );
                     }
                 }
+
+                if (data.data != null && data.data.firstTimeAdopters != null) {
+                    const firstTimeAdopters = this.form.get(
+                        'firstTimeAdopters'
+                    ) as FormArray;
+
+                    for (
+                        let i = 0;
+                        i < data.data.firstTimeAdopters.length;
+                        i++
+                    ) {
+                        firstTimeAdopters.push(
+                            this.THEM_THANHVIEN(data.data.firstTimeAdopters[i])
+                        );
+                    }
+                }
                 //this.selectedYear = parseInt(data.data.nam);
-                this.data.listFolderFile.forEach(n => {
-                    if (n.maFolder == 'VBDANGKY') {
-                        this.listFileVB = n.listFile;
-                    } else if (n.maFolder == 'KHAC') {
-                        this.listFileOther = n.listFile || [];
+                this.data?.listFolderFile?.forEach((e) => {
+                    if (e.maFolder === 'VBDANGKY') {
+                        this.listFileVB = e.listFile;
+                    } else if (e.maFolder === 'KHAC') {
+                        this.listFileOther = e.listFile || [];
                     }
                 })
                 this.listAuthor = this.data.danhSachThanhVien;
@@ -340,10 +456,28 @@ export class DetailsComponent implements OnInit {
     }
 
     addListDocParent(item?: any) {
+        let ngaySua = item?.ngaySua;
+        if (ngaySua) {
+            ngaySua = new Date(ngaySua);
+        }else{
+            ngaySua =null;
+        }
+
+        let ngayVanBan = item?.ngayVanBan;
+        if (ngayVanBan) {
+            ngayVanBan = new Date(ngayVanBan);
+        }else{
+            ngayVanBan =null;
+        }
         return this._formBuilder.group({
             fileName: item?.fileName || null,
             maFolder: item?.maFolder || null,
             listFile: this._formBuilder.array([]),
+            nguoiSua:item?.nguoiSua || null,
+            nguoiCapnhap:item?.nguoiSua || null,
+            ngaySua:ngaySua || null,
+            sovanban: item?.sovanban || null,
+            ngayVanBan: ngayVanBan || null,
         });
     }
 
@@ -384,6 +518,7 @@ export class DetailsComponent implements OnInit {
             ten: item?.ten || null,
             namSinh: item?.namSinh || null,
             chucDanh: item?.chucDanh || null,
+            tenChucDanh: item?.tenChucDanh || null,
             soDienThoai: item?.soDienThoai || null,
             email: item?.email || null,
             donViCongTac: item?.donViCongTac || null,
@@ -430,9 +565,9 @@ export class DetailsComponent implements OnInit {
                 this.form.get('thuKyDeTaiInfo').setValue(data.data);
             } else if (type == 'THANHVIEN') {
                 console.log('data1', data);
-                console.log(item);
                 item.get('ten').setValue(data.data.username);
                 item.get('maThanhVien').setValue(data.data.userId);
+                item.get('diaChiNoiLamViec').setValue(data.data.orgName);
             } else if (type == 'DKAPDUNGSK') {
                 console.log('data1', data);
                 //   console.log(item);
@@ -440,7 +575,6 @@ export class DetailsComponent implements OnInit {
                 item.get('donViApDung').setValue(data.data.name);
                 item.get('donViApDungInfo').setValue(data.data);
                 this.orgId = data.data.id;
-                this.tenDonviCongtac = data.data.name;
             }
         });
     }
@@ -461,25 +595,40 @@ export class DetailsComponent implements OnInit {
 
     onSubmit(status, method) {
         this.submitted.check = true;
-        if (this.form.invalid) {
-            console.log("invalid");
+        for (let i = 0; i < this.form.value.tacGiaGiaiPhap.length; i++) {
+            if (!(!!this.form.value.tacGiaGiaiPhap[i]) || this.form.value.tacGiaGiaiPhap[i].ten === "") {
+                this.removeItem(this.form, i);
+            }
+        }
+        const appliedDateControl = this.form.get('ngayApDung');
+        if (appliedDateControl && appliedDateControl.status && appliedDateControl.status === 'INVALID') {
+            this._messageService.showErrorMessage('Lỗi', 'Ngày áp dụng chính thức không hợp lệ');
             return;
         }
-
+        if (this.form.invalid) {
+            this._messageService.showErrorMessage("Thông báo", "Chưa nhập đủ trường bắt buộc!")
+            return;
+        }
         console.log(this.form.value);
         this.form.get('method').setValue(method);
+        const hasInvalidAuthorInput = this.form.get('tacGiaGiaiPhap')?.value?.find(e => !e.chucDanh);
+        if (hasInvalidAuthorInput) {
+            this._messageService.showErrorMessage('Lỗi', 'Vui lòng lựa chọn vai trò tác giả');
+            return;
+        }
         //this.form.get('nam').setValue(new Date().getFullYear());
        // if (method == 'SUA') {
+        if (this.actionType === 'NANGCAPSK') {
+            this.form.get('maTrangThai').setValue(null);
+        }
             let maTrangThai = this.form.get('maTrangThai').value;
             this.form.get('maSangKien').setValue(this.idParam);
             if (status == 'LUU') {
                 if (maTrangThai != null && maTrangThai != '') {
                 } else {
-                    this.form.get('maTrangThai').setValue('CHUA_GUI');
+                    this.form.get('maTrangThai').setValue('SOAN');
                 }
-                this.form.get('maTrangThai').setValue('SOAN');
             } else if (status == 'LUUGUI') {
-               
 
                 const listFolder: any[] = this.form.get('listFolderFile').value;
                 const hasApplicationForm = listFolder.find(e => e.maFolder === 'VBDANGKY' && e.listFile && e.listFile.length > 0);
@@ -498,9 +647,9 @@ export class DetailsComponent implements OnInit {
             if (this.actionType == 'THONGTINSK') {
                 this.form.get('maSangKien').setValue('');
                 if (status == 'LUU') {
-                
+
                         this.form.get('maTrangThai').setValue('SOAN');
-                  
+
                 } else if (status == 'LUUGUI') {
                     const listFolder: any[] = this.form.get('listFolderFile').value;
                     const hasApplicationForm = listFolder.find(e => e.maFolder === 'VBDANGKY' && e.listFile && e.listFile.length > 0);
@@ -517,11 +666,13 @@ export class DetailsComponent implements OnInit {
 
       //  }
         var token = localStorage.getItem('accessToken');
+            const userParameter = [{name: 'SANG_KIEN', value: JSON.stringify(this.form.value)},
+                {name: 'TOKEN_LINK', value: token}];
+            if (this.actionType === 'NANGCAPSK') {
+                userParameter.push({name: 'IS_UPGRADING_INITIATIVE', value: 'true'});
+            }
         this._serviceApi
-            .execServiceLogin('09E301E6-9C2E-424C-A3C3-FD46CE8CB18C', [
-                {name: 'SANG_KIEN', value: JSON.stringify(this.form.value)},
-                {name: 'TOKEN_LINK', value: token},
-            ])
+            .execServiceLogin('09E301E6-9C2E-424C-A3C3-FD46CE8CB18C', userParameter)
             .subscribe((data) => {
                 if (data.status == 1) {
                     this._messageService.showSuccessMessage(
@@ -575,15 +726,15 @@ export class DetailsComponent implements OnInit {
     }
 
     downLoadFile(item) {
-        if (item.base64 != undefined && item.base64 != '') {
-            let link = item.base64.split(',');
+        if (item.value.base64 != undefined && item.value.base64 != '') {
+            let link = item.value.base64.split(',');
             let url = '';
             if (link.length > 1) {
                 url = link[1];
             } else {
                 url = link[0];
             }
-            this.downloadTempExcel(url, item.fileName);
+            this.downloadAll(url, item.value.fileName);
         } else {
             var token = localStorage.getItem('accessToken');
             this._serviceApi
@@ -592,10 +743,68 @@ export class DetailsComponent implements OnInit {
                     {name: 'TOKEN_LINK', value: 'Bearer ' + token},
                 ])
                 .subscribe((data) => {
-                    console.log('downloadFile:' + JSON.stringify(data));
                 });
         }
     }
+
+   async downloadAll(base64String, fileName){
+    let typeFile =  await this.detectMimeType(base64String, fileName);
+    let mediaType = `data:${typeFile};base64,`;
+    const downloadLink = document.createElement('a');
+
+        downloadLink.href = mediaType + base64String;
+        downloadLink.download = fileName;
+        downloadLink.click();
+    }
+
+   async detectMimeType(base64String, fileName) {
+        var ext = fileName.substring(fileName.lastIndexOf(".") + 1);
+        if (ext === undefined || ext === null || ext === "") ext = "bin";
+        ext = ext.toLowerCase();
+        const signatures = {
+          JVBERi0: "application/pdf",
+          R0lGODdh: "image/gif",
+          R0lGODlh: "image/gif",
+          iVBORw0KGgo: "image/png",
+          TU0AK: "image/tiff",
+          "/9j/": "image/jpg",
+          UEs: "application/vnd.openxmlformats-officedocument.",
+          PK: "application/zip",
+        };
+        for (var s in signatures) {
+          if (base64String.indexOf(s) === 0) {
+            var x = signatures[s];
+            // if an office file format
+            if (ext.length > 3 && ext.substring(0, 3) === "ppt") {
+              x += "presentationml.presentation";
+            } else if (ext.length > 3 && ext.substring(0, 3) === "xls") {
+              x += "spreadsheetml.sheet";
+            } else if (ext.length > 3 && ext.substring(0, 3) === "doc") {
+              x += "wordprocessingml.document";
+            }
+            // return
+            return x;
+          }
+        }
+        // if we are here we can only go off the extensions
+        const extensions = {
+          xls: "application/vnd.ms-excel",
+          ppt: "application/vnd.ms-powerpoint",
+          doc: "application/msword",
+          xml: "text/xml",
+          mpeg: "audio/mpeg",
+          mpg: "audio/mpeg",
+          txt: "text/plain",
+        };
+        for (var e in extensions) {
+          if (ext.indexOf(e) === 0) {
+            var xx = extensions[e];
+            return xx;
+          }
+        }
+        // if we are here – not sure what type this is
+        return "unknown";
+      }
 
     checkYear(event) {
         let now = new Date();
@@ -613,8 +822,15 @@ export class DetailsComponent implements OnInit {
         let vnd = money.toLocaleString('it-IT', {style : 'currency', currency : 'VND'});
         return vnd;
     }
-    formatVNDChange(event) {
-        this.vndMoney = this.formatVND(event.target.value);
+
+    addFirstTimeAdopter(): void {
+        const ar = this.form.get('firstTimeAdopters') as FormArray;
+        ar.push(this.addMember());
+    }
+
+    removeFirstTimeAdopter(items, i: number): void {
+        const control = items.get('firstTimeAdopters');
+        control.removeAt(i);
     }
 }
 

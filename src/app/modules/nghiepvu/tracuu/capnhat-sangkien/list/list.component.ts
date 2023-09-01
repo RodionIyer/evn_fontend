@@ -103,12 +103,15 @@ export class ListItemComponent implements OnInit, OnDestroy {
         private _formBuilder: UntypedFormBuilder
     ) {
         this.initForm('THEMMOI');
+        this.addTacGia();
+        this.addFirstTimeAdopter();
         this._activatedRoute.queryParams.subscribe((params) => {
             if (params?.type) {
                 this.actionClick = params?.type;
             } else {
                 this.actionClick = null;
             }
+            this.getListDinhHuong();
         });
     }
     initForm(actionType) {
@@ -124,6 +127,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
             donViChuDauTu: [null, [Validators.required]],
             tenGiaiPhap: [null, [Validators.required]],
             tacGiaGiaiPhap: this._formBuilder.array([]),
+            firstTimeAdopters: this._formBuilder.array([]),
             linhVucNghienCuu: [null, [Validators.required]],
             uuNhuocDiem: [null, [Validators.required]],
             noiDungGiaiPhap: [null, [Validators.required]],
@@ -190,7 +194,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
 
     getListChucDanh() {
         this._serviceApi
-            .execServiceLogin('AF87AA00-EC9C-4B1E-9443-CE0D6E88F1C6', null)
+            .execServiceLogin('1450CB9E-4224-408C-900D-1CB4B7E643EF', null)
             .subscribe((data) => {
                 this.listChucDanh = data.data || [];
             });
@@ -213,7 +217,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
                 this.listCapDo = data.data || [];
             });
     }
- 
+
     geListYears() {
         var obj = {NAME: 0, ID: 0};
         var year = new Date().getFullYear();
@@ -245,21 +249,21 @@ export class ListItemComponent implements OnInit, OnDestroy {
                     let valDk = this.form.get('listFolderHSDK') as FormArray;
                     let listDK = this.listFolderFile.filter(c => c.DANG_KY==true);
                     for (let i = 0; i < listDK.length; i++) {
-                    
+
                         valDk.push(this.newFolder(listDK[i]));
                     }
 
                     let valHSXD = this.form.get('listFolderHSXD') as FormArray;
                     let listHSXD = this.listFolderFile.filter(c => c.DANG_KY !=true && c.RA_SOAT !=true && c.PHE_DUYET !=true);
                     for (let i = 0; i < listHSXD.length; i++) {
-                    
+
                         valHSXD.push(this.newFolder(listHSXD[i]));
                     }
                 }
             });
     }
     newFolder(item?: any) {
-       
+
         return this._formBuilder.group({
             maFolder: item?.maFolder,
             fileName: item?.fileName,
@@ -286,10 +290,11 @@ export class ListItemComponent implements OnInit, OnDestroy {
         this.length = event.length;
         this.pageSize = event.pageSize;
         this.pageIndex = event.pageIndex;
+        this.getListDinhHuong();
     }
 
     // mo popup file
-    
+
     openAlertDialog(type, item?: any) {
         let data = this.dialog.open(PopupCbkhComponent, {
             data: {
@@ -300,6 +305,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
                 },
             },
             width: '800px',
+            maxHeight: '85vh',
             panelClass: 'custom-PopupCbkh',
             position: {
                 top: '100px',
@@ -328,6 +334,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
                 console.log(item);
                 item.get('ten').setValue(data.data.username);
                 item.get('maThanhVien').setValue(data.data.userId);
+                item.get('diaChiNoiLamViec').setValue(data.data.orgName);
             } else if (type == 'DKAPDUNGSK') {
                 console.log('data1', data);
                 //   console.log(item);
@@ -373,9 +380,108 @@ export class ListItemComponent implements OnInit, OnDestroy {
                 arr.push(this.addFile(item, itemVal, reader.result));
             };
         }
+        event.target.value = null;
     }
-    downLoadFile(item) {}
+    downLoadFile(item) {
+        if (item.value.base64 != undefined && item.value.base64 != '') {
+            let link = item.value.base64.split(',');
+            let url = '';
+            if (link.length > 1) {
+                url = link[1];
+            } else {
+                url = link[0];
+            }
+            this.downloadAll(url, item.value.fileName);
+        } else {
+            var token = localStorage.getItem('accessToken');
+            this._serviceApi
+                .execServiceLogin('2269B72D-1A44-4DBB-8699-AF9EE6878F89', [
+                    {name: 'DUONG_DAN', value: item.duongdan},
+                    {name: 'TOKEN_LINK', value: 'Bearer ' + token},
+                ])
+                .subscribe((data) => {
+                });
+        }
+    }
+
+   async downloadAll(base64String, fileName){
+    let typeFile =  await this.detectMimeType(base64String, fileName);
+    let mediaType = `data:${typeFile};base64,`;
+    const downloadLink = document.createElement('a');
+
+        downloadLink.href = mediaType + base64String;
+        downloadLink.download = fileName;
+        downloadLink.click();
+    }
+
+   async detectMimeType(base64String, fileName) {
+        var ext = fileName.substring(fileName.lastIndexOf(".") + 1);
+        if (ext === undefined || ext === null || ext === "") ext = "bin";
+        ext = ext.toLowerCase();
+        const signatures = {
+          JVBERi0: "application/pdf",
+          R0lGODdh: "image/gif",
+          R0lGODlh: "image/gif",
+          iVBORw0KGgo: "image/png",
+          TU0AK: "image/tiff",
+          "/9j/": "image/jpg",
+          UEs: "application/vnd.openxmlformats-officedocument.",
+          PK: "application/zip",
+        };
+        for (var s in signatures) {
+          if (base64String.indexOf(s) === 0) {
+            var x = signatures[s];
+            // if an office file format
+            if (ext.length > 3 && ext.substring(0, 3) === "ppt") {
+              x += "presentationml.presentation";
+            } else if (ext.length > 3 && ext.substring(0, 3) === "xls") {
+              x += "spreadsheetml.sheet";
+            } else if (ext.length > 3 && ext.substring(0, 3) === "doc") {
+              x += "wordprocessingml.document";
+            }
+            // return
+            return x;
+          }
+        }
+        // if we are here we can only go off the extensions
+        const extensions = {
+          xls: "application/vnd.ms-excel",
+          ppt: "application/vnd.ms-powerpoint",
+          doc: "application/msword",
+          xml: "text/xml",
+          mpeg: "audio/mpeg",
+          mpg: "audio/mpeg",
+          txt: "text/plain",
+        };
+        for (var e in extensions) {
+          if (ext.indexOf(e) === 0) {
+            var xx = extensions[e];
+            return xx;
+          }
+        }
+        // if we are here – not sure what type this is
+        return "unknown";
+      }
     deleteItemFile(item, idex) {}
+
+    isValidAuthorInput(value: any): boolean {
+        return value && value.ten && value.ten.length > 0;
+    }
+
+    sanitizeArrayInput(controlName: string): void {
+        const authorArray = this.form.get(controlName) as FormArray;
+        const validControls = [];
+        authorArray.controls.forEach((control, index) => {
+            const currentValue = control.value;
+            if (this.isValidAuthorInput(currentValue)) {
+                validControls.push(control);
+            }
+        });
+        authorArray.clear();
+        validControls.forEach((control) => {
+            authorArray.push(control);
+        });
+    }
 
     onSubmit(status, method) {
         // this.submitted.check = true;
@@ -383,6 +489,13 @@ export class ListItemComponent implements OnInit, OnDestroy {
         //     return;
         // }
         this.form.get('maTrangThai').setValue(status);
+        this.sanitizeArrayInput('tacGiaGiaiPhap');
+        this.sanitizeArrayInput('firstTimeAdopters');
+        const hasInvalidAuthorInput = this.form.get('tacGiaGiaiPhap')?.value?.find(e => !e.chucDanh);
+        if (hasInvalidAuthorInput) {
+            this._messageService.showErrorMessage('Lỗi', 'Vui lòng lựa chọn vai trò tác giả');
+            return;
+        }
         var token = localStorage.getItem('accessToken');
         this._serviceApi
             .execServiceLogin('ADB68831-D89B-423A-934C-DC917A479491', [
@@ -395,9 +508,12 @@ export class ListItemComponent implements OnInit, OnDestroy {
                         'Thông báo',
                         data.message
                     );
-                   
-                        this._router.navigateByUrl('nghiepvu/sangkien/capnhat');
-                    
+                    this.form.reset();
+
+                    this._router.navigateByUrl('nghiepvu/sangkien/capnhat', { skipLocationChange: true}).then(() => {
+                        this._router.navigate(['nghiepvu/sangkien/capnhat']);
+                    });
+
                 } else {
                     this._messageService.showErrorMessage(
                         'Thông báo',
@@ -406,7 +522,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
                 }
             });
     }
-    
+
     checkYear(event)  {
         let now = new Date();
         let year = now.getFullYear();
@@ -417,5 +533,15 @@ export class ListItemComponent implements OnInit, OnDestroy {
         else {
             return;
         }
+    }
+
+    addFirstTimeAdopter(): void {
+        const ar = this.form.get('firstTimeAdopters') as FormArray;
+        ar.push(this.addMember());
+    }
+
+    removeFirstTimeAdopter(items, i: number): void {
+        const control = items.get('firstTimeAdopters');
+        control.removeAt(i);
     }
 }

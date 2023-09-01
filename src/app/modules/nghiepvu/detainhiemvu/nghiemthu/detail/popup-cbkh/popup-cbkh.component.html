@@ -276,7 +276,16 @@
                 <div class="content-popup">
                     <div class="box-search flex items-center	">
                         <label for="">Tìm kiếm</label>
-                        <input type="text" class="form-control" placeholder="Nhập từ khóa cần tìm..." name="" id="">
+                        <input type="text" class="form-control" (ngModelChange)="timkiemDeTaiHoiDong(0)" placeholder="Nhập từ khóa cần tìm..." name="" id="">
+                        <ng-select class="form-control"
+                        [items]="listDonVi"
+                        bindLabel="NAME"
+                        bindValue="ID"
+                        placeholder="Chọn đơn vị"
+                        [(ngModel)]="maDonVi"
+                        (change)="timkiemDeTaiHoiDong(0)"
+                    >
+                    </ng-select>
                     </div>
                 
                     <table class="table table_custom">
@@ -319,8 +328,18 @@
                         <div class="box-search flex items-center	">
                             <label for="">Tìm kiếm</label>
                             <input type="text" class="form-control"  (ngModelChange)="timkiemDeTaiHoiDong(1)" [(ngModel)]="q" placeholder="Nhập từ khóa cần tìm..." name="" id="">
+                            <label for="" style="margin: 0 10px;">Mã đơn vị</label>
+                            <ng-select class="form-control"
+                            [items]="listDonVi"
+                            bindLabel="NAME"
+                            bindValue="ID"
+                            placeholder="Chọn đơn vị"
+                            [(ngModel)]="maDonVi"
+                            (change)="timkiemDeTaiHoiDong(1)"
+                        >
+                        </ng-select>
                         </div>
-                    
+                        
                         <table class="table table_custom">
                             <thead>
                                 <tr>

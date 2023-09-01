@@ -33,10 +33,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { SharedModule } from 'app/shared/shared.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { PopupCbkhComponent } from './detail/popup-cbkh/popup-cbkh.component';
-
-
-
-
+import { FuseLoadingBarModule } from '@fuse/components/loading-bar';
 
 @NgModule({
     imports: [
@@ -53,6 +50,7 @@ import { PopupCbkhComponent } from './detail/popup-cbkh/popup-cbkh.component';
         NgSelectModule,
         MatTableModule,
         FormsModule,
+        FuseLoadingBarModule,
         MatDialogModule,
         MatTabsModule, MatToolbarModule, MatPaginatorModule, MatListModule,
         MatInputModule, ReactiveFormsModule, MatSelectModule, MatAutocompleteModule, MatSlideToggleModule,

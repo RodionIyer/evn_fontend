@@ -97,7 +97,7 @@ table.table.table_custom th {
    border-bottom-width: 1px;
    font-weight: 600;
    color: #2a3493;
-  
+
 }
 
 table.table.table_custom td {
@@ -123,6 +123,18 @@ h1.title-component {
     font-size: 21px;
     margin: 15px 0px;
     font-weight: 600;
+}
+
+.add_button-export span, .add_button-export span ~ .add_button:last-child span  {
+    line-height: normal;
+}
+
+.add_button-export span {
+    width: 80px;
+}
+
+.add_button-export ~ .add_button:last-child span {
+    width: 60px;
 }
 /* .title-dinhhuong{
     margin-right: 9%;

@@ -54,29 +54,60 @@ export class ApiDinhHuongListComponent implements OnInit, OnDestroy {
             this.actionClick = params?.type
           }else{
             this.actionClick = null
-             this.timKiem();
+            
           }
+          this.timKiem();
+          this.geListYears();
         }
       );
 
     }
 
     ngOnInit() {
-        this.getYearSubscription = this._listdinhhuongService.getValueYear().subscribe((values: any) => {
-            if (values){
-                this.listYears = values;
-            }
+
+      //this.testSql();
+       //this.chay();
+        // this.getYearSubscription = this._listdinhhuongService.getValueYear().subscribe((values: any) => {
+        //     if (values){
+        //         this.listYears = values;
+        //     }
                
-        })
+        // })
         this.getStatusSubscription = this._listdinhhuongService.getValueStatus().subscribe((values: any) => {
             if (values)
                 this.listStatus = values;
         })
+        this.geListYears();
         this.selectedYear=(new Date()).getFullYear();
         this.selectedStatus='';
         this.timKiem();
     }
 
+    geListYears() {
+      this._serviceApi.execServiceLogin("3E0F3D82-66AE-4ABC-9FA7-B5C4B0355836", [{"name":"LOAI_TIM_KIEM","value":"CUATOI"}]).subscribe((data) => {
+    
+        this.listYears = data.data || [];
+        let obj = {"id":"","name":"Tất cả"}
+        this.listYears.unshift(obj);
+       
+      })
+    }
+    testSql(){
+      this._serviceApi.execServiceLogin("AA6ADB30-5937-46F4-B30C-5E4636D066C6",null).subscribe((data) => {
+        debugger;
+        let data2=data;
+           
+       });
+    }
+
+    chay(){
+      this._serviceApi.execServiceLogin("A47859EF-DD9A-4A73-BEAD-D8EC863CD798",
+      [{"name":"LOAI_TIM_KIEM","value":"UPDATE SK_DM_LOAI_FILE set THU_LAO =1, XET_DUYET =0 WHERE MA_LOAI_FILE IN('HOSO_GCHUNG_NHAN','HOSO_QD_CHUNG_NHAN','HOSO_QD_TRA_THULAO')"}]).subscribe((data) => {
+     
+        let data2=data;
+           
+       });
+    }
 
     onApiSelected(object: any): void {
 
@@ -165,6 +196,7 @@ export class ApiDinhHuongListComponent implements OnInit, OnDestroy {
                             case 1:
                                 this._messageService.showSuccessMessage("Thông báo", "Xóa bản đăng ký thành công");
                                 this.timKiem();
+                                this.geListYears();
                                 // this._router.navigated = false;
                                 // this._router.navigate([data.data], { relativeTo: this._activatedRoute.parent });
                                 break;

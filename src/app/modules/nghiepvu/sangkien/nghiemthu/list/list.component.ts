@@ -60,6 +60,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
           }else{
             this.actionClick = null
           }
+          this.timKiem()
         }
       );
     }
@@ -118,16 +119,18 @@ export class ListItemComponent implements OnInit, OnDestroy {
     //     })
     // }
     //phân trang
-    length = 500;
-    pageSize = 10;
+    length = 0;
+    pageSize = 20;
     pageIndex = 0;
-    pageSizeOptions = [5, 10, 25];
+    pageSizeOptions = [10, 20, 50, 100];
     showFirstLastButtons = true;
-  
+
     handlePageEvent(event: PageEvent) {
-      this.length = event.length;
-      this.pageSize = event.pageSize;
-      this.pageIndex = event.pageIndex;
+        this.length = event.length;
+        this.pageSize = event.pageSize;
+        this.pageIndex = event.pageIndex;
+        this.timKiem();
+
     }
 
     lichsu(item){
@@ -137,24 +140,25 @@ export class ListItemComponent implements OnInit, OnDestroy {
           );
        }
 
-       xoa(item){
-        this._messageService.showConfirm("Thông báo", "Bạn chắc chắn muốn xóa \"" + item.tenGiaiPhap + "\"", (toast: SnotifyToast) => {
-          this._messageService.notify().remove(toast.id);
-          this._serviceApi.execServiceLogin("36A4A979-FDB3-4F60-8C5E-3B11EA084039", [{"name":"MA_SANGKIEN","value":item.tenGiaiPhap},{"name":"USERID","value":"STR"}]).subscribe((data) => {
-            switch (data.data) {
-                              case 1:
-                                  this._messageService.showSuccessMessage("Thông báo", "Xóa bản đăng ký thành công");
-                                  break;
-                              case 0:
-                                  this._messageService.showErrorMessage("Thông báo", "Không tìm thấy bản đăng ký cần xóa");
-                                  break;
-                              case -1:
-                                  this._messageService.showErrorMessage("Thông báo", "Xảy ra lỗi khi thực hiện xóa bản đăng ký");
-                                  break;
-                          }
-           })
+    xoa(item){
+    this._messageService.showConfirm("Thông báo", "Bạn chắc chắn muốn xóa \"" + item.tenGiaiPhap + "\"", (toast: SnotifyToast) => {
+        this._messageService.notify().remove(toast.id);
+        this._serviceApi.execServiceLogin("36A4A979-FDB3-4F60-8C5E-3B11EA084039", [{"name":"MA_SANGKIEN","value":item.tenGiaiPhap},{"name":"USERID","value":"STR"}]).subscribe((data) => {
+        switch (data.data) {
+                            case 1:
+                                this._messageService.showSuccessMessage("Thông báo", "Xóa bản đăng ký thành công");
+                                this.timKiem();
+                                break;
+                            case 0:
+                                this._messageService.showErrorMessage("Thông báo", "Không tìm thấy bản đăng ký cần xóa");
+                                break;
+                            case -1:
+                                this._messageService.showErrorMessage("Thông báo", "Xảy ra lỗi khi thực hiện xóa bản đăng ký");
+                                break;
+                        }
         })
-       }
+    })
+    }
 
    // mo popup file
     openAlertDialog() {
@@ -174,7 +178,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
         let obj ={
             capDo:this.capDo,
             donVi:this.donVi,
-            nam:this.selectedYear
+            q:this.q
         }
         this._serviceApi.execServiceLogin("45283A19-1068-4FEF-8357-89924E2A5D47", [{"name":"LOAI_TIM_KIEM","value":"NGHIEMTHU"},{"name":"TIM_KIEM","value":JSON.stringify(obj)},{"name":"PAGE_NUM","value":this.pageIndex},{"name":"PAGE_ROW_NUM","value":this.pageSize}]).subscribe((data) => {
             this.listGiao = data.data || [];
@@ -194,9 +198,9 @@ export class ListItemComponent implements OnInit, OnDestroy {
     }
 
     updateAction(item){
-        this._router.navigate( 
+        this._router.navigate(
             ['/nghiepvu/sangkien/lstsangkiencuatoi/'+item.maSangKien],
-            { queryParams: { type: 'THONGTINSK' } }
+            { queryParams: { type: 'NANGCAPSK' } }
           );
     }
 }

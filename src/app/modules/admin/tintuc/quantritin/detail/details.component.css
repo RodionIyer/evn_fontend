@@ -1,0 +1,63 @@
+.style-table-view th.mat-header-cell:first-of-type,
+.style-table-view td.mat-cell:first-of-type,
+.style-table-view td.mat-footer-cell:first-of-type {
+    text-align: left;
+    padding: 1rem !important;
+}
+
+.style-table-input th.mat-header-cell:first-of-type,
+.style-table-input td.mat-cell:first-of-type,
+.style-table-input td.mat-footer-cell:first-of-type {
+    padding: 1rem !important;
+    width: 5%;
+}
+
+.style-table-input th.cdk-column-TEN_CONG_TRINH.mat-column-TEN_CONG_TRINH {
+    width: 40%;
+}
+
+.style-table-input th.cdk-column-TINH_TRANG_DE_TAI.mat-column-TINH_TRANG_DE_TAI {
+    width: 20%;
+}
+
+.style-table-input th.cdk-column-NAM_CAP_VAN_BANG.mat-column-NAM_CAP_VAN_BANG,
+.style-table-input th.cdk-column-NAM_GIAI_THUONG.mat-column-NAM_GIAI_THUONG {
+    width: 10%;
+}
+
+.style-table-input .mat-form-field.w-full.pr-4 {
+    display: flex;
+}
+
+.style-table-input .mat-form-field.w-full.pr-4>.mat-form-field-wrapper {
+    margin-bottom: 0px;
+    width: 100%;
+}
+
+.mat-dialog-container {
+    overflow: hidden !important;
+    display: flex;
+    flex-direction: column;
+}
+
+.listNhanSuComponent .mat-dialog-container .mat-dialog-content {
+    overflow-y: auto;
+    height: 85%;
+    margin: 10px 0 10px 0;
+}
+
+.listNhanSuComponent .mat-dialog-container .mat-dialog-title {
+    height: 5%;
+    overflow: hidden;
+    padding: 10px;
+}
+
+.listNhanSuComponent .mat-dialog-container .mat-dialog-actions {
+    min-height: unset;
+}
+
+
+
+.listNhanSuComponent .mat-form-field-label-wrapper{
+    top: -14px !important
+}

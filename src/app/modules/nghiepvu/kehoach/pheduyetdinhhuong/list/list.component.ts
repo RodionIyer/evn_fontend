@@ -61,8 +61,9 @@ export class ApiPheduyetdinhhuongListComponent implements OnInit {
             this.actionClick = params?.type
           }else{
             this.actionClick = null
-            this.timKiem();
+           
           }
+          this.timKiem();
         }
 
       );
@@ -72,18 +73,19 @@ export class ApiPheduyetdinhhuongListComponent implements OnInit {
     ngOnInit() {
         this.getUserLogin();
         this.actionClick = null;
-        this._listdinhhuongService.getValueYear().subscribe((values: any) => {
-            if (values){
-                this.listYears = values;
-                // this.listYears.push({"NAME":2024,"ID":2024});
-                // this.listYears.push({"NAME":2025,"ID":2025})
-            }
+        // this._listdinhhuongService.getValueYear().subscribe((values: any) => {
+        //     if (values){
+        //         this.listYears = values;
+        //         // this.listYears.push({"NAME":2024,"ID":2024});
+        //         // this.listYears.push({"NAME":2025,"ID":2025})
+        //     }
 
-        })
+        // })
         // this.getStatusSubscription = this._listdinhhuongService.getValueStatus().subscribe((values: any) => {
         //     if (values)
         //         this.listStatus = values;
         // })
+        this.geListYears();
         this.listStatus =[{"MA_TRANG_THAI":"","TEN_TRANG_THAI":"Tất cả"},
             {"MA_TRANG_THAI":"Y_CAU_HIEU_CHINH","TEN_TRANG_THAI":"Yêu cầu hiệu chỉnh"},
         {"MA_TRANG_THAI":"CHO_PHE_DUYET","TEN_TRANG_THAI":"Chờ phê duyệt"},
@@ -91,6 +93,16 @@ export class ApiPheduyetdinhhuongListComponent implements OnInit {
         this.selectedYear =[((new Date()).getFullYear())];
         this.selectedStatus='';
         this.timKiem();
+    }
+
+    geListYears() {
+      this._serviceApi.execServiceLogin("3E0F3D82-66AE-4ABC-9FA7-B5C4B0355836", [{"name":"LOAI_TIM_KIEM","value":"PHEDUYET"}]).subscribe((data) => {
+     
+        this.listYears = data.data || [];
+        let obj = {"id":"","name":"Tất cả"}
+        this.listYears.unshift(obj);
+       
+      })
     }
 
 
@@ -119,6 +131,7 @@ export class ApiPheduyetdinhhuongListComponent implements OnInit {
        
     }
      async tonghop(status) {
+      debugger;
       let arr =this.listTongHop; // this.listDinhHuong.filter((c) => c.state == true);
       if(arr != undefined && arr.length != 0){
           this.addNew();
@@ -165,7 +178,15 @@ export class ApiPheduyetdinhhuongListComponent implements OnInit {
   }
 
     checkAll(ev) {
+      debugger;
         this.listDinhHuong.forEach(x => x.state = ev.target.checked);
+        if(ev.target.checked){
+          this.listTongHop = this.listDinhHuong;
+          
+        }else{
+          this.listTongHop =[];
+        }
+       
       }
 
       isAllChecked() {

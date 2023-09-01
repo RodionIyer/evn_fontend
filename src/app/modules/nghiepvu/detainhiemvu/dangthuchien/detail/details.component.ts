@@ -33,11 +33,40 @@ import { PopupCbkhComponent } from './popup-cbkh/popup-cbkh.component';
 import { User } from 'app/core/user/user.types';
 import { DOfficeService } from 'app/shared/service/doffice.service';
 import { DOfficeComponent } from 'app/shared/component/d-office/d-office.component';
+import {
+    DateAdapter,
+    MAT_DATE_FORMATS,
+    MAT_DATE_LOCALE,
+} from '@angular/material/core';
+import {
+    MAT_MOMENT_DATE_ADAPTER_OPTIONS,
+    MomentDateAdapter,
+} from '@angular/material-moment-adapter';
+
+export const MY_FORMATS = {
+    parse: {
+        dateInput: 'DD/MM/YYYY',
+    },
+    display: {
+        dateInput: 'DD/MM/YYYY',
+        monthYearLabel: 'MMM YYYY',
+        dateA11yLabel: 'LL',
+        monthYearA11yLabel: 'MMMM YYYY',
+    },
+};
 
 @Component({
     selector: 'component-details',
     templateUrl: './details.component.html',
     styleUrls: ['./details.component.css'],
+    providers: [
+        {
+            provide: DateAdapter,
+            useClass: MomentDateAdapter,
+        },
+
+        {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+    ],
     encapsulation: ViewEncapsulation.None,
 })
 export class DetailsComponent implements OnInit {
@@ -236,16 +265,37 @@ export class DetailsComponent implements OnInit {
             });
     }
     addListDocParent(item?: any) {
+        let ngaySua = item?.ngaySua;
+        if (ngaySua) {
+            ngaySua = new Date(ngaySua);
+        }else{
+            ngaySua =null;
+        }
+        let ngayVanBan = item?.ngayVanBan;
+        if (ngayVanBan) {
+            ngayVanBan = new Date(ngayVanBan);
+        }else{
+            ngayVanBan =null;
+        }
         return this._formBuilder.group({
             fileName: item?.fileName || null,
             maFolder: item?.maFolder || null,
             listFile: this._formBuilder.array([]),
             sovanban: item?.sovanban || null,
-            ngayVanBan: item?.ngayVanBan || null,
+            ngayVanBan: ngayVanBan || null,
+            ngaySua: ngaySua || null,
+            nguoiSua: item?.nguoiSua || null,
+            nguoiCapnhap: item?.nguoiSua || null,
         });
     }
 
     addListDocChild(item?: any) {
+        let ngayVanBan = item?.ngayVanBan;
+        if (ngayVanBan) {
+            ngayVanBan = new Date(ngayVanBan);
+        }else{
+            ngayVanBan =null;
+        }
         return this._formBuilder.group({
             fileName: item?.fileName || null,
             base64: item?.base64 || null,
@@ -254,6 +304,7 @@ export class DetailsComponent implements OnInit {
             mafile: item?.mafile || null,
             maFolder: item?.maFolder || null,
             tenFolder: item?.tenFolder || null,
+            ngayVanBan: ngayVanBan || null,
         });
     }
     getThang() {
@@ -314,27 +365,85 @@ export class DetailsComponent implements OnInit {
         downloadLink.click();
     }
     downLoadFile(item) {
-        if (item.base64 != undefined && item.base64 != '') {
-            let link = item.base64.split(',');
+        if (item.value.base64 != undefined && item.value.base64 != '') {
+            let link = item.value.base64.split(',');
             let url = '';
             if (link.length > 1) {
                 url = link[1];
             } else {
                 url = link[0];
             }
-            this.downloadTempExcel(url, item.fileName);
+            this.downloadAll(url, item.value.fileName);
         } else {
             var token = localStorage.getItem('accessToken');
             this._serviceApi
                 .execServiceLogin('2269B72D-1A44-4DBB-8699-AF9EE6878F89', [
-                    { name: 'DUONG_DAN', value: item.duongdan },
-                    { name: 'TOKEN_LINK', value: 'Bearer ' + token },
+                    {name: 'DUONG_DAN', value: item.duongdan},
+                    {name: 'TOKEN_LINK', value: 'Bearer ' + token},
                 ])
                 .subscribe((data) => {
-                    console.log('downloadFile:' + JSON.stringify(data));
                 });
         }
     }
+
+   async downloadAll(base64String, fileName){
+    let typeFile =  await this.detectMimeType(base64String, fileName);
+    let mediaType = `data:${typeFile};base64,`;
+    const downloadLink = document.createElement('a');
+
+        downloadLink.href = mediaType + base64String;
+        downloadLink.download = fileName;
+        downloadLink.click();
+    }
+
+   async detectMimeType(base64String, fileName) {
+        var ext = fileName.substring(fileName.lastIndexOf(".") + 1);
+        if (ext === undefined || ext === null || ext === "") ext = "bin";
+        ext = ext.toLowerCase();
+        const signatures = {
+          JVBERi0: "application/pdf",
+          R0lGODdh: "image/gif",
+          R0lGODlh: "image/gif",
+          iVBORw0KGgo: "image/png",
+          TU0AK: "image/tiff",
+          "/9j/": "image/jpg",
+          UEs: "application/vnd.openxmlformats-officedocument.",
+          PK: "application/zip",
+        };
+        for (var s in signatures) {
+          if (base64String.indexOf(s) === 0) {
+            var x = signatures[s];
+            // if an office file format
+            if (ext.length > 3 && ext.substring(0, 3) === "ppt") {
+              x += "presentationml.presentation";
+            } else if (ext.length > 3 && ext.substring(0, 3) === "xls") {
+              x += "spreadsheetml.sheet";
+            } else if (ext.length > 3 && ext.substring(0, 3) === "doc") {
+              x += "wordprocessingml.document";
+            }
+            // return
+            return x;
+          }
+        }
+        // if we are here we can only go off the extensions
+        const extensions = {
+          xls: "application/vnd.ms-excel",
+          ppt: "application/vnd.ms-powerpoint",
+          doc: "application/msword",
+          xml: "text/xml",
+          mpeg: "audio/mpeg",
+          mpg: "audio/mpeg",
+          txt: "text/plain",
+        };
+        for (var e in extensions) {
+          if (ext.indexOf(e) === 0) {
+            var xx = extensions[e];
+            return xx;
+          }
+        }
+        // if we are here – not sure what type this is
+        return "unknown";
+      }
     handleUpload(event, item, index) {
         let arr = item.get('listFile') as FormArray;
         for (var i = 0; i < event.target.files.length; i++) {
@@ -344,7 +453,9 @@ export class DetailsComponent implements OnInit {
             reader.onload = () => {
                 arr.push(this.addFile(item, itemVal, reader.result));
             };
+
         }
+        event.target.value = null;
     }
     addFile(item, itemVal, base64) {
         return this._formBuilder.group({
@@ -364,7 +475,7 @@ export class DetailsComponent implements OnInit {
          //this.submitted.checkFile = true;
          this.submitted.check = true;
          if (this.form.invalid) {
-             // this._messageService.showErrorMessage("Thông báo", "Chưa nhập đủ trường bắt buộc!")
+            this._messageService.showErrorMessage("Thông báo", "Chưa nhập đủ trường bắt buộc!")
 
               return;
           }

@@ -8,7 +8,7 @@
         <div class="header-list-dinh-huong">
             <div class="year-left">
                 <label for="">Năm</label>
-                <ng-select [items]="listYears" bindLabel="NAME" bindValue="ID" (change)="timKiem()" placeholder="Chọn năm" [multiple]="true"
+                <ng-select [items]="listYears" bindLabel="name" bindValue="id" (change)="timKiem()" placeholder="Chọn năm" [multiple]="true"
                     [(ngModel)]="selectedYear">
                 </ng-select>
             </div>
@@ -44,7 +44,7 @@
             </thead>
             <tbody>
                 <tr *ngFor="let item of listDinhHuong; let i = index">
-                    <td class="stt_table">{{ i+ 1}}</td>
+                    <td class="stt_table">{{ (i+(pageIndex * pageSize))+ 1}}</td>
                     <td>{{item.name}}</td>
                     <td>{{item.tenDonVi}}</td>
                     <td>{{item.nguoiGui}}</td>

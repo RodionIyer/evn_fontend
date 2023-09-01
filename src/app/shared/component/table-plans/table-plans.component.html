@@ -1,18 +1,18 @@
-<div class="body-detail" [formGroup]="form">
-    <table class="table table_custom">
+<div class="body-detail overflow-y-auto" [formGroup]="form">
+    <table class="table table_custom table-dinhhuong">
         <thead>
             <tr>
                 <th class="stt_table">STT</th>
                 <th>Nội dung đăng ký</th>
                 <th class="text-center">
-                    Nguồn kinh phí <br>(EVN hoặc Đơn vị)
+                    Nguồn kinh phí (EVN hoặc Đơn vị)
                 </th>
-                <th class="text-center">Dự toán<br> (Triệu đồng)</th>
+                <th class="text-center">Dự toán (Triệu đồng)</th>
                 <th class="text-center">Đơn vị chủ trì</th>
                 <th class="text-center">Chủ nhiệm nhiệm vụ</th>
                 <th>Nội dung hoạt động</th>
                 <th>
-                    Thời gian dự kiến thực hiện <br>(Từ tháng/năm đến tháng/năm)
+                    Thời gian dự kiến thực hiện (Từ tháng/năm đến tháng/năm)
                 </th>
                 <!-- <th>Ý kiến người phê duyệt</th> -->
                 <th class="text-center action-table actiom-table-detail"></th>
@@ -33,7 +33,7 @@
                         <td></td>
                         <td></td>
                         <td class="text-center action-table actiom-table-detail">
-                            <div class="flex justify-evenly" *ngIf="item.get('chiTiet').value==1">
+                            <div class="flex justify-evenly" *ngIf="item.get('chiTiet').value==1 && actionType !='CHITIET'">
                                 <i class="fa fa-plus" (click)="addCap1(item)" title="Thêm mới"></i>
                             </div>
                         </td>
@@ -44,17 +44,19 @@
                             <ng-container *ngIf="itemc.get('action').value=='add'" [formGroupName]="c">
                                 <tr class="">
                                     <td class="text-center"></td>
-                                    <td class="align-middle"><textarea type="text" class="form-control"
+                                    <td class="align-middle">
+                                        <textarea *ngIf="actionType !='CHITIET'" type="text" maxlength="2500" class="form-control"
                                             formControlName="noiDungDangKy"></textarea>
+                                        <label  *ngIf="actionType =='CHITIET'"> {{itemc.get('noiDungDangKy').value}}</label>
                                         <div *ngIf="submitted.check && itemc.get('noiDungDangKy').errors"
                                             class="invalid-feedback">
                                             <div *ngIf="itemc.get('noiDungDangKy').errors.required">Trường bắt buộc nhập
                                             </div>
                                         </div>
                                     </td>
-                                    <td>
+                                    <td [class.nguonkinhphi]="actionType =='CHITIET'">
                                         <!-- <input type="text" class="form-control" formControlName="NguonKinhPhi" /> -->
-                                        <ng-select [items]="listNguonKinhPhi" bindLabel="TEN_NGUON_KINH_PHI"
+                                        <ng-select   *ngIf="actionType !='CHITIET'" [items]="listNguonKinhPhi" bindLabel="TEN_NGUON_KINH_PHI"
                                             bindValue="MA_NGUON_KINH_PHI" placeholder="Lựa chọn"
                                             formControlName="nguonKinhPhi">
                                         </ng-select>
@@ -64,22 +66,29 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td><input type="text" class="form-control text-right" formControlName="duToan"
+                                    <td><input *ngIf="actionType !='CHITIET'" style="height: 50px;" type="text" class="form-control text-right" formControlName="duToan"
                                             money [options]="{
                                         numeral: true,
                                         numeralIntegerScale: 15
-                                      }" /></td><!--money-->
-                                    <td><textarea type="text" class="form-control"
-                                            formControlName="donViChuTri"></textarea></td>
-                                    <td><input type="text" class="form-control" formControlName="chuNhiemNhiemVu" />
+                                      }" />
+                                      <label  *ngIf="actionType =='CHITIET'"> {{itemc.get('duToan').value | number}}</label>
+                                    </td><!--money-->
+                                    <td><textarea  *ngIf="actionType !='CHITIET'" type="text" class="form-control" maxlength="400"
+                                            formControlName="donViChuTri"></textarea>
+                                            <label  *ngIf="actionType =='CHITIET'"> {{itemc.get('donViChuTri').value}}</label>
+                                        </td>
+                                    <td><input *ngIf="actionType !='CHITIET'" style="height: 50px;" type="text" class="form-control"  maxlength="400"  formControlName="chuNhiemNhiemVu" />
+                                        <label  *ngIf="actionType =='CHITIET'"> {{itemc.get('chuNhiemNhiemVu').value}}</label>
                                     </td>
                                     <td><textarea type="text" class="form-control"
-                                            formControlName="noiDungHoatDong"></textarea></td>
-                                    <td><input type="text" class="form-control" formControlName="thoiGianDuKien" /></td>
+                                            formControlName="noiDungHoatDong" maxlength="20000"></textarea></td>
+                                    <td><input *ngIf="actionType !='CHITIET'" style="height: 50px;" type="text" class="form-control" maxlength="200" formControlName="thoiGianDuKien" />
+                                        <label  *ngIf="actionType =='CHITIET'"> {{itemc.get('thoiGianDuKien').value}}</label>
+                                    </td>
                                     <!-- [textMask]="{mask: mask}" {{itemc.get('thoiGianDuKien').value}}-->
                                     <!-- <td><input type="text" class="form-control" formControlName="YKienNguoiPheDuyet" /></td> -->
                                     <td class="text-center action-table actiom-table-detail">
-                                        <div class="flex justify-evenly" *ngIf="itemc.get('chiTiet').value ==0">
+                                        <div class="flex justify-evenly" *ngIf="itemc.get('chiTiet').value ==0 && actionType !='CHITIET'">
                                             <i (click)="removeItem(item,c,3)" class="fa fa-times" title="Xóa bỏ"></i>
                                         </div>
                                     </td>
@@ -103,7 +112,7 @@
                                     <td></td>
                                     <!-- <td></td> -->
                                     <td class="text-center action-table actiom-table-detail">
-                                        <div class="flex justify-evenly" *ngIf="items.get('chiTiet').value==1">
+                                        <div class="flex justify-evenly" *ngIf="items.get('chiTiet').value==1 && actionType !='CHITIET'">
                                             <i class="fa fa-plus" (click)="addCap2(items)" title="Thêm mới"></i>
                                         </div>
                                     </td>
@@ -114,15 +123,17 @@
                                         <ng-container *ngIf="itemc.get('action').value=='add'" [formGroupName]="c">
                                             <tr class="">
                                                 <td class="text-center"></td>
-                                                <td class="align-middle	"><textarea type="text" class="form-control"
-                                                        formControlName="noiDungDangKy"></textarea>
+                                                <td class="align-middle	">
+                                                    <textarea *ngIf="actionType !='CHITIET'" type="text" maxlength="2500" class="form-control"
+                                                    formControlName="noiDungDangKy"></textarea>
+                                                <label  *ngIf="actionType =='CHITIET'"> {{itemc.get('noiDungDangKy').value}}</label>
                                                     <div *ngIf="submitted.check && itemc.get('noiDungDangKy').errors"
                                                         class="invalid-feedback">
                                                         <div *ngIf="itemc.get('noiDungDangKy').errors.required">Trường
                                                             bắt buộc nhập</div>
                                                     </div>
                                                 </td>
-                                                <td>
+                                                <td [class.nguonkinhphi]="actionType =='CHITIET'">
                                                     <!-- <input type="text" class="form-control" formControlName="NguonKinhPhi" /> -->
                                                     <ng-select [items]="listNguonKinhPhi" bindLabel="TEN_NGUON_KINH_PHI"
                                                         bindValue="MA_NGUON_KINH_PHI" placeholder="Lựa chọn"
@@ -134,23 +145,33 @@
                                                             bắt buộc nhập</div>
                                                     </div>
                                                 </td>
-                                                <td><input type="text" class="form-control text-right"
+                                                <td><input *ngIf="actionType !='CHITIET'"  style="height: 50px;" type="text" class="form-control text-right"
                                                         formControlName="duToan" money [options]="{
                                                     numeral: true,
                                                     numeralIntegerScale: 15
-                                                  }" /></td><!--money-->
-                                                <td><textarea type="text" class="form-control"
-                                                        formControlName="donViChuTri"></textarea></td>
-                                                <td><input type="text" class="form-control"
-                                                        formControlName="chuNhiemNhiemVu" /></td>
-                                                <td><textarea type="text" class="form-control"
-                                                        formControlName="noiDungHoatDong"></textarea></td>
-                                                <td><input type="text" class="form-control"
-                                                        formControlName="thoiGianDuKien" /></td>
+                                                  }" />
+                                                  <label  *ngIf="actionType =='CHITIET'"> {{itemc.get('duToan').value | number}}</label>
+                                                </td><!--money-->
+                                                <td><textarea *ngIf="actionType !='CHITIET'" type="text" class="form-control"  maxlength="400" 
+                                                        formControlName="donViChuTri"></textarea>
+                                                        <label  *ngIf="actionType =='CHITIET'"> {{itemc.get('donViChuTri').value}}</label>
+                                                    </td>
+                                                <td><input *ngIf="actionType !='CHITIET'" style="height: 50px;" type="text" class="form-control"  maxlength="400" 
+                                                        formControlName="chuNhiemNhiemVu" />
+                                                        <label  *ngIf="actionType =='CHITIET'"> {{itemc.get('chuNhiemNhiemVu').value}}</label>
+                                                    </td>
+                                                <td><textarea   *ngIf="actionType !='CHITIET'" type="text" class="form-control"
+                                                        formControlName="noiDungHoatDong"  maxlength="20000" ></textarea>
+                                                        <label  *ngIf="actionType =='CHITIET'"> {{itemc.get('noiDungHoatDong').value}}</label>
+                                                    </td>
+                                                <td><input  *ngIf="actionType !='CHITIET'" style="height: 50px;" type="text" maxlength="200" class="form-control"
+                                                        formControlName="thoiGianDuKien" />
+                                                        <label  *ngIf="actionType =='CHITIET'"> {{itemc.get('thoiGianDuKien').value}}</label>
+                                                    </td>
                                                 <!-- [textMask]="{mask: mask}" {{itemc.get('thoiGianDuKien').value}}-->
                                                 <!-- <td><input type="text" class="form-control" formControlName="YKienNguoiPheDuyet" /></td> -->
                                                 <td class="text-center action-table actiom-table-detail">
-                                                    <div class="flex justify-evenly">
+                                                    <div class="flex justify-evenly" *ngIf="actionType !='CHITIET'">
                                                         <i (click)="removeItem(items,c,3)" class="fa fa-times"
                                                             title="Xóa bỏ"></i>
                                                     </div>
@@ -179,7 +200,7 @@
                                                 <!-- <td></td> -->
                                                 <td class="text-center action-table actiom-table-detail">
                                                     <div class="flex justify-evenly"
-                                                        *ngIf="items2.get('chiTiet').value==1">
+                                                        *ngIf="items2.get('chiTiet').value==1 && actionType !='CHITIET'">
                                                         <i class="fa fa-plus" (click)="addCap3(items2)"
                                                             title="Thêm mới"></i>
                                                     </div>
@@ -194,9 +215,9 @@
                                                         [formGroupName]="c">
                                                         <tr class="">
                                                             <td class="text-center"></td>
-                                                            <td class="align-middle	"><textarea type="text"
-                                                                    class="form-control"
-                                                                    formControlName="noiDungDangKy"></textarea>
+                                                            <td class="align-middle	"> <textarea *ngIf="actionType !='CHITIET'" type="text" maxlength="2500" class="form-control"
+                                                                formControlName="noiDungDangKy"></textarea>
+                                                            <label  *ngIf="actionType =='CHITIET'"> {{itemc.get('noiDungDangKy').value}}</label>
                                                                 <div *ngIf="submitted.check && itemc.get('noiDungDangKy').errors"
                                                                     class="invalid-feedback">
                                                                     <div
@@ -204,7 +225,7 @@
                                                                         Trường bắt buộc nhập</div>
                                                                 </div>
                                                             </td>
-                                                            <td>
+                                                            <td [class.nguonkinhphi]="actionType =='CHITIET'">
                                                                 <!-- <input type="text" class="form-control" formControlName="NguonKinhPhi" /> -->
                                                                 <ng-select [items]="listNguonKinhPhi"
                                                                     bindLabel="TEN_NGUON_KINH_PHI"
@@ -218,23 +239,32 @@
                                                                         Trường bắt buộc nhập</div>
                                                                 </div>
                                                             </td>
-                                                            <td><input type="text" class="form-control text-right"
+                                                            <td>
+                                                                <input *ngIf="actionType !='CHITIET'" style="height: 50px;" type="text" class="form-control text-right"
                                                                     formControlName="duToan" money [options]="{
-    numeral: true,
-    numeralIntegerScale: 15
-  }" /></td><!--money-->
+                                                                 numeral: true,
+                                                                numeralIntegerScale: 15
+                                                                }" />
+                                                                <label  *ngIf="actionType =='CHITIET'"> {{itemc.get('duToan').value | number}}</label>
+                                                            </td><!--money-->
                                                             <td><textarea type="text" class="form-control"
-                                                                    formControlName="donViChuTri"></textarea></td>
-                                                            <td><input type="text" class="form-control"
-                                                                    formControlName="chuNhiemNhiemVu" /></td>
-                                                            <td><textarea type="text" class="form-control"
-                                                                    formControlName="noiDungHoatDong"></textarea></td>
-                                                            <td><input type="text" class="form-control"
-                                                                    formControlName="thoiGianDuKien" /></td>
+                                                                    formControlName="donViChuTri"  maxlength="400" ></textarea></td>
+                                                            <td><input *ngIf="actionType !='CHITIET'" style="height: 50px;" type="text"  maxlength="400"  class="form-control"
+                                                                    formControlName="chuNhiemNhiemVu" />
+                                                                    <label  *ngIf="actionType =='CHITIET'"> {{itemc.get('chuNhiemNhiemVu').value}}</label>
+                                                                </td>
+                                                            <td><textarea  *ngIf="actionType !='CHITIET'" type="text" class="form-control"
+                                                                    formControlName="noiDungHoatDong"  maxlength="20000" ></textarea>
+                                                                    <label  *ngIf="actionType =='CHITIET'"> {{itemc.get('noiDungHoatDong').value}}</label>
+                                                                </td>
+                                                            <td><input  *ngIf="actionType !='CHITIET'" style="height: 50px;" type="text"  maxlength="200"  class="form-control"
+                                                                    formControlName="thoiGianDuKien" />
+                                                                    <label  *ngIf="actionType =='CHITIET'"> {{itemc.get('thoiGianDuKien').value}}</label>
+                                                                </td>
                                                             <!--[textMask]="{mask: mask}"{{itemc.get('thoiGianDuKien').value}}-->
                                                             <!-- <td><input type="text" class="form-control" formControlName="YKienNguoiPheDuyet" /></td> -->
                                                             <td class="text-center action-table actiom-table-detail">
-                                                                <div class="flex justify-evenly">
+                                                                <div class="flex justify-evenly" *ngIf="actionType !='CHITIET'">
                                                                     <i (click)="removeItem(items2,c,4)"
                                                                         class="fa fa-times" title="Xóa bỏ"></i>
                                                                 </div>

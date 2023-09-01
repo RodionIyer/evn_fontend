@@ -29,17 +29,17 @@
                 <ng-select
                     style="width: 200px;"
                     [items]="listDonVi"
-                    bindLabel="NAME"
-                    bindValue="ID"
+                    bindLabel="name"
+                    bindValue="id"
                     placeholder="Lựa chọn"
-                    [(ngModel)]="selectedYear"
+                    [(ngModel)]="donVi"
                 >
                 </ng-select>
             </div>
         </div>
 
 
-        <div class="flex flex-row row gap-4 items-center">
+        <div class="flex flex-row row gap-4 items-center" style="gap: 3.45em !important;">
             <div class="basic-1/4" style="margin-right: 13px;">
                 <label for="">Tìm kiếm</label>
             </div>
@@ -53,7 +53,7 @@
             />
             </div>
             <div class="grow flex justify-end">
-                <button class="add_button">
+                <button class="add_button" (click)="timKiem()">
                     <i class="fa fa-search"></i>
                     Tìm kiếm
                 </button>
@@ -75,23 +75,25 @@
                     <th class="text-center">Cấp độ sáng kiến</th>
                     <th class="text-center">Đơn vị thực hiện</th>
                     <th class="text-center">Năm</th>
+                    <th class="text-center">Tác giả</th>
                     <th class="text-center">Trạng thái</th>
                     <th class="text-center action-table">Thao tác</th>
                 </tr>
             </thead>
             <tr *ngFor="let item of listGiao; let i = index">
-                <td class="stt_table">{{ i+ 1}}</td>
+                <td class="stt_table">{{ (i+(pageIndex * pageSize))+ 1}}</td>
                 <td>{{item.tenGiaiPhap}}</td>
                 <td class="text-center">{{item.tenCapDoSangKien}}</td>
                 <td class="text-left">{{item.tenDonViChuDauTu}}</td>
                 <td class="text-center">{{item.nam}}</td>
+                <td class="text-left">{{item.tacGiaGiaiPhap[0]?.ten}}</td>
                 <td class="text-center">{{item.tenTrangThai}}</td>
                 <td class="action-table">
                     <div class="flex justify-evenly"  style="float: left;">
 
                         <i class="fa fa-info-circle cursor-point" (click)="detail(item)" title="Xem chi tiết"></i>
                       <i class="fa fa-clock-o cursor-point" (click)="lichsu(item)" title="Xem lịch sử"></i>
-                         <i  (click)="updateAction(item)" title="Nâng cấp sáng kiến" class="fa fa-retweet"></i>
+                         <i *ngIf="item.capDoSangKien !== 'EVN'" (click)="updateAction(item)" title="Nâng cấp sáng kiến" class="fa fa-retweet"></i>
                         </div>
                 </td>
             </tr>
@@ -118,6 +120,7 @@
         </table>
         <!-- phan trang -->
         <mat-paginator
+            *ngIf="listGiao && listGiao.length"
             (page)="handlePageEvent($event)"
             [length]="length"
             [pageSize]="pageSize"

@@ -121,6 +121,8 @@ export class DetailsComponent implements OnInit {
     getlistDonViChuTri() {
         this._serviceApi.execServiceLogin("D3F0F915-DCA5-49D2-9A5B-A36EBF8CA5D1", null).subscribe((data) => {
             this.listDonViChuTri = data.data;
+            let obj = {"ID":"","NAME":"Tất cả"}
+            this.listDonViChuTri.unshift(obj);
         })
     }
 
@@ -130,18 +132,22 @@ export class DetailsComponent implements OnInit {
             .subscribe((data) => {
                 console.log(data.data);
                 this.listCapQuanLy = data.data;
+                let obj = {"ID":"","NAME":"Tất cả"}
+                this.listCapQuanLy.unshift(obj);
             });
     }
 
     geListYears() {
-        var obj = {"NAME": 0, "ID": 0};
+        var obj = {"NAME": "Tất cả", "ID": null};
+        this.listYears.push(obj);
         var year = (new Date()).getFullYear();
         var yearStart = 2023;
         var yearEnd = year + 10;
         for (let i = yearStart; i <= yearEnd; i++) {
-            obj = {"NAME": i, "ID": i}
+            obj = {"NAME": i+"", "ID": i}
             this.listYears.push(obj);
         }
+        obj = {"NAME": "Tất cả", "ID": null};
         this.fromNam = (new Date()).getFullYear();
         this.toNam = (new Date()).getFullYear();
     }
@@ -152,6 +158,8 @@ export class DetailsComponent implements OnInit {
             .subscribe((data) => {
                 console.log(data.data);
                 this.listLinhVucNghienCuu = data.data;
+                let obj = {"NAME": "Tất cả", "ID": ''};
+                this.listLinhVucNghienCuu.unshift(obj);
             });
     }
 
@@ -160,6 +168,7 @@ export class DetailsComponent implements OnInit {
         this.listPhanLoai.push(obj);
         obj = {"ID": "NHIEMTHU", "NAME": "Nhiệm vụ được nghiệm thu"}
         this.listPhanLoai.push(obj);
+       
     }
 
     timKiem() {
@@ -180,7 +189,10 @@ export class DetailsComponent implements OnInit {
             "value": this.pageIndex
         }, {"name": "PAGE_ROW_NUM", "value": this.pageSize}]).subscribe((data) => {
             this.listLinhVuc = data.data || [];
-            this.length = data.data[0].totalItem;
+            if(data.data!= null && data.data.length >0){
+                this.length = data.data[0].totalItem;
+            }
+           
             console.log(data.data);
              // this.form.patchValue(data.data);
              //    let formDocParent = this.form.get(

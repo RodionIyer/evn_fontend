@@ -40,6 +40,8 @@ export class PopupCbkhComponent implements OnInit {
     public listThuKy = [];
     public listThanhVien = [];
     public q = '';
+    public maDonVi = '';
+    public listDonVi = [];
     public getDinhHuongSubcription: Subscription;
     constructor(
         @Inject(MAT_DIALOG_DATA) private data: any,
@@ -69,8 +71,19 @@ export class PopupCbkhComponent implements OnInit {
         if (this.checkType == 'KEHOACH') {
             this.timkiemKehoach();
         } else {
+            this.donViChuTri();
             this.timkiemNguoi(this.checkType);
         }
+    }
+
+    donViChuTri(){
+        
+        this._serviceApi.execServiceLogin("D3F0F915-DCA5-49D2-9A5B-A36EBF8CA5D1", null).subscribe((data) => {
+            console.log(data.data);
+            this.listDonVi = data.data || [];
+            var obj ={ID:"",NAME:"Tất cả"}
+            this.listDonVi.unshift(obj);
+           })
     }
 
     onCloseClick(): void {
@@ -90,11 +103,20 @@ export class PopupCbkhComponent implements OnInit {
             ])
             .subscribe((data) => {
                 console.log(data.data);
+                // if(data.data != null && data.data.length >0){
+                //     // for(let i ;i<data.data.length;i++){
+                //     //     data.data
+                //     //     data.data[i].nam=
+                //     // }
+                // }
                 this.listKehoach = data.data;
             });
     }
     timkiemNguoi(type) {
-        this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("395A68D9-587F-4603-9E1D-DCF1987517B4", [{"name":"TEN_NGUOI_THUC_HIEN","value":"", "orgId":""}]).subscribe((data) => {
+        let obj ={
+            donVi:this.maDonVi
+        }
+        this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("395A68D9-587F-4603-9E1D-DCF1987517B4", [{"name":"TEN_NGUOI_THUC_HIEN","value":this.q},{"name":"TIM_KIEM","value":JSON.stringify(obj)}]).subscribe((data) => {
             if(type=="CHUNHIEM"){
                 this.listChuNhiem = data.data || [];
             }else if(type=="DONGCHUNHIEM"){

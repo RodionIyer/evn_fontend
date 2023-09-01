@@ -101,7 +101,7 @@ export const appRoutes: Route[] = [
                 path: 'nghiepvu', children: [
                     {
                         path: 'danhmuc', children: [
-                            { path: 'nguoilamkhoahoc', loadChildren: () => import('app/modules/admin/listorganization/listorganization.module').then(m => m.OrganizationModule) },
+                            { path: 'nguoilamkhoahoc', loadChildren: () => import('app/modules/admin/listnguoithuchien/listnguoithuchien.module').then(m => m.ListNguoiThucHienModule) },
                         ],
                     },
                     {

@@ -62,6 +62,7 @@
             </table>
             <!-- phan trang -->
             <mat-paginator
+                *ngIf="listGiao && listGiao.length > 0"
                 (page)="handlePageEvent($event)"
                 [length]="length"
                 [pageSize]="pageSize"

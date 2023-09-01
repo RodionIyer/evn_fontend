@@ -56,6 +56,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
           }else{
             this.actionClick = null
           }
+          this.getListDinhHuong()
         }
       );
     }
@@ -90,16 +91,17 @@ export class ListItemComponent implements OnInit, OnDestroy {
         })
     }
     //phân trang
-    length = 500;
-    pageSize = 10;
+    length = 0;
+    pageSize = 20;
     pageIndex = 0;
-    pageSizeOptions = [5, 10, 25];
+    pageSizeOptions = [10, 20, 50, 100];
     showFirstLastButtons = true;
-  
+
     handlePageEvent(event: PageEvent) {
-      this.length = event.length;
-      this.pageSize = event.pageSize;
-      this.pageIndex = event.pageIndex;
+        this.length = event.length;
+        this.pageSize = event.pageSize;
+        this.pageIndex = event.pageIndex;
+        this.getListDinhHuong();
     }
 
    // mo popup file
