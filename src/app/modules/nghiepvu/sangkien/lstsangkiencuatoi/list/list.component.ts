@@ -105,6 +105,9 @@ export class ListItemComponent implements OnInit, OnDestroy {
             "value": this.pageSize
         }]).subscribe((data) => {
             this.listGiao = data.data || [];
+            if(this.listGiao != null && this.listGiao.length >0){
+                this.length =data.data[0].totalPage;
+            }
         })
     }
 
@@ -168,6 +171,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
                 switch (data.status) {
                     case 1:
                         this._messageService.showSuccessMessage("Thông báo", "Xóa bản đăng ký thành công");
+                        this.timKiem();
                         break;
                     case 0:
                         this._messageService.showErrorMessage("Thông báo", "Không tìm thấy bản đăng ký cần xóa");

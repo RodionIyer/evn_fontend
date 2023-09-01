@@ -19,6 +19,7 @@
                 class="form-control"
                 name=""
                 id=""
+                maxlength="200"
                 formControlName="tenDeTai"
             />
 
@@ -78,6 +79,7 @@
                         placeholder="Nhập văn bản chỉ đạo số..."
                         type="text"
                         name=""
+                        maxlength="45"
                         formControlName="vanBanChiDaoSo"
                         id=""
                     />
@@ -112,6 +114,8 @@
             </div>
         </div> -->
     </div>
+
+
     <div class="flex flex-row row space-x-4">
         <div class="basis-1/4">
             <label for="">Đơn vị chủ trì<span>(*)</span></label>
@@ -132,76 +136,70 @@
                 </div>
             </div>
         </div>
-        <div class="basis-1/4"></div>
-        <div class="basis-1/4"></div>
-        <div class="basis-1/4"></div>
-    </div>
-    <div class="flex flex-row row">
-        <div class="basis-1/2">
-            <div class="flex flex-row row">
-                <div class="basis-1/2 flex justify-between items-center">
-                    <label for="">Thời gian thực hiện từ<span>(*)</span></label>
-                    <label style="margin-right: 10px">Từ</label>
-                </div>
-                <div class="basis-1/2 flex date-customt" style="">
-                    <!-- <input class="form-control" type="date" name="" id="" formControlName="thoiGianThucHienTu" /> -->
-                    <div class="form-date">
-                        <input
-                            matInput
-                            [matDatepicker]="picker"
-                            formControlName="thoiGianThucHienTu"
-                        />
-                        <mat-datepicker-toggle
-                            matIconSuffix
-                            [for]="picker"
-                        ></mat-datepicker-toggle>
-                        <mat-datepicker
-                            startView="multi-year"
-                            #picker
-                            (monthSelected)="
-                        setMonthAndYear($event, picker, 'thoiGianThucHienTu')
-                    "
-                        ></mat-datepicker>
-                    </div>
-                    <div
-                        *ngIf="submitted.check && f?.thoiGianThucHienTu?.errors"
-                        class="invalid-feedback"
-                    >
-                        <div *ngIf="f.thoiGianThucHienTu.errors.required">
-                            Trường bắt buộc nhập
-                        </div>
-                    </div>
+        <div class="basis-1/12"></div>
+        <div class="basis-2/12 text-right flex items-center">
+            <label for="">Thời gian thực hiện<span>(*)</span></label>
+        </div>
 
-                    <label class="dem-pading">đến</label>
-                    <!-- <input class="form-control" type="date" name="" id="" formControlName="thoiGianThucHienDen" /> -->
-                    <div class="form-date" style="    margin-left: 6px;">
-                        <input
-                            matInput
-                            [matDatepicker]="picker1"
-                            formControlName="thoiGianThucHienDen"
-                        />
-                        <mat-datepicker-toggle
-                            matIconSuffix
-                            [for]="picker1"
-                        ></mat-datepicker-toggle>
-                        <mat-datepicker
-                            startView="multi-year"
-                            #picker1
-                            (monthSelected)="
-                        setMonthAndYear($event, picker1, 'thoiGianThucHienDen')
-                    "
-                        ></mat-datepicker>
-                    </div>
-                    <div
-                        *ngIf="submitted.check && f?.thoiGianThucHienDen?.errors"
-                        class="invalid-feedback"
-                    >
-                        <div *ngIf="f.thoiGianThucHienDen.errors.required">
-                            Trường bắt buộc nhập
-                        </div>
-                    </div>
+        <div class="basis-1/4">
+            <label for="">Từ</label>
+            <div class="form-date">
+                <input
+                    matInput
+                    [matDatepicker]="picker"
+                    formControlName="thoiGianThucHienTu"
+                />
+                <mat-datepicker-toggle
+                    matIconSuffix
+                    [for]="picker"
+                ></mat-datepicker-toggle>
+                <mat-datepicker
+                    startView="multi-year"
+                    #picker
+                    (monthSelected)="
+                setMonthAndYear($event, picker, 'thoiGianThucHienTu')
+            "
+                ></mat-datepicker>
+            </div>
+
+            <div
+                *ngIf="submitted.check && f?.thoiGianThucHienTu?.errors"
+                class="invalid-feedback"
+            >
+                <div *ngIf="f.thoiGianThucHienTu.errors.required">
+                    Trường bắt buộc nhập
                 </div>
             </div>
+        </div>
+        <div class="basis-1/4">
+            <label for="">Đến</label>
+            <div class="form-date">
+
+                <input
+                    matInput
+                    [matDatepicker]="picker1"
+                    formControlName="thoiGianThucHienDen"
+                />
+                <mat-datepicker-toggle
+                    matIconSuffix
+                    [for]="picker1"
+                ></mat-datepicker-toggle>
+                <mat-datepicker
+                    startView="multi-year"
+                    #picker1
+                    (monthSelected)="
+                setMonthAndYear($event, picker1, 'thoiGianThucHienDen')
+            "
+                ></mat-datepicker>
+            </div>
+            <div
+            *ngIf="submitted.check && f?.thoiGianThucHienDen?.errors"
+            class="invalid-feedback"
+        >
+            <div *ngIf="f.thoiGianThucHienDen.errors.required">
+                Trường bắt buộc nhập
+            </div>
+        </div>
         </div>
     </div>
 
@@ -214,6 +212,7 @@
                     type="text"
                     name=""
                     id=""
+                    maxlength="200"
                     formControlName="chuNhiemDeTai"
                 />
                 <i
@@ -270,6 +269,7 @@
                 type="text"
                 name=""
                 id=""
+                maxlength="200"
                 formControlName="donViCongTac"
             />
             <!-- <ng-select
@@ -291,6 +291,7 @@
                     type="text"
                     name=""
                     id=""
+                    maxlength="200"
                     formControlName="dongChuNhiemDeTai"
                 />
                 <i
@@ -347,6 +348,7 @@
                 type="text"
                 name=""
                 id=""
+                maxlength="200"
                 formControlName="donViCongTacDongChuNhiem"
             />
             <!-- <ng-select
@@ -368,6 +370,7 @@
                     type="text"
                     name=""
                     id=""
+                    maxlength="200"
                     formControlName="thuKyDeTai"
                 />
                 <i (click)="openAlertDialog('THUKY')" class="fa fa-search"></i>
@@ -413,6 +416,7 @@
                 type="text"
                 name=""
                 id=""
+                maxlength="200"
                 formControlName="donViCongTacThuKy"
             />
             <!-- <ng-select
@@ -466,6 +470,7 @@
                                 type="text"
                                 name=""
                                 id=""
+                                maxlength="200"
                                 formControlName="ten"
                             />
                             <i
@@ -478,14 +483,28 @@
                         <!-- <input style="border:1px solid #ccc; border-radius: 5px;" type="text" name="" formControlName="ten" id=""> <i (click)="openAlertDialog('THANHVIEN',thanhvien.get('ten'))" class="fa fa-search"></i> -->
                     </td>
                     <td>
-                        <ng-select
+                        <input
+                            style="
+                                    border: 1px solid #ccc;
+                                    border-radius: 5px;
+                                    width: 100%;
+                                    height: 30px;
+                                "
+                            class="inputselect"
+                            type="text"
+                            name=""
+                            id=""
+                            maxlength="200"
+                            formControlName="tenChucDanh"
+                        />
+                        <!-- <ng-select
                             [items]="listChucDanh"
                             bindLabel="NAME"
                             bindValue="ID"
                             placeholder="Chọn chức"
                             formControlName="chucDanh"
                         >
-                        </ng-select>
+                        </ng-select> -->
                     </td>
                     <!-- {{thanhvien.get('chucDanh').value}} -->
                     <td>
@@ -500,6 +519,7 @@
                             type="text"
                             name=""
                             id=""
+                            maxlength="40"
                             formControlName="soDienThoai"
                         />
                     </td>
@@ -515,6 +535,7 @@
                             type="text"
                             name=""
                             id=""
+                            maxlength="40"
                             formControlName="email"
                         />
                     </td>
@@ -530,6 +551,7 @@
                             type="text"
                             name=""
                             id=""
+                            maxlength="200"
                             formControlName="donViCongTac"
                         />
                     </td>
@@ -641,6 +663,7 @@
             <textarea
                 name=""
                 id=""
+                maxlength="450"
                 formControlName="tinhCapThietCuaDeTaiNhiemVu"
                 class="form-control p-3 min-h-30"
             ></textarea>
@@ -653,6 +676,7 @@
                 formControlName="mucTieu"
                 name=""
                 id=""
+                maxlength="2400"
                 class="form-control p-3 min-h-30"
             ></textarea>
         </div>
@@ -664,6 +688,7 @@
                 name=""
                 formControlName="nhiemVuVaPhamViNghienCuu"
                 id=""
+                maxlength="2400"
                 class="form-control p-3 min-h-30"
             ></textarea>
         </div>
@@ -675,6 +700,7 @@
                 formControlName="ketQuaDuKien"
                 name=""
                 id=""
+                maxlength="2400"
                 class="form-control p-3 min-h-30"
             ></textarea>
         </div>
@@ -686,6 +712,7 @@
                 formControlName="kienNghiDeXuat"
                 name=""
                 id=""
+                maxlength="400"
                 class="form-control p-3 min-h-30"
             ></textarea>
         </div>
@@ -901,8 +928,8 @@
                 <tr>
                     <td>Thời gian thực hiện</td>
                     <td>
-                        {{ form.get("thoiGianThucHienTu").value | date : "dd/MM/yyyy" }} -
-                        {{ form.get("thoiGianThucHienDen").value | date : "dd/MM/yyyy" }}
+                        {{ form.get("thoiGianThucHienTu").value | date : "MM/yyyy" }} -
+                        {{ form.get("thoiGianThucHienDen").value | date : "MM/yyyy" }}
                     </td>
                     <!-- <td>{{form.get('thoiGianThucHienTu')?.value | date:"dd/MM/yyyy" +' - '+
                         form.get('thoiGianThucHienDen')?.value }}</td> -->
@@ -930,7 +957,7 @@
                 </tr>
                 <tr>
                     <td>Kinh phí thực hiện</td>
-                    <td>{{ form.get("tongKinhPhi").value }}</td>
+                    <td>{{ form.get("tongKinhPhi").value | number }}</td>
                 </tr>
                 <tr>
                     <td>Nguồn kinh phí</td>
@@ -992,8 +1019,8 @@
                                 <td class="font-medium">
                                     {{ item.get("fileName").value }}
                                 </td>
-                                <td>{{ item.get("nguoiSua").value }}</td>
-                                <td  style="text-align: center">{{ item.get("ngaySua").value | date:'mm/dd/yyyy' }}</td>
+                                <td>{{ item.get("nguoiCapnhap").value }}</td>
+                                <td  style="text-align: center">{{ item.get("ngaySua").value | date:'dd/MM/yyyy' }}</td>
                                 <td>
                                     <div
                                         class="list-file"
@@ -1077,6 +1104,7 @@
                                         </table>
                                     </div>
                                 </td>
+                                <td class="text-left">{{ item.get("ghiChu").value }}</td>
                             </tr>
                         </ng-container>
                         </tbody>
@@ -1237,15 +1265,16 @@
                         >
                         <ng-container *ngFor="let item of form.get('listFolderHSXD')['controls'];let i = index ">
                         <tr
-                            
+
                             [formGroupName]="i"
                         >
                             <td class="stt_table">{{ i + 1 }}</td>
                             <td class="font-medium">
                                 {{ item.get("fileName").value }}
+
                             </td>
-                            <td>{{ item.get("nguoiSua").value }}</td>
-                            <td  style="text-align: center">{{ item.get("ngaySua").value | date:'mm/dd/yyyy' }}</td>
+                            <td>{{ item.get("nguoiCapnhap").value }}</td>
+                            <td  style="text-align: center">{{ item.get("ngaySua").value | date:'dd/MM/yyyy' }}</td>
                             <td>
                                 <div
                                         class="list-file"
@@ -1329,7 +1358,7 @@
                                         </table>
                                     </div>
                             </td>
-                            <td class="text-center">
+                            <td class="text-left">
                                 {{ item.get("ghiChu").value }}
                                 <!-- <label class="custom-file-upload add_button-import">
                                     <input type="file" multiple (change)="handleUpload($event,item,i)" #fileUpload2 />
@@ -1376,8 +1405,8 @@
                             <td class="font-medium">
                                 {{ item.get("fileName").value }}
                             </td>
-                            <td>{{ item.get("nguoiSua").value }}</td>
-                            <td  style="text-align: center">{{ item.get("ngaySua").value | date:'mm/dd/yyyy' }}</td>
+                            <td>{{ item.get("nguoiCapnhap").value }}</td>
+                            <td  style="text-align: center">{{ item.get("ngaySua").value | date:'dd/MM/yyyy' }}</td>
                             <td>
                                 <div
                                         class="list-file"
@@ -1461,7 +1490,7 @@
                                         </table>
                                     </div>
                             </td>
-                            <td class="text-center">
+                            <td class="text-left">
                                 {{ item.get("ghiChu").value }}
                                 <!-- <label class="custom-file-upload add_button-import">
                                 <input type="file" multiple (change)="handleUpload($event,item,i)" #fileUpload2 />
@@ -1504,8 +1533,8 @@
                             <td class="font-medium">
                                 {{ item.get("fileName").value }}
                             </td>
-                            <td>{{ item.get("nguoiSua").value }}</td>
-                            <td  style="text-align: center">{{ item.get("ngaySua").value | date:'mm/dd/yyyy' }}</td>
+                            <td>{{ item.get("nguoiCapnhap").value }}</td>
+                            <td  style="text-align: center">{{ item.get("ngaySua").value | date:'dd/MM/yyyy' }}</td>
                             <td>
                                 <div
                                         class="list-file"
@@ -1589,7 +1618,7 @@
                                         </table>
                                     </div>
                             </td>
-                            <td class="text-center">
+                            <td class="text-left">
                                 {{ item.get("ghiChu").value }}
                                 <!-- <label class="custom-file-upload add_button-import">
                                     <input type="file" multiple (change)="handleUpload($event,item,i)" #fileUpload2 />
@@ -1634,8 +1663,8 @@
                             <td class="font-medium">
                                 {{ item.get("fileName").value }}
                             </td>
-                            <td>{{ item.get("nguoiSua").value }}</td>
-                            <td  style="text-align: center">{{ item.get("ngaySua").value | date:'mm/dd/yyyy' }}</td>
+                            <td>{{ item.get("nguoiCapnhap").value }}</td>
+                            <td  style="text-align: center">{{ item.get("ngaySua").value | date:'dd/MM/yyyy' }}</td>
                             <td>
                                 <div
                                         class="list-file"
@@ -1719,7 +1748,7 @@
                                         </table>
                                     </div>
                             </td>
-                            <td class="text-center">
+                            <td class="text-left">
                                 {{ item.get("ghiChu").value }}
                                 <!-- <label class="custom-file-upload add_button-import">
                                     <input type="file" multiple (change)="handleUpload($event,item,i)" #fileUpload2 />
@@ -1763,9 +1792,10 @@
                             <td class="stt_table">{{ i + 1 }}</td>
                             <td class="font-medium">
                                 {{ item.get("fileName").value }}
+
                             </td>
-                            <td>{{ item.get("nguoiSua").value }}</td>
-                            <td  style="text-align: center">{{ item.get("ngaySua").value | date:'mm/dd/yyyy' }}</td>
+                            <td>{{ item.get("nguoiCapnhap").value }}</td>
+                            <td  style="text-align: center">{{ item.get("ngaySua").value | date:'dd/MM/yyyy' }}</td>
                             <td>
                                 <div
                                         class="list-file"
@@ -1849,7 +1879,7 @@
                                         </table>
                                     </div>
                             </td>
-                            <td class="text-center">
+                            <td class="text-left">
                                 {{ item.get("ghiChu").value }}
                                 <!-- <label class="custom-file-upload add_button-import">
                                     <input type="file" multiple (change)="handleUpload($event,item,i)" #fileUpload2 />
@@ -1988,8 +2018,28 @@
                     <td class="font-medium">
                         {{ item.get("fileName").value }}
                     </td>
-                    <td></td>
-                    <td></td>
+                    <td class="font-medium">
+                        {{ item.get("sovanban").value }}
+                    </td>
+                    <td class="font-medium">
+                        {{ item.get("ngayVanBan").value | date:'dd/MM/yyyy' }}
+                    </td>
+                      <!-- <td><input type="text"  class="form-control" formControlName="sovanban" /></td>
+
+                  <td>  <div class="form-date">
+                        <input
+                            matInput
+                            type="text"
+                            [matDatepicker]="picker"
+                            formControlName="ngayVanBan"
+                            placeholder="dd/mm/yyyy"
+                        />
+                        <mat-datepicker-toggle
+                            matIconSuffix
+                            [for]="picker"
+                        ></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </div></td>  -->
                     <td>
                         <div
                             class="list-file"
@@ -2182,7 +2232,7 @@
                             let i = index
                         ">
                         <tr
-                        [formGroupName]="i" 
+                        [formGroupName]="i"
                         >
                             <td class="stt_table">{{ i + 1 }}</td>
                             <td class="font-medium">
@@ -2321,14 +2371,33 @@
                     let i = index
                 ">
                 <tr [formGroupName]="i"
-                 
+
                 >
                     <td class="stt_table">{{ i + 1 }}</td>
                     <td class="font-medium">
                         {{ item.get("fileName").value }}
                     </td>
-                    <td></td>
-                    <td></td>
+                    <td class="font-medium">
+                        {{ item.get("sovanban").value }}
+                    </td>
+                    <td class="font-medium">
+                        {{ item.get("ngayVanBan").value | date:'dd/MM/yyyy' }}
+                    </td>
+                    <!-- <td><input type="text"  class="form-control" formControlName="sovanban" /></td>
+                    <td>  <div class="form-date">
+                        <input
+                            matInput
+                            type="text"
+                            [matDatepicker]="picker"
+                            formControlName="ngayVanBan"
+                            placeholder="dd/mm/yyyy"
+                        />
+                        <mat-datepicker-toggle
+                            matIconSuffix
+                            [for]="picker"
+                        ></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </div></td>  -->
                     <td>
                         <div
                             class="list-file"
@@ -2795,8 +2864,8 @@
                     <td class="font-medium">
                         {{ item.get("fileName").value }}
                     </td>
-                    <td> {{ item.get("nguoiSua").value }}</td>
-                    <td  style="text-align: center">{{ item.get("ngaySua").value | date:'mm/dd/yyyy' }}</td>
+                    <td> {{ item.get("nguoiCapnhap").value }}</td>
+                    <td  style="text-align: center">{{ item.get("ngaySua").value | date:'dd/MM/yyyy' }}</td>
                     <td>
                         <ng-container formArrayName="listFile">
                             <div
@@ -2932,7 +3001,7 @@
                             <i class="fa fa-link"></i> Upload file
                         </button> -->
                     </td>
-                    <td class="text-center">
+                    <td class="text-left">
                         {{ item.get("ghiChu")?.value }}
                     </td>
                 </tr>
@@ -2960,6 +3029,7 @@
                     <th>Tên hồ sơ</th>
                     <th>Người cập nhập</th>
                     <th>Ngày cập nhập</th>
+                    <th></th>
                     <th>File đính kèm</th>
                     <th>Ghi chú</th>
                     <th></th>
@@ -2979,8 +3049,8 @@
                     <td class="font-medium">
                         {{ item.get("fileName").value }}
                     </td>
-                    <td> {{ item.get("nguoiSua").value }}</td>
-                    <td  style="text-align: center">{{ item.get("ngaySua").value | date:'mm/dd/yyyy' }}</td>
+                    <td> {{ item.get("nguoiCapnhap").value }}</td>
+                    <td  style="text-align: center">{{ item.get("ngaySua").value | date:'dd/MM/yyyy' }}</td>
                     <td>
                         <ng-container formArrayName="listFile">
                             <div
@@ -3121,14 +3191,14 @@
                             <i class="fa fa-link"></i> Upload file
                         </button> -->
                     </td>
-                    <td>{{ item.get("ghiChu").value }}</td>
+                    <td  class="text-left">{{ item.get("ghiChu").value }}</td>
                 </tr>
                 </tbody>
             </table>
         </mat-tab>
     </mat-tab-group>
 
-    <div style="display: flex; margin-top: 10px; align-items: center">
+    <div [class.khongthaotac]="listRole.indexOf('KHCN_ROLE_CANBO_KHCN') <=-1" style="display: flex; margin-top: 10px; align-items: center">
         <label for="" style="margin-right: 10px"
         >Trạng thái <span>(*)</span></label
         >
@@ -3232,7 +3302,7 @@
                     <th>Người cập nhập</th>
                     <th>Ngày cập nhập</th>
                     <th></th>
-                    <th>File đính kèm</th>
+                    <th style="width:130px">File đính kèm</th>
                     <th>Ghi chú</th>
                 </tr>
                 </thead>
@@ -3250,8 +3320,8 @@
                     <td class="font-medium">
                         {{ item.get("fileName").value }}
                     </td>
-                    <td> {{ item.get("nguoiSua").value }}</td>
-                    <td  style="text-align: center">{{ item.get("ngaySua").value | date:'mm/dd/yyyy' }}</td>
+                    <td> {{ item.get("nguoiCapnhap").value }}</td>
+                    <td  style="text-align: center">{{ item.get("ngaySua").value | date:'dd/MM/yyyy' }}</td>
                     <td>
                         <ng-container formArrayName="listFile">
                             <div
@@ -3392,7 +3462,7 @@
                             <i class="fa fa-link"></i> Upload file
                         </button> -->
                     </td>
-                    <td class="text-center">
+                    <td  class="text-left">
                         {{ item.get("ghiChu").value }}
                     </td>
                 </tr>
@@ -3421,7 +3491,7 @@
                     <th>Người cập nhập</th>
                     <th>Ngày cập nhập</th>
                     <th>File upload</th>
-                    <th>File đính kèm</th>
+                    <th style="width:130px">File đính kèm</th>
                     <th>Ghi chú</th>
                 </tr>
                 </thead>
@@ -3438,8 +3508,8 @@
                     <td class="font-medium">
                         {{ item.get("fileName").value }}
                     </td>
-                    <td> {{ item.get("nguoiSua").value }}</td>
-                    <td  style="text-align: center">{{ item.get("ngaySua").value | date:'mm/dd/yyyy' }}</td>
+                    <td> {{ item.get("nguoiCapnhap").value }}</td>
+                    <td  style="text-align: center">{{ item.get("ngaySua").value | date:'dd/MM/yyyy' }}</td>
                     <td>
                         <ng-container formArrayName="listFile">
                             <div
@@ -3575,7 +3645,7 @@
                             <i class="fa fa-link"></i> Upload file
                         </button> -->
                     </td>
-                    <td>{{ item.get("ghiChu").value }}</td>
+                    <td  class="text-left">{{ item.get("ghiChu").value }}</td>
                 </tr>
                 </tbody>
                 <!-- <tbody>
@@ -3693,6 +3763,7 @@
             <th>Tên hồ sơ</th>
             <th>Người cập nhập</th>
             <th>Ngày cập nhập</th>
+            <th></th>
             <th>File đính kèm</th>
             <th>Ghi chú</th>
         </tr>
@@ -3708,9 +3779,9 @@
             <td class="stt_table">{{ i + 1 }}</td>
             <td class="font-medium">
                 {{ item.get("fileName").value }}
-                {{ item.get("maFolder").value }}
             </td>
-            <td></td>
+            <td> {{ item.get("nguoiCapnhap").value }}</td>
+            <td  style="text-align: center">{{ item.get("ngaySua").value | date:'dd/MM/yyyy' }}</td>
             <td>
                 <div
                     class="list-file"
@@ -3735,28 +3806,22 @@
                                     class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
                                 ></i> -->
                                 {{ item2.get("fileName").value }}
-                            </td>
-                            <td>
-                                {{
+                                ({{
                                 item2.get("size").value >
                                 1024 * 1024
                                     ? (
                                     item2.get("size").value /
                                     (1024 * 1024)
-                                ).toFixed(1) + "(MB)"
+                                ).toFixed(1) + " MB"
                                     : item2.get("size").value > 1024
                                     ? (
                                         item2.get("size").value /
                                         1024
-                                    ).toFixed(1) + "(KB)"
+                                    ).toFixed(1) + " KB"
                                     : item2
                                         .get("size")
                                         .value.toFixed(1) + "K"
-                                }}
-                            </td>
-
-                            <td>{{ item2.get("sovanban").value }}</td>
-                            <td class="text-right">
+                                }})
                                 <i
                                     style="
                                                 color: red;
@@ -3767,7 +3832,7 @@
                                     class="fa fa-trash"
                                     title="Xóa bỏ"
                                 ></i>
-                                <i
+                                <!-- <i
                                     class="fa fa-cloud-download"
                                     style="
                                                 color: green;
@@ -3776,7 +3841,7 @@
                                     aria-hidden="true"
                                     (click)="downLoadFile(item2)"
                                     title="Download file"
-                                ></i>
+                                ></i> -->
                             </td>
                         </tr>
                         </tbody>

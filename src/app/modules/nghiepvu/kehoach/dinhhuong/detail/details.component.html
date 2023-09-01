@@ -1,47 +1,47 @@
 <!--(ngSubmit)="onSubmit()"-->
 
-<div  *ngIf="actionType == 'THEMMOI' || actionType == 'CHINHSUA' || actionType == 'CHITIET' " [formGroup]="form" (ngSubmit)="onSubmit('CGIAO')" novalidate 
+<div  *ngIf="actionType == 'THEMMOI' || actionType == 'CHINHSUA' || actionType == 'CHITIET' " [formGroup]="form" (ngSubmit)="onSubmit('CGIAO')" novalidate
     class="flex flex-col flex-auto overflow-y-auto lg:overflow-hidden bg-card dark:bg-default content-detail">
     <div class="flex items-center justify-between">
         <h1 class="title-component">CHI TIẾT ĐĂNG KÝ ĐỊNH HƯỚNG KHCN</h1>
-      
+
     </div>
     <div class="header-detail">
         <div class="row-one flex items-center">
-            <div class="dinhhuong-name"  [class.khongthaotac]="checkChiTiet=='CHITIET'">
+            <div class="dinhhuong-name dinhhuong"  [class.khongthaotac]="checkChiTiet=='CHITIET'">
                 <label  class="wp-15 title-dinhhuong w-50 inline-block"  for="">Tên<span>(*)</span></label>
-                <input type="text" formControlName="name" placeholder="Tên bản đăng ký định hướng"
+                <input type="text" formControlName="name" maxlength="200" placeholder="Tên bản đăng ký định hướng"
                     class="form-control input-form" />
                 <div *ngIf="submitted.check && f?.name?.errors" class="invalid-feedback">
                     <div *ngIf="f.name.errors.required">Trường bắt buộc nhập</div>
                   </div>
             </div>
-            
+
             <!-- <input type="file" class="file-input" value="Import kế hoạch từ Excel"
             (change)="importFile($event)" #fileUpload> -->
             <!-- <button class="add_button mg-left">
                 <i class="fa fa-cloud-upload"></i> Import kế hoạch từ Excel
             </button> -->
-            <div class="pull-right ml-auto">
-                <label class="custom-file-upload add_button-import cursor-point" *ngIf="checkChiTiet !='CHITIET'">
+            <div class="pull-right ml-auto flex">
+                <label class="custom-file-upload add_button-import cursor-point flex items-center gap-2" *ngIf="checkChiTiet !='CHITIET'">
                     <input type="file"  (change)="importFile($event)" #fileUpload/>
-                    <i class="fa fa-cloud-upload"></i> Import
+                    <i class="fa fa-cloud-upload"></i> <span class="text-white">Import</span>
                 </label>
-                <button class="add_button-import cursor-point"  *ngIf="checkChiTiet !='CHITIET'" (click)="downloadExcel()">
-                    <i class="fa fa-cloud-download"></i> Export
+                <button class="add_button-import cursor-point cursor-point flex items-center gap-2"  *ngIf="checkChiTiet !='CHITIET'" (click)="downloadExcel()">
+                    <i class="fa fa-cloud-download"></i> <span>Export</span>
                 </button>
-                <button class="add_button-export cursor-point" [class.khongthaotac]="checkChiTiet=='THEMMOI'"  (click)="exportMau()">
-                    <i class="fa fa-plus" ></i> Xuất biểu mẫu
+                <button class="add_button-export cursor-point cursor-point flex items-center gap-2" *ngIf="actionType == 'CHITIET'" [class.khongthaotac]="checkChiTiet=='THEMMOI'"  (click)="exportMau()">
+                    <i class="fa fa-plus" ></i> <span>Xuất biểu mẫu</span>
                 </button>
-                <button class="add_button cursor-point"  *ngIf="checkChiTiet !='CHITIET'" (click)="onSubmit('SOAN')">
-                    <i class="fa fa-save"></i> Lưu
+                <button class="add_button cursor-point cursor-point flex items-center gap-2 ml-3"  *ngIf="checkChiTiet !='CHITIET'" (click)="onSubmit('SOAN')">
+                    <i class="fa fa-save"></i> <span>Lưu</span>
                 </button>
-                <button class="add_button cursor-point"  *ngIf="checkChiTiet !='CHITIET'" (click)="onSubmit('CHO_PHE_DUYET')">
-                    <i class="fa fa-send-o"></i> Lưu & Gửi
+                <button class="add_button cursor-point cursor-point flex items-center gap-2 ml-3"  *ngIf="checkChiTiet !='CHITIET'" (click)="onSubmit('CHO_PHE_DUYET')">
+                    <i class="fa fa-send-o"></i> <span>Lưu & Gửi</span>
                 </button>
-                
+
             </div>
-           
+
         </div>
         <div class="row-tow flex items-center"  [class.khongthaotac]="checkChiTiet=='CHITIET'">
             <label  class="w-50 inline-block"  for="">Kế hoạch năm</label>
@@ -101,11 +101,12 @@
         <div class="list-file  mt-3" *ngIf="listupload.length >0">
             <div class="flex" *ngFor="let item of listupload; let i = index">
                 <label  class="wp-15" style="margin-right: 55px;"  for=""></label>
-                <div>{{item.fileName}} ({{item.size >(1024 * 1024)?(item.size/(1024*1024)).toFixed(1)+' MB':item.size >1024?(item.size/(1024)).toFixed(1)+' KB':item.size.toFixed(1) +" K"}})</div>
+                <div><span (click)="downLoadFile(item)">{{item.fileName}}</span> ({{item.size >(1024 * 1024)?(item.size/(1024*1024)).toFixed(1)+' MB':item.size >1024?(item.size/(1024)).toFixed(1)+' KB':item.size.toFixed(1) +" K"}})</div>
                 <div> <i *ngIf="actionType == 'THEMMOI' || actionType == 'CHINHSUA'" style="color: red; cursor: pointer;    margin-left: 20px;" (click)="deleteItemFile(item)" class="fa fa-trash cursor-point" title="Xóa bỏ"></i>
-                    <i class="fa fa-cloud-download" *ngIf="actionType == 'CHITIET'"
+                    <!-- <i class="fa fa-cloud-download" *ngIf="actionType == 'CHITIET'"
                     style="color: green; cursor: pointer;" aria-hidden="true"
-                    (click)="downLoadFile(item)" title="Download file"></i></div>
+                    (click)="downLoadFile(item)" title="Download file"></i> -->
+                </div>
             </div>
         </div>
         <div class="row-for">

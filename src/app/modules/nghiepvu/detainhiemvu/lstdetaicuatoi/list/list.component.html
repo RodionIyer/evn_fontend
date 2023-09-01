@@ -15,10 +15,10 @@
                     class="form-control"
                     name="serach"
                     placeholder="Nhập từ khóa tìm kiếm: tên đề tài,nhiệm vụ, chủ nhiệm, đồng chủ nhiệm, thư ký"
-                    [(ngModel)]="name" 
+                    [(ngModel)]="name"
                 />
                 <!-- (change)="timKiem()"  (change)="onChange()" -->
-                <button   (click)="timKiem()">
+                <button class="detai-search"  (click)="timKiem()">
                     <i class="fa fa-search"></i>
                     Tìm kiếm
                 </button>
@@ -49,7 +49,6 @@
                         <td class="text-center">{{item.thoiGianThucHienTu | date:'MM/yyyy' }} - {{item.thoiGianThucHienDen | date:'MM/yyyy' }}</td>
                         <td>{{item.tenTrangThai}}</td>
                         <td class="text-center">{{item.ngayTao | date:'yyyy' }}</td>
-                        <td></td>
                     <td class="text-center action-table">
                         <div class="flex">
                             <i (click)="detail(item)"
@@ -62,9 +61,9 @@
                             <i  *ngIf="item.maTrangThai=='DANG_THUC_HIEN'" (click)="updateActionTIENDO(item)" title="Cập nhật tiến độ thực hiện" class="fa fa-caret-square-o-up"></i>
                             <i  *ngIf="item.maTrangThai=='DANG_THUC_HIEN' || item.maTrangThai=='YCAU_CAP_NHAT_HS_NTHU'" (click)="updateActionHSNT(item)" title="Cập nhật HSNT" class="fa fa-caret-square-o-up"></i>
                             <i  *ngIf="item.maTrangThai=='DA_NTHU'" (click)="updateActionHSQT(item)" title="Cập nhật HSQT" class="fa fa-caret-square-o-up"></i>
-                           
+
                             <i *ngIf="item.maTrangThai=='CHUA_GUI'" class="fa fa-trash" (click)="xoa(item)" title="Xóa bỏ"></i>
-                            
+
                         </div>
                     </td>
                 </tr>

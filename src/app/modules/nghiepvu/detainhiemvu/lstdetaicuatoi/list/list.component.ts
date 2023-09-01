@@ -55,6 +55,7 @@ export class LstdetaicuatoiListComponent implements OnInit, OnDestroy {
         public dialog: MatDialog
     ) {
         this._activatedRoute.queryParams.subscribe((params) => {
+           
             if (params?.type) {
                 this.actionClick = params?.type;
             } else {
@@ -62,6 +63,7 @@ export class LstdetaicuatoiListComponent implements OnInit, OnDestroy {
             }
             this.timKiem();
         });
+        this.timKiem();
     }
 
     ngOnInit(): void {
@@ -191,6 +193,7 @@ export class LstdetaicuatoiListComponent implements OnInit, OnDestroy {
                                     'Thông báo',
                                     'Xóa bản đăng ký thành công'
                                 );
+                                this.timKiem();
                                 break;
                             case 0:
                                 this._messageService.showErrorMessage(

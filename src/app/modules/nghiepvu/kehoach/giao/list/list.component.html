@@ -4,7 +4,7 @@
         <ng-container *ngIf="!actionClick">
             <div class="flex items-center justify-between">
                 <h1 class="title-component">
-                    DANH SÁCH BẢN ĐĂNG KÝ ĐỊNH HƯỚNG
+                    DANH SÁCH BẢNG ĐĂNG KÝ ĐỊNH HƯỚNG EVN GIAO THỰC HIỆN
                 </h1>
             </div>
             <div class="header-list-dinh-huong">
@@ -12,8 +12,8 @@
                     <label for="">Năm</label>
                     <ng-select
                         [items]="listYears"
-                        bindLabel="NAME"
-                        bindValue="ID"
+                        bindLabel="name"
+                        bindValue="id"
                         (change)="timKiem()"
                         placeholder="Chọn năm"
                         [multiple]="true"
@@ -39,6 +39,7 @@
                     <tr>
                         <th class="stt_table">STT</th>
                         <th>Tên bản đăng ký</th>
+                        <th>Đơn vị gửi</th>
                         <th class="text-center">Người gửi</th>
                         <th class="text-center">Ngày gửi</th>
                         <th class="text-center">Năm</th>
@@ -51,6 +52,7 @@
                     <tr *ngFor="let item of listDinhHuong; let i = index">
                         <td class="stt_table">{{ (i+(pageIndex * pageSize)) + 1 }}</td>
                         <td>{{ item.name }}</td>
+                        <td>{{item.tenDonVi}}</td>
                         <td >{{ item.nguoiGui }}</td>
                         <td class="text-center">{{ item.ngayGui }}</td>
                         <td class="text-right">{{ item.nam }}</td>
@@ -77,7 +79,7 @@
                                     [queryParams]="{ type: 'CHINHSUA' }"
                                     title="Chỉnh sửa"
                                 ></i>
-                                <i
+                                <i (click)="xoa(item)"
                                     *ngIf="item.maTrangThai == 'CGIAO'"
                                     class="fa fa-trash"
                                     title="Xóa bỏ"

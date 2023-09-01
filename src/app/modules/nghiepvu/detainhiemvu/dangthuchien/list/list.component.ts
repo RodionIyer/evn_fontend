@@ -63,6 +63,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
             } else {
                 this.actionClick = null;
             }
+            this.timKiem();
         });
     }
 
@@ -77,6 +78,8 @@ export class ListItemComponent implements OnInit, OnDestroy {
             .execServiceLogin('2977F0EA-A6C6-4A32-A36B-8617898B710D', null)
             .subscribe((data) => {
                 this.listCapQuanLy = data.data || [];
+                let obj = {"ID":"","NAME":"Tất cả"};
+                this.listCapQuanLy.unshift(obj);
             });
     }
     timKiem() {
@@ -93,6 +96,9 @@ export class ListItemComponent implements OnInit, OnDestroy {
             ])
             .subscribe((data) => {
                 this.listGiao = data.data || [];
+                if (this.listGiao != null && this.listGiao.length > 0) {
+                    this.length = this.listGiao[0].totalPage;
+                }
             });
     }
 
@@ -167,7 +173,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
     updateActionHSTH(item) {
         this._router.navigate(
             ['/nghiepvu/detainhiemvu/lstdetaicuatoi/' + item.maDeTai],
-            { queryParams: { type: 'updateActionHSTH' } }
+            { queryParams: { type: 'updateActionHSTH',screen:"/nghiepvu/detainhiemvu/dangthuchien/" } }
         );
     }
 

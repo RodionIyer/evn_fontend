@@ -6,14 +6,14 @@
                 <h1 class="title-component">Báo cáo - Thống kê</h1>
             </div>
 
-            <button class="px-3 bg-blue-500 py-3 text-white uppercase" (click)="toggleHover()">
+            <button class="px-3 bg-blue-500 py-3 text-white uppercase w-[70%]" style="display: block; text-align: left;font-weight: 700;font-size: 18px;" (click)="toggleHover()">
                 Tổng hợp danh sách đề tài/ nhiệm vụ KHCN
             </button>
             <!-- <table [ngClass]="{ 'hidden': isHidden }" (mouseenter)="show()" class="table table_custom" -->
-            <table class="table table_custom"
+            <table class="table table_custom w-[70%]"
                    style="margin-top: 0">
                 <thead>
-                <tr>
+                <tr style="font-size: 14px;">
                     <th class="stt_table">STT</th>
                     <th class="text-left">Tiêu chí báo cáo</th>
                 </tr>
@@ -34,11 +34,11 @@
                 </tbody>
             </table>
             <br>
-            <button class="px-3 bg-blue-500 py-3 text-white uppercase mt-8" (click)="toggleHover1()">
+            <!-- <button class="px-3 bg-blue-500 py-3 text-white uppercase mt-8 w-[70%]" style="display: block; text-align: left;" (click)="toggleHover1()">
                 TỔNG HỢP DANH SÁCH SÁNG KIẾN
             </button>
-            <!-- <table  [ngClass]="{ 'hidden': isHidden1 }" (mouseenter)="show1()" class="table table_custom" style="margin-top: 0"> -->
-                <table class="table table_custom" style="margin-top: 0">
+       
+                <table class="table table_custom w-[70%]" style="margin-top: 0">
                 <thead>
                 <tr>
                     <th class="stt_table">STT</th>
@@ -59,7 +59,7 @@
                     <td class="uppercase" [class.selected]="selectedOption === 'TKSKDONVI'"  (click)="THEOSANGKIEN('TKSKDONVI')">Theo đơn vị</td>
                 </tr>
                 </tbody>
-            </table>
+            </table> -->
         </ng-container>
     </div>
     <!-- details -->

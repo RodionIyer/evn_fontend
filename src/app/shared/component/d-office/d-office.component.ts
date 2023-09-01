@@ -37,6 +37,7 @@ export class DOfficeComponent implements OnInit {
     public soKyHieu="";
     public linkOffice;
     public maDv; 
+    public isSearch=false;
     constructor(
         @Inject(MAT_DIALOG_DATA) private data: any,
         private _formBuilder: UntypedFormBuilder,
@@ -104,10 +105,13 @@ export class DOfficeComponent implements OnInit {
     }
 
     timkiemDoffice(){
-       this._dOfficeApi.execTimKiem(this.linkOffice,this.q,this.soKyHieu,this.loaiTK,this.selectedYear,this.maDv).subscribe((data) => {
-            this.listDOffice = data.data || [];
-              
-           })
+        this.isSearch=true;
+      this._dOfficeApi.execTimKiem(this.linkOffice,this.q,this.soKyHieu,this.loaiTK,this.selectedYear,this.maDv).then(data=>{
+        console.log(data.body.Data);
+        this.isSearch=false;
+        this.listDOffice =data.body.Data;
+      });
+     // console.log(data);
     }
 
     // timkiemNguoi(type){

@@ -62,8 +62,22 @@
                     <td class="font-medium">
                         {{ item.get("fileName").value }}
                     </td>
-                    <td>  {{ item.get("sovanban").value }}</td>
-                    <td>  {{ item.get("ngayVanBan").value | date:'dd/MM/yyyy'}}</td>
+                    <td><input type="text"  class="form-control" formControlName="sovanban" /></td>
+                    <td>  <div class="form-date">
+                        <input
+                            matInput
+                            type="text"
+                            [matDatepicker]="picker"
+                            formControlName="ngayVanBan"
+                            placeholder="dd/mm/yyyy"
+                        />
+                        <mat-datepicker-toggle
+                            matIconSuffix
+                            [for]="picker"
+                        ></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </div></td> 
+                    <!-- {{ item.get("ngayVanBan").value | date:'dd/MM/yyyy'}} -->
                     <td>
                         <div
                             class="list-file" style="width: 100%;"
@@ -519,7 +533,7 @@
             <input
                 type="text"
                 class="form-control"
-                placeholder="Phiếu, tổng số phiếu"
+                placeholder="Phiếu/Tổng số phiếu"
                 name=""
                 id=""
                 formControlName="ketQuaPhieuDanhGia"
@@ -832,7 +846,7 @@
             <input
                 type="text"
                 class="form-control"
-                placeholder="Phiếu, tổng số phiếu"
+                placeholder="Phiếu/Tổng số phiếu"
                 name=""
                 id=""
                 formControlName="ketQuaPhieuDanhGia"

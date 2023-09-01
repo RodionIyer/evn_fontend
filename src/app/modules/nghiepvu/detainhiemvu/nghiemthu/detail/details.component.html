@@ -2,7 +2,7 @@
     class="flex flex-col flex-auto overflow-y-auto bg-card dark:bg-default content-detail p-3" [formGroup]="form">
     <div class="">
         <h1 class="title-component">
-            Cập nhật kết quả xét duyệt/tuyển chọn ĐT/NV
+            CẬP NHẬP THÔNG TIN HỘI ĐỒNG NGHIỆM THU
         </h1>
     </div>
 
@@ -57,8 +57,21 @@
                     <td class="font-medium">
                         {{ item.get("fileName").value }}
                     </td>
-                    <td>  {{ item.get("sovanban").value }}</td>
-                     <td>  {{ item.get("ngayVanBan").value | date:'dd/MM/yyyy'}}</td>
+                    <td><input type="text"  class="form-control" formControlName="sovanban" /></td>
+                    <td>  <div class="form-date">
+                        <input
+                            matInput
+                            type="text"
+                            [matDatepicker]="picker"
+                            formControlName="ngayVanBan"
+                            placeholder="dd/mm/yyyy"
+                        />
+                        <mat-datepicker-toggle
+                            matIconSuffix
+                            [for]="picker"
+                        ></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </div></td> 
                     <td>
                         <div class="list-file" *ngIf="item.get('listFile').value.length > 0">
                             <table class="table table_custom action-table">
@@ -498,12 +511,12 @@
                 </div>
                 <div class="basis-1/4">
                     <label for="">Kết quả phiếu đánh giá</label>
-                    <input type="text" class="form-control" placeholder="Phiếu, tổng số phiếu" formControlName="ketQuaPhieuDanhGiaNT" name="" id=""
+                    <input type="text" class="form-control" placeholder="Phiếu/Tổng số phiếu" formControlName="ketQuaPhieuDanhGiaNT" name="" id=""
                         formControlName="ketQuaPhieuDanhGiaNT" />
                 </div>
                 <div class="basis-1/4">
                     <label for="">Điểm đánh giá</label>
-                    <input type="text" class="form-control" placeholder="Phiếu, tổng số phiếu"  name="" id=""
+                    <input type="text" class="form-control" placeholder=""  name="" id=""
                         formControlName="diemNghiemThu" />
                 </div>
                 <div class="basis-1/4">
@@ -826,7 +839,7 @@
                 <td class="font-medium">
                     {{ item.get("fileName").value }}
                 </td>
-                <td>{{ item.get("nguoiSua").value }}</td>
+                <td>{{ item.get("nguoiCapnhap").value }}</td>
                 <td>{{ item.get("ngaySua").value | date:'dd/MM/yyyy' }}</td>
                 <td>
                     <div class="list-file" *ngIf="item.get('listFile').value.length > 0">
@@ -899,7 +912,7 @@
                     <i class="fa fa-link"></i> Upload file
                 </button> -->
                 </td>
-                <td>{{ item.get("ghiChu").value }}</td>
+                <td  class="text-left">{{ item.get("ghiChu").value }}</td>
             </tr>
         </tbody>
         <!-- <tbody>

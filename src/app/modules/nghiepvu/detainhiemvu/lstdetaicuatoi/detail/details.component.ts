@@ -230,21 +230,21 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
             thoiGianThucHienTu: [moment(), [Validators.required]],
             thoiGianThucHienDen: [moment(), [Validators.required]],
 
-            chuNhiemDeTaiInfo: '',
+            chuNhiemDeTaiInfo: null,
             chuNhiemDeTai: [null, [Validators.required]],
             gioiTinh: 0,
             hocHam: [null],
             hocVi: [null],
             donViCongTac: [null],
 
-            dongChuNhiemDeTaiInfo: '',
+            dongChuNhiemDeTaiInfo: null,
             dongChuNhiemDeTai: [null, [Validators.required]],
             gioiTinhDongChuNhiem: 0,
             hocHamDongChuNhiem: [null],
             hocViDongChuNhiem: [null],
             donViCongTacDongChuNhiem: [null],
 
-            thuKyDeTaiInfo: '',
+            thuKyDeTaiInfo: null,
             thuKyDeTai: [null],
             gioiTinhThuKy: 0,
             hocHamThuKy: [null],
@@ -333,6 +333,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
         this.getNam();
         if (this.actionType == 'THEMMOI') {
             this.getListFolderFile();
+            this.checkAddMember();
         }
         this.getListCapQuanLy();
         this.getListDonViChuTri();
@@ -348,6 +349,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
             this.getListKQNT();
       
         }
+     
         
     }
 
@@ -406,13 +408,28 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
     }
 
     addListDocParent(item?: any) {
+        let ngaySua = item?.ngaySua;
+        if (ngaySua) {
+            ngaySua = new Date(ngaySua);
+        }else{
+            ngaySua =null;
+        }
+        let ngayVanBan = item?.ngayVanBan;
+        if (ngayVanBan) {
+            ngayVanBan = new Date(ngayVanBan);
+        }else{
+            ngayVanBan =null;
+        }
         return this._formBuilder.group({
             fileName: item?.fileName || null,
             maFolder: item?.maFolder || null,
             listFile: this._formBuilder.array([]),
             ghiChu: item?.ghiChu,
             nguoiSua: item?.nguoiSua,
-            ngaySua: item?.ngaySua,
+            ngaySua: ngaySua,
+            nguoiCapnhap:item?.nguoiSua,
+            sovanban: item?.sovanban || null,
+            ngayVanBan: ngayVanBan || null,
         });
     }
 
@@ -616,17 +633,20 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                     let formThanhVien = this.form.get(
                         'danhSachThanhVien'
                     ) as FormArray;
-
-                    for (
-                        let i = 0;
-                        i < data.data.danhSachThanhVien.length;
-                        i++
-                    ) {
-                        formThanhVien.push(
-                            this.THEM_THANHVIEN(data.data.danhSachThanhVien[i])
-                        );
-                    }
+                    if(data.data.danhSachThanhVien.length >0){
+                        for (
+                            let i = 0;
+                            i < data.data.danhSachThanhVien.length;
+                            i++
+                        ) {
+                            formThanhVien.push(
+                                this.THEM_THANHVIEN(data.data.danhSachThanhVien[i])
+                            );
+                        }
+                    }   
+                  
                 }
+        
                 //danh sach thành viên hội động xét duyệt
                 if (data.data.danhSachThanhVienHD != null && data.data.danhSachThanhVienHD.length >0 ) {
                     let danhsachXD = data.data.danhSachThanhVienHD;
@@ -704,8 +724,10 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                         .get('thoiGianHopNT')
                         .setValue(new Date(thoiGianHopNT));
                 }
-
-                
+                    if(this.actionType == 'CHINHSUA'){
+                        this.checkAddMember();
+                    }
+                        
                 console.log('form,', this.form);
                 if (method == 'DETAIL') { //|| method == 'CAPNHAT'
                     let formDocParentHSDK = this.form.get(
@@ -771,7 +793,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                         }
                         //Hồ sơ xét duyệt, giao, ký hợp đồng thực hiện
                         let listHSXD = data.data.listFolderAll.filter(
-                            (c) => c.hoiDongXetDuyet == true
+                            (c) => c.thucHienHopDong == true
                         );
                         if (listHSXD != null && listHSXD.length > 0) {
                             for (let i = 0; i < listHSXD.length; i++) {
@@ -1120,7 +1142,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
             email: item?.email || null,
             donViCongTac: item?.donViCongTac || null,
             tenChucDanh: item?.tenChucDanh || null,
-            ghiChu: item?.ghiChu || null,
+            ghiChu: item?.ghiChu || null
         });
     }
 
@@ -1145,6 +1167,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
             soDienThoai: '',
             email: '',
             donViCongTac: '',
+            tenChucDanh:''
         });
     }
 
@@ -1154,17 +1177,17 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
     }
 
     onSubmit(status, method) {
-       // if (status != 'LUU' && method != 'CAPNHAT'){
+        //if (method != 'CAPNHATHSTHUCHIEN'){
             this.submitted.check = true;
             if (this.form.invalid) {
-                //this._messageService.showErrorMessage("Thông báo", "Chưa nhập đủ trường bắt buộc!")
+                this._messageService.showWarningMessage("Thông báo", "Chưa nhập đủ trường bắt buộc!")
                 return;
             }
-      //  }
+      // }
         if (this.form.get('danhSachThanhVien').value.length > 0) {
             let listTV: any[] = this.form.get('danhSachThanhVien').value;
-            if (listTV.filter(n => n.maThanhVien == null || n.maThanhVien == '').length > 0) {
-                this._messageService.showErrorMessage("Thông báo", "Xóa thành viên trống trong danh sách thành viên hội đồng!");
+            if (listTV.filter(n => n.ten == null || n.ten == '').length > 0) {
+                this._messageService.showWarningMessage("Thông báo", "Xóa thành viên trống trong danh sách thành viên tham gia!");
                 return;
             }
         }
@@ -1208,11 +1231,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                         this.form.get('tenDeTai').value
                     );
             } else if (status == 'LUUGUI') {
-                if (maTrangThai != null && maTrangThai != '' && maTrangThai != 'CHUA_GUI' && maTrangThai != 'Y_CAU_HIEU_CHINH') {
-                } else {
-                    this.form.get('maTrangThai').setValue('DA_GUI');
-                }
-
+                
                 let listFolder = this.form.get('listFolderFile').value;
                 let check = false;
                 if (listFolder != null && listFolder.length > 0) {
@@ -1231,6 +1250,11 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                     );
                     return;
                 }
+                if (maTrangThai != null && maTrangThai != '' && maTrangThai != 'CHUA_GUI' && maTrangThai != 'Y_CAU_HIEU_CHINH') {
+                } else {
+                    this.form.get('maTrangThai').setValue('DA_GUI');
+                }
+
 
 
                 this.form
@@ -1258,8 +1282,6 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                         this._router.navigateByUrl(this.screen);
                     } else if (this.form.get('maTrangThai').value == 'HOAN_THANH') {
                         this._router.navigateByUrl("nghiepvu/detainhiemvu/hoanthanh");
-                    } else if (method == 'CAPNHATHSTHUCHIEN') {
-                        this._router.navigateByUrl("nghiepvu/detainhiemvu/dangthuchien");
                     } else {
                         this._router.navigateByUrl(
                             'nghiepvu/detainhiemvu/lstdetaicuatoi'
@@ -1283,6 +1305,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                 listFile: this._formBuilder.array([]),
                 nguoiSua:item?.nguoiSua,
                 ngaySua:item?.ngaySua,
+                nguoiCapnhap:item?.nguoiSua,
             });
         }
         return this._formBuilder.group({
@@ -1292,6 +1315,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
             listFile: this._formBuilder.array([], ArrayValidators.minLength(0)),
             nguoiSua:item?.nguoiSua,
             ngaySua:item?.ngaySua,
+            nguoiCapnhap:item?.nguoiSua,
         });
     }
 
@@ -1314,6 +1338,9 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
             fileName: item?.fileName,
             ghiChu: item?.ghiChu,
             listFile: this._formBuilder.array(arr),
+            nguoiSua:item?.nguoiSua,
+            ngaySua:item?.ngaySua,
+            nguoiCapnhap:item?.nguoiSua,
         });
     }
 
@@ -1391,7 +1418,13 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
         this._serviceApi
             .execServiceLogin('1B009679-0ABB-4DBE-BBCF-E70CBE239042', null)
             .subscribe((data) => {
-                this.listHocHam = data.data || [];
+                var obj = {ID: '', NAME: '--Chọn--'};
+                let hocHam = [];
+                hocHam.push(obj)
+                for(let i=0;i<data.data.length;i++){
+                    hocHam.push(data.data[i]);
+                }
+                this.listHocHam = hocHam || [];
             });
     }
 
@@ -1399,7 +1432,14 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
         this._serviceApi
             .execServiceLogin('654CB6D4-9DD7-48B7-B3FD-8FDAC07FE950', null)
             .subscribe((data) => {
-                this.listHocVi = data.data || [];
+                var obj = {ID: '', NAME: '--Chọn--'};
+                let hocVi = [];
+                hocVi.push(obj)
+                for(let i=0;i<data.data.length;i++){
+                    hocVi.push(data.data[i]);
+                }
+                this.listHocVi = hocVi || [];
+               // this.listHocVi = data.data || [];
             });
     }
 
@@ -1454,6 +1494,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
 
     handleUpload(event, item, index) {
         let arr = item.get('listFile') as FormArray;
+        item.get("nguoiCapnhap").setValue(this.user.userName);
         item.get("nguoiSua").setValue(this.user.userId);
         item.get("ngaySua").setValue(new Date());
         for (var i = 0; i < event.target.files.length; i++) {
@@ -1464,6 +1505,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                 arr.push(this.addFile(item, itemVal, reader.result));
             };
         }
+        event.target.value = null;
     }
 
     handleUploadTamUng(event, item, index) {
@@ -1476,6 +1518,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                 arr.push(this.addFile(item, itemVal, reader.result));
             };
         }
+        event.target.value = null;
     }
 
     handleUploadThucHien(event, item, index) {
@@ -1488,6 +1531,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                 arr.push(this.addFile(item, itemVal, reader.result));
             };
         }
+        event.target.value = null;
     }
 
     deleteItemFile(items, i) {
@@ -1496,7 +1540,9 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
     }
 
     downloadTempExcel(userInp, fileName) {
-        var mediaType =
+        var
+        
+mediaType =
             'data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,';
 
         const downloadLink = document.createElement('a');
@@ -1507,15 +1553,15 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
     }
 
     downLoadFile(item) {
-        if (item.base64 != undefined && item.base64 != '') {
-            let link = item.base64.split(',');
+        if (item.value.base64 != undefined && item.value.base64 != '') {
+            let link = item.value.base64.split(',');
             let url = '';
             if (link.length > 1) {
                 url = link[1];
             } else {
                 url = link[0];
             }
-            this.downloadTempExcel(url, item.fileName);
+            this.downloadAll(url, item.value.fileName);
         } else {
             var token = localStorage.getItem('accessToken');
             this._serviceApi
@@ -1527,6 +1573,65 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                 });
         }
     }
+
+   async downloadAll(base64String, fileName){
+    let typeFile =  await this.detectMimeType(base64String, fileName);
+    let mediaType = `data:${typeFile};base64,`;
+    const downloadLink = document.createElement('a');
+
+        downloadLink.href = mediaType + base64String;
+        downloadLink.download = fileName;
+        downloadLink.click();
+    }
+
+   async detectMimeType(base64String, fileName) {
+        var ext = fileName.substring(fileName.lastIndexOf(".") + 1);
+        if (ext === undefined || ext === null || ext === "") ext = "bin";
+        ext = ext.toLowerCase();
+        const signatures = {
+          JVBERi0: "application/pdf",
+          R0lGODdh: "image/gif",
+          R0lGODlh: "image/gif",
+          iVBORw0KGgo: "image/png",
+          TU0AK: "image/tiff",
+          "/9j/": "image/jpg",
+          UEs: "application/vnd.openxmlformats-officedocument.",
+          PK: "application/zip",
+        };
+        for (var s in signatures) {
+          if (base64String.indexOf(s) === 0) {
+            var x = signatures[s];
+            // if an office file format
+            if (ext.length > 3 && ext.substring(0, 3) === "ppt") {
+              x += "presentationml.presentation";
+            } else if (ext.length > 3 && ext.substring(0, 3) === "xls") {
+              x += "spreadsheetml.sheet";
+            } else if (ext.length > 3 && ext.substring(0, 3) === "doc") {
+              x += "wordprocessingml.document";
+            }
+            // return
+            return x;
+          }
+        }
+        // if we are here we can only go off the extensions
+        const extensions = {
+          xls: "application/vnd.ms-excel",
+          ppt: "application/vnd.ms-powerpoint",
+          doc: "application/msword",
+          xml: "text/xml",
+          mpeg: "audio/mpeg",
+          mpg: "audio/mpeg",
+          txt: "text/plain",
+        };
+        for (var e in extensions) {
+          if (ext.indexOf(e) === 0) {
+            var xx = extensions[e];
+            return xx;
+          }
+        }
+        // if we are here – not sure what type this is
+        return "unknown";
+      }
 
     getListTrangThaiHSThucHien() {
         this._serviceApi
@@ -1561,6 +1666,29 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
                     return;
                 });
             });
+    }
+
+    checkAddMember(){
+        let ar = this.form.get('danhSachThanhVien') as FormArray;
+        if(ar !=undefined && ar.length >0){
+
+        }else{
+            ar.push(this.addMember());
+        }
+
+        let ar2 = this.form.get('danhSachThanhVienHDXT') as FormArray;
+        if(ar2 !=undefined && ar2.length >0){
+
+        }else{
+            ar2.push(this.addMember());
+        }
+
+        let ar3 = this.form.get('danhSachThanhVienHDNT') as FormArray;
+        if(ar3 !=undefined && ar3.length >0){
+
+        }else{
+            ar3.push(this.addMember());
+        }
     }
 
     getListTrangThaiQuyetToan() {

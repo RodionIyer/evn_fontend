@@ -79,10 +79,9 @@
                         <td>{{item.tenCapQuanLy}}</td>
                         <td class="text-center">{{item.chuNhiemDeTai}}</td>
                         <td>{{item.tenDonViChuTri}}</td>
-                        <td class="text-center">{{item.thoiGianThucHienTu | date:'dd/MM/yyyy' }} - {{item.thoiGianThucHienDen | date:'dd/MM/yyyy' }}</td>
+                        <td class="text-center">{{item.thoiGianThucHienTu | date:'MM/yyyy' }} - {{item.thoiGianThucHienDen | date:'MM/yyyy' }}</td>
                         <td>{{item.tenTrangThai}}</td>
                         <td class="text-center">{{item.ngayTao | date:'yyyy' }}</td>
-                        <td></td>
                     <td class="text-center action-table">
                         <div class="flex">
                               <i (click)="detail(item)"
@@ -90,18 +89,15 @@
                                 title="Xem chi tiết"
                             ></i>
                             <i class="fa fa-clock-o" (click)="lichsu(item)" title="Xem lịch sử"></i>
-                            <!-- <i *ngIf="item.maTrangThai=='CHUA_GUI_HS_NTHU' || item.maTrangThai=='YCAU_CAP_NHAT_HS_NTHU'" class="fa fa-pencil" (click)="editer(item)" title="Chỉnh sửa"></i>
-                            <i  *ngIf="item.maTrangThai=='CHUA_GUI_HS_NTHU' || item.maTrangThai=='YCAU_CAP_NHAT_HS_NTHU'" (click)="updateActionHSNT(item)" title="Cập nhập HSNT" class="fa fa-caret-square-o-up"></i>
-                            <i  *ngIf="item.maTrangThai=='DA_RA_SOAT_HS_NTHU'" (click)="updateActionHD(item)" title="Cập nhập HĐNT" class="fa fa-caret-square-o-up"></i>
-                            <i  *ngIf="item.maTrangThai=='DA_TLHDNT'" (click)="updateActionKQNT(item)" title="Cập nhập KQNT" class="fa fa-caret-square-o-up"></i>
-                            <i  *ngIf="item.maTrangThai=='DA_NTHU'" (click)="updateActionHSQT(item)" title="Cập nhật HSQT" class="fa fa-caret-square-o-up"></i> -->
-
-                            <!-- <i class="fa fa-pencil" (click)="editer(item)" title="Chỉnh sửa"></i> -->
                             <i *ngIf="item.maTrangThai=='YCAU_CAP_NHAT_HS_NTHU' || item.maTrangThai=='CHUA_GUI_HS_NTHU'" (click)="updateActionHSNT(item)" title="Cập nhập HSNT" class="fa fa-caret-square-o-up"></i>
                             <i *ngIf="item.maTrangThai=='DA_RA_SOAT_HS_NTHU'" (click)="updateActionHD(item)" title="Cập nhập HĐNT" class="fa fa-caret-square-o-up"></i>
                             <i *ngIf="item.maTrangThai=='DA_TLHDNT'"  (click)="updateActionKQNT(item)" title="Cập nhập KQNT" class="fa fa-caret-square-o-up"></i>
                             <i *ngIf="item.maTrangThai=='DA_NTHU'"  (click)="updateActionHSQT(item)" title="Cập nhật HSQT" class="fa fa-caret-square-o-up"></i>
-                            <!-- <i *ngIf="item.maTrangThai=='CHUA_GUI'" class="fa fa-trash" (click)="xoa(item)" title="Xóa bỏ"></i> -->
+                            <!-- <i class="fa fa-clock-o" (click)="lichsu(item)" title="Xem lịch sử"></i>
+                            <i  (click)="updateActionHSNT(item)" title="Cập nhập HSNT" class="fa fa-caret-square-o-up"></i>
+                            <i  (click)="updateActionHD(item)" title="Cập nhập HĐNT" class="fa fa-caret-square-o-up"></i>
+                            <i  (click)="updateActionKQNT(item)" title="Cập nhập KQNT" class="fa fa-caret-square-o-up"></i>
+                            <i   (click)="updateActionHSQT(item)" title="Cập nhật HSQT" class="fa fa-caret-square-o-up"></i> -->
                         </div>
                     </td>
                 </tr>

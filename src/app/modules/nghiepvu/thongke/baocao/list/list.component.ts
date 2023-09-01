@@ -59,6 +59,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
           }else{
             this.actionClick = null
           }
+          this.getListDinhHuong();
         }
       );
     }
@@ -103,6 +104,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
       this.length = event.length;
       this.pageSize = event.pageSize;
       this.pageIndex = event.pageIndex;
+      this.getListDinhHuong();
     }
 
    // mo popup file

@@ -1,86 +1,70 @@
-<div class="relative eco_conntent">
-    <div class="bg-white px-3 content-screen">
-        <!--màn hình danh sách-->
-        <ng-container *ngIf="!actionClick">
-            <div class="flex items-center justify-between">
-                <h1 class="title-component">SÁNG KIẾN CỦA TÔI </h1>
-                <button class="add_button" (click)="addNew()">
-                    <i class="fa fa-plus"></i> Đăng ký mới
-                </button>
+<div class="flex w-full bg-card dark:bg-transparent">
+    <ng-container *ngIf="!actionClick">
+        <div class="flex flex-auto flex-col h-full border-r z-10">
+            <div class="flex flex-0 items-center justify-between h-16 px-4 border-b bg-gray-50 dark:bg-transparent">
+                <div class="flex items-center w-full">
+                    <div class="ml-2 font-semibold uppercase whitespace-nowrap truncate">SÁNG KIẾN CỦA TÔI
+                    </div>
+                    <span style="flex: 1 1 auto;"></span>
+                    <button class="add_button" (click)="addNew()">
+                        <i class="fa fa-plus"></i> Đăng ký mới
+                    </button>
+                </div>
             </div>
-            <table class="table table_custom">
-                <thead>
-                <tr>
-                    <th class="stt_table">STT</th>
-                    <th>Tên giải pháp</th>
-                    <th class="text-center">Cấp độ sáng kiến</th>
-                    <th class="text-center">Đơn vị thực hiện</th>
-                    <th class="text-center">Năm</th>
-                    <th class="text-center">Trạng thái</th>
-                    <th class="text-center action-table">Thao tác</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr *ngFor="let item of listGiao; let i = index">
-                    <td class="stt_table">{{ (i+(pageIndex * pageSize)) + 1}}</td>
-                    <td>{{item.tenGiaiPhap}}</td>
-                    <td class="text-center">{{item.tenCapDoSangKien}}</td>
-                    <td class="text-center">{{item.tenDonViChuDauTu}}</td>
-                    <td class="text-center">{{item.nam}}</td>
-                    <td class="text-center">{{item.tenTrangThai}}</td>
-                    <td class="action-table">
-                        <div class="flex justify-evenly" style="float: left;">
-                            <i class="fa fa-info-circle cursor-point" (click)="detail(item)" title="Xem chi tiết"></i>
-                            <i class="fa fa-clock-o cursor-point" (click)="lichsu(item)" title="Xem lịch sử"></i>
-                            <i *ngIf="item.maTrangThai=='SOAN' || item.maTrangThai=='Y_CAU_HIEU_CHINH' "
-                               class="fa fa-pencil cursor-point" (click)="editer(item)" title="Chỉnh sửa"></i>
-                            <i *ngIf="item.maTrangThai=='SOAN' || item.maTrangThai=='Y_CAU_HIEU_CHINH' "
-                               class="fa fa-trash cursor-point" (click)="xoa(item)" title="Xóa bỏ"></i>
-                        </div>
-                    </td>
-                </tr>
-                <!-- <tr>
-                    <td class="stt_table">1</td>
-                    <td>Bản đăng ký định hướng 2023</td>
-                    <td>Cấp EVN</td>
-                    <td class="text-center">Trần Văn A</td>
-                    <td class="text-center">2023</td>
-                    <td>Đang thực hiện</td>
-                    <td class="text-center action-table">
-                        <div class="flex justify-evenly">
-                            <i (click)="detail($event)"
-                                class="fa fa-info-circle"
-                                title="Xem chi tiết"
-                            ></i>
-                            <i class="fa fa-clock-o" title="Xem lịch sử"></i>
-                            <i class="fa fa-pencil" (click)="editer($event)" title="Chỉnh sửa"></i>
-                            <i class="fa fa-trash" title="Xóa bỏ"></i>
-                        </div>
-                    </td>
-                </tr> -->
-                </tbody>
-            </table>
-            <!-- phan trang -->
-            <mat-paginator
-                (page)="handlePageEvent($event)"
-                [length]="length"
-                [pageSize]="pageSize"
-                [showFirstLastButtons]="showFirstLastButtons"
-                [pageSizeOptions]="pageSizeOptions"
-                [pageIndex]="pageIndex"
-                aria-label="Select page"
-            >
-            </mat-paginator>
-            <!-- <button (click)="openAlertDialog()" >Mop pup up fille</button> -->
-        </ng-container>
+       
+        <div class="h-full">
+            <div class="pl-2 w-full overflow-y-auto">
+                <div class="tableFixHeadGrid">
 
-        <!-- details -->
-        <ng-container *ngIf="actionClick">
-            <div
-                class="flex-auto z-20 absolute inset-0 lg:static lg:inset-auto flex"
-            >
-                <router-outlet></router-outlet>
+                    <table class="table table_custom">
+                        <thead>
+                            <tr>
+                                <th class="stt_table">STT</th>
+                                <th class="text-left">Tên giải pháp</th>
+                                <th class="text-left">Cấp độ sáng kiến</th>
+                                <th class="text-left">Đơn vị thực hiện</th>
+                                <th class="text-center">Năm</th>
+                                <th class="text-left">Trạng thái</th>
+                                <th class="action-table text-left">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of listGiao; let i = index">
+                                <td class="stt_table text-center">{{ (i+(pageIndex * pageSize)) + 1}}</td>
+                                <td>{{item.tenGiaiPhap}}</td>
+                                <td>{{item.tenCapDoSangKien}}</td>
+                                <td>{{item.tenDonViChuDauTu}}</td>
+                                <td class="text-center">{{item.nam}}</td>
+                                <td>{{item.tenTrangThai}}</td>
+                                <td class="action-table">
+                                    <div class="flex justify-evenly" style="float: left;">
+                                        <i class="fa fa-info-circle cursor-point" (click)="detail(item)"
+                                            title="Xem chi tiết"></i>
+                                        <i class="fa fa-clock-o cursor-point" (click)="lichsu(item)"
+                                            title="Xem lịch sử"></i>
+                                        <i *ngIf="item.maTrangThai=='SOAN' || item.maTrangThai=='Y_CAU_HIEU_CHINH' "
+                                            class="fa fa-pencil cursor-point" (click)="editer(item)"
+                                            title="Chỉnh sửa"></i>
+                                        <i *ngIf="item.maTrangThai=='SOAN' || item.maTrangThai=='Y_CAU_HIEU_CHINH' "
+                                            class="fa fa-trash cursor-point" (click)="xoa(item)" title="Xóa bỏ"></i>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <mat-paginator *ngIf="listGiao && listGiao.length > 0" (page)="handlePageEvent($event)"
+                    [length]="length" [pageSize]="pageSize" [showFirstLastButtons]="showFirstLastButtons"
+                    [pageSizeOptions]="pageSizeOptions" [pageIndex]="pageIndex" aria-label="Select page">
+                </mat-paginator>
             </div>
-        </ng-container>
+        </div>
     </div>
+    </ng-container>
+
+    <ng-container *ngIf="actionClick">
+        <div class="flex-auto z-20 absolute inset-0 lg:static lg:inset-auto flex">
+            <router-outlet></router-outlet>
+        </div>
+    </ng-container>
 </div>

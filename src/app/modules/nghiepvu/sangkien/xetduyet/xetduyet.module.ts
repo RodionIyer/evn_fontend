@@ -33,7 +33,10 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { SharedModule } from 'app/shared/shared.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { PopupCbkhComponent } from './detail/popup-cbkh/popup-cbkh.component';
-
+import {
+    MatDatepicker,
+    MatDatepickerModule,
+} from '@angular/material/datepicker';
 
 
 
@@ -45,6 +48,7 @@ import { PopupCbkhComponent } from './detail/popup-cbkh/popup-cbkh.component';
         MatButtonToggleModule,
         MatDividerModule,
         MatIconModule,
+        MatDatepickerModule,
         MatMenuModule,
         MatProgressBarModule,
         MatRippleModule,

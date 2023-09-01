@@ -1,0 +1,92 @@
+<div class="flex w-full bg-card dark:bg-transparent">
+    <!--  list -->
+    <ng-container>
+        <div class="flex flex-auto flex-col h-full border-r z-10 w-1/2">
+
+            <!-- Header -->
+            <div class="flex flex-0 items-center justify-between h-16 px-4 border-b bg-gray-50 dark:bg-transparent">
+                <div class="flex items-center w-full">
+
+                    <div class="ml-2 font-semibold uppercase whitespace-nowrap truncate">Quản lý tin tức </div>
+
+                    <span style="flex: 1 1 auto;"></span>
+                </div>
+
+            </div>
+
+            <div class="h-full">
+                <div class="flex justify-between items-center" style="height: 15%;">
+                    <div class="flex flex-col flex-auto">
+                        <form [formGroup]="filterForm">
+
+                            <div class="grid grid-cols-2 grid-flow-row gap-2 w-full">
+                                <div class="flex flex-col flex-auto">
+                                    <mat-form-field class="change-margin-matInput">
+                                        <mat-select mat-option [formControlName]="'DMTinTuc'">
+                                            <mat-option  [value]="'all'">--Danh mục tin tức--
+                                            </mat-option>
+                                            <mat-option *ngFor="let x of listDanhMucTinTuc;"
+                                                [value]="x.MA_DANH_MUC_TIN_TUC">{{x.TEN_DANH_MUC}}</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    
+                                </div>
+
+                            </div>
+
+                            <div class="grid grid-cols-2 grid-flow-row gap-2 w-full">
+                                <div class="flex flex-col flex-auto">
+                                    <mat-form-field class="change-margin-matInput">
+                                        <input matInput [formControlName]="'name'" placeholder="Tìm kiếm">
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="flex flex-col flex-auto  justify-center">
+                                    <mat-checkbox class="m-[0.5rem]" [formControlName]="'DA_DUYET'"> Chưa duyệt
+                                    </mat-checkbox>
+                                </div>
+
+
+                            </div>
+
+                        </form>
+                    </div>
+
+
+                </div>
+                <div class="pl-2 w-full overflow-y-auto" style="height: 80%">
+                    <table mat-table [dataSource]="dataSource" class="w-full">
+                        <ng-container matColumnDef="STT">
+                            <th mat-header-cell *matHeaderCellDef> STT</th>
+                            <td mat-cell *matCellDef="let element; let i = index;">{{i + 1}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="TIEU_DE_BAI_VIET">
+                            <th mat-header-cell *matHeaderCellDef>Tiêu đề</th>
+                            <td mat-cell *matCellDef="let element">{{element.TIEU_DE_BAI_VIET}}</td>
+                        </ng-container>
+
+                        <ng-container *ngIf="!isSelect" matColumnDef="TOM_TAT" >
+                            <th mat-header-cell *matHeaderCellDef>Tóm tắt</th>
+                            <td mat-cell *matCellDef="let element">{{element.TOM_TAT}}</td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="(displayedColumns); sticky: true"></tr>
+                        <tr mat-row *matRowDef="let row; columns: (displayedColumns);" [routerLink]="row.MA_TIN_TUC"
+                            routerLinkActive="bg-primary-50" (click)="onObjectSelected(row)"
+                            [ngClass]="!row.DA_DUYET ? 'font-semibold' : '' "></tr>
+
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+    </ng-container>
+    <!--  details -->
+    <ng-container class="box-border">
+        <div class="flex-auto flex w-1/2">
+            <router-outlet></router-outlet>
+        </div>
+    </ng-container>
+</div>

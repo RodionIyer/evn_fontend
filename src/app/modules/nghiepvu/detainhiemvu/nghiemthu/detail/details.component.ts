@@ -142,7 +142,6 @@ export class DetailsComponent implements OnInit {
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((user: any) => {
                 this.user = user;
-                
                 this._serviceApi.execServiceLogin("3FADE0E4-B2C2-4D9D-A0C7-06817ADE4FA3", [{ "name": "ORGID", "value": user.ORGID }]).subscribe((data) => {
                     if (data.data.API_DOFFICE) {
                         this.checkDOffice = true;
@@ -384,8 +383,13 @@ export class DetailsComponent implements OnInit {
                         .get('thoiGianHopNT')
                         .setValue(new Date(thoiGianHopNT));
                 }
+                let tongQT = this.form.get('tongPhiQT').value;
+                if(!tongQT){
+                    this.form.get('tongPhiQT').setValue(0);
+                }
 
                  if (method== 'HOIDONGNT') {
+                    this.checkAddMember();
                     this.form.get('maTrangThai').setValue('DA_TLHDNT');
                 }else if (method== 'THANHLAPHD') {
                     this.form.get('maTrangThai').setValue('DANG_THUC_HIEN');
@@ -397,15 +401,28 @@ export class DetailsComponent implements OnInit {
             });
     }
     addListDocParent(item?: any) {
+        let ngaySua = item?.ngaySua;
+        if (ngaySua) {
+            ngaySua = new Date(ngaySua);
+        }else{
+            ngaySua =null;
+        }
+        let ngayVanBan = item?.ngayVanBan;
+        if (ngayVanBan) {
+            ngayVanBan = new Date(ngayVanBan);
+        }else{
+            ngayVanBan =null;
+        }
         return this._formBuilder.group({
             fileName: item?.fileName || null,
             maFolder: item?.maFolder || null,
             listFile: this._formBuilder.array([]),
             ghiChu:item?.ghiChu || null,
             nguoiSua:item?.nguoiSua || null,
-            ngaySua:item?.ngaySua || null,
+            nguoiCapnhap:item?.nguoiSua || null,
+            ngaySua:ngaySua || null,
             sovanban: item?.sovanban || null,
-            ngayVanBan: item?.ngayVanBan || null,
+            ngayVanBan: ngayVanBan || null,
         });
     }
     addListDocChild(item?: any) {
@@ -560,7 +577,7 @@ export class DetailsComponent implements OnInit {
             maKetQuaNhiemThu:[null],
             diaDiemNT:[null],
             tonTaiKhacPhucNghiemThu:[null],
-            tongPhiQT:[null]
+            tongPhiQT:0
             // listFile1: this._formBuilder.array([]),
             // listFile2: this._formBuilder.array([]),
             // listFile3: this._formBuilder.array([]),
@@ -631,17 +648,20 @@ export class DetailsComponent implements OnInit {
                 let formThanhVien = this.form.get(
                     'danhSachThanhVienHD'
                 ) as FormArray;
-                for (
-                    let i = 0;
-                    i < data.data.danhSachThanhVienHD.length;
-                    i++
-                ) {
-                    formThanhVien.push(
-                        this.THEM_THANHVIEN(
-                            data.data.danhSachThanhVienHD[i]
-                        )
-                    );
+                if(data.data !=undefined && data.data != null){
+                    for (
+                        let i = 0;
+                        i < data.data.danhSachThanhVienHD.length;
+                        i++
+                    ) {
+                        formThanhVien.push(
+                            this.THEM_THANHVIEN(
+                                data.data.danhSachThanhVienHD[i]
+                            )
+                        );
+                    }
                 }
+               
             }else if(type=='DETAIHOIDONGNT'){
                 let formThanhVien = this.form.get(
                     'danhSachThanhVienHD'
@@ -724,27 +744,85 @@ export class DetailsComponent implements OnInit {
         downloadLink.click();
     }
     downLoadFile(item) {
-        if (item.base64 != undefined && item.base64 != '') {
-            let link = item.base64.split(',');
+        if (item.value.base64 != undefined && item.value.base64 != '') {
+            let link = item.value.base64.split(',');
             let url = '';
             if (link.length > 1) {
                 url = link[1];
             } else {
                 url = link[0];
             }
-            this.downloadTempExcel(url, item.fileName);
+            this.downloadAll(url, item.value.fileName);
         } else {
             var token = localStorage.getItem('accessToken');
             this._serviceApi
                 .execServiceLogin('2269B72D-1A44-4DBB-8699-AF9EE6878F89', [
-                    { name: 'DUONG_DAN', value: item.duongdan },
-                    { name: 'TOKEN_LINK', value: 'Bearer ' + token },
+                    {name: 'DUONG_DAN', value: item.duongdan},
+                    {name: 'TOKEN_LINK', value: 'Bearer ' + token},
                 ])
                 .subscribe((data) => {
-                    console.log('downloadFile:' + JSON.stringify(data));
                 });
         }
     }
+
+   async downloadAll(base64String, fileName){
+    let typeFile =  await this.detectMimeType(base64String, fileName);
+    let mediaType = `data:${typeFile};base64,`;
+    const downloadLink = document.createElement('a');
+
+        downloadLink.href = mediaType + base64String;
+        downloadLink.download = fileName;
+        downloadLink.click();
+    }
+
+   async detectMimeType(base64String, fileName) {
+        var ext = fileName.substring(fileName.lastIndexOf(".") + 1);
+        if (ext === undefined || ext === null || ext === "") ext = "bin";
+        ext = ext.toLowerCase();
+        const signatures = {
+          JVBERi0: "application/pdf",
+          R0lGODdh: "image/gif",
+          R0lGODlh: "image/gif",
+          iVBORw0KGgo: "image/png",
+          TU0AK: "image/tiff",
+          "/9j/": "image/jpg",
+          UEs: "application/vnd.openxmlformats-officedocument.",
+          PK: "application/zip",
+        };
+        for (var s in signatures) {
+          if (base64String.indexOf(s) === 0) {
+            var x = signatures[s];
+            // if an office file format
+            if (ext.length > 3 && ext.substring(0, 3) === "ppt") {
+              x += "presentationml.presentation";
+            } else if (ext.length > 3 && ext.substring(0, 3) === "xls") {
+              x += "spreadsheetml.sheet";
+            } else if (ext.length > 3 && ext.substring(0, 3) === "doc") {
+              x += "wordprocessingml.document";
+            }
+            // return
+            return x;
+          }
+        }
+        // if we are here we can only go off the extensions
+        const extensions = {
+          xls: "application/vnd.ms-excel",
+          ppt: "application/vnd.ms-powerpoint",
+          doc: "application/msword",
+          xml: "text/xml",
+          mpeg: "audio/mpeg",
+          mpg: "audio/mpeg",
+          txt: "text/plain",
+        };
+        for (var e in extensions) {
+          if (ext.indexOf(e) === 0) {
+            var xx = extensions[e];
+            return xx;
+          }
+        }
+        // if we are here – not sure what type this is
+        return "unknown";
+      }
 
     addFile(item, itemVal, base64) {
         return this._formBuilder.group({
@@ -758,6 +836,7 @@ export class DetailsComponent implements OnInit {
 
     handleUpload(event, item, index) {
         let arr = item.get('listFile') as FormArray;
+        item.get("nguoiCapnhap").setValue(this.user.userName);
         item.get("nguoiSua").setValue(this.user.userId);
         item.get("ngaySua").setValue(new Date());
         for (var i = 0; i < event.target.files.length; i++) {
@@ -768,7 +847,30 @@ export class DetailsComponent implements OnInit {
                 arr.push(this.addFile(item, itemVal, reader.result));
             };
         }
-        console.log(item);
+        event.target.value = null;
+    }
+    checkAddMember(){
+        debugger;
+        let ar = this.form.get('danhSachThanhVien') as FormArray;
+        if(ar !=undefined && ar.length >0){
+
+        }else{
+            ar.push(this.addMember());
+        }
+
+        // let ar2 = this.form.get('danhSachThanhVienHDXT') as FormArray;
+        // if(ar2 !=undefined && ar2.length >0){
+
+        // }else{
+        //     ar2.push(this.addMember());
+        // }
+
+        let ar3 = this.form.get('danhSachThanhVienHD') as FormArray;
+        if(ar3 !=undefined && ar3.length >0){
+
+        }else{
+            ar3.push(this.addMember());
+        }
     }
 
     onSubmit(status, method) {
@@ -839,7 +941,6 @@ export class DetailsComponent implements OnInit {
         });
 
          data.afterClosed().subscribe((data) => {
-            debugger;
            let kyHieu =data.data.KY_HIEU;
            let ngayVB =data.data.NGAY_VB;
            item.get("sovanban").setValue(kyHieu);

@@ -100,6 +100,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
       this.length = event.length;
       this.pageSize = event.pageSize;
       this.pageIndex = event.pageIndex;
+      this.timKiem();
     }
 
    // mo popup file
@@ -188,6 +189,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
             switch (data.data) {
                               case 1:
                                   this._messageService.showSuccessMessage("Thông báo", "Xóa bản đăng ký thành công");
+                                  this.timKiem();
                                   break;
                               case 0:
                                   this._messageService.showErrorMessage("Thông báo", "Không tìm thấy bản đăng ký cần xóa");
@@ -204,6 +206,8 @@ export class ListItemComponent implements OnInit, OnDestroy {
             .execServiceLogin('2977F0EA-A6C6-4A32-A36B-8617898B710D', null)
             .subscribe((data) => {
                 this.listCapQuanLy = data.data || [];
+                let obj ={"ID":"","NAME":"Tất cả"}
+                this.listCapQuanLy.unshift(obj);
             });
     }
 

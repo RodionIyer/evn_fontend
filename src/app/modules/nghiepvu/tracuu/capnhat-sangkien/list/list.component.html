@@ -4,9 +4,9 @@
     <ng-container *ngIf="!actionClick">
 
         <div class="">
-            <h1 class="title-component">THÔNG TIN SÁNG KIẾN</h1>
+            <h1 class="title-component">CẬP NHẬP THÔNG TIN SÁNG KIẾN</h1>
         </div>
-    
+
         <div class="flex flex-row row gap-4 items-center">
             <div class="basis-1/4">
                 <label for="">Cấp độ sáng kiến<span>(*)</span></label>
@@ -65,7 +65,7 @@
                 </div>
             </div>
         </div>
-    
+
         <div class="flex flex-row row gap-4">
             <div class="basis-full">
                 <label for="">Tên giải pháp<span>(*)</span></label>
@@ -80,137 +80,137 @@
                 ></textarea>
             </div>
         </div>
-    
+
         <label for="">Tác giả/Đồng tác giả của giải pháp</label>
         <table class="table table_custom">
             <thead>
-                <tr>
-                    <th class="stt_table">STT</th>
-                    <th>Họ và tên</th>
-                    <th>Vai trò</th>
-                    <th>Năm sinh</th>
-                    <th>Nơi công tác</th>
-                    <th>Trình độ chuyên môn</th>
-                    <th>Nội dung tham gia</th>
-                    <th>
-                        <button class="pull-right add_button" (click)="addTacGia()">
-                            +Thêm thành viên
-                        </button>
-                    </th>
-                </tr>
+            <tr>
+                <th class="stt_table">STT</th>
+                <th>Họ và tên</th>
+                <th>Vai trò</th>
+                <th>Năm sinh</th>
+                <th>Nơi công tác</th>
+                <th>Trình độ chuyên môn</th>
+                <th>Nội dung tham gia</th>
+                <th>
+                    <button class="pull-right add_button" (click)="addTacGia()">
+                        +Thêm thành viên
+                    </button>
+                </th>
+            </tr>
             </thead>
             <tbody formArrayName="tacGiaGiaiPhap">
-                <ng-container
-                    *ngFor="
-                            let tacgia of $any(form.get('tacGiaGiaiPhap')).controls;
-                            let i = index
-                        "
-                >
-                    <tr [formGroup]="tacgia">
-                        <td class="stt_table">{{ i + 1 }}</td>
-                        <td>
-                            <div class="select-cbkh flex items-center form-control">
-                                <input
-                                    class="inputselect"
-                                    type="text"
-                                    name=""
-                                    id=""
-                                    formControlName="ten"
-                                />
-                                <i
-                                    (click)="openAlertDialog('THANHVIEN', tacgia)"
-                                    class="fa fa-search"
-                                ></i>
-                            </div>
-                            <!-- <input style="border:1px solid #ccc; border-radius: 5px;" type="text" name="" formControlName="ten" id=""> <i (click)="openAlertDialog('THANHVIEN',thanhvien.get('ten'))" class="fa fa-search"></i> -->
-                        </td>
-                        <td>
-                            <ng-select
-                                [items]="listChucDanh"
-                                bindLabel="NAME"
-                                bindValue="ID"
-                                placeholder="Chọn chức danh"
-                                formControlName="chucDanh"
-                                style="width: 100%;"
-                            >
-                            </ng-select>
-                        </td>
-                        <!-- {{thanhvien.get('chucDanh').value}} -->
-                        <td>
+            <ng-container
+                *ngFor="
+                    let tacgia of $any(form.get('tacGiaGiaiPhap')).controls;
+                    let i = index
+                "
+            >
+                <tr [formGroup]="tacgia">
+                    <td class="stt_table">{{ i + 1 }}</td>
+                    <td>
+                        <div class="select-cbkh flex items-center form-control">
                             <input
-                                style="
-                                        border: 1px solid #ccc;
-                                        border-radius: 5px;
-                                        width: 100%;
-                                        height: 30px;
-                                    "
                                 class="inputselect"
                                 type="text"
                                 name=""
                                 id=""
-                                formControlName="namSinh"
+                                formControlName="ten"
                             />
-                        </td>
-                        <td>
-                            <input
-                                style="
-                                        border: 1px solid #ccc;
-                                        border-radius: 5px;
-                                        width: 100%;
-                                        height: 30px;
-                                    "
-                                class="inputselect"
-                                type="text"
-                                name=""
-                                id=""
-                                formControlName="diaChiNoiLamViec"
-                            />
-                        </td>
-                        <td>
-                            <input
-                                style="
-                                        border: 1px solid #ccc;
-                                        border-radius: 5px;
-                                        width: 100%;
-                                        height: 30px;
-                                    "
-                                class="inputselect"
-                                type="text"
-                                name=""
-                                id=""
-                                formControlName="thanhTuu"
-                            />
-                        </td>
-                        <td>
-                            <input
-                                style="
-                                        border: 1px solid #ccc;
-                                        border-radius: 5px;
-                                        width: 100%;
-                                        height: 30px;
-                                    "
-                                class="inputselect"
-                                type="text"
-                                name=""
-                                id=""
-                                formControlName="noiDungThamGia"
-                            />
-                        </td>
-                        <td class="text-center action-table">
                             <i
-                                (click)="removeItem(form, i)"
-                                class="fa fa-trash"
-                                title="Xóa bỏ"
+                                (click)="openAlertDialog('THANHVIEN', tacgia)"
+                                class="fa fa-search"
                             ></i>
-                        </td>
-                    </tr>
-                </ng-container>
-                </tbody>
+                        </div>
+                        <!-- <input style="border:1px solid #ccc; border-radius: 5px;" type="text" name="" formControlName="ten" id=""> <i (click)="openAlertDialog('THANHVIEN',thanhvien.get('ten'))" class="fa fa-search"></i> -->
+                    </td>
+                    <td style="width:7%">
+                        <ng-select
+                            [items]="listChucDanh"
+                            bindLabel="NAME"
+                            bindValue="ID"
+                            placeholder="Chọn chức danh"
+                            formControlName="chucDanh"
+                            style="width: 100%;"
+                        >
+                        </ng-select>
+                    </td>
+                    <!-- {{thanhvien.get('chucDanh').value}} -->
+                    <td style="width: 5%;">
+                        <input
+                            style="
+                                border: 1px solid #ccc;
+                                border-radius: 5px;
+                                width: 100%;
+                                height: 30px;
+                            "
+                            class="inputselect"
+                            type="text"
+                            name=""
+                            id=""
+                            formControlName="namSinh" (change)="checkYear($event)"
+                        />
+                    </td>
+                    <td>
+                        <input
+                            style="
+                                border: 1px solid #ccc;
+                                border-radius: 5px;
+                                width: 100%;
+                                height: 30px;
+                            "
+                            class="inputselect"
+                            type="text"
+                            name=""
+                            id=""
+                            formControlName="diaChiNoiLamViec"
+                        />
+                    </td>
+                    <td>
+                        <input
+                            style="
+                                border: 1px solid #ccc;
+                                border-radius: 5px;
+                                width: 100%;
+                                height: 30px;
+                            "
+                            class="inputselect"
+                            type="text"
+                            name=""
+                            id=""
+                            formControlName="thanhTuu"
+                        />
+                    </td>
+                    <td>
+                        <input
+                            style="
+                                border: 1px solid #ccc;
+                                border-radius: 5px;
+                                width: 100%;
+                                height: 30px;
+                            "
+                            class="inputselect"
+                            type="text"
+                            name=""
+                            id=""
+                            formControlName="noiDungThamGia"
+                        />
+                    </td>
+                    <td class="text-right action-table">
+                        <i
+                            (click)="removeItem(form, i)"
+                            class="fa fa-trash"
+                            title="Xóa bỏ"
+                        ></i>
+                    </td>
+                </tr>
+            </ng-container>
+            </tbody>
         </table>
-    
+
         <div class="flex flex-row row gap-4 items-center mt-3">
             <div class="basis-1/2">
-                <label for="">Lĩnh vực áp dụng sáng kiến</label>
+                <label for="">Lĩnh vực áp dụng sáng kiến <span>(*)</span></label>
                 <ng-select
                     [items]="listLinhVucNghienCuu"
                     bindLabel="NAME"
@@ -302,23 +302,137 @@
                 ></textarea>
             </div>
         </div>
-        <div class="flex flex-row row gap-4">
-            <div class="basis-full">
-                <label for="">Danh sách những người tham gia tổ chức áp dụng sáng kiến lần đầu (nếu có)</label>
-                <textarea
-                    name=""
-                    id=""
-                    class="form-control p-3 min-h-30"
-                    formControlName="thamGiaToChuc"
-                ></textarea>
-            </div>
-        </div>
+
+        <label for=""
+        >Danh sách những người tham gia tổ chức áp dụng sáng kiến lần
+            đầu (nếu có)</label
+        >
+        <table class="table table_custom">
+            <thead>
+            <tr>
+                <th class="stt_table">STT</th>
+                <th>Họ và tên</th>
+                <th>Năm sinh</th>
+                <th>Nơi công tác</th>
+                <th>Trình độ chuyên môn</th>
+                <th>Nội dung tham gia</th>
+                <th>
+                    <button class="pull-right add_button" (click)="addFirstTimeAdopter()">
+                        +Thêm thành viên
+                    </button>
+                </th>
+            </tr>
+            </thead>
+            <tbody formArrayName="firstTimeAdopters">
+            <ng-container
+                *ngFor="
+                    let firstTimeAdopter of $any(form.get('firstTimeAdopters')).controls;
+                    let i = index
+                "
+            >
+                <tr [formGroup]="firstTimeAdopter">
+                    <td class="stt_table">{{ i + 1 }}</td>
+                    <td>
+                        <div class="select-cbkh flex items-center form-control">
+                            <input
+                                class="inputselect"
+                                type="text"
+                                name=""
+                                id=""
+                                maxlength="200"
+                                formControlName="ten"
+                            />
+                            <i
+                                (click)="openAlertDialog('THANHVIEN', firstTimeAdopter)"
+                                class="fa fa-search"
+                            ></i>
+                        </div>
+                    </td>
+                    <td style="width: 110px;">
+                        <input
+                            style="
+                                border: 1px solid #ccc;
+                                border-radius: 5px;
+                                width: 100%;
+                                height: 30px;
+                            "
+                            class="inputselect"
+                            type="text"
+                            name=""
+                            id=""
+                            formControlName="namSinh" (change)="checkYear($event)"
+                        />
+                    </td>
+                    <td>
+                        <input
+                            style="
+                                border: 1px solid #ccc;
+                                border-radius: 5px;
+                                width: 100%;
+                                height: 30px;
+                            "
+                            class="inputselect"
+                            type="text"
+                            name=""
+                            id=""
+                            maxlength="200"
+                            formControlName="diaChiNoiLamViec"
+                        />
+                    </td>
+                    <td>
+                        <input
+                            style="
+                                border: 1px solid #ccc;
+                                border-radius: 5px;
+                                width: 100%;
+                                height: 30px;
+                            "
+                            class="inputselect"
+                            type="text"
+                            name=""
+                            id=""
+                            maxlength="200"
+                            formControlName="thanhTuu"
+                        />
+                    </td>
+                    <td>
+                        <input
+                            style="
+                                border: 1px solid #ccc;
+                                border-radius: 5px;
+                                width: 100%;
+                                height: 30px;
+                            "
+                            class="inputselect"
+                            type="text"
+                            name=""
+                            id=""
+                            maxlength="450"
+                            formControlName="noiDungThamGia"
+                        />
+                    </td>
+                    <td class="text-center action-table">
+                        <i
+                            (click)="removeFirstTimeAdopter(form, i)"
+                            class="fa fa-trash"
+                            title="Xóa bỏ"
+                        ></i>
+                    </td>
+                </tr>
+            </ng-container>
+            </tbody>
+        </table>
         <div class="flex flex-row row gap-4 items-center">
             <label for="">Số tiền làm lợi trong năm đầu tiên áp dụng giải pháp</label>
-            <input type="text" class="form-control w-100 ml-4 mr-4" name="" id=""  formControlName="soTienLamLoi">
+            <input type="text" class="form-control w-100 ml-4 mr-4 text-right" name="" id=""
+              money
+            [options]="{
+                numeral: true,
+                numeralIntegerScale: 15
+              }" formControlName="soTienLamLoi">
             <label for="">(Lần tháng lương cơ sơ)</label>
         </div>
-        
+
 
         <mat-tab-group class="detail_tab1">
             <mat-tab label="Hồ sơ, tài liệu đăng ký">
@@ -326,15 +440,15 @@
                     <thead>
                         <tr>
                             <th class="stt_table">STT</th>
-                            <th>Văn bản liên quan</th>
-                            <th>File nội dung</th>
+                            <th class="text-center">Văn bản liên quan</th>
+                            <th class="text-center">File nội dung</th>
                         </tr>
                     </thead>
                     <tbody formArrayName="listFolderHSDK" *ngIf="form.get('listFolderHSDK').value.length >0">
-                        <tr *ngFor="let item of form.get('listFolderHSDK')['controls']; let i = index">
+                        <ng-container *ngFor="let item of form.get('listFolderHSDK')['controls']; let i = index">
+                        <tr   [formGroupName]="i">
                             <td class="stt_table">{{i+1}}</td>
                             <td>{{item.get('fileName').value}}</td>
-                            <td></td>
                             <td>
                                 <div
                                 class="list-file"
@@ -366,21 +480,19 @@
                                                               item2.get("size")
                                                                   .value /
                                                               (1024 * 1024)
-                                                          ).toFixed(1) + "(MB)"
+                                                          ).toFixed(1) + " MB"
                                                         : item2.get("size")
                                                               .value > 1024
                                                         ? (
                                                               item2.get("size")
                                                                   .value / 1024
-                                                          ).toFixed(1) + "(KB)"
+                                                          ).toFixed(1) + " KB"
                                                         : item2
                                                               .get("size")
                                                               .value.toFixed(
                                                                   1
                                                               ) + "K"
                                                 }})
-                                            </td>
-                                            <td class="text-right">
                                                 <i
                                                     style="
                                                         color: red;
@@ -393,7 +505,7 @@
                                                     class="fa fa-trash"
                                                     title="Xóa bỏ"
                                                 ></i>
-                                                <i
+                                                <!-- <i
                                                     class="fa fa-cloud-download"
                                                     style="
                                                         color: green;
@@ -404,7 +516,7 @@
                                                         downLoadFile(item2)
                                                     "
                                                     title="Download file"
-                                                ></i>
+                                                ></i> -->
                                             </td>
                                         </tr>
                                     </tbody>
@@ -421,6 +533,7 @@
                                 </button> -->
                             </td>
                         </tr>
+                    </ng-container>
                     </tbody>
                 </table>
             </mat-tab>
@@ -429,15 +542,16 @@
                     <thead>
                         <tr>
                             <th class="stt_table">STT</th>
-                            <th>Văn bản liên quan</th>
-                            <th>File nội dung</th>
+                            <th class="text-center">Văn bản liên quan</th>
+                            <th></th>
+                            <th class="text-center">File nội dung</th>
                         </tr>
                     </thead>
                   <tbody formArrayName="listFolderHSXD" *ngIf="form.get('listFolderHSXD').value.length >0">
-                        <tr *ngFor="let item of form.get('listFolderHSXD')['controls']; let i = index">
+                    <ng-container *ngFor="let item of form.get('listFolderHSXD')['controls']; let i = index">
+                        <tr [formGroupName]="i">
                             <td class="stt_table">{{i+1}}</td>
                             <td>{{item.get('fileName').value}}</td>
-                            <td></td>
                             <td>
                                 <div
                                 class="list-file"
@@ -469,21 +583,19 @@
                                                               item2.get("size")
                                                                   .value /
                                                               (1024 * 1024)
-                                                          ).toFixed(1) + "(MB)"
+                                                          ).toFixed(1) + " MB "
                                                         : item2.get("size")
                                                               .value > 1024
                                                         ? (
                                                               item2.get("size")
                                                                   .value / 1024
-                                                          ).toFixed(1) + "(KB)"
+                                                          ).toFixed(1) + " KB"
                                                         : item2
                                                               .get("size")
                                                               .value.toFixed(
                                                                   1
                                                               ) + "K"
                                                 }})
-                                            </td>
-                                            <td class="text-right">
                                                 <i
                                                     style="
                                                         color: red;
@@ -496,7 +608,7 @@
                                                     class="fa fa-trash"
                                                     title="Xóa bỏ"
                                                 ></i>
-                                                <i
+                                                <!-- <i
                                                     class="fa fa-cloud-download"
                                                     style="
                                                         color: green;
@@ -507,7 +619,7 @@
                                                         downLoadFile(item2)
                                                     "
                                                     title="Download file"
-                                                ></i>
+                                                ></i> -->
                                             </td>
                                         </tr>
                                     </tbody>
@@ -528,11 +640,12 @@
                                 </button> -->
                             </td>
                         </tr>
+                    </ng-container>
                     </tbody>
                 </table>
             </mat-tab>
         </mat-tab-group>
-    
+
         <div class="action-all-f">
             <button class="add_button" (click)="onSubmit('DA_CONG_NHAN','LUU')"><i class="fa fa-save"></i> Lưu</button>
             <!-- <button class="add_button	">

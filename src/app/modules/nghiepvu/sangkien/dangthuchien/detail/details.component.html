@@ -1,4 +1,153 @@
 <div
+    *ngIf="actionType == 'updateActionRaSoat'"
+    class="flex flex-col flex-auto overflow-y-auto bg-card dark:bg-default content-detail p-3" [formGroup]="form"  novalidate
+>
+    <div class="">
+        <h1 class="title-component">
+            RÀ SOÁT GIẢI PHÁP ĐỀ NGHỊ CÔNG NHẬN SÁNG KIẾN
+        </h1>
+    </div>
+
+
+
+    <label class="title_labe" for="">Ý kiến rà soát đề nghị xét duyệt/ công nhận sáng kiến</label>
+    <textarea class="form-control" name=""  formControlName="noiDungGuiMail"  id="" cols="30" rows="10" style="padding: 10px; min-height: 100px;"></textarea>
+
+    <div class="flex items-center" style="margin-bottom: 10px; margin-top: 10px;">
+        <input type="checkbox" name="" id="" formControlName="isEmail" [checked]="form.get('isEmail').value">
+        <span style="margin-left: 5px;"> Gửi email thông báo đến chủ nhiệm và các bên liên quan</span>
+    </div>
+
+    <div style="display: flex; margin-top: 10px; align-items: center">
+        <div class="basis-1/5">
+            <label for="">File đính kèm</label>
+        </div>
+        <div class="basis-1/5" *ngFor="let item of form.get('listFolderFile')['controls']; let i = index">
+            <label class="custom-file-upload add_button-import">
+                <input type="file" multiple  (change)="handleUpload($event,item,i)" #fileUpload2/>
+                <i class="fa fa-cloud-upload"></i> Upload file
+            </label>
+           <!-- <button style="background: #ccc; padding: 5px 16px; border-radius: 5px;">Chọn tệp...</button> -->
+        </div>
+    </div>
+    <ng-container formArrayName="listFolderFile" *ngFor="let item of form.get('listFolderFile')['controls']; let i = index">
+        <ng-container [formGroupName]="i">
+    <div
+    class="list-file table_listfile" style="width: 25%;"
+    *ngIf="item.get('listFile').value.length > 0"
+>
+    <table class="table table_custom action-table">
+        <!-- <thead>
+            <tr>
+                <th class="stt_table">STT</th>
+                <th>Tên file</th>
+                <th class="text-center">Kích thước
+                </th>
+                <th class="text-center">Số văn bản
+                </th>
+                <th class="text-center">
+                </th>
+                <th style="width: 100px;"></th>
+            </tr>
+        </thead> -->
+        <tbody>
+            <ng-container
+                formArrayName="listFile"
+                class="table_listfile"
+                *ngFor="
+                let item2 of item.get('listFile')[
+                    'controls'
+                ];
+                let k = index
+            "
+            >
+                <tr [formGroupName]="k" >
+                    <td>
+                        <!-- <i
+                            class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
+                        ></i> -->
+                        {{ item2.get("fileName").value }}
+                        ({{
+                            item2.get("size").value >
+                            1024 * 1024
+                                ? (
+                                      item2.get("size")
+                                          .value /
+                                      (1024 * 1024)
+                                  ).toFixed(1) + " MB"
+                                : item2.get("size").value >
+                                  1024
+                                ? (
+                                      item2.get("size")
+                                          .value / 1024
+                                  ).toFixed(1) + " KB"
+                                : item2
+                                      .get("size")
+                                      .value.toFixed(1) +
+                                  "K"
+                        }})
+                        <i
+                            style="
+                                color: red;
+                                cursor: pointer;
+                                margin-right: 3px;
+                            "
+                            (click)="
+                                deleteItemFile(item, k)
+                            "
+                            class="fa fa-trash"
+                            title="Xóa bỏ"
+                        ></i>
+                    </td>
+                </tr>
+            </ng-container>
+        </tbody>
+    </table>
+
+</div>
+</ng-container>
+</ng-container>
+    <!-- <ng-container *ngFor="let item of form.get('listFolderFile')['controls']; let i = index">
+        <div class="list-file" style="width: 40%;" *ngIf="item.get('listFile').value.length >0">
+            <table class="table table_custom action-table">
+                <thead>
+                    <tr>
+                        <th class="stt_table">STT</th>
+                        <th>Tên file</th>
+                        <th class="text-center">Kích thước
+                        </th>
+                        <th class="text-center">Số văn bản
+                        </th>
+                        <th style="width: 100px;"></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr *ngFor="let item2 of item.get('listFile')['controls']; let k = index" [formGroup]="item2">
+                        <td class="stt_table">{{k+1}}</td>
+                        <td>{{item2.get('fileName').value}}</td>
+                        <td>
+                            {{item2.get('size').value >(1024 * 1024)?(item2.get('size').value/(1024*1024)).toFixed(1)+'(MB)':item2.get('size').value >1024?(item2.get('size').value/(1024)).toFixed(1)+'(KB)':item2.get('size').value.toFixed(1) +"K"}}</td>
+
+                         <td>{{item2.get('sovanban').value}}</td>
+                        <td class="text-center">  <i style="color: red; cursor: pointer;    margin-right: 10px;" (click)="deleteItemFile(item,k)" class="fa fa-trash" title="Xóa bỏ"></i>
+                            <i class="fa fa-cloud-download" style="color: green; cursor: pointer;" aria-hidden="true" (click)="downLoadFile(item2)" title="Download file"></i>
+                        </td>
+
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+        </ng-container> -->
+    <div class="action-all-f">
+        <button class="add_button" (click)="onSubmit('CHAPTHUAN','RASOAT')"><i class="fa fa-save"></i> Chấp thuận</button>
+        <button class="add_button bg-sky-500"  (click)="onSubmit('TRALAI','RASOAT')"><i class="fa fa-save"></i> Trả lại</button>
+    </div>
+</div>
+
+
+<!-- <div
     *ngIf="actionType == 'XDCNKQ'"
     class="flex flex-col flex-auto overflow-y-auto bg-card dark:bg-default content-detail p-3"
 >
@@ -42,4 +191,4 @@
         <button class="add_button" style="background-color: #02a7f0;"><i class="fa fa-save"></i> Trả lại</button>
     </div>
 </div>
-
+ -->

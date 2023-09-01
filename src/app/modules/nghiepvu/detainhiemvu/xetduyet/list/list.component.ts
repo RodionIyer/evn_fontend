@@ -77,6 +77,8 @@ export class ListItemComponent implements OnInit, OnDestroy {
             .execServiceLogin('2977F0EA-A6C6-4A32-A36B-8617898B710D', null)
             .subscribe((data) => {
                 this.listCapQuanLy = data.data || [];
+                let obj ={"ID":"","NAME":"Tất cả"}
+                this.listCapQuanLy.unshift(obj);
             });
     }
 
@@ -141,8 +143,10 @@ export class ListItemComponent implements OnInit, OnDestroy {
             ])
             .subscribe((data) => {
                 this.listGiao = data.data || [];
-               this.spinner.hide()
-             
+                if (this.listGiao != null && this.listGiao.length > 0) {
+                    this.length = this.listGiao[0].totalPage;
+                }
+                console.log(this.listGiao);
             });
     }
 

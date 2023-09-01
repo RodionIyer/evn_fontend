@@ -69,7 +69,11 @@ export class ListItemComponent implements OnInit, OnDestroy {
         { id: 2, name: 'ten_file1', kichthuoc: '20mb' },
         { id: 3, name: 'ten_file2', kichthuoc: '20mb' },
     ];
-
+    public listRole=[];
+    public checkDOffice = false;
+    public linkDoffice = "";
+    user: User;
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
     /**
      * Constructor
      */
@@ -83,6 +87,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
         private el: ElementRef,
         private _serviceApi: ServiceService,
         public dialog: MatDialog
+        
     ) {
         this.initForm();
         this._activatedRoute.queryParams.subscribe((params) => {
@@ -91,7 +96,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
             } else {
                 this.actionClick = null;
             }
-
+            this.getListDinhHuong();
         });
     }
 
@@ -122,21 +127,21 @@ export class ListItemComponent implements OnInit, OnDestroy {
             thoiGianThucHienTu: [moment(), [Validators.required]],
             thoiGianThucHienDen: [moment(), [Validators.required]],
 
-            chuNhiemDeTaiInfo: '',
+            chuNhiemDeTaiInfo: null,
             chuNhiemDeTai: [null, [Validators.required]],
             gioiTinh: 0,
             hocHam: [null],
             hocVi: [null],
             donViCongTac: [null],
 
-            dongChuNhiemDeTaiInfo: '',
+            dongChuNhiemDeTaiInfo: null,
             dongChuNhiemDeTai: [null, [Validators.required]],
             gioiTinhDongChuNhiem: 0,
             hocHamDongChuNhiem: [null],
             hocViDongChuNhiem: [null],
             donViCongTacDongChuNhiem: [null],
 
-            thuKyDeTaiInfo: '',
+            thuKyDeTaiInfo: null,
             thuKyDeTai: [null],
             gioiTinhThuKy: 0,
             hocHamThuKy: [null],
@@ -173,6 +178,27 @@ export class ListItemComponent implements OnInit, OnDestroy {
             listFolderHSNT: this._formBuilder.array([]),
         });
     }
+
+    getCheckQuyenDoffice() {
+        this._userService.user$
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((user: any) => {
+                this.user = user;
+                if(this.user != undefined && this.user != null && user.roles.length >0){
+                    this.listRole = user.roles.map(item => {
+                        return item.ROLECODE;
+                    });
+                }
+                this._serviceApi.execServiceLogin("3FADE0E4-B2C2-4D9D-A0C7-06817ADE4FA3", [{ "name": "ORGID", "value": user.ORGID }]).subscribe((data) => {
+                    if (data.data.API_DOFFICE) {
+                        this.checkDOffice = true;
+                        this.linkDoffice = data.data.API_DOFFICE;
+                    }
+                })
+            });
+
+    }
+
 
     getListFolderFile() {
         this._serviceApi
@@ -228,12 +254,15 @@ export class ListItemComponent implements OnInit, OnDestroy {
             });
     }
      newFolder(item?: any) {
-       
+   
         return this._formBuilder.group({
             maFolder: item?.maFolder,
             fileName: item?.fileName,
             ghiChu: item?.ghiChu,
             listFile: this._formBuilder.array([]),
+            nguoiSua: item?.nguoiSua,
+            ngaySua:item?.ngaySua,
+            nguoiCapnhap: item?.nguoiSua,
         });
     }
 
@@ -263,6 +292,8 @@ export class ListItemComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
+      
+        this.getCheckQuyenDoffice();
         this.getListFolderFile();
         this.geListYears();
         this.getListDinhHuong();
@@ -275,6 +306,8 @@ export class ListItemComponent implements OnInit, OnDestroy {
         this.getListDonViChuTri();
         this.getListLinhVucNghienCuu();
         this.getListCapQuanLy();
+        this.checkAddMember();
+       
     }
 
     listCapQuanLy = [];
@@ -333,14 +366,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
             queryParams: { type: 'THEMMOI' },
         });
     }
-    listHocHam = [];
-    getListHocHam() {
-        this._serviceApi
-            .execServiceLogin('1B009679-0ABB-4DBE-BBCF-E70CBE239042', null)
-            .subscribe((data) => {
-                this.listHocHam = data.data || [];
-            });
-    }
+   
 
     listGioiTinh = [];
     getListGioiTinh() {
@@ -350,12 +376,34 @@ export class ListItemComponent implements OnInit, OnDestroy {
         this.listGioiTinh.push(obj);
     }
 
+   
+    listHocHam = [];
+    getListHocHam() {
+        this._serviceApi
+            .execServiceLogin('1B009679-0ABB-4DBE-BBCF-E70CBE239042', null)
+            .subscribe((data) => {
+                var obj = {ID: '', NAME: '--Chọn--'};
+                let hocHam = [];
+                hocHam.push(obj)
+                for(let i=0;i<data.data.length;i++){
+                    hocHam.push(data.data[i]);
+                }
+                this.listHocHam = hocHam || [];
+            });
+    }
     listHocVi = [];
     getListHocVi() {
         this._serviceApi
             .execServiceLogin('654CB6D4-9DD7-48B7-B3FD-8FDAC07FE950', null)
             .subscribe((data) => {
-                this.listHocVi = data.data || [];
+                var obj = {ID: '', NAME: '--Chọn--'};
+                let hocVi = [];
+                hocVi.push(obj)
+                for(let i=0;i<data.data.length;i++){
+                    hocVi.push(data.data[i]);
+                }
+                this.listHocVi = hocVi || [];
+               // this.listHocVi = data.data || [];
             });
     }
 
@@ -425,28 +473,30 @@ export class ListItemComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.getYearSubscription.unsubscribe();
-        this.getGiaoSubcription.unsubscribe();
+        //this.getYearSubscription.unsubscribe();
+       // this.getGiaoSubcription.unsubscribe();
     }
 
     getListDinhHuong() {
-        this.getGiaoSubcription = this._serviceApi
+       this._serviceApi
             .execServiceLogin('E5050E10-799D-4F5F-B4F2-E13AFEA8543B', null)
             .subscribe((data) => {
                 this.listGiao = data.data || [];
             });
     }
     //phân trang
-    length = 500;
-    pageSize = 10;
+    length = 0;
+    pageSize = 20;
     pageIndex = 0;
-    pageSizeOptions = [5, 10, 25];
+    pageSizeOptions = [10, 20, 50, 100];
     showFirstLastButtons = true;
 
     handlePageEvent(event: PageEvent) {
         this.length = event.length;
         this.pageSize = event.pageSize;
         this.pageIndex = event.pageIndex;
+        this.getListDinhHuong();
+
     }
 
     // mo popup file
@@ -524,25 +574,85 @@ export class ListItemComponent implements OnInit, OnDestroy {
     }
 
     downLoadFile(item) {
-        if (item.base64 != undefined && item.base64 != '') {
-            let link = item.base64.split(',');
+        if (item.value.base64 != undefined && item.value.base64 != '') {
+            let link = item.value.base64.split(',');
             let url = '';
             if (link.length > 1) {
                 url = link[1];
             } else {
                 url = link[0];
             }
-            this.downloadTempExcel(url, item.fileName);
+            this.downloadAll(url, item.value.fileName);
         } else {
             var token = localStorage.getItem('accessToken');
             this._serviceApi
                 .execServiceLogin('2269B72D-1A44-4DBB-8699-AF9EE6878F89', [
-                    { name: 'DUONG_DAN', value: item.duongdan },
-                    { name: 'TOKEN_LINK', value: 'Bearer ' + token },
+                    {name: 'DUONG_DAN', value: item.duongdan},
+                    {name: 'TOKEN_LINK', value: 'Bearer ' + token},
                 ])
-                .subscribe((data) => {});
+                .subscribe((data) => {
+                });
         }
     }
+
+   async downloadAll(base64String, fileName){
+    let typeFile =  await this.detectMimeType(base64String, fileName);
+    let mediaType = `data:${typeFile};base64,`;
+    const downloadLink = document.createElement('a');
+
+        downloadLink.href = mediaType + base64String;
+        downloadLink.download = fileName;
+        downloadLink.click();
+    }
+
+   async detectMimeType(base64String, fileName) {
+        var ext = fileName.substring(fileName.lastIndexOf(".") + 1);
+        if (ext === undefined || ext === null || ext === "") ext = "bin";
+        ext = ext.toLowerCase();
+        const signatures = {
+          JVBERi0: "application/pdf",
+          R0lGODdh: "image/gif",
+          R0lGODlh: "image/gif",
+          iVBORw0KGgo: "image/png",
+          TU0AK: "image/tiff",
+          "/9j/": "image/jpg",
+          UEs: "application/vnd.openxmlformats-officedocument.",
+          PK: "application/zip",
+        };
+        for (var s in signatures) {
+          if (base64String.indexOf(s) === 0) {
+            var x = signatures[s];
+            // if an office file format
+            if (ext.length > 3 && ext.substring(0, 3) === "ppt") {
+              x += "presentationml.presentation";
+            } else if (ext.length > 3 && ext.substring(0, 3) === "xls") {
+              x += "spreadsheetml.sheet";
+            } else if (ext.length > 3 && ext.substring(0, 3) === "doc") {
+              x += "wordprocessingml.document";
+            }
+            // return
+            return x;
+          }
+        }
+        // if we are here we can only go off the extensions
+        const extensions = {
+          xls: "application/vnd.ms-excel",
+          ppt: "application/vnd.ms-powerpoint",
+          doc: "application/msword",
+          xml: "text/xml",
+          mpeg: "audio/mpeg",
+          mpg: "audio/mpeg",
+          txt: "text/plain",
+        };
+        for (var e in extensions) {
+          if (ext.indexOf(e) === 0) {
+            var xx = extensions[e];
+            return xx;
+          }
+        }
+        // if we are here – not sure what type this is
+        return "unknown";
+      }
 
     addFile(item, itemVal, base64) {
         return this._formBuilder.group({
@@ -551,12 +661,17 @@ export class ListItemComponent implements OnInit, OnDestroy {
             size: itemVal?.size || null,
             sovanban: '',
             mafile: '',
+            nguoiSua:'',
+            ngaySua:null,
         });
     }
 
     listupload = [];
     handleUpload(event, item, index) {
         let arr = item.get('listFile') as FormArray;
+        item.get("nguoiCapnhap").setValue(this.user.userName);
+        item.get("nguoiSua").setValue(this.user.userId);
+        item.get("ngaySua").setValue(new Date());
         for (var i = 0; i < event.target.files.length; i++) {
             const reader = new FileReader();
             let itemVal = event.target.files[i];
@@ -565,6 +680,34 @@ export class ListItemComponent implements OnInit, OnDestroy {
                 arr.push(this.addFile(item, itemVal, reader.result));
             };
         }
+        event.target.value = null;
+    }
+
+    checkAddMember(){
+        let ar = this.form.get('danhSachThanhVien') as FormArray;
+        if(ar !=undefined && ar.length >0){
+
+        }else{
+            ar.push(this.addMember());
+        }
+
+        let ar2 = this.form.get('danhSachThanhVienHDXT') as FormArray;
+        if(ar2 !=undefined && ar2.length >0){
+
+        }else{
+            ar2.push(this.addMember());
+        }
+
+        let ar3 = this.form.get('danhSachThanhVienHDNT') as FormArray;
+        if(ar3 !=undefined && ar3.length >0){
+
+        }else{
+            ar3.push(this.addMember());
+        }
+
+
+        
+        
     }
 
     onSubmit(status, method) {
@@ -602,6 +745,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
                     'Thông báo',
                     data.message
                 );
+                this.form.reset();
                 // if (this.screen) {
                 //     this._router.navigateByUrl(this.screen);
                 // } else {

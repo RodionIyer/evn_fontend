@@ -1,6 +1,5 @@
 <div class="relative eco_conntent">
     <!--màn hình danh sách-->
-    <div class="bg-white p-3">
     <ng-container *ngIf="!actionClick">
         <div class="flex items-center justify-between">
             <h1 class="title-component">RÀ SOÁT/XÉT DUYỆT/CÔNG NHẬN SÁNG KIẾN</h1>
@@ -45,8 +44,8 @@
                 <ng-select
                     style="width: 100%"
                     [items]="listDonVi"
-                    bindLabel="NAME"
-                    bindValue="ID"
+                    bindLabel="name"
+                    bindValue="id"
                     placeholder="Lựa chọn"
                     [(ngModel)]="donVi"
                 >
@@ -84,10 +83,11 @@
                 type="text"
                 class="form-control"
                 placeholder="Nhập từ khóa tìm kiếm: tác giả, tên giải pháp,..."
+                [(ngModel)]="searchKeyword"
             />
             </div>
             <div class="grow flex justify-end">
-                <button class="add_button bg-sky-500" (click)="timKiem()">
+                <button class="add_button bg-sky-500 detai-search" (click)="timKiem()">
                     <i class="fa fa-search"></i>
                     Tìm kiếm
                 </button>
@@ -109,19 +109,21 @@
                     <th class="text-center">Cấp độ sáng kiến</th>
                     <th class="text-center">Đơn vị thực hiện</th>
                     <th class="text-center">Năm</th>
-                    <th class="text-center">Tác giả là thủ trưởng đơn vị</th>
+                    <th class="text-center">Tác giả</th>
+<!--                    <th class="text-center">Tác giả là thủ trưởng đơn vị</th>-->
                     <th class="text-center">Trạng thái</th>
                     <th class="text-center action-table">Thao tác</th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let item of listGiao; let i = index">
-                    <td class="stt_table">{{ i+ 1}}</td>
+                    <td class="stt_table">{{ (i+(pageIndex * pageSize))+ 1}}</td>
                     <td>{{item.tenGiaiPhap}}</td>
                     <td class="text-center">{{item.tenCapDoSangKien}}</td>
-                    <td class="text-center">{{item.tenDonViChuDauTu}}</td>
+                    <td class="text-left">{{item.tenDonViChuDauTu}}</td>
                     <td class="text-center">{{item.nam}}</td>
-                    <td class="text-center">{{item.thuTruongDonVi==true?"Có":"Không"}}</td>
+                    <td class="text-left">{{item.tacGiaGiaiPhap[0]?.ten}}</td>
+<!--                    <td class="text-center">{{item.thuTruongDonVi==true?"Có":"Không"}}</td>-->
                     <td class="text-center">{{item.tenTrangThai}}</td>
                     <td class="action-table">
                         <div class="flex justify-evenly"  style="float: left;">
@@ -135,17 +137,22 @@
                             <i class="fa fa-clock-o cursor-point" (click)="lichsu(item)" title="Xem lịch sử"></i>
 <!--                            <i *ngIf="item.maTrangThai=='SOAN' || item.maTrangThai=='Y_CAU_HIEU_CHINH' || item.maTrangThai=='CHO_RA_SOAT' || item.maTrangThai=='DA_RA_SOAT' || item.maTrangThai=='DA_TLHDXDTC'" class="fa fa-pencil cursor-point"  [routerLink]="[item.maSangKien]" [queryParams]="{type: 'CHINHSUA'}" title="Chỉnh sửa"></i>-->
                             <i
-                                *ngIf="item.maTrangThai=='SOAN' || item.maTrangThai=='Y_CAU_HIEU_CHINH' || item.maTrangThai=='CHO_RA_SOAT' || item.maTrangThai=='DA_RA_SOAT' || item.maTrangThai=='DA_TLHDXDTC'"
+                                *ngIf="item.maTrangThai=='SOAN' || item.maTrangThai=='KHONG_CONG_NHAN' || item.maTrangThai=='Y_CAU_HIEU_CHINH' || item.maTrangThai=='CHO_RA_SOAT' || item.maTrangThai=='DA_RA_SOAT' || item.maTrangThai=='DA_TLHDXDTC'"
                                 class="fa fa-pencil"
                                 (click)="editer(item)"
                                 class="fa fa-pencil"
                                 title="Chỉnh sửa"
                             ></i>
-                             <!-- <i *ngIf="item.maTrangThai=='SOAN' || item.maTrangThai=='Y_CAU_HIEU_CHINH' " class="fa fa-trash cursor-point" (click)="xoa(item)" title="Xóa bỏ"></i> -->
-                             <i *ngIf="item.maTrangThai=='CHO_RA_SOAT' || item.maTrangThai=='DA_RA_SOAT'  " (click)="updateActionRaSoat(item)" title="Rà soát" class=" fa fa-check-square-o"></i>
+                            <i *ngIf="item.maTrangThai=='CHO_RA_SOAT' || item.maTrangThai=='DA_RA_SOAT'  " (click)="updateActionRaSoat(item)" title="Rà soát" class=" fa fa-check-square-o"></i>
                              <i *ngIf="item.maTrangThai=='DA_RA_SOAT' || item.maTrangThai=='DA_TLHDXDTC' " (click)="updateActionHDXDCN(item)" title="Cập nhập HĐXD/CN" class="fa fa-retweet"></i>
-                             <i  *ngIf="item.maTrangThai=='DA_TLHDXDTC'" (click)="updateActionKQXDCN(item)" title="Cập nhập kết quả XD/TC" class="fa fa-retweet"></i>
-                             <i *ngIf="item.maTrangThai=='DA_CONG_NHAN' ||item.maTrangThai=='DA_CONG_NHAN'  "  (click)="updateActionKQ(item)" title="Cập nhập QĐ chi trả thù lao" class="fa fa-retweet"></i>
+                             <i  *ngIf="item.maTrangThai=='DA_TLHDXDTC' || item.maTrangThai=='DA_PHE_DUYET' " (click)="updateActionKQXDCN(item)" title="Cập nhập kết quả XD/TC" class="fa fa-retweet"></i>
+                             <i *ngIf="item.maTrangThai=='DA_CONG_NHAN'"  (click)="updateActionKQ(item)" title="Cập nhập QĐ chi trả thù lao" class="fa fa-retweet"></i>
+                             <!-- <i *ngIf="(item.maTrangThai=='DA_CONG_NHAN' && item.thuTruongDonVi !=true) || (item.maTrangThai=='DA_PHE_DUYET'  && item.thuTruongDonVi ==true) "  (click)="updateActionKQ(item)" title="Cập nhập QĐ chi trả thù lao" class="fa fa-retweet"></i> -->
+
+                            <!-- <i (click)="updateActionRaSoat(item)" title="Rà soát" class=" fa fa-check-square-o"></i>
+                             <i (click)="updateActionHDXDCN(item)" title="Cập nhập HĐXD/CN" class="fa fa-retweet"></i>
+                             <i  (click)="updateActionKQXDCN(item)" title="Cập nhập kết quả XD/TC" class="fa fa-retweet"></i>
+                             <i  (click)="updateActionKQ(item)" title="Cập nhập QĐ chi trả thù lao" class="fa fa-retweet"></i>  -->
 
                             </div>
                     </td>
@@ -179,7 +186,7 @@
             </tbody>
         </table>
         <!-- phan trang -->
-        <mat-paginator
+        <mat-paginator *ngIf="listGiao && listGiao.length > 0"
             (page)="handlePageEvent($event)"
             [length]="length"
             [pageSize]="pageSize"
@@ -207,6 +214,5 @@
             <router-outlet></router-outlet>
         </div>
     </ng-container>
-    </div>
 </div>
 

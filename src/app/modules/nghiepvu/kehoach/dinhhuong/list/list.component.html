@@ -3,6 +3,7 @@
     <ng-container *ngIf="!actionClick">
         <div class="bg-white p-3">
         <div class="flex items-center justify-between ">
+            <!-- <h1 class="title-component">DANH SÁCH BẢN ĐĂNG KÝ ĐỊNH HƯỚNG</h1> -->
             <h1 class="title-component">DANH SÁCH BẢN ĐĂNG KÝ ĐỊNH HƯỚNG</h1>
             <button class="add_button" (click)="addNew()"><i class="fa fa-plus"></i>
                 Tạo mới bản đăng ký</button>
@@ -10,7 +11,7 @@
         <div class="header-list-dinh-huong">
             <div class="year-left">
                 <label for="">Năm</label>
-                <ng-select [items]="listYears"  bindLabel="NAME" bindValue="ID" placeholder="Chọn năm" (change)="timKiem()"
+                <ng-select [items]="listYears"  bindLabel="name" bindValue="id" placeholder="Chọn năm" (change)="timKiem()"
                     [(ngModel)]="selectedYear">
                 </ng-select>
             </div>
