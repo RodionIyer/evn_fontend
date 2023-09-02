@@ -43,20 +43,20 @@
             </tbody>
         </table>
         </div>
-        <div class="action-pop">
-            <!-- <button class="add_button"><i class="fa fa-plus"></i>
-            Tìm kiếm</button>
-        <button class="add_button selectbtn"><i class="fa fa-plus"></i>
-            Chọn</button> -->
+        <!-- <div class="action-pop">
             <button (click)="onCloseClick()" class="add_button">
                 <i class="fa fa-times"></i> Hủy
             </button>
-        </div>
+        </div> -->
     </div>
 </ng-container>
 
 <ng-container *ngIf="checkType == 'CHUNHIEM'">
-    <div class="title-popup"><i class="fa fa-search"></i> Tìm kiếm chủ nhiệm</div>
+    <div class="title-popup flex items-center header-popups">
+        <!-- <i class="fa fa-search mr-2"></i> -->
+         <span>Tìm kiếm chủ nhiệm</span> <svg (click)="onCloseClick()"  viewBox="0 0 24 24" fit="" height="100%" width="100%" preserveAspectRatio="xMidYMid meet" focusable="false"><path d="M0 0h24v24H0V0z" fill="none"></path><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"></path></svg>
+    </div>
+    <!-- <div class="title-popup"><i class="fa fa-search"></i> Tìm kiếm chủ nhiệm</div> -->
     <div class="content-popup">
         <div class="box-search flex items-center">
             <label for="">Tìm kiếm</label>
@@ -94,21 +94,21 @@
             </tbody>
         </table>
         </div>
-        <div class="action-pop">
-            <!-- <button class="add_button"><i class="fa fa-plus"></i>
-                Tìm kiếm</button>
-            <button class="add_button selectbtn"><i class="fa fa-plus"></i>
-                Chọn</button> -->
+        <!-- <div class="action-pop">
             <button (click)="onCloseClick()" class="add_button">
                 <i class="fa fa-times"></i> Hủy
             </button>
-        </div>
+        </div> -->
     </div>
 </ng-container>
 <ng-container *ngIf="checkType == 'DONGCHUNHIEM'">
-    <div class="title-popup">
-        <i class="fa fa-search"></i> Tìm kiếm đồng chủ nhiệm
+    <div class="title-popup flex items-center header-popups">
+        <!-- <i class="fa fa-search mr-2"></i> -->
+         <span> Tìm kiếm đồng chủ nhiệm</span> <svg (click)="onCloseClick()"  viewBox="0 0 24 24" fit="" height="100%" width="100%" preserveAspectRatio="xMidYMid meet" focusable="false"><path d="M0 0h24v24H0V0z" fill="none"></path><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"></path></svg>
     </div>
+    <!-- <div class="title-popup">
+        <i class="fa fa-search"></i> Tìm kiếm đồng chủ nhiệm
+    </div> -->
     <div class="content-popup">
         <div class="box-search flex items-center">
             <label for="">Tìm kiếm</label>
@@ -148,21 +148,21 @@
             </tbody>
         </table>
 </div>
-        <div class="action-pop">
-            <!-- <button class="add_button"><i class="fa fa-plus"></i>
-                    Tìm kiếm</button>
-                <button class="add_button selectbtn"><i class="fa fa-plus"></i>
-                    Chọn</button> -->
+        <!-- <div class="action-pop">
             <button (click)="onCloseClick()" class="add_button">
                 <i class="fa fa-times"></i> Hủy
             </button>
-        </div>
+        </div> -->
     </div>
 </ng-container>
 <ng-container *ngIf="checkType == 'THUKY'">
-    <div class="title-popup">
-        <i class="fa fa-search"></i> Tìm kiếm thư ký
+    <div class="title-popup flex items-center header-popups">
+        <!-- <i class="fa fa-search mr-2"></i> -->
+         <span> Tìm kiếm thư ký</span> <svg (click)="onCloseClick()"  viewBox="0 0 24 24" fit="" height="100%" width="100%" preserveAspectRatio="xMidYMid meet" focusable="false"><path d="M0 0h24v24H0V0z" fill="none"></path><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"></path></svg>
     </div>
+    <!-- <div class="title-popup">
+        <i class="fa fa-search"></i> Tìm kiếm thư ký
+    </div> -->
     <div class="content-popup">
         <div class="box-search flex items-center">
             <label for="">Tìm kiếm</label>
@@ -200,19 +200,19 @@
             </tbody>
         </table>
 </div>
-        <div class="action-pop">
-            <!-- <button class="add_button"><i class="fa fa-plus"></i>
-                        Tìm kiếm</button>
-                    <button class="add_button selectbtn"><i class="fa fa-plus"></i>
-                        Chọn</button> -->
+        <!-- <div class="action-pop">
             <button (click)="onCloseClick()" class="add_button">
                 <i class="fa fa-times"></i> Hủy
             </button>
-        </div>
+        </div> -->
     </div>
 </ng-container>
 <ng-container *ngIf="checkType == 'THANHVIEN'">
-    <div class="title-popup"><i class="fa fa-search"></i> Tìm kiếm</div>
+    <div class="title-popup flex items-center header-popups">
+        <!-- <i class="fa fa-search mr-2"></i> -->
+         <span>Tìm kiếm</span> <svg (click)="onCloseClick()"  viewBox="0 0 24 24" fit="" height="100%" width="100%" preserveAspectRatio="xMidYMid meet" focusable="false"><path d="M0 0h24v24H0V0z" fill="none"></path><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"></path></svg>
+    </div>
+    <!-- <div class="title-popup"><i class="fa fa-search"></i> Tìm kiếm</div> -->
     <div class="content-popup">
         <div class="box-search flex items-center">
             <label for="">Tìm kiếm</label>
@@ -250,14 +250,10 @@
             </tbody>
         </table>
 </div>
-        <div class="action-pop">
-            <!-- <button class="add_button"><i class="fa fa-plus"></i>
-                    Tìm kiếm</button>
-                <button class="add_button selectbtn"><i class="fa fa-plus"></i>
-                    Chọn</button> -->
+        <!-- <div class="action-pop">
             <button (click)="onCloseClick()" class="add_button">
                 <i class="fa fa-times"></i> Hủy
             </button>
-        </div>
+        </div> -->
     </div>
 </ng-container>

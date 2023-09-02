@@ -4,326 +4,222 @@
     [formGroup]="form"
     novalidate
 >
-    <div class="">
+    <!-- <div class="">
         <h1 class="title-component" *ngIf="actionType === 'THEMMOI' || actionType === 'CHINHSUA'">ĐĂNG KÝ SÁNG KIẾN</h1>
         <h1 class="title-component" *ngIf="actionType === 'THONGTINSK'">THÔNG TIN SÁNG KIẾN</h1>
         <h1 class="title-component" *ngIf="actionType === 'NANGCAPSK'">NÂNG CẤP SÁNG KIẾN</h1>
+    </div> -->
+    <div class="flex flex-0 items-center justify-between h-16 px-4 border-b bg-gray-50 dark:bg-transparent">
+        <div class="flex items-center w-full">
+
+            <div class="ml-2 font-semibold uppercase whitespace-nowrap truncate">ĐĂNG KÝ SÁNG KIẾN</div>
+
+            <span style="flex: 1 1 auto;"></span>
+            <!-- <button mat-icon-button (click)="addNewNguoiThucHien()">
+                <mat-icon [svgIcon]="'mat_outline:add'"></mat-icon>
+            </button> -->
+        </div>
+
     </div>
-    <div class="flex flex-row row gap-4 items-center">
-        <div class="basis-1/4">
-            <label for="">Cấp độ sáng kiến<span>(*)</span></label>
-
-            <ng-select
-                [items]="listCapDo"
-                bindLabel="NAME"
-                bindValue="ID"
-                placeholder="Lựa chọn"
-                formControlName="capDoSangKien"
-            >
-            </ng-select>
-            <div
-                *ngIf="submitted.check && f?.capDoSangKien?.errors"
-                class="invalid-feedback"
-            >
-                <div *ngIf="f.capDoSangKien.errors.required">
-                    Trường bắt buộc nhập
+    <div class="flex flex-col flex-auto p-1 sm:p-1">
+    <div class="py-5 px-2">
+        <div class="grid grid-cols-4 grid-flow-row gap-2 w-full">
+                <div class="flex flex-col flex-auto">
+                    <mat-form-field>
+                        <mat-label>Cấp độ sáng kiến</mat-label>
+                        <mat-select mat-option [formControlName]="'capDoSangKien'">
+                            <mat-option *ngFor="let x of listCapDo;" [value]="x.ID">{{x.NAME}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
                 </div>
-            </div>
-        </div>
-        <div class="basis-1/4">
-            <label for="">Năm<span>(*)</span></label>
-
-            <ng-select
-                [items]="listYears"
-                bindLabel="NAME"
-                bindValue="ID"
-                placeholder="Lựa chọn"
-                formControlName="nam"
-                style="width: 100%;"
-            >
-            </ng-select>
-            <div
-                *ngIf="submitted.check && f?.nam?.errors"
-                class="invalid-feedback"
-            >
-                <div *ngIf="f.nam.errors.required">
-                    Trường bắt buộc nhập
+                <div class="flex flex-col flex-auto">
+                    <mat-form-field>
+                        <mat-label>Năm</mat-label>
+                        <mat-select mat-option [formControlName]="'nam'">
+                            <mat-option *ngFor="let x of listYears;" [value]="x.ID">{{x.NAME}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
                 </div>
-            </div>
-        </div>
-        <div class="basis-1/4">
-            <label for="">Đơn vị chủ đầu tư<span>(*)</span></label>
-
-            <ng-select
-                [items]="listDonViChuDauTu"
-                bindLabel="name"
-                bindValue="id"
-                placeholder="Lựa chọn"
-                formControlName="donViChuDauTu"
-                style="width: 100%;"
-            >
-            </ng-select>
-            <div
-                *ngIf="submitted.check && f?.donViChuDauTu?.errors"
-                class="invalid-feedback"
-            >
-                <div *ngIf="f.donViChuDauTu.errors.required">
-                    Trường bắt buộc nhập
+                <div class="flex flex-col flex-auto">
+                    <mat-form-field>
+                        <mat-label>Đơn vị chủ đầu tư</mat-label>
+                        <mat-select mat-option [formControlName]="'donViChuDauTu'">
+                            <mat-option *ngFor="let x of listDonViChuDauTu;" [value]="x.ID">{{x.NAME}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
                 </div>
-            </div>
-        </div>
-        <div class="basis-1/4">
-            <label for="">Đơn vị đăng ký/áp dụng<span>(*)</span></label>
-            <div class=" select-cbkh flex items-center form-control">
-                <input
-                    class="inputselect"
-                    type="text"
-                    name=""
-                    id=""
-                    formControlName="donViApDung"
-                />
-                <i
-                    (click)="openAlertDialog('DKAPDUNGSK', form)"
-                    class="fa fa-search"
-                ></i>
-            </div>
-        </div>
-    </div>
-
-    <div class="flex flex-row row gap-4">
-        <div class="basis-full">
-            <label for="">Tên giải pháp<span>(*)</span></label>
-            <textarea
-                name=""
-                class="form-control p-2 min-h-18"
-                id=""
-                cols="30"
-                rows="10"
-                maxlength="200"
-                placeholder="Nhập tên giải pháp đề nghị công nhận sáng kiến..."
-                formControlName="tenGiaiPhap"
-            ></textarea>
-            <div
-                *ngIf="submitted.check && f?.tenGiaiPhap?.errors"
-                class="invalid-feedback"
-            >
-                <div *ngIf="f.tenGiaiPhap.errors.required">
-                    Trường bắt buộc nhập
+                <div class="flex flex-col flex-auto">
+                    <mat-form-field>
+                        <mat-label>Đơn vị đăng ký/áp dụng</mat-label>
+                       
+                        <input matInput [formControlName]="'donViApDung'">
+                        <mat-icon svgIcon="mat_outline:search" (click)="openAlertDialog('DKAPDUNGSK', form)"></mat-icon>
+                    </mat-form-field>
                 </div>
+        </div>
+        <div class="grid grid-cols-1 grid-flow-row gap-2 w-full">
+            <div class="flex flex-col flex-auto">
+                <mat-form-field>
+                    <mat-label>Tên giải pháp</mat-label>
+                    <textarea matInput [formControlName]="'tenGiaiPhap'"  placeholder="Nhập tên giải pháp đề nghị công nhận sáng kiến..."></textarea>
+                </mat-form-field>
             </div>
         </div>
-    </div>
-
-    <label for="">Tác giả/Đồng tác giả của giải pháp</label>
-    <table class="table table_custom">
-        <thead>
-        <tr>
-            <th class="stt_table">STT</th>
-            <th>Họ và tên</th>
-            <th>Vai trò</th>
-            <th>Năm sinh</th>
-            <th>Nơi công tác</th>
-            <th>Trình độ chuyên môn</th>
-            <th>Nội dung tham gia</th>
-            <th>
-                <button class="pull-right add_button" (click)="addTacGia()">
-                    +Thêm thành viên
-                </button>
-            </th>
-        </tr>
-        </thead>
-        <tbody formArrayName="tacGiaGiaiPhap">
-        <ng-container
-            *ngFor="
-                    let tacgia of $any(form.get('tacGiaGiaiPhap')).controls;
-                    let i = index
-                "
-        >
-            <tr [formGroup]="tacgia">
-                <td class="stt_table">{{ i + 1 }}</td>
-                <td>
-                    <div class="select-cbkh flex items-center form-control">
-                        <input
-                            class="inputselect"
-                            type="text"
-                            name=""
-                            id=""
-                            maxlength="200"
-                            formControlName="ten"
-                        />
-                        <i
-                            (click)="openAlertDialog('THANHVIEN', tacgia)"
-                            class="fa fa-search"
-                        ></i>
-                    </div>
-                    <!-- <input style="border:1px solid #ccc; border-radius: 5px;" type="text" name="" formControlName="ten" id=""> <i (click)="openAlertDialog('THANHVIEN',thanhvien.get('ten'))" class="fa fa-search"></i> -->
-                </td>
-                <td style="width: 130px;">
-                    <ng-select
-                        [items]="listChucDanh"
-                        bindLabel="NAME"
-                        bindValue="ID"
-                        placeholder="Chọn chức danh"
-                        formControlName="chucDanh"
-                        style="width: 100%;"
+        <div class="grid grid-cols-1 grid-flow-row gap-2 w-full">
+            <div class="flex flex-col flex-auto">
+                <label for="">Tác giả/Đồng tác giả của giải pháp</label>
+            </div>
+        </div>
+        <div class="grid grid-cols-1 grid-flow-row gap-2 w-full">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th class="text-center">STT</th>
+                        <th>Họ và tên</th>
+                        <th>Vai trò</th>
+                        <th>Năm sinh</th>
+                        <th>Nơi công tác</th>
+                        <th>Trình độ chuyên môn</th>
+                        <th>Nội dung tham gia</th>
+                        <th>
+                            <button class="pull-right add_button" (click)="addTacGia()">
+                                +Thêm thành viên
+                            </button>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody formArrayName="tacGiaGiaiPhap">
+                    <ng-container
+                        *ngFor="
+                                let tacgia of $any(form.get('tacGiaGiaiPhap')).controls;
+                                let i = index
+                            "
                     >
-                    </ng-select>
-                </td>
-                <!-- {{thanhvien.get('chucDanh').value}} -->
-                <td style="width: 110px;">
-                    <input
-                        style="
-                                border: 1px solid #ccc;
-                                border-radius: 5px;
-                                width: 100%;
-                                height: 30px;
-                            "
-                        class="inputselect"
-                        type="text"
-                        name=""
-                        id=""
-                        formControlName="namSinh" (change)="checkYear($event)"
-                    />
-                </td>
-                <td>
-                    <input
-                        style="
-                                border: 1px solid #ccc;
-                                border-radius: 5px;
-                                width: 100%;
-                                height: 30px;
-                            "
-                        class="inputselect"
-                        type="text"
-                        name=""
-                        id=""
-                        maxlength="200"
-                        formControlName="diaChiNoiLamViec"
-                    />
-                </td>
-                <td>
-                    <input
-                        style="
-                                border: 1px solid #ccc;
-                                border-radius: 5px;
-                                width: 100%;
-                                height: 30px;
-                            "
-                        class="inputselect"
-                        type="text"
-                        name=""
-                        id=""
-                        maxlength="200"
-                        formControlName="thanhTuu"
-                    />
-                </td>
-                <td>
-                    <input
-                        style="
-                                border: 1px solid #ccc;
-                                border-radius: 5px;
-                                width: 100%;
-                                height: 30px;
-                            "
-                        class="inputselect"
-                        type="text"
-                        name=""
-                        id=""
-                        maxlength="450"
-                        formControlName="noiDungThamGia"
-                    />
-                </td>
-                <td class="text-center action-table">
-                    <i
-                        (click)="removeItem(form, i)"
-                        class="fa fa-trash"
-                        title="Xóa bỏ"
-                    ></i>
-                </td>
-            </tr>
-        </ng-container>
-        </tbody>
-    </table>
-
-    <div class="flex flex-row row gap-4 items-center mt-3">
-        <div class="basis-1/2">
-            <label for="">Lĩnh vực áp dụng sáng kiến<span>(*)</span></label>
-            <ng-select
-                [items]="listLinhVucNghienCuu"
-                bindLabel="NAME"
-                bindValue="ID"
-                placeholder="Lựa chọn"
-                [multiple]="true"
-                formControlName="linhVucNghienCuu"
-            >
-            </ng-select>
-            <div
-                *ngIf="submitted.check && f?.linhVucNghienCuu?.errors"
-                class="invalid-feedback"
-            >
-                <div *ngIf="f.linhVucNghienCuu.errors.required">
-                    Trường bắt buộc nhập
+                        <tr [formGroup]="tacgia">
+                            <td  class="text-center">{{ i + 1 }}</td>
+                            <td>
+                                <div class="flex flex-col flex-auto">
+                                <mat-form-field>
+                                    <mat-label></mat-label>
+                                    <input matInput [formControlName]="'ten'">
+                                    <mat-icon svgIcon="mat_outline:search" (click)="openAlertDialog('THANHVIEN', tacgia)"></mat-icon>
+                                </mat-form-field>
+                            </div>
+                                <!-- <div class="select-cbkh flex items-center form-control">
+                                   
+                                    <input
+                                        class="inputselect"
+                                        type="text"
+                                        name=""
+                                        id=""
+                                        maxlength="200"
+                                        formControlName="ten"
+                                    />
+                                    <i
+                                        (click)="openAlertDialog('THANHVIEN', tacgia)"
+                                        class="fa fa-search"
+                                    ></i>
+                                </div> -->
+                                <!-- <input style="border:1px solid #ccc; border-radius: 5px;" type="text" name="" formControlName="ten" id=""> <i (click)="openAlertDialog('THANHVIEN',thanhvien.get('ten'))" class="fa fa-search"></i> -->
+                            </td>
+                            <td style="width: 130px;">
+                                <div class="flex flex-col flex-auto">
+                                    <mat-form-field>
+                                        <mat-label></mat-label>
+                                        <mat-select mat-option [formControlName]="'chucDanh'"   placeholder="Chọn chức danh">
+                                            <mat-option *ngFor="let x of listChucDanh;" [value]="x.ID">{{x.NAME}}</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                               
+                            </td>
+                            <!-- {{thanhvien.get('chucDanh').value}} -->
+                            <td style="width: 110px;">
+                                <div class="flex flex-col flex-auto">
+                                    <mat-form-field>
+                                        <mat-label></mat-label>
+                                        <input matInput [formControlName]="'namSinh'" (change)="checkYear($event)">
+                                    </mat-form-field>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="flex flex-col flex-auto">
+                                    <mat-form-field>
+                                        <mat-label></mat-label>
+                                        <input matInput [formControlName]="'diaChiNoiLamViec'">
+                                    </mat-form-field>
+                                </div>
+                              
+                            </td>
+                            <td>
+                                <div class="flex flex-col flex-auto">
+                                    <mat-form-field>
+                                        <mat-label></mat-label>
+                                        <input matInput [formControlName]="'thanhTuu'">
+                                    </mat-form-field>
+                                </div>
+                               
+                            </td>
+                            <td>
+                                <div class="flex flex-col flex-auto">
+                                    <mat-form-field>
+                                        <mat-label></mat-label>
+                                        <input matInput [formControlName]="'noiDungThamGia'">
+                                    </mat-form-field>
+                                </div>
+                               
+                            </td>
+                            <td class="text-center action-table">
+                                <i
+                                    (click)="removeItem(form, i)"
+                                    class="fa fa-trash"
+                                    title="Xóa bỏ"
+                                ></i>
+                            </td>
+                        </tr>
+                    </ng-container>
+                    </tbody>
+                </table>
+        </div>
+        <div class="grid grid-cols-2 grid-flow-row gap-2 w-full mt-3">
+            <div class="flex flex-col flex-auto">
+                <mat-form-field>
+                    <mat-label>Lĩnh vực áp dụng sáng kiến</mat-label>
+                    <mat-select mat-option [formControlName]="'linhVucNghienCuu'" [compareWith]="objectComparisonLVUC_NCUU" multiple>
+                        <mat-option *ngFor="let x of listLinhVucNghienCuu;"
+                            [value]="x">{{x.NAME}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="flex flex-col flex-auto">
+                <div class="basis-1/2 flex items-center justify-end">
+                    <input type="checkbox" class="mr-1" formControlName="thuTruongDonVi"/>
+                    <label for="">Tác giả là thủ trưởng đơn vị</label>
                 </div>
+                <!-- <input type="checkbox" class="mr-1" formControlName="thuTruongDonVi"/>
+                <label for="">Tác giả là thủ trưởng đơn vị</label> -->
+                <!-- <mat-checkbox class="m-[0.5rem]" [formControlName]="'NGOAI_EVN'">Tác giả là thủ trưởng đơn vị
+                </mat-checkbox> -->
             </div>
         </div>
-        <!-- <div class="basis-1/4">
-            <div class="list_check">
-                <div class="item_list_check">
-                    <input type="checkbox" name="" id="" />
-                    <span>Thủy điện</span>
-                </div>
-                <div class="item_list_check">
-                    <input type="checkbox" name="" id="" />
-                    <span>Công nghệ thông tin</span>
-                </div>
-            </div>
-        </div> -->
-        <div class="basis-1/2 flex items-center justify-end">
-            <input type="checkbox" class="mr-1" formControlName="thuTruongDonVi"/>
-            <label for="">Tác giả là thủ trưởng đơn vị</label>
-        </div>
-    </div>
-    <div class="flex flex-row row gap-4">
-        <div class="basis-full">
-            <label for=""
-            >Ưu nhược điểm của giải pháp kỹ thuật<span>(*)</span></label
-            >
-            <textarea
-                name=""
-                id=""
-                class="form-control p-3 min-h-30"
-                formControlName="uuNhuocDiem"
-                maxlength="2400"
-            ></textarea>
-            <div
-                *ngIf="submitted.check && f?.uuNhuocDiem?.errors"
-                class="invalid-feedback"
-            >
-                <div *ngIf="f.uuNhuocDiem.errors.required">
-                    Trường bắt buộc nhập
-                </div>
+        <div class="grid grid-cols-1 grid-flow-row gap-2 w-full">
+            <div class="flex flex-col flex-auto">
+                <mat-form-field>
+                    <mat-label>Ưu nhược điểm của giải pháp kỹ thuật</mat-label>
+                    <textarea matInput [formControlName]="'uuNhuocDiem'"></textarea>
+                </mat-form-field>
             </div>
         </div>
-    </div>
-    <div class="flex flex-row row gap-4">
-        <div class="basis-full">
-            <label for="">Nội dung giải pháp<span>(*)</span></label>
-            <textarea
-                name=""
-                id=""
-                class="form-control p-3 min-h-30"
-                formControlName="noiDungGiaiPhap"
-            ></textarea>
-            <div
-                *ngIf="submitted.check && f?.noiDungGiaiPhap?.errors"
-                class="invalid-feedback"
-            >
-                <div *ngIf="f.noiDungGiaiPhap.errors.required">
-                    Trường bắt buộc nhập
-                </div>
+        <div class="grid grid-cols-1 grid-flow-row gap-2 w-full">
+            <div class="flex flex-col flex-auto">
+                <mat-form-field>
+                    <mat-label>Nội dung giải pháp</mat-label>
+                    <textarea matInput [formControlName]="'noiDungGiaiPhap'"></textarea>
+                </mat-form-field>
             </div>
         </div>
-    </div>
+        
+            <div class="overflow-auto">   
     <div class="flex flex-row row gap-4 items-center mt-3">
         <label for="" class=""
         >Ngày áp dụng chính thức (Không được ít hơn 3 tháng và không quá 1
@@ -385,22 +281,6 @@
             ></textarea>
         </div>
     </div>
-<!--    <div class="flex flex-row row gap-4">-->
-<!--        <div class="basis-full">-->
-<!--            <label for=""-->
-<!--            >Danh sách những người tham gia tổ chức áp dụng sáng kiến lần-->
-<!--                đầu (nếu có)</label-->
-<!--            >-->
-<!--            <textarea-->
-<!--                name=""-->
-<!--                id=""-->
-<!--                class="form-control p-3 min-h-30"-->
-<!--                maxlength="2400"-->
-<!--                formControlName="thamGiaToChuc"-->
-<!--            ></textarea>-->
-<!--        </div>-->
-<!--    </div>-->
-
     <label for=""
     >Danh sách những người tham gia tổ chức áp dụng sáng kiến lần
         đầu (nếu có)</label
@@ -539,29 +419,7 @@
         <!-- <span>{{this.vndMoney}}</span> -->
         <label for="">(Lần tháng lương cơ sơ)</label>
     </div>
-    <!-- <div *ngFor="let item of form.get('listFolderFile')['controls']; let i = index" class="flex flex-row row items-center">
-        <label for="" class="w-100">{{item.get('fileName').value}}<span *ngIf="item.get('maFolder').value=='VBDANGKY'">(*)</span></label>
-        <label for="chontep" class="bg-neutral-300 px-10 py-2 rounded-md cursor-pointer">Chọn tệp</label>
-        <input type="file" name="" id="chontep" hidden>
-    </div> -->
-    <!-- <div class="flex flex-row row items-center">
-        <label for="" class="w-100">Đơn đã ký<span>(*)</span></label>
-        <label
-            for="chontep1"
-            class="bg-neutral-300 px-10 py-2 rounded-md cursor-pointer"
-            >Chọn tệp</label
-        >
-        <input type="file" name="" id="chontep1" hidden />
-    </div>
-    <div class="flex flex-row row items-center">
-        <label for="" class="w-100">Hồ sơ tài liệu đính kèm</label>
-        <label
-            for="chontep1"
-            class="bg-neutral-300 px-10 py-2 rounded-md cursor-pointer"
-            >Chọn tệp</label
-        >
-        <input type="file" name="" id="chontep1" hidden />
-    </div> -->
+   
     <div class="flex flex-row row items-center" formArrayName="listFolderFile"
          *ngFor="let item of form.get('listFolderFile')['controls']; let i = index">
         <ng-conainer [formGroupName]="i">
@@ -642,6 +500,9 @@
             <i class="fa fa-cloud-download"></i> Xuất mẫu đơn
         </button>
     </div>
+</div>
+</div>
+</div>
 </div>
 <!--chi tiết-->
 <div

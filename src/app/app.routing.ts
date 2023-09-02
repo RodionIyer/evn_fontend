@@ -3,6 +3,7 @@ import { AuthGuard } from 'app/core/auth/guards/auth.guard';
 import { NoAuthGuard } from 'app/core/auth/guards/noAuth.guard';
 import { LayoutComponent } from 'app/layout/layout.component';
 import { InitialDataResolver, SignInAutoResolver } from 'app/app.resolvers';
+import { viewfilepdfComponent } from './modules/nghiepvu/viewfile/viewfilepdf/viewfilepdf.component';
 
 export const appRoutes: Route[] = [
     { path: '', pathMatch: 'full', redirectTo: 'dashboards/dashboard' },
@@ -141,6 +142,9 @@ export const appRoutes: Route[] = [
                     {
                         path: 'baocao', children: [
                             { path: 'tkdetai', loadChildren: () => import('app/modules/nghiepvu/thongke/baocao/baocao-thongke.module').then(m => m.BaoCaoThongKeModule) },                        ],
+                    }, {
+                        path: 'viewfile', children: [
+                            { path: 'viewfilepdf', loadChildren: () => import('app/modules/nghiepvu/viewfile/viewfilepdf/viewfilepdf.module').then(m => m.viewfilepdfModule) },                        ],
                     },
                     
                 ]
@@ -168,10 +172,20 @@ export const appRoutes: Route[] = [
             layout: 'empty'
         },
         children: [
+            { path: 'viewfile', pathMatch: 'full', loadChildren: () => import('app/modules/nghiepvu/viewfile/viewfilepdf/viewfilepdf.module').then(m => m.viewfilepdfModule)  },
             { path: '401-not-found', pathMatch: 'full', loadChildren: () => import('app/modules/admin/pages/error/error-401/error-401.module').then(m => m.Error401Module) },
             { path: '404-not-found', pathMatch: 'full', loadChildren: () => import('app/modules/admin/pages/error/error-404/error-404.module').then(m => m.Error404Module) },
             { path: '500-not-found', pathMatch: 'full', loadChildren: () => import('app/modules/admin/pages/error/error-500/error-500.module').then(m => m.Error500Module) },
             { path: '**', redirectTo: '404-not-found' }
         ]
-    }
+    },
+    // {
+    //     path: '',
+    //     canActivate: [NoAuthGuard],
+    //     canActivateChild: [NoAuthGuard],
+    //     component: viewfilepdfComponent,
+    //     children: [
+    //         { path: 'viewFile', pathMatch: 'full', loadChildren: () => import('app/modules/nghiepvu/viewfile/viewfilepdf/viewfilepdf.module').then(m => m.viewfilepdfModule)  },
+    //     ]
+    // },
 ];

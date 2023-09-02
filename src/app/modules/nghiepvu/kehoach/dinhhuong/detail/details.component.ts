@@ -446,7 +446,8 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
         // if(ext =='pdf'){
         //         window.open(url, "_blank");
         // }   
-        debugger;
+        debugger
+       
         if (item.base64 != undefined && item.base64 != '') {
             let link = item.base64.split(',');
             let url = '';
@@ -472,9 +473,12 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
     let typeFile =  await this.detectMimeType(base64String, fileName);
     let mediaType = `data:${typeFile};base64,`;
     const downloadLink = document.createElement('a');
-
+    this._serviceApi.viewfile.next('rewrwerew');
+    //this._router.navigate(['http://localhost:4200/viewFile']);
+    this._router.navigateByUrl('viewfile');
         downloadLink.href = mediaType + base64String;
         downloadLink.download = fileName;
+
        // window.open(mediaType + base64String); 
         downloadLink.click();
     }

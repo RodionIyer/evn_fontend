@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, catchError, finalize } from 'rxjs';
+import { BehaviorSubject, Subject, catchError, finalize } from 'rxjs';
 import { environment } from 'environments/environment';
 import { MessageService } from '../message.services';
 import { Router } from '@angular/router';
@@ -49,4 +49,6 @@ export class ServiceService {
     public dataGrid = new BehaviorSubject<any>(null);
     public dataKeHoach = new BehaviorSubject<any>(null);
     public dataTongHop = new BehaviorSubject<any>(null);
+  //  public viewfile = new BehaviorSubject<any>(null);
+    viewfile: Subject<any> = new Subject<any>();
 }

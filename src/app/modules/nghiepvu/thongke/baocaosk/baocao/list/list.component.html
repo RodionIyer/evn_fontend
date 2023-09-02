@@ -1,0 +1,73 @@
+<div class="relative eco_conntent" style="cursor: pointer;" >
+    <div class="bg-white p-3" *ngIf="actionClick==null">
+        <!--màn hình danh sách-->
+        <ng-container style="padding: 5px;">
+            <div class="flex items-center justify-between">
+                <h1 class="title-component">Báo cáo - Thống kê</h1>
+            </div>
+
+            <button class="px-3 bg-blue-500 py-3 text-white uppercase w-[70%]" style="display: block; text-align: left;font-weight: 700;font-size: 18px;" (click)="toggleHover()">
+                Tổng hợp danh sách đề tài/ nhiệm vụ KHCN
+            </button>
+            <!-- <table [ngClass]="{ 'hidden': isHidden }" (mouseenter)="show()" class="table table_custom" -->
+            <table class="table table_custom w-[70%]"
+                   style="margin-top: 0">
+                <thead>
+                <tr style="font-size: 14px;">
+                    <th class="stt_table">STT</th>
+                    <th class="text-left">Tiêu chí báo cáo</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="stt_table">1</td>
+                    <td class="uppercase" [class.selected]="selectedOption === 'TKKHOAHOC'" (click)="THEOHOATDONG('TKKHOAHOC')">Theo lĩnh vực khoa học</td>
+                </tr>
+                <tr>
+                    <td class="stt_table">2</td>
+                    <td class="uppercase" [class.selected]="selectedOption === 'TKDETAI'"  (click)="THEOHOATDONG('TKDETAI')">Theo cấp đề tài</td>
+                </tr>
+                <tr>
+                    <td class="stt_table">3</td>
+                    <td class="uppercase" [class.selected]="selectedOption === 'TKDONVI'"  (click)="THEOHOATDONG('TKDONVI')">Theo đơn vị</td>
+                </tr>
+                </tbody>
+            </table>
+            <br>
+            <!-- <button class="px-3 bg-blue-500 py-3 text-white uppercase mt-8 w-[70%]" style="display: block; text-align: left;" (click)="toggleHover1()">
+                TỔNG HỢP DANH SÁCH SÁNG KIẾN
+            </button>
+       
+                <table class="table table_custom w-[70%]" style="margin-top: 0">
+                <thead>
+                <tr>
+                    <th class="stt_table">STT</th>
+                    <th class="text-left">Tiêu chí báo cáo</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="stt_table">1</td>
+                    <td class="uppercase" [class.selected]="selectedOption === 'TKAPDUNG'"  (click)="THEOSANGKIEN('TKAPDUNG')">Theo lĩnh vực áp dụng</td>
+                </tr>
+                <tr>
+                    <td class="stt_table">2</td>
+                    <td class="uppercase" [class.selected]="selectedOption === 'TKSANGKIEN'"  (click)="THEOSANGKIEN('TKSANGKIEN')">Theo cấp sáng kiến</td>
+                </tr>
+                <tr>
+                    <td class="stt_table">3</td>
+                    <td class="uppercase" [class.selected]="selectedOption === 'TKSKDONVI'"  (click)="THEOSANGKIEN('TKSKDONVI')">Theo đơn vị</td>
+                </tr>
+                </tbody>
+            </table> -->
+        </ng-container>
+    </div>
+    <!-- details -->
+    <ng-container *ngIf="actionClick">
+        <div
+            class="flex-auto z-20 absolute inset-0 lg:static lg:inset-auto flex"
+        >
+            <router-outlet></router-outlet>
+        </div>
+    </ng-container>
+</div>

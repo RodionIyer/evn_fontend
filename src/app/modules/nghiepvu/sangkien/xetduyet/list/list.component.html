@@ -1,163 +1,141 @@
 <div class="relative eco_conntent">
     <!--màn hình danh sách-->
     <ng-container *ngIf="!actionClick">
-        <div class="flex items-center justify-between">
+        <div class="flex items-center justify-between  header-custom">
             <h1 class="title-component">RÀ SOÁT/XÉT DUYỆT/CÔNG NHẬN SÁNG KIẾN</h1>
-
+            <button class="add_button" (click)="addNew()">
+                <i class="fa fa-plus"></i> Đăng ký mới
+            </button>
         </div>
-        <div class="flex flex-row row gap-4 items-center mb-3	">
-            <div class="w-50">
-                <label for="">Cấp độ sáng kiến</label>
-            </div>
-            <div class="w-50">
-                <ng-select
-                    style="width: 100%"
-                    [items]="listCapDo"
-                    bindLabel="NAME"
-                    bindValue="ID"
-                    placeholder="Lựa chọn"
-                    [(ngModel)]="capDo"
-                >
-                </ng-select>
-            </div>
-            <div class="w-50">
-                <label for="">Trạng thái</label>
-            </div>
-            <div class="w-50">
-                <ng-select
-                    style="width: 100%;"
-                    [items]="listTrangThai"
-                    bindLabel="NAME"
-                    bindValue="ID"
-                    placeholder="Lựa chọn"
-                    [(ngModel)]="trangThai"
-                >
-                </ng-select>
-            </div>
-        </div>
+        <div class="content-page-all">
+            <div class="header-list-dinh-huong">
+                <div class="serach-box">
+                    <div class="flex flex-row row gap-4 items-center mb-3	">
+                        <div class="w-50">
+                            <label for="">Cấp độ sáng kiến</label>
+                        </div>
+                        <div class="w-50">
+                            <ng-select style="width: 100%" [items]="listCapDo" bindLabel="NAME" bindValue="ID"
+                                placeholder="Lựa chọn" [(ngModel)]="capDo">
+                            </ng-select>
+                        </div>
+                        <div class="w-50">
+                            <label for="">Trạng thái</label>
+                        </div>
+                        <div class="w-50">
+                            <ng-select style="width: 100%;" [items]="listTrangThai" bindLabel="NAME" bindValue="ID"
+                                placeholder="Lựa chọn" [(ngModel)]="trangThai" (change)="timKiem()">
+                            </ng-select>
+                        </div>
+                    </div>
 
-        <div class="flex flex-row row gap-4 items-center mb-3	">
-            <div class="w-50">
-                <label for="">Đơn vị thực hiện</label>
-            </div>
-            <div class="w-50">
-                <ng-select
-                    style="width: 100%"
-                    [items]="listDonVi"
-                    bindLabel="name"
-                    bindValue="id"
-                    placeholder="Lựa chọn"
-                    [(ngModel)]="donVi"
-                >
-                </ng-select>
-            </div>
-            <div class="w-50">
-                <label for="">Năm đăng ký</label>
-            </div>
-            <div class="w-50">
-                <ng-select
-                    style="width: 100%;"
-                    [items]="listYears"
-                    bindLabel="NAME"
-                    bindValue="ID"
-                    placeholder="Lựa chọn"
-                    [(ngModel)]="selectedYear"
-                >
-                </ng-select>
-            </div>
-            <div class="grow flex justify-end">
-                <button class="add_button" (click)="addNew()">
-                    <i class="fa fa-plus"></i> Đăng ký mới
-                </button>
-            </div>
-        </div>
+                    <div class="flex flex-row row gap-4 items-center mb-3	">
+                        <div class="w-50">
+                            <label for="">Đơn vị thực hiện</label>
+                        </div>
+                        <div class="w-50">
+                            <ng-select style="width: 100%" [items]="listDonVi" bindLabel="name" bindValue="id"
+                                placeholder="Lựa chọn" [(ngModel)]="donVi" (change)="timKiem()">
+                            </ng-select>
+                        </div>
+                        <div class="w-50">
+                            <label for="">Năm đăng ký</label>
+                        </div>
+                        <div class="w-50">
+                            <ng-select style="width: 100%;" [items]="listYears" bindLabel="NAME" bindValue="ID"
+                                placeholder="Lựa chọn" [(ngModel)]="selectedYear" (change)="timKiem()">
+                            </ng-select>
+                        </div>
+
+                    </div>
 
 
-        <div class="flex flex-row row gap-4 items-center">
-            <div class="basic-1/4" style="margin-right: 13px;">
-                <label for="">Tìm kiếm</label>
-            </div>
-            <div class="basis-1/2">
-                <input
-                style="width: 80%"
-                type="text"
-                class="form-control"
-                placeholder="Nhập từ khóa tìm kiếm: tác giả, tên giải pháp,..."
-                [(ngModel)]="searchKeyword"
-            />
-            </div>
-            <div class="grow flex justify-end">
+                    <div class="flex flex-row row gap-4 items-center">
+                        <div class="basic-1/4" style="margin-right: 13px;">
+                            <label for="">Tìm kiếm</label>
+                        </div>
+                        <div class="basis-1/2">
+                            <input style="width: 80%" type="text" class="form-control"
+                                placeholder="Nhập từ khóa tìm kiếm: tác giả, tên giải pháp,..."
+                                [(ngModel)]="searchKeyword" (change)="timKiem()" />
+                        </div>
+                        <!-- <div class="grow flex justify-end">
                 <button class="add_button bg-sky-500 detai-search" (click)="timKiem()">
                     <i class="fa fa-search"></i>
                     Tìm kiếm
                 </button>
+            </div> -->
+                    </div>
+                </div>
             </div>
-        </div>
+      
 
-
-        <div class="header-list-dinh-huong">
+        <!-- <div class="header-list-dinh-huong">
             <div class="serach-box">
 
 
             </div>
-        </div>
-        <table class="table table_custom">
-            <thead>
-                <tr>
-                    <th class="stt_table">STT</th>
-                    <th>Tên giải pháp</th>
-                    <th class="text-center">Cấp độ sáng kiến</th>
-                    <th class="text-center">Đơn vị thực hiện</th>
-                    <th class="text-center">Năm</th>
-                    <th class="text-center">Tác giả</th>
-<!--                    <th class="text-center">Tác giả là thủ trưởng đơn vị</th>-->
-                    <th class="text-center">Trạng thái</th>
-                    <th class="text-center action-table">Thao tác</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let item of listGiao; let i = index">
-                    <td class="stt_table">{{ (i+(pageIndex * pageSize))+ 1}}</td>
-                    <td>{{item.tenGiaiPhap}}</td>
-                    <td class="text-center">{{item.tenCapDoSangKien}}</td>
-                    <td class="text-left">{{item.tenDonViChuDauTu}}</td>
-                    <td class="text-center">{{item.nam}}</td>
-                    <td class="text-left">{{item.tacGiaGiaiPhap[0]?.ten}}</td>
-<!--                    <td class="text-center">{{item.thuTruongDonVi==true?"Có":"Không"}}</td>-->
-                    <td class="text-center">{{item.tenTrangThai}}</td>
-                    <td class="action-table">
-                        <div class="flex justify-evenly"  style="float: left;">
+        </div> -->
+        <div class="table-fix-header" style="height: calc(100vh - 255px)">
+            <table class="table table_custom">
+                <thead>
+                    <tr>
+                        <th class="stt_table">STT</th>
+                        <th>Tên giải pháp</th>
+                        <th class="text-center">Cấp độ sáng kiến</th>
+                        <th class="text-center">Đơn vị thực hiện</th>
+                        <th class="text-center">Năm</th>
+                        <th class="text-center">Tác giả</th>
+                        <!--                    <th class="text-center">Tác giả là thủ trưởng đơn vị</th>-->
+                        <th class="text-center">Trạng thái</th>
+                        <th class="text-center action-table">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of listGiao; let i = index">
+                        <td class="stt_table">{{ (i+(pageIndex * pageSize))+ 1}}</td>
+                        <td>{{item.tenGiaiPhap}}</td>
+                        <td class="text-center">{{item.tenCapDoSangKien}}</td>
+                        <td class="text-left">{{item.tenDonViChuDauTu}}</td>
+                        <td class="text-center">{{item.nam}}</td>
+                        <td class="text-left">
+                            <!-- {{item?.tacGiaGiaiPhap[0]?.ten}}-->
+                        </td>
+                        <!--                    <td class="text-center">{{item.thuTruongDonVi==true?"Có":"Không"}}</td>-->
+                        <td class="text-center">{{item.tenTrangThai}}</td>
+                        <td class="action-table">
+                            <div class="flex justify-evenly" style="float: left;">
 
 
-<!--                            <i class="fa fa-info-circle cursor-point" [routerLink]="[item.maSangKien]"  [queryParams]="{type: 'CHITIET'}" title="Xem chi tiết"></i>-->
-                            <i (click)="detail(item)"
-                               class="fa fa-info-circle"
-                               title="Xem chi tiết"
-                            ></i>
-                            <i class="fa fa-clock-o cursor-point" (click)="lichsu(item)" title="Xem lịch sử"></i>
-<!--                            <i *ngIf="item.maTrangThai=='SOAN' || item.maTrangThai=='Y_CAU_HIEU_CHINH' || item.maTrangThai=='CHO_RA_SOAT' || item.maTrangThai=='DA_RA_SOAT' || item.maTrangThai=='DA_TLHDXDTC'" class="fa fa-pencil cursor-point"  [routerLink]="[item.maSangKien]" [queryParams]="{type: 'CHINHSUA'}" title="Chỉnh sửa"></i>-->
-                            <i
-                                *ngIf="item.maTrangThai=='SOAN' || item.maTrangThai=='KHONG_CONG_NHAN' || item.maTrangThai=='Y_CAU_HIEU_CHINH' || item.maTrangThai=='CHO_RA_SOAT' || item.maTrangThai=='DA_RA_SOAT' || item.maTrangThai=='DA_TLHDXDTC'"
-                                class="fa fa-pencil"
-                                (click)="editer(item)"
-                                class="fa fa-pencil"
-                                title="Chỉnh sửa"
-                            ></i>
-                            <i *ngIf="item.maTrangThai=='CHO_RA_SOAT' || item.maTrangThai=='DA_RA_SOAT'  " (click)="updateActionRaSoat(item)" title="Rà soát" class=" fa fa-check-square-o"></i>
-                             <i *ngIf="item.maTrangThai=='DA_RA_SOAT' || item.maTrangThai=='DA_TLHDXDTC' " (click)="updateActionHDXDCN(item)" title="Cập nhập HĐXD/CN" class="fa fa-retweet"></i>
-                             <i  *ngIf="item.maTrangThai=='DA_TLHDXDTC' || item.maTrangThai=='DA_PHE_DUYET' " (click)="updateActionKQXDCN(item)" title="Cập nhập kết quả XD/TC" class="fa fa-retweet"></i>
-                             <i *ngIf="item.maTrangThai=='DA_CONG_NHAN'"  (click)="updateActionKQ(item)" title="Cập nhập QĐ chi trả thù lao" class="fa fa-retweet"></i>
-                             <!-- <i *ngIf="(item.maTrangThai=='DA_CONG_NHAN' && item.thuTruongDonVi !=true) || (item.maTrangThai=='DA_PHE_DUYET'  && item.thuTruongDonVi ==true) "  (click)="updateActionKQ(item)" title="Cập nhập QĐ chi trả thù lao" class="fa fa-retweet"></i> -->
+                                <!--                            <i class="fa fa-info-circle cursor-point" [routerLink]="[item.maSangKien]"  [queryParams]="{type: 'CHITIET'}" title="Xem chi tiết"></i>-->
+                                <i (click)="detail(item)" class="fa fa-info-circle" title="Xem chi tiết"></i>
+                                <i class="fa fa-clock-o cursor-point" (click)="lichsu(item)" title="Xem lịch sử"></i>
+                                <!--                            <i *ngIf="item.maTrangThai=='SOAN' || item.maTrangThai=='Y_CAU_HIEU_CHINH' || item.maTrangThai=='CHO_RA_SOAT' || item.maTrangThai=='DA_RA_SOAT' || item.maTrangThai=='DA_TLHDXDTC'" class="fa fa-pencil cursor-point"  [routerLink]="[item.maSangKien]" [queryParams]="{type: 'CHINHSUA'}" title="Chỉnh sửa"></i>-->
+                                <i *ngIf="item.maTrangThai=='SOAN' || item.maTrangThai=='KHONG_CONG_NHAN' || item.maTrangThai=='Y_CAU_HIEU_CHINH' || item.maTrangThai=='CHO_RA_SOAT' || item.maTrangThai=='DA_RA_SOAT' || item.maTrangThai=='DA_TLHDXDTC'"
+                                    class="fa fa-pencil" (click)="editer(item)" class="fa fa-pencil"
+                                    title="Chỉnh sửa"></i>
+                                <i *ngIf="item.maTrangThai=='CHO_RA_SOAT' || item.maTrangThai=='DA_RA_SOAT'  "
+                                    (click)="updateActionRaSoat(item)" title="Rà soát"
+                                    class=" fa fa-check-square-o"></i>
+                                <i *ngIf="item.maTrangThai=='DA_RA_SOAT' || item.maTrangThai=='DA_TLHDXDTC' "
+                                    (click)="updateActionHDXDCN(item)" title="Cập nhập HĐXD/CN"
+                                    class="fa fa-retweet"></i>
+                                <i *ngIf="item.maTrangThai=='DA_TLHDXDTC' || item.maTrangThai=='DA_PHE_DUYET' "
+                                    (click)="updateActionKQXDCN(item)" title="Cập nhập kết quả XD/TC"
+                                    class="fa fa-retweet"></i>
+                                <i *ngIf="item.maTrangThai=='DA_CONG_NHAN'" (click)="updateActionKQ(item)"
+                                    title="Cập nhập QĐ chi trả thù lao" class="fa fa-retweet"></i>
+                                <!-- <i *ngIf="(item.maTrangThai=='DA_CONG_NHAN' && item.thuTruongDonVi !=true) || (item.maTrangThai=='DA_PHE_DUYET'  && item.thuTruongDonVi ==true) "  (click)="updateActionKQ(item)" title="Cập nhập QĐ chi trả thù lao" class="fa fa-retweet"></i> -->
 
-                            <!-- <i (click)="updateActionRaSoat(item)" title="Rà soát" class=" fa fa-check-square-o"></i>
+                                <!-- <i (click)="updateActionRaSoat(item)" title="Rà soát" class=" fa fa-check-square-o"></i>
                              <i (click)="updateActionHDXDCN(item)" title="Cập nhập HĐXD/CN" class="fa fa-retweet"></i>
                              <i  (click)="updateActionKQXDCN(item)" title="Cập nhập kết quả XD/TC" class="fa fa-retweet"></i>
                              <i  (click)="updateActionKQ(item)" title="Cập nhập QĐ chi trả thù lao" class="fa fa-retweet"></i>  -->
 
                             </div>
-                    </td>
-                </tr>
-                <!-- <tr>
+                        </td>
+                    </tr>
+                    <!-- <tr>
                     <td class="stt_table">1</td>
                     <td>Bản đăng ký định hướng 2023</td>
                     <td>Cấp EVN</td>
@@ -183,19 +161,15 @@
                         </div>
                     </td>
                 </tr> -->
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
         <!-- phan trang -->
-        <mat-paginator *ngIf="listGiao && listGiao.length > 0"
-            (page)="handlePageEvent($event)"
-            [length]="length"
-            [pageSize]="pageSize"
-            [showFirstLastButtons]="showFirstLastButtons"
-            [pageSizeOptions]="pageSizeOptions"
-            [pageIndex]="pageIndex"
-            aria-label="Select page"
-        >
+        <mat-paginator *ngIf="listGiao && listGiao.length > 0" (page)="handlePageEvent($event)" [length]="length"
+            [pageSize]="pageSize" [showFirstLastButtons]="showFirstLastButtons" [pageSizeOptions]="pageSizeOptions"
+            [pageIndex]="pageIndex" aria-label="Select page">
         </mat-paginator>
+          </div>
     </ng-container>
     <!-- No template -->
     <!-- <ng-template #noObjects>
@@ -208,11 +182,8 @@
 
     <!-- details -->
     <ng-container *ngIf="actionClick">
-        <div
-            class="flex-auto z-20 absolute inset-0 lg:static lg:inset-auto flex"
-        >
+        <div class="flex-auto z-20 absolute inset-0 lg:static lg:inset-auto flex">
             <router-outlet></router-outlet>
         </div>
     </ng-container>
 </div>
-

@@ -9,6 +9,7 @@ import { LichsuKeHoachComponent } from './component/lichsuKeHoach/lichsuKeHoach.
 import { NgSelectModule } from '@ng-select/ng-select';
 import { moneyDirective } from './fomat-money.directive';
 import { TextMaskModule } from 'angular2-text-mask';
+import { ServiceService } from './service/service.service';
 
 @NgModule({
     imports: [
@@ -37,8 +38,9 @@ import { TextMaskModule } from 'angular2-text-mask';
         LichsuComponent,
         LichsuKeHoachComponent,
         moneyDirective
-       
     ]
+    ,
+    providers:[ServiceService],
 })
 export class SharedModule
 {

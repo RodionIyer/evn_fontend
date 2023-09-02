@@ -128,7 +128,7 @@ button.add_button:hover {
 .form-control {
     width: 100%;
     height: 30px;
-    border: 1px solid #ccc;
+    border: 1px solid rgb(203, 213, 225);
     border-radius: 6px;
 }
 
@@ -235,6 +235,11 @@ input[type="file"] {
     }
 .text-bold{
     font-weight: bold;
+}
+
+.khongthaotac {
+    pointer-events: none;
+    opacity: 0.8;
 }
 .khongthaotac textarea, .khongthaotac input {
     pointer-events: all !important;
@@ -371,6 +376,39 @@ input[type="file"] {
   .select-cbkh{
     overflow: hidden;
   }
+  input:focus,.select-cbkh:focus,.ng-select-container:focus,  textarea:focus{
+    border-color: #2A3493 !important;
+  }
+  .select-cbkh:hover,ng-select:hover .ng-select-container{
+    border-color: #2A3493 !important;
+  }
+  input{
+    color: #2A3493;
+  }
+  ng-select span{
+    color: #2A3493 !important;
+  }
+  .ng-select .ng-arrow-wrapper .ng-arrow {
+    border-color: #2A3493 transparent transparent !important;
+  }
+  .select-cbkh .fa-search{
+    background-color: transparent !important;
+    font-size: 17px;
+    color: #2A3493 !important;
+  }
+  .ng-dropdown-panel.ng-select-bottom {
+    border-top-color: #2a3493;
+  }
+  .ng-dropdown-panel {
+    border: 1px solid #2a3493;
+  }
+  .ng-select .ng-select-container{
+    border-color: rgb(203, 213, 225);
+}
+.form-date{
+    border-color: rgb(203, 213, 225); 
+}
+
 // end
 
 @media screen and (min-width: 1200px) and (max-width: 1400px) {
