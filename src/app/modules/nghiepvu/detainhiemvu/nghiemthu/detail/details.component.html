@@ -98,7 +98,7 @@
                                                 <!-- <i
                                                     class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
                                                 ></i> -->
-
+                                                <span class="cursor-point" (click)="downLoadFile(item2)">
                                                 {{
                                                 item2.get("fileName").value
                                                 }}
@@ -123,6 +123,7 @@
                                                 1
                                                 ) + "K"
                                                 }})
+                                                </span>
                                                 <i style="
                                                         color: red;
                                                         cursor: pointer;
@@ -462,25 +463,28 @@
                             let item2 of item.get('listFile')['controls'];
                             let k = index">
                             <tr  [formGroupName]="k">
-                                <td>{{ item2.get("fileName").value }}
+                                <td>
+                                    <span class="cursor-point" (click)="downLoadFile(item2)">
+                                    {{ item2.get("fileName").value }}
                                     ({{
                                     item2.get("size").value > 1024 * 1024
                                     ? (
                                     item2.get("size").value /
                                     (1024 * 1024)
-                                    ).toFixed(1) + "(MB)"
+                                    ).toFixed(1) + "MB"
                                     : item2.get("size").value > 1024
                                     ? (item2.get("size").value / 1024).toFixed(
                                     1
-                                    ) + "(KB)"
+                                    ) + "KB"
                                     : item2.get("size").value.toFixed(1) + "K"
                                     }})
-                                </td>
+                                    </span>
+                                <!-- </td>
 
                                 <td>{{ item2.get("sovanban").value }}</td>
                                 <td class="text-right">
                                     <i class="fa fa-cloud-download" style="color: green; cursor: pointer"
-                                        aria-hidden="true" (click)="downLoadFile(item2)" title="Download file"></i>
+                                        aria-hidden="true" (click)="downLoadFile(item2)" title="Download file"></i>-->
                                 </td>
                             </tr>
                         </ng-container>
@@ -594,19 +598,22 @@
             <tbody formArrayName="listFile" class="table_listfile">
                 <ng-container *ngFor="let item2 of item.get('listFile')['controls'];let k = index" >
                     <tr [formGroupName]="k">
-                    <td>{{ item2.get("fileName").value }}
+                    <td>
+                        <span class="cursor-point" (click)="downLoadFile(item2)">
+                        {{ item2.get("fileName").value }}
                         ({{
                             item2.get("size").value > 1024 * 1024
                                 ? (
                                       item2.get("size").value /
                                       (1024 * 1024)
-                                  ).toFixed(1) + "(MB)"
+                                  ).toFixed(1) + "MB"
                                 : item2.get("size").value > 1024
                                 ? (item2.get("size").value / 1024).toFixed(
                                       1
-                                  ) + "(KB)"
+                                  ) + "KB"
                                 : item2.get("size").value.toFixed(1) + "K"
                         }})
+                        </span>
                         <i
                             style="
                                 color: red;
@@ -855,6 +862,7 @@
                                         <!-- <i
                                     class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
                                 ></i> -->
+                                <span class="cursor-point" (click)="downLoadFile(item2)">
                                         {{ item2.get("fileName").value }}
                                         ({{
                                         item2.get("size").value >
@@ -862,16 +870,17 @@
                                         ? (
                                         item2.get("size").value /
                                         (1024 * 1024)
-                                        ).toFixed(1) + " MB"
+                                        ).toFixed(1) + "MB"
                                         : item2.get("size").value > 1024
                                         ? (
                                         item2.get("size").value /
                                         1024
-                                        ).toFixed(1) + " KB"
+                                        ).toFixed(1) + "KB"
                                         : item2
                                         .get("size")
                                         .value.toFixed(1) + "K"
                                         }})
+                                        </span>
                                         <i style="
                                                 color: red;
                                                 cursor: pointer;

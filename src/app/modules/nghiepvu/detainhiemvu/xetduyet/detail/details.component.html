@@ -112,7 +112,7 @@
                                                 <!-- <i
                                                     class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
                                                 ></i> -->
-
+                                                <span class="cursor-point" (click)="downLoadFile(item2)">
                                                 {{
                                                     item2.get("fileName").value
                                                 }}
@@ -137,6 +137,7 @@
                                                                   1
                                                               ) + "K"
                                                 }})
+                                                </span>
                                                 <i
                                                     style="
                                                         color: red;
@@ -149,7 +150,7 @@
                                                     class="fa fa-trash"
                                                     title="Xóa bỏ"
                                                 ></i>
-                                                <i
+                                                <!-- <i
                                                     class="fa fa-cloud-download"
                                                     style="
                                                         color: green;
@@ -160,7 +161,7 @@
                                                         downLoadFile(item2)
                                                     "
                                                     title="Download file"
-                                                ></i> 
+                                                ></i>  -->
                                             </td>
                                         </tr>
                                     </ng-container>
@@ -426,7 +427,9 @@
                     <tr [formGroupName]="k"
                     >
                         <!-- <td class="stt_table">{{k+1}}</td> -->
-                        <td>{{ item2.get("fileName").value }}
+                        <td>
+                            <span class="cursor-point" (click)="downLoadFile(item2)">
+                            {{ item2.get("fileName").value }}
                             ({{
                                 item2.get("size").value > 1024 * 1024
                                     ? (
@@ -439,20 +442,9 @@
                                       ) + "KB"
                                     : item2.get("size").value.toFixed(1) + "K"
                             }})
+                            </span>
                         </td>
-                        <td class="text-right">
-                            <!-- <i
-                            style="
-                                color: red;
-                                cursor: pointer;
-                                margin-right: 3px;
-                            "
-                            (click)="
-                                deleteItemFile(item, k)
-                            "
-                            class="fa fa-trash"
-                            title="Xóa bỏ"
-                        ></i> -->
+                        <!-- <td class="text-right">
                             <i
                                 class="fa fa-cloud-download"
                                 style="color: green; cursor: pointer"
@@ -460,7 +452,7 @@
                                 (click)="downLoadFile(item2)"
                                 title="Download file"
                             ></i>
-                        </td>
+                        </td> -->
                     </tr>
                 </ng-container>
                 </tbody>
@@ -622,7 +614,9 @@
 
                     <tr [formGroupName]="k">
                         <!-- <td class="stt_table">{{k+1}}</td> -->
-                        <td>{{ item2.get("fileName").value }}
+                        <td>
+                            <span class="cursor-point" (click)="downLoadFile(item2)">
+                            {{ item2.get("fileName").value }}
                             ({{
                                 item2.get("size").value > 1024 * 1024
                                     ? (
@@ -635,8 +629,7 @@
                                       ) + "KB"
                                     : item2.get("size").value.toFixed(1) + "K"
                             }})
-                        <!-- </td>
-                        <td class="text-right"> -->
+                            </span>
                             <i
                                 style="
                                     color: red;
@@ -647,13 +640,7 @@
                                 class="fa fa-trash"
                                 title="Xóa bỏ"
                             ></i>
-                            <!-- <i
-                                class="fa fa-cloud-download"
-                                style="color: green; cursor: pointer"
-                                aria-hidden="true"
-                                (click)="downLoadFile(item2)"
-                                title="Download file"
-                            ></i> -->
+                          
                         </td>
                     </tr>
                 </ng-container>
@@ -750,32 +737,23 @@
                         "
                     >
                         <!-- <td class="stt_table">{{k+1}}</td> -->
-                        <td>{{ item2.get("fileName").value }}</td>
                         <td>
+                            <span class="cursor-point" (click)="downLoadFile(item2)">
+                            {{ item2.get("fileName").value }}
                             {{
                                 item2.get("size").value > 1024 * 1024
                                     ? (
                                           item2.get("size").value /
                                           (1024 * 1024)
-                                      ).toFixed(1) + "(MB)"
+                                      ).toFixed(1) + "MB"
                                     : item2.get("size").value > 1024
                                     ? (item2.get("size").value / 1024).toFixed(
                                           1
-                                      ) + "(KB)"
+                                      ) + "KB"
                                     : item2.get("size").value.toFixed(1) + "K"
                             }}
-                        </td>
-
-                        <td>{{ item2.get("sovanban").value }}</td>
-                        <td class="text-right">
-                            <i
-                                class="fa fa-cloud-download"
-                                style="color: green; cursor: pointer"
-                                aria-hidden="true"
-                                (click)="downLoadFile(item2)"
-                                title="Download file"
-                            ></i>
-                        </td>
+                            </span>
+                            </td>
                     </tr>
                 </tbody>
             </table>
@@ -948,30 +926,22 @@
                         "
                     >
                         <!-- <td class="stt_table">{{k+1}}</td> -->
-                        <td>{{ item2.get("fileName").value }}</td>
                         <td>
+                            <span class="cursor-point" (click)="downLoadFile(item2)">
+                            {{ item2.get("fileName").value }}
                             {{
                                 item2.get("size").value > 1024 * 1024
                                     ? (
                                           item2.get("size").value /
                                           (1024 * 1024)
-                                      ).toFixed(1) + "(MB)"
+                                      ).toFixed(1) + "MB"
                                     : item2.get("size").value > 1024
                                     ? (item2.get("size").value / 1024).toFixed(
                                           1
                                       ) + "(KB)"
                                     : item2.get("size").value.toFixed(1) + "K"
                             }}
-                        </td>
-
-                        <td>
-                            <!-- <i
-                                class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
-                            ></i> -->
-
-                            {{ item2.get("sovanban").value }}
-                        </td>
-                        <td class="text-right">
+                            </span>
                             <i
                                 style="
                                     color: red;
@@ -981,13 +951,6 @@
                                 (click)="deleteItemFile(item, k)"
                                 class="fa fa-trash"
                                 title="Xóa bỏ"
-                            ></i>
-                            <i
-                                class="fa fa-cloud-download"
-                                style="color: green; cursor: pointer"
-                                aria-hidden="true"
-                                (click)="downLoadFile(item2)"
-                                title="Download file"
                             ></i>
                         </td>
                     </tr>
@@ -1112,11 +1075,9 @@
                         "
                         [formGroup]="item2"
                     >
-                        <!-- <td class="stt_table">{{ k + 1 }}</td> -->
-                        <td>{{ item2.get("fileName").value }}
-
-                        <!-- </td>
-                        <td> -->
+                        <td>
+                            <span class="cursor-point" (click)="downLoadFile(item2)">
+                            {{ item2.get("fileName").value }}
                             ({{
                                 item2.get("size").value > 1024 * 1024
                                     ? (
@@ -1129,10 +1090,7 @@
                                       ) + "KB"
                                     : item2.get("size").value.toFixed(1) + "K"
                             }})
-                        <!-- </td>
-
-                        <td>{{ item2.get("sovanban").value }}</td> -->
-                        <td class="text-center">
+                            </span>
                             <i
                                 style="
                                     color: red;
@@ -1143,13 +1101,6 @@
                                 class="fa fa-trash"
                                 title="Xóa bỏ"
                             ></i>
-                            <!-- <i
-                                class="fa fa-cloud-download"
-                                style="color: green; cursor: pointer"
-                                aria-hidden="true"
-                                (click)="downLoadFile(item2)"
-                                title="Download file"
-                            ></i> -->
                         </td>
                     </tr>
                 </tbody>

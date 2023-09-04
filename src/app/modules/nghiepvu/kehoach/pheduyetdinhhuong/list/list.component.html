@@ -1,11 +1,16 @@
 <div class="relative eco_conntent">
     <!--màn hình danh sách-->
-    <div class="bg-white p-3">
+    <div class="content-screen">
     <ng-container *ngIf="!actionClick">
-        <div class="flex items-center justify-between">
+        <div class="flex items-center justify-between header-custom">
             <h1 class="title-component">DANH SÁCH BẢNG ĐĂNG KÝ ĐỊNH HƯỚNG CHỜ PHÊ DUYỆT</h1>
         </div>
-        <div class="header-list-dinh-huong">
+        <!-- <div class="flex items-center justify-between">
+            <h1 class="title-component">DANH SÁCH BẢNG ĐĂNG KÝ ĐỊNH HƯỚNG CHỜ PHÊ DUYỆT</h1>
+        </div> -->
+        <div class="content-page-all">
+            <div class="header-list-dinh-huong">
+                <div class="serach-box">
             <div class="year-left">
                 <label for="">Năm</label>
                 <ng-select [items]="listYears" bindLabel="name" bindValue="id" (change)="timKiem()" placeholder="Chọn năm" [multiple]="true"
@@ -26,6 +31,7 @@
                 <!-- <i class="fa fa-file"></i> -->
                  Tổng hợp
             </button>
+            </div>
         </div>
         <table class="table table_custom">
             <thead>
@@ -53,11 +59,13 @@
                     <td>{{item.tenTrangThai}}</td>
                     <td>{{item.ykienNguoiPheDuyet}}</td>
                     <td class="action-table">
-                        <div class="flex justify-evenly" style="float: left;">
-                            <i class="fa fa-info-circle" (click)="addNew()" [routerLink]="[item.maKeHoach]"  [queryParams]="{type: 'chitiet'}" title="Xem chi tiết"></i>
-                            <i class="fa fa-clock-o" (click)="lichsu(item)" title="Xem lịch sử"></i>
-                            <i class="fa fa-check-square-o" (click)="addNew()" [routerLink]="[item.maKeHoach]" [queryParams]="{type: 'duyet'}" title="Duyệt định hướng"></i>
-             
+                        <div class="icon-group-table">
+                            <i class="fa  fa-ellipsis-h"></i>
+                            <div class="flex">
+                                <div (click)="addNew()" [routerLink]="[item.maKeHoach]"  [queryParams]="{type: 'chitiet'}"><i class="fa fa-info-circle"  title="Xem chi tiết"></i><span>Xem chi tiết</span></div>
+                                <div (click)="lichsu(item)"><i class="fa fa-clock-o" (click)="lichsu(item)" title="Xem lịch sử"></i><span>Xem lịch sử</span></div>
+                                <div (click)="addNew()" [routerLink]="[item.maKeHoach]" [queryParams]="{type: 'duyet'}"><i class="fa fa-check-square-o"  title="Duyệt định hướng"></i><span>Duyệt định hướng</span></div>
+                                </div>
                         </div>
                     </td>
                     <td class="text-center action-table-check">
@@ -83,6 +91,7 @@
         aria-label="Select page"
     >
     </mat-paginator>
+    </div>
     </ng-container>
     <!-- No template -->
     <!-- <ng-template #noObjects>

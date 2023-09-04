@@ -94,6 +94,13 @@
                         <i class="fa fa-save"></i> Lưu
                     </button>
                     <button
+                    class="add_button"
+                    (click)="onSubmitTongHop('CHO_PHE_DUYET', 'TCT')"
+                    *ngIf="checkChiTiet == 'TH_DonVi'"
+                >
+                    <i class="fa fa-save"></i> Lưu và gửi
+                </button>
+                    <button
                         class="add_button"
                         (click)="onSubmitTongHop('CGIAO', 'EVN')"
                         *ngIf="checkChiTiet == 'TH_EVN'"

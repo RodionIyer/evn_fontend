@@ -1,43 +1,41 @@
 <div class="relative eco_conntent">
-    <div class="bg-white content-screen">
+    <div class="bg-white px-3 content-screen">
         <!--màn hình danh sách-->
         <ng-container *ngIf="!actionClick">
-            <div class="flex items-center justify-between header-custom">
+            <div class="flex items-center justify-between">
                 <h1 class="title-component">SÁNG KIẾN CỦA TÔI </h1>
                 <button class="add_button" (click)="addNew()">
                     <i class="fa fa-plus"></i> Đăng ký mới
                 </button>
             </div>
-            <div class="table-fix-header" style="height: calc(100vh - 255px)">
             <table class="table table_custom">
                 <thead>
                 <tr>
-                    <th class="stt_table text-center">STT</th>
-                    <th class="text-left">Tên giải pháp</th>
-                    <th class="text-left">Cấp độ sáng kiến</th>
-                    <th class="text-left">Đơn vị thực hiện</th>
+                    <th class="stt_table">STT</th>
+                    <th>Tên giải pháp</th>
+                    <th class="text-center">Cấp độ sáng kiến</th>
+                    <th class="text-center">Đơn vị thực hiện</th>
                     <th class="text-center">Năm</th>
-                    <th class="text-left">Trạng thái</th>
-                    <th class="text-left action-table">Thao tác</th>
+                    <th class="text-center">Trạng thái</th>
+                    <th class="text-center action-table">Thao tác</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr *ngFor="let item of listGiao; let i = index">
-                    <td class="stt_table text-center">{{ (i+(pageIndex * pageSize)) + 1}}</td>
+                    <td class="stt_table">{{ (i+(pageIndex * pageSize)) + 1}}</td>
                     <td>{{item.tenGiaiPhap}}</td>
-                    <td class="text-left">{{item.tenCapDoSangKien}}</td>
+                    <td class="text-center">{{item.tenCapDoSangKien}}</td>
                     <td class="text-left">{{item.tenDonViChuDauTu}}</td>
                     <td class="text-center">{{item.nam}}</td>
-                    <td class="text-left">{{item.tenTrangThai}}</td>
+                    <td class="text-center">{{item.tenTrangThai}}</td>
                     <td class="action-table">
-                        <div class="icon-group-table">
-                            <i class="fa  fa-ellipsis-h"></i>
-                            <div class="flex">
-                                <div  (click)="detail(item)" > <i class="fa fa-info-circle cursor-point"title="Xem chi tiết"></i>Xem chi tiết</div>
-                                <div  (click)="lichsu(item)" >  <i class="fa fa-clock-o cursor-point" title="Xem lịch sử"></i>Xem lịch sử</div>
-                                <div  (click)="editer(item)" [class]="item.maTrangThai=='SOAN' || item.maTrangThai=='Y_CAU_HIEU_CHINH'?'':'khongthaotac'" >  <i class="fa fa-pencil cursor-point" title="Chỉnh sửa"></i>Chỉnh sửa</div>
-                               <div  (click)="xoa(item)" [class]="item.maTrangThai=='SOAN' || item.maTrangThai=='Y_CAU_HIEU_CHINH'?'':'khongthaotac'" >  <i class="fa fa-trash cursor-point" title="Xóa bỏ"></i>Xóa bỏ </div>
-                        </div>
+                        <div class="flex justify-evenly" style="float: left;">
+                            <i class="fa fa-info-circle cursor-point" (click)="detail(item)" title="Xem chi tiết"></i>
+                            <i class="fa fa-clock-o cursor-point" (click)="lichsu(item)" title="Xem lịch sử"></i>
+                            <i *ngIf="item.maTrangThai=='SOAN' || item.maTrangThai=='Y_CAU_HIEU_CHINH' "
+                               class="fa fa-pencil cursor-point" (click)="editer(item)" title="Chỉnh sửa"></i>
+                            <i *ngIf="item.maTrangThai=='SOAN' || item.maTrangThai=='Y_CAU_HIEU_CHINH' "
+                               class="fa fa-trash cursor-point" (click)="xoa(item)" title="Xóa bỏ"></i>
                         </div>
                     </td>
                 </tr>
@@ -62,7 +60,6 @@
                 </tr> -->
                 </tbody>
             </table>
-            </div>
             <!-- phan trang -->
             <mat-paginator
                 *ngIf="listGiao && listGiao.length > 0"

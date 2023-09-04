@@ -2,10 +2,16 @@
     <div class="bg-white px-3 content-screen">
     <!--màn hình danh sách-->
     <ng-container *ngIf="!actionClick">
-        <div class="flex items-center justify-between">
+        <div class="flex items-center justify-between header-custom">
+            <h1 class="title-component">ĐỀ TÀI, NHIỆM VỤ ĐÃ HOÀN THÀNH </h1>
+        </div>
+        <!-- <div class="flex items-center justify-between">
             <h1 class="title-component">ĐỀ TÀI, NHIỆM VỤ ĐÃ HOÀN THÀNH            </h1>
            
-        </div>
+        </div> -->
+        <div class="content-page-all">
+        <div class="header-list-dinh-huong">
+            <div class="serach-box">
         <div class="flex flex-row row gap-4 items-center mb-3	">
             <div class="basic-1/5">
                 <label for="">Cấp quản lý</label>
@@ -32,6 +38,7 @@
                     bindValue="ID"
                     placeholder="Lựa chọn"
                     [(ngModel)]="donViChuTri"
+                    (ngModelChange)="timKiem()"
                 >
                 </ng-select>
             </div>
@@ -49,35 +56,36 @@
                 class="form-control"
                 placeholder="Nhập từ khóa tìm kiếm: tên đề tài,nhiệm vụ, chủ nhiệm, đồng chủ nhiệm, thư ký"
                 [(ngModel)]="q"
+                (ngModelChange)="timKiem()"
             />
             </div>
-            <div class="basis-1/4">
+            <!-- <div class="basis-1/4">
                 <button class="add_button" (click)="timKiem()">
                     <i class="fa fa-search"></i>
                     Tìm kiếm
                 </button>
-            </div>
+            </div> -->
         </div>
 
 
-        <div class="header-list-dinh-huong">
-            <div class="serach-box">
+       
               
                
             </div>
         </div>
+        <div class="table-fix-header" style="height: calc(100vh - 255px)">
         <table class="table table_custom">
             <thead>
                 <tr>
                     <th class="stt_table">STT</th>
-                    <th>Tên đề tài/ nhiệm vụ KHCN</th>
-                    <th class="text-center">Cấp quản lý</th>
-                    <th class="text-center">Chủ nhiệm đề tài</th>
-                    <th class="text-center">Đơn vị chủ trì</th>
+                    <th class="text-left">Tên đề tài/ nhiệm vụ KHCN</th>
+                    <th class="text-left">Cấp quản lý</th>
+                    <th class="text-left">Chủ nhiệm đề tài</th>
+                    <th class="text-left">Đơn vị chủ trì</th>
                     <th class="text-center">Thời gian thực hiện</th>
-                    <th class="text-center">Trạng thái</th>
+                    <th class="text-left">Trạng thái</th>
                     <th class="text-center">Năm đăng ký</th>
-                    <th class="text-center action-table">Thao tác</th>
+                    <th class="text-left action-table">Thao tác</th>
                 </tr>
             </thead>
             <tbody>
@@ -91,18 +99,18 @@
                     <td>{{item.tenTrangThai}}</td>
                     <td class="text-center">{{item.ngayTao | date:'yyyy' }}</td>
                 <td class="text-center action-table">
-                    <div class="flex">
-                         <i (click)="detail(item)"
-                            class="fa fa-info-circle"
-                            title="Xem chi tiết"
-                        ></i>
-                        <i class="fa fa-clock-o" (click)="lichsu(item)" title="Xem lịch sử"></i>
-                        
+                    <div class="icon-group-table">
+                        <i class="fa  fa-ellipsis-h"></i>
+                        <div class="flex">
+                            <div (click)="detail(item)">  <i class="fa fa-info-circle" title="Xem chi tiết"></i><span>Xem chi tiết</span></div>
+                            <div (click)="lichsu(item)"> <i class="fa fa-clock-o" (click)="lichsu(item)" title="Xem lịch sử"></i><span>Xem lịch sử</span></div>
+                        </div>
                     </div>
                 </td>
             </tr>
         </tbody>
         </table>
+        </div>
         <!-- phan trang -->
         <mat-paginator
             (page)="handlePageEvent($event)"
@@ -114,6 +122,7 @@
             aria-label="Select page"
         >
         </mat-paginator>
+        </div>
     </ng-container>
     <!-- details -->
     <ng-container *ngIf="actionClick">

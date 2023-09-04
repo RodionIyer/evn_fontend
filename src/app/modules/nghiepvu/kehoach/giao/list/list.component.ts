@@ -20,7 +20,7 @@ import { SnotifyToast } from 'ng-alt-snotify';
 })
 export class ApiGiaoListComponent implements OnInit, OnDestroy {
 
-    public selectedYear: any[] | number ;
+    public selectedYear: [string] ;
     public actionClick: string = null;
     public getYearSubscription: Subscription;
     public getGiaoSubcription: Subscription;
@@ -68,7 +68,7 @@ export class ApiGiaoListComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.selectedYear = [];
+       // this.selectedYear = [];
         this.actionClick = null;
         this.geListYears();
         // this._listdinhhuongService.getValueYear().subscribe((values: any) => {
@@ -87,7 +87,7 @@ export class ApiGiaoListComponent implements OnInit, OnDestroy {
             {"MA_TRANG_THAI": "Y_CAU_HIEU_CHINH", "TEN_TRANG_THAI": "Yêu cầu hiệu chỉnh"},
             {"MA_TRANG_THAI": "CHO_PHE_DUYET", "TEN_TRANG_THAI": "Chờ phê duyệt"},
             {"MA_TRANG_THAI": "DA_PHE_DUYET", "TEN_TRANG_THAI": "Đã duyệt"}]
-        // this.selectedYear = ((new Date()).getFullYear());
+        // this.selectedYear ='';// ((new Date()).getFullYear());
         this.selectedStatus = '';
         this.timKiem();
     }
@@ -95,9 +95,15 @@ export class ApiGiaoListComponent implements OnInit, OnDestroy {
     geListYears() {
         this._serviceApi.execServiceLogin("3E0F3D82-66AE-4ABC-9FA7-B5C4B0355836", [{"name":"LOAI_TIM_KIEM","value":"GIAOVIEC"}]).subscribe((data) => {
        
-          this.listYears = data.data || [];
-          let obj = {"id":"","name":"Tất cả"}
-          this.listYears.unshift(obj);
+         // this.listYears = data.data || [];
+         let obj = {"id":'',"name":"Tất cả"}
+         this.listYears.push(obj);
+         if(data.data !=undefined && data.data.length >0){
+            for(let i=0;i<data.data.length;i++){
+                obj = {"id":''+data.data[i].id,"name":''+data.data[i].name}
+                this.listYears.push(obj);
+              }
+         }
          
         })
       }
@@ -122,6 +128,13 @@ export class ApiGiaoListComponent implements OnInit, OnDestroy {
             {queryParams: {type: 'LICHSU', makehoach: item.maKeHoach}}
         );
     }
+    detail(item) {
+        this.actionClick = 'THEMMOI';
+        this._router.navigate(
+            ['/nghiepvu/kehoach/dinhhuong/' + item.maKeHoach],
+            { queryParams: { type: 'chitiet' } }
+        );
+    }
 
     // getListDinhHuong() {
     //     this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("F217F0FD-B9AA-4ADC-9EDE-75717D8484FD", [{"name":"MA_TRANG_THAI","value":""},{"name":"NAM","value":(new Date()).getFullYear()},{"name":"ORGID","value":"115"}]).subscribe((data) => {
@@ -132,9 +145,9 @@ export class ApiGiaoListComponent implements OnInit, OnDestroy {
 
     timKiem() {
         let nam='';
-        if(this.selectedYear != undefined && this.selectedYear[0] != null){
-            nam = this.selectedYear+'';
-        }
+        if(this.selectedYear != null && this.selectedYear.length >0 ){
+            nam = this.selectedYear.join(',');
+         }
         this.getDinhHuongSubcription = this._serviceApi.execServiceLogin("CA665A17-3450-4C70-8CCE-6F1FD44E0999", [{
             "name": "NAM",
             "value": nam

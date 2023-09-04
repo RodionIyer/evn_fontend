@@ -1,38 +1,32 @@
 <div class="relative eco_conntent">
     <!--màn hình danh sách-->
-    <div class="bg-white p-3">
+    <div class="content-screen">
         <ng-container *ngIf="!actionClick">
-            <div class="flex items-center justify-between">
+            <div class="flex items-center justify-between header-custom">
+                <h1 class="title-component">DANH SÁCH BẢNG ĐĂNG KÝ ĐỊNH HƯỚNG EVN GIAO THỰC HIỆN</h1>
+            </div>
+            <!-- <div class="flex items-center justify-between">
                 <h1 class="title-component">
                     DANH SÁCH BẢNG ĐĂNG KÝ ĐỊNH HƯỚNG EVN GIAO THỰC HIỆN
                 </h1>
-            </div>
-            <div class="header-list-dinh-huong">
+            </div> -->
+            <div class="content-page-all">
+                <div class="header-list-dinh-huong">
+                    <div class="serach-box">
                 <div class="year-left">
                     <label for="">Năm</label>
                     <ng-select
                         [items]="listYears"
                         bindLabel="name"
                         bindValue="id"
-                        (change)="timKiem()"
+                        (ngModelChange)="timKiem()"
                         placeholder="Chọn năm"
                         [multiple]="true"
                         [(ngModel)]="selectedYear"
                     >
                     </ng-select>
                 </div>
-                <!-- <div class="statust-right">
-                <label for="">Trạng thái</label>
-                <ng-select [items]="listStatus" bindLabel="TEN_TRANG_THAI" (change)="timKiem()" bindValue="MA_TRANG_THAI" placeholder="Chọn trạng thái"
-                    [(ngModel)]="selectedStatus">
-                </ng-select>
-            </div> -->
-                <!-- <button class="add_button mg-left mr-5" (click)="tonghop('TH_DonVi')">
-                Tổng hợp đơn vị
-            </button>
-            <button class="add_button" (click)="tonghop('TH_EVN')">
-                 Tổng hợp EVN
-            </button> -->
+                </div>
             </div>
             <table class="table table_custom">
                 <thead>
@@ -59,31 +53,29 @@
                         <td>{{ item.tenTrangThai }}</td>
                         <td>{{ item.ykienNguoiPheDuyet }}</td>
                         <td class="text-center action-table">
-                            <div class="flex">
-                                <i
+                            <div class="icon-group-table">
+                                <i class="fa  fa-ellipsis-h"></i>
+                                <div class="flex">
+                                    <div (click)="detail(item)"> <i
                                     class="fa fa-info-circle"
-                                    (click)="addNew()"
-                                    [routerLink]="[item.maKeHoach]"
-                                    [queryParams]="{ type: 'chitiet' }"
                                     title="Xem chi tiết"
-                                ></i>
-                                <i
+                                ></i><span>Xem chi tiết</span></div>
+                                <div (click)="lichsu(item)"> <i
                                     class="fa fa-clock-o"
-                                    (click)="lichsu(item)"
                                     title="Xem lịch sử"
-                                ></i>
-                                <i
-                                    *ngIf="item.maTrangThai == 'CGIAO'"
+                                ></i><span>Xem lịch sử</span></div>
+                                <div  [routerLink]="[item.maKeHoach]"
+                                [queryParams]="{ type: 'CHINHSUA' }">  <i
+                                    [class]="item.maTrangThai == 'CGIAO'?'':'khongthaotac' "
                                     class="fa fa-pencil"
-                                    [routerLink]="[item.maKeHoach]"
-                                    [queryParams]="{ type: 'CHINHSUA' }"
                                     title="Chỉnh sửa"
-                                ></i>
-                                <i (click)="xoa(item)"
-                                    *ngIf="item.maTrangThai == 'CGIAO'"
+                                ></i><span>Chỉnh sửa</span></div>
+                                <div (click)="xoa(item)">  <i
+                                    [class]="item.maTrangThai == 'CGIAO'?'':'khongthaotac'"
                                     class="fa fa-trash"
                                     title="Xóa bỏ"
-                                ></i>
+                                ></i><span>Xóa bỏ</span></div>
+                            </div>
                             </div>
                         </td>
                     </tr>
@@ -94,6 +86,7 @@
                   </li> -->
                 </tbody>
             </table>
+            </div>
             <mat-paginator
                 (page)="handlePageEvent($event)"
                 [length]="length"

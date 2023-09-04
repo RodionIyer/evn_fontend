@@ -21,7 +21,7 @@ import { SnotifyToast } from 'ng-alt-snotify';
 })
 export class ApiDinhHuongListComponent implements OnInit, OnDestroy {
 
-    public selectedYear: number;
+    public selectedYear: string;
     public selectedStatus: string;
     public actionClick: string = null;
     public getYearSubscription: Subscription;
@@ -78,7 +78,7 @@ export class ApiDinhHuongListComponent implements OnInit, OnDestroy {
                 this.listStatus = values;
         })
         this.geListYears();
-        this.selectedYear=(new Date()).getFullYear();
+        this.selectedYear='';
         this.selectedStatus='';
         this.timKiem();
     }
@@ -86,9 +86,18 @@ export class ApiDinhHuongListComponent implements OnInit, OnDestroy {
     geListYears() {
       this._serviceApi.execServiceLogin("3E0F3D82-66AE-4ABC-9FA7-B5C4B0355836", [{"name":"LOAI_TIM_KIEM","value":"CUATOI"}]).subscribe((data) => {
     
-        this.listYears = data.data || [];
-        let obj = {"id":"","name":"Tất cả"}
-        this.listYears.unshift(obj);
+        let obj = {"id":'',"name":"Tất cả"}
+        this.listYears.push(obj);
+        if(data.data !=undefined && data.data.length >0){
+           for(let i=0;i<data.data.length;i++){
+               obj = {"id":''+data.data[i].id,"name":''+data.data[i].name}
+               this.listYears.push(obj);
+             }
+        }
+
+        // this.listYears = data.data || [];
+        // let obj = {"id":0,"name":"Tất cả"}
+        // this.listYears.unshift(obj);
        
       })
     }
@@ -122,14 +131,14 @@ export class ApiDinhHuongListComponent implements OnInit, OnDestroy {
 
     detail(item){
         this._router.navigate(
-            ['/nghiepvu/kehoach/dinhhuong'],
+            ['/nghiepvu/kehoach/dinhhuong/'+item.maKeHoach],
             { queryParams: { type: 'CHITIET' } }
           );
     }
     
     editer(item){
         this._router.navigate(
-            ['/nghiepvu/kehoach/dinhhuong'],
+            ['/nghiepvu/kehoach/dinhhuong/'+item.maKeHoach],
             { queryParams: { type: 'CHINHSUA' } }
           );
     }

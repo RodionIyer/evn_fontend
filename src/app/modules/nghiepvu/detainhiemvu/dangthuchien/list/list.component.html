@@ -1,135 +1,95 @@
 <div class="relative eco_conntent">
-    <div class="bg-white px-3 content-screen">
+    <div class="content-screen">
         <!--màn hình danh sách-->
         <ng-container *ngIf="!actionClick">
-            <div class="flex items-center justify-between">
+            <div class="flex items-center justify-between header-custom">
                 <h1 class="title-component">ĐỀ TÀI, NHIỆM VỤ ĐANG THỰC HIỆN</h1>
             </div>
-            <div class="flex flex-row row gap-4 items-center mb-3">
-                <div class="basic-1/4">
-                    <label for="">Cấp quản lý</label>
-                </div>
-                <div class="basis-1/2">
-                    <ng-select
-                        style="width: 200px"
-                        [items]="listCapQuanLy"
-                        bindLabel="NAME"
-                        bindValue="ID"
-                        placeholder="Tất cả"
-                        [(ngModel)]="capQuanLy"
-                    >
-                    </ng-select>
-                </div>
-                <!-- <div class="basis-1/4">
-                <button class="add_button" (click)="addNew()">
-                    <i class="fa fa-plus"></i> Tạo bản ghi mới
-                </button>
+            <!-- <div class="flex items-center justify-between">
+                <h1 class="title-component">ĐỀ TÀI, NHIỆM VỤ ĐANG THỰC HIỆN</h1>
             </div> -->
-            </div>
-
-            <div class="flex flex-row row gap-4 items-center">
-                <div class="basic-1/4" style="margin-right: 13px">
-                    <label for="">Tìm kiếm</label>
-                </div>
-                <div class="basis-1/2">
-                    <input
-                        style="width: 80%"
-                        type="text"
-                        class="form-control"
-                        placeholder="Nhập từ khóa tìm kiếm: tên đề tài,nhiệm vụ, chủ nhiệm, đồng chủ nhiệm, thư ký"
-                        [(ngModel)]="q"
-                    />
-                </div>
-                <div class="basis-1/4">
-                    <button class="add_button" (click)="timKiem()">
-                        <i class="fa fa-search"></i>
-                        Tìm kiếm
-                    </button>
-                </div>
-            </div>
-
             <div class="header-list-dinh-huong">
-                <div class="serach-box"></div>
+                <div class="serach-box">
+                    <div class="flex flex-row row gap-4 items-center mb-3">
+                        <div class="basic-1/4">
+                            <label for="">Cấp quản lý</label>
+                        </div>
+                        <div class="basis-1/2">
+                            <ng-select style="width: 200px" [items]="listCapQuanLy" bindLabel="NAME" bindValue="ID"
+                                placeholder="Tất cả" [(ngModel)]="capQuanLy">
+                            </ng-select>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-row row gap-4 items-center">
+                        <div class="basic-1/4" style="margin-right: 13px">
+                            <label for="">Tìm kiếm</label>
+                        </div>
+                        <div class="basis-1/2">
+                            <input style="width: 80%" type="text" class="form-control"
+                                placeholder="Nhập từ khóa tìm kiếm: tên đề tài,nhiệm vụ, chủ nhiệm, đồng chủ nhiệm, thư ký"
+                                [(ngModel)]="q" (ngModelChange)="timKiem()" />
+                        </div>
+                    </div>
+                </div>
             </div>
+            <div class="table-fix-header" style="height: calc(100vh - 255px)">
             <table class="table table_custom">
                 <thead>
                     <tr>
                         <th class="stt_table">STT</th>
-                        <th>Tên đề tài/ nhiệm vụ KHCN</th>
-                        <th class="text-center">Cấp quản lý</th>
-                        <th class="text-center">Chủ nhiệm đề tài</th>
-                        <th class="text-center">Đơn vị chủ trì</th>
+                        <th class="text-left">Tên đề tài/ nhiệm vụ KHCN</th>
+                        <th class="text-left">Cấp quản lý</th>
+                        <th class="text-left">Chủ nhiệm đề tài</th>
+                        <th class="text-left">Đơn vị chủ trì</th>
                         <th class="text-center">Thời gian thực hiện</th>
-                        <th class="text-center">Trạng thái</th>
+                        <th class="text-left">Trạng thái</th>
                         <th class="text-center">Năm đăng ký</th>
-                        <th class="text-center action-table">Thao tác</th>
+                        <th class="text-left action-table">Thao tác</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let item of listGiao; let i = index">
                         <td class="stt_table">{{ (i+(pageIndex * pageSize)) + 1 }}</td>
-                        <td>{{ item.tenDeTai }}</td>
-                        <td>{{ item.tenCapQuanLy }}</td>
-                        <td class="text-center">{{ item.chuNhiemDeTai }}</td>
-                        <td>{{ item.tenDonViChuTri }}</td>
+                        <td class="text-left">{{ item.tenDeTai }}</td>
+                        <td class="text-left">{{ item.tenCapQuanLy }}</td>
+                        <td class="text-left">{{ item.chuNhiemDeTai }}</td>
+                        <td class="text-left">{{ item.tenDonViChuTri }}</td>
                         <td class="text-center">
                             {{
-                                item.thoiGianThucHienTu
-                                    | date : "MM/yyyy"
-                            }} - 
+                            item.thoiGianThucHienTu
+                            | date : "MM/yyyy"
+                            }} -
                             {{
-                                item.thoiGianThucHienDen
-                                    | date : "MM/yyyy" 
+                            item.thoiGianThucHienDen
+                            | date : "MM/yyyy"
                             }}
                         </td>
-                        <td>{{ item.tenTrangThai }}</td>
+                        <td class="text-left">{{ item.tenTrangThai }}</td>
                         <td class="text-center">
                             {{ item.ngayTao | date : "yyyy" }}
                         </td>
-                        <td class="text-center action-table">
-                            <div class="flex justify-evenly">
-                                <i
-                                    (click)="detail(item)"
-                                    class="fa fa-info-circle"
-                                    title="Xem chi tiết"
-                                ></i>
-                                <i
-                                    class="fa fa-clock-o"
-                                    (click)="lichsu(item)"
-                                    title="Xem lịch sử"
-                                ></i>
-                                <i
-                                    class="fa fa-pencil"
-                                    (click)="editer(item)"
-                                    class="fa fa-pencil"
-                                    title="Chỉnh sửa"
-                                ></i>
+                        <td class="text-left action-table">
+                            <div class="icon-group-table">
+                                <i class="fa  fa-ellipsis-h"></i>
+                                <div class="flex">
+                                    <div (click)="detail(item)"> <i class="fa fa-info-circle" title="Xem chi tiết"></i><span>Xem chi tiết</span></div>
+                                    <div (click)="lichsu(item)"> <i class="fa fa-clock-o" title="Xem lịch sử"></i><span>Xem lịch sử</span></div>
+                                    <div (click)="editer(item)"> <i class="fa fa-pencil" class="fa fa-pencil" title="Chỉnh sửa"></i><span>Chỉnh sửa</span></div>
                                 <!-- <i class="fa fa-trash" title="Xóa bỏ"></i> -->
-                                <i
-                                    (click)="updateActionHSTH(item)"
-                                    title="Cập nhập HSTH"
-                                    class="fa fa-retweet"
-                                ></i>
-                                <i
-                                    (click)="updateActionGH(item)"
-                                    title="Gia hạn"
-                                    class="fa fa-retweet"
-                                ></i>
+                                <div (click)="updateActionHSTH(item)"><i  title="Cập nhập HSTH" class="fa fa-retweet"></i><span>Cập nhập HSTH</span></div>
+                                <div (click)="updateActionGH(item)"><i  title="Gia hạn" class="fa fa-retweet"></i><span>Gia hạn</span></div>
+                            </div>
                             </div>
                         </td>
                     </tr>
                 </tbody>
             </table>
+            </div>
             <!-- phan trang -->
-            <mat-paginator
-                (page)="handlePageEvent($event)"
-                [length]="length"
-                [pageSize]="pageSize"
-                [showFirstLastButtons]="showFirstLastButtons"
-                [pageSizeOptions]="pageSizeOptions"
-                [pageIndex]="pageIndex"
-                aria-label="Select page"
-            >
+            <mat-paginator (page)="handlePageEvent($event)" [length]="length" [pageSize]="pageSize"
+                [showFirstLastButtons]="showFirstLastButtons" [pageSizeOptions]="pageSizeOptions"
+                [pageIndex]="pageIndex" aria-label="Select page">
             </mat-paginator>
         </ng-container>
         <!-- No template -->
@@ -143,9 +103,7 @@
 
         <!-- details -->
         <ng-container *ngIf="actionClick">
-            <div
-                class="flex-auto z-20 absolute inset-0 lg:static lg:inset-auto flex"
-            >
+            <div class="flex-auto z-20 absolute inset-0 lg:static lg:inset-auto flex">
                 <router-outlet></router-outlet>
             </div>
         </ng-container>

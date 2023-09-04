@@ -19,7 +19,7 @@ import { ListdinhhuongService } from '../../dinhhuong/listdinhhuong.service';
 })
 export class ApiPheduyetdinhhuongListComponent implements OnInit {
 
-    public selectedYear: [number];
+    public selectedYear: [string];
     public selectedStatus: string;
     public actionClick: string = null;
     public getYearSubscription: Subscription;
@@ -90,7 +90,7 @@ export class ApiPheduyetdinhhuongListComponent implements OnInit {
             {"MA_TRANG_THAI":"Y_CAU_HIEU_CHINH","TEN_TRANG_THAI":"Yêu cầu hiệu chỉnh"},
         {"MA_TRANG_THAI":"CHO_PHE_DUYET","TEN_TRANG_THAI":"Chờ phê duyệt"},
         {"MA_TRANG_THAI":"DA_PHE_DUYET","TEN_TRANG_THAI":"Đã duyệt"}]
-        this.selectedYear =[((new Date()).getFullYear())];
+       // this.selectedYear =;//[((new Date()).getFullYear())];
         this.selectedStatus='';
         this.timKiem();
     }
@@ -98,9 +98,17 @@ export class ApiPheduyetdinhhuongListComponent implements OnInit {
     geListYears() {
       this._serviceApi.execServiceLogin("3E0F3D82-66AE-4ABC-9FA7-B5C4B0355836", [{"name":"LOAI_TIM_KIEM","value":"PHEDUYET"}]).subscribe((data) => {
      
-        this.listYears = data.data || [];
-        let obj = {"id":"","name":"Tất cả"}
-        this.listYears.unshift(obj);
+        let obj = {"id":'',"name":"Tất cả"}
+        this.listYears.push(obj);
+        if(data.data !=undefined && data.data.length >0){
+           for(let i=0;i<data.data.length;i++){
+               obj = {"id":''+data.data[i].id,"name":''+data.data[i].name}
+               this.listYears.push(obj);
+             }
+        }
+        // this.listYears = data.data || [];
+        // let obj = {"id":"","name":"Tất cả"}
+        // this.listYears.unshift(obj);
        
       })
     }
@@ -131,7 +139,6 @@ export class ApiPheduyetdinhhuongListComponent implements OnInit {
        
     }
      async tonghop(status) {
-      debugger;
       let arr =this.listTongHop; // this.listDinhHuong.filter((c) => c.state == true);
       if(arr != undefined && arr.length != 0){
           this.addNew();

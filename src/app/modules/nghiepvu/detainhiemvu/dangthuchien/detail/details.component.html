@@ -311,6 +311,7 @@
                                             <!-- <i
                                                 class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
                                             ></i> -->
+                                            <span class="cursor-point" (click)="downLoadFile(item2)">
                                             {{ item2.get("fileName").value }}
                                             ({{
                                                 item2.get("size").value >
@@ -319,18 +320,19 @@
                                                           item2.get("size")
                                                               .value /
                                                           (1024 * 1024)
-                                                      ).toFixed(1) + " MB"
+                                                      ).toFixed(1) + "MB"
                                                     : item2.get("size").value >
                                                       1024
                                                     ? (
                                                           item2.get("size")
                                                               .value / 1024
-                                                      ).toFixed(1) + " KB"
+                                                      ).toFixed(1) + "KB"
                                                     : item2
                                                           .get("size")
                                                           .value.toFixed(1) +
                                                       "K"
                                             }})
+                                        </span>
                                             <i
                                                 style="
                                                     color: red;

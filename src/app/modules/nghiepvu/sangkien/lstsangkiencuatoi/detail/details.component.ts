@@ -223,7 +223,7 @@ export class DetailsComponent implements OnInit {
             method: actionType,
             maSangKien: [null],
             maTrangThai: [null],
-            nam: [null, [Validators.required]],
+            nam: new Date().getFullYear(),
             capDoSangKien: [null, [Validators.required]],
             donViApDungInfo: {},
             donViApDung: [null, [Validators.required]],
@@ -806,10 +806,6 @@ export class DetailsComponent implements OnInit {
         return "unknown";
       }
 
-      public objectComparisonLVUC_NCUU = function (option, value): boolean {
-        return option.MA_LVUC_NCUU === value.MA_LVUC_NCUU;
-    }
-    
     checkYear(event) {
         let now = new Date();
         let year = now.getFullYear();

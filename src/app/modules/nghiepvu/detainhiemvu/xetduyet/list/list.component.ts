@@ -129,7 +129,7 @@ export class ListItemComponent implements OnInit, OnDestroy {
         });
     }
     timKiem() {
-        this.spinner.show();
+       // this.spinner.show();
         let obj={
             capQuanLy:this.capQuanLy,
             q:this.q

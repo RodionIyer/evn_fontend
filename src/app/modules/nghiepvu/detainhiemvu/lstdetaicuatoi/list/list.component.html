@@ -14,12 +14,14 @@
                 <div class="serach-box">
                     <input type="text" class="form-control" name="serach"
                         placeholder="Nhập từ khóa tìm kiếm: tên đề tài,nhiệm vụ, chủ nhiệm, đồng chủ nhiệm, thư ký"
-                        [(ngModel)]="name" />
+                        [(ngModel)]="name" 
+                        (ngModelChange)="timKiem()"
+                        />
                     <!-- (change)="timKiem()"  (change)="onChange()" -->
-                    <button class="detai-search" (click)="timKiem()">
+                    <!-- <button class="detai-search" (click)="timKiem()">
                         <i class="fa fa-search"></i>
                         Tìm kiếm
-                    </button>
+                    </button> -->
                 </div>
             </div>
             <div class="table-fix-header" style="height: calc(100vh - 255px)">
@@ -27,14 +29,14 @@
                     <thead>
                         <tr>
                             <th class="stt_table">STT</th>
-                            <th>Tên đề tài/ nhiệm vụ KHCN</th>
-                            <th class="text-center">Cấp quản lý</th>
-                            <th class="text-center">Chủ nhiệm đề tài</th>
-                            <th class="text-center">Đơn vị chủ trì</th>
+                            <th class="text-left">Tên đề tài/ nhiệm vụ KHCN</th>
+                            <th class="text-left">Cấp quản lý</th>
+                            <th class="text-left">Chủ nhiệm đề tài</th>
+                            <th class="text-left">Đơn vị chủ trì</th>
                             <th class="text-center">Thời gian thực hiện</th>
-                            <th class="text-center">Trạng thái</th>
-                            <th class="text-center">Năm đăng ký</th>
-                            <th class="text-center action-table">Thao tác</th>
+                            <th class="text-left">Trạng thái</th>
+                            <th class="text-left">Năm đăng ký</th>
+                            <th class="text-left action-table">Thao tác</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -55,17 +57,17 @@
                                     <div class="flex">
                                         <div (click)="detail(item)"><i  class="fa fa-info-circle" title="Xem chi tiết"></i><span>Xem chi tiết</span></div>
                                         <div  (click)="lichsu(item)"><i class="fa fa-clock-o" title="Xem lịch sử"></i><span>Xem lịch sử</span></div>
-                                        <div *ngIf="item.maTrangThai=='CHUA_GUI' || item.maTrangThai=='Y_CAU_HIEU_CHINH' || item.maTrangThai=='YCAU_CAP_NHAT_HS_NTHU'"  (click)="editer(item)" ><i 
+                                        <div [class]="item.maTrangThai=='CHUA_GUI' || item.maTrangThai=='Y_CAU_HIEU_CHINH' || item.maTrangThai=='YCAU_CAP_NHAT_HS_NTHU'?'':'khongthaotac'"  (click)="editer(item)" ><i 
                                             class="fa fa-pencil"title="Chỉnh sửa"></i><span>Chỉnh sửa</span></div>
-                                        <div  (click)="updateActionHSTH(item)"  *ngIf="item.maTrangThai=='DANG_THUC_HIEN' || item.maTrangThai=='CHUA_GUI_HS_NTHU' || item.maTrangThai=='YCAU_CAP_NHAT_HS_NTHU'"><i 
+                                        <div  (click)="updateActionHSTH(item)"  [class]="item.maTrangThai=='DANG_THUC_HIEN' || item.maTrangThai=='CHUA_GUI_HS_NTHU' || item.maTrangThai=='YCAU_CAP_NHAT_HS_NTHU'?'':'khongthaotac'"><i 
                                            title="Cập nhập HSTH" class="fa fa-caret-square-o-up"></i><span>Cập nhập HSTH</span></div>
-                                        <div *ngIf="item.maTrangThai=='DANG_THUC_HIEN'" (click)="updateActionTIENDO(item)"><i 
+                                        <div [class]="item.maTrangThai=='DANG_THUC_HIEN'?'':'khongthaotac'" (click)="updateActionTIENDO(item)"><i 
                                             title="Cập nhật tiến độ thực hiện" class="fa fa-caret-square-o-up"></i><span>Cập nhật tiến độ</span></div>
-                                        <div *ngIf="item.maTrangThai=='DANG_THUC_HIEN' || item.maTrangThai=='YCAU_CAP_NHAT_HS_NTHU'" (click)="updateActionHSNT(item)"><i 
+                                        <div [class]="item.maTrangThai=='DANG_THUC_HIEN' || item.maTrangThai=='YCAU_CAP_NHAT_HS_NTHU'?'':'khongthaotac'" (click)="updateActionHSNT(item)"><i 
                                              title="Cập nhật HSNT" class="fa fa-caret-square-o-up" ></i><span>Cập nhật HSNT</span></div>
-                                        <div *ngIf="item.maTrangThai=='DA_NTHU'" (click)="updateActionHSQT(item)" ><i   title="Cập nhật HSQT"
+                                        <div [class]="item.maTrangThai=='DA_NTHU'?'':'khongthaotac'" (click)="updateActionHSQT(item)" ><i   title="Cập nhật HSQT"
                                             class="fa fa-caret-square-o-up"></i><span>Cập nhật HSQT</span></div>
-                                        <div *ngIf="item.maTrangThai=='CHUA_GUI'" (click)="xoa(item)"><i  class="fa fa-trash" title="Xóa bỏ"></i><span>Xóa bỏ</span></div>
+                                        <div class="item.maTrangThai=='CHUA_GUI'?'':'khongthaotac'" (click)="xoa(item)"><i  class="fa fa-trash" title="Xóa bỏ"></i><span>Xóa bỏ</span></div>
                                     </div>
                                 </div>
                             </td>

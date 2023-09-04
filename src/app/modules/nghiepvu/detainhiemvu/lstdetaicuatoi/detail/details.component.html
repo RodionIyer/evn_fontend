@@ -771,6 +771,7 @@
                                                 <!-- <i
                                                     class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
                                                 ></i> -->
+                                                <span class="cursor-point" (click)="downLoadFile(item2)">
                                                 {{
                                                 item2.get(
                                                     "fileName"
@@ -806,16 +807,7 @@
                                                         1
                                                         ) + "K"
                                                 }})
-                                            </td>
-
-                                            <td>
-                                                {{
-                                                item2.get(
-                                                    "sovanban"
-                                                ).value
-                                                }}
-                                            </td>
-                                            <td class="text-right">
+                                                </span>
                                                 <i
                                                     style="
                                                                 color: red;
@@ -1033,6 +1025,7 @@
                                                         <!-- <i
                                                             class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
                                                         ></i> -->
+                                                        <span class="cursor-point" (click)="downLoadFile(item2)">
                                                         {{
                                                         item2.get(
                                                             "fileName"
@@ -1068,8 +1061,8 @@
                                                                     1
                                                                     ) + "K"
                                                             }})
-                                                    </td>
-                                                    <td> <i
+                                                   </span>
+                                                    <!-- <i
                                                         class="fa fa-cloud-download"
                                                         style="
                                                                     color: green;
@@ -1082,7 +1075,8 @@
                                                                     )
                                                                 "
                                                         title="Download file"
-                                                    ></i></td>
+                                                    ></i> -->
+                                                </td>
                                                 </tr>
                                             </ng-container>
                                             </tbody>
@@ -1287,6 +1281,7 @@
                                                         <!-- <i
                                                             class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
                                                         ></i> -->
+                                                        <span class="cursor-point" (click)="downLoadFile(item2)">
                                                         {{
                                                         item2.get(
                                                             "fileName"
@@ -1322,7 +1317,9 @@
                                                                     1
                                                                     ) + "K"
                                                             }})
-                                                    </td>
+                                                            </span>
+
+                                                    <!-- </td>
                                                     <td> <i
                                                         class="fa fa-cloud-download"
                                                         style="
@@ -1336,7 +1333,8 @@
                                                                     )
                                                                 "
                                                         title="Download file"
-                                                    ></i></td>
+                                                    ></i> -->
+                                                </td>
                                                 </tr>
                                             </ng-container>
                                             </tbody>
@@ -1419,6 +1417,7 @@
                                                         <!-- <i
                                                             class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
                                                         ></i> -->
+                                                        <span class="cursor-point" (click)="downLoadFile(item2)">
                                                         {{
                                                         item2.get(
                                                             "fileName"
@@ -1454,8 +1453,8 @@
                                                                     1
                                                                     ) + "K"
                                                             }})
-                                                    </td>
-                                                    <td> <i
+                                                            </span>
+                                                     <!-- <i
                                                         class="fa fa-cloud-download"
                                                         style="
                                                                     color: green;
@@ -1468,7 +1467,8 @@
                                                                     )
                                                                 "
                                                         title="Download file"
-                                                    ></i></td>
+                                                    ></i> -->
+                                                </td>
                                                 </tr>
                                             </ng-container>
                                             </tbody>
@@ -1547,6 +1547,7 @@
                                                         <!-- <i
                                                             class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
                                                         ></i> -->
+                                                        <span class="cursor-point" (click)="downLoadFile(item2)">
                                                         {{
                                                         item2.get(
                                                             "fileName"
@@ -1582,8 +1583,9 @@
                                                                     1
                                                                     ) + "K"
                                                             }})
+                                                            </span>
                                                     </td>
-                                                    <td> <i
+                                                    <!-- <td> <i
                                                         class="fa fa-cloud-download"
                                                         style="
                                                                     color: green;
@@ -1596,7 +1598,7 @@
                                                                     )
                                                                 "
                                                         title="Download file"
-                                                    ></i></td>
+                                                    ></i></td> -->
                                                 </tr>
                                             </ng-container>
                                             </tbody>
@@ -1677,6 +1679,7 @@
                                                         <!-- <i
                                                             class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
                                                         ></i> -->
+                                                        <span class="cursor-point" (click)="downLoadFile(item2)">
                                                         {{
                                                         item2.get(
                                                             "fileName"
@@ -1712,8 +1715,9 @@
                                                                     1
                                                                     ) + "K"
                                                             }})
+                                                            </span>
                                                     </td>
-                                                    <td> <i
+                                                    <!-- <td> <i
                                                         class="fa fa-cloud-download"
                                                         style="
                                                                     color: green;
@@ -1726,7 +1730,7 @@
                                                                     )
                                                                 "
                                                         title="Download file"
-                                                    ></i></td>
+                                                    ></i></td> -->
                                                 </tr>
                                             </ng-container>
                                             </tbody>
@@ -1808,6 +1812,7 @@
                                                         <!-- <i
                                                             class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
                                                         ></i> -->
+                                                        <span class="cursor-point" (click)="downLoadFile(item2)">
                                                         {{
                                                         item2.get(
                                                             "fileName"
@@ -1843,8 +1848,9 @@
                                                                     1
                                                                     ) + "K"
                                                             }})
+                                                            </span>
                                                     </td>
-                                                    <td> <i
+                                                    <!-- <td> <i
                                                         class="fa fa-cloud-download"
                                                         style="
                                                                     color: green;
@@ -1857,7 +1863,7 @@
                                                                     )
                                                                 "
                                                         title="Download file"
-                                                    ></i></td>
+                                                    ></i></td> -->
                                                 </tr>
                                             </ng-container>
                                             </tbody>
@@ -2050,6 +2056,7 @@
                                         <!-- <i
                                             class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
                                         ></i> -->
+                                        <span class="cursor-point" (click)="downLoadFile(item2)">
                                         {{
                                         item2.get("fileName").value
                                         }}
@@ -2060,19 +2067,20 @@
                                             item2.get("size")
                                                 .value /
                                             (1024 * 1024)
-                                        ).toFixed(1) + " MB"
+                                        ).toFixed(1) + "MB"
                                             : item2.get("size")
                                                 .value > 1024
                                             ? (
                                                 item2.get("size")
                                                     .value / 1024
-                                            ).toFixed(1) + " KB"
+                                            ).toFixed(1) + "KB"
                                             : item2
                                                 .get("size")
                                                 .value.toFixed(
                                                 1
                                                 ) + "K"
                                         }})
+                                    </span>
                                         <!-- <i
                                             style="
                                                         color: red;
@@ -2085,7 +2093,7 @@
                                             class="fa fa-trash"
                                             title="Xóa bỏ"
                                         ></i> -->
-                                        <i
+                                        <!-- <i
                                             class="fa fa-cloud-download"
                                             style="
                                                         color: green;
@@ -2096,7 +2104,7 @@
                                                         downLoadFile(item2)
                                                     "
                                             title="Download file"
-                                        ></i>
+                                        ></i> -->
                                     </td>
                                 </tr>
                                 </tbody>
@@ -2246,34 +2254,32 @@
                                                 <!-- <i
                                                     class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
                                                 ></i> -->
+                                                <span class="cursor-point" (click)="downLoadFile(item2)">
                                                 {{
                                                 item2.get("fileName").value
                                                 }}
-                                            </td>
-                                            <td>
-                                                {{
+                                                ({{
                                                 item2.get("size").value >
                                                 1024 * 1024
                                                     ? (
                                                     item2.get("size")
                                                         .value /
                                                     (1024 * 1024)
-                                                ).toFixed(1) + "(MB)"
+                                                ).toFixed(1) + "MB"
                                                     : item2.get("size")
                                                         .value > 1024
                                                     ? (
                                                         item2.get("size")
                                                             .value / 1024
-                                                    ).toFixed(1) + "(KB)"
+                                                    ).toFixed(1) + "KB"
                                                     : item2
                                                         .get("size")
                                                         .value.toFixed(
                                                         1
                                                         ) + "K"
-                                                }}
-                                            </td>
-                                            <td>
-                                                <i
+                                                }})
+                                                </span>
+                                                <!-- <i
                                                     class="fa fa-cloud-download"
                                                     style="
                                                         color: green;
@@ -2284,7 +2290,7 @@
                                                         downLoadFile(item2)
                                                     "
                                                     title="Download file"
-                                                ></i>
+                                                ></i> -->
                                             </td>
                                         </tr>
                                         </tbody>
@@ -2405,6 +2411,7 @@
                                         <!-- <i
                                             class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
                                         ></i> -->
+                                        <span class="cursor-point" (click)="downLoadFile(item2)">
                                         {{
                                         item2.get("fileName").value
                                         }}
@@ -2415,19 +2422,20 @@
                                             item2.get("size")
                                                 .value /
                                             (1024 * 1024)
-                                        ).toFixed(1) + "(MB)"
+                                        ).toFixed(1) + "MB"
                                             : item2.get("size")
                                                 .value > 1024
                                             ? (
                                                 item2.get("size")
                                                     .value / 1024
-                                            ).toFixed(1) + "(KB)"
+                                            ).toFixed(1) + "KB"
                                             : item2
                                                 .get("size")
                                                 .value.toFixed(
                                                 1
                                                 ) + "K"
                                         }})
+                                        </span>
                                         <!-- <i
                                             style="
                                                         color: red;
@@ -2440,7 +2448,7 @@
                                             class="fa fa-trash"
                                             title="Xóa bỏ"
                                         ></i> -->
-                                        <i
+                                        <!-- <i
                                             class="fa fa-cloud-download"
                                             style="
                                                         color: green;
@@ -2451,7 +2459,7 @@
                                                         downLoadFile(item2)
                                                     "
                                             title="Download file"
-                                        ></i>
+                                        ></i> -->
                                     </td>
                                 </tr>
                                 </tbody>
@@ -2618,33 +2626,33 @@
                                                 <!-- <i
                                                     class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
                                                 ></i> -->
+                                                <span class="cursor-point" (click)="downLoadFile(item2)">
                                                 {{
                                                 item2.get("fileName").value
                                                 }}
-                                            </td>
-                                            <td>
-                                                {{
+                                                ({{
                                                 item2.get("size").value >
                                                 1024 * 1024
                                                     ? (
                                                     item2.get("size")
                                                         .value /
                                                     (1024 * 1024)
-                                                ).toFixed(1) + "(MB)"
+                                                ).toFixed(1) + "MB"
                                                     : item2.get("size")
                                                         .value > 1024
                                                     ? (
                                                         item2.get("size")
                                                             .value / 1024
-                                                    ).toFixed(1) + "(KB)"
+                                                    ).toFixed(1) + "KB"
                                                     : item2
                                                         .get("size")
                                                         .value.toFixed(
                                                         1
                                                         ) + "K"
-                                                }}
-                                            </td>
-                                            <td>
+                                                }})
+                                                </span>
+                                             </td>
+                                            <!--<td>
                                                 <i
                                                     class="fa fa-cloud-download"
                                                     style="
@@ -2657,7 +2665,7 @@
                                                     "
                                                     title="Download file"
                                                 ></i>
-                                            </td>
+                                            </td> -->
                                         </tr>
                                         </tbody>
                                     </table>
@@ -2889,6 +2897,7 @@
                                             <!-- <i
                                                 class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
                                             ></i> -->
+                                            <span class="cursor-point" (click)="downLoadFile(item2)">
                                             {{
                                             item2.get("fileName")
                                                 .value
@@ -2918,6 +2927,7 @@
                                                     1
                                                     ) + "K"
                                             }})
+                                            </span>
                                         </td>
 
                                         <!-- <td>
@@ -3074,6 +3084,7 @@
                                             <!-- <i
                                                 class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
                                             ></i> -->
+                                            <span class="cursor-point" (click)="downLoadFile(item2)">
                                             {{
                                             item2.get("fileName")
                                                 .value
@@ -3103,15 +3114,9 @@
                                                     1
                                                     ) + "K"
                                             }})
-                                        </td>
-
-                                        <!-- <td>
-                                            {{
-                                                item2.get("sovanban")
-                                                    .value
-                                            }}
-                                        </td> -->
-                                        <td class="text-right">
+                                            </span>
+                                        <!-- </td>
+                                        <td class="text-right"> -->
                                             <i
                                                 style="
                                                             color: red;
@@ -3345,6 +3350,7 @@
                                             <!-- <i
                                                 class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
                                             ></i> -->
+                                            <span class="cursor-point" (click)="downLoadFile(item2)">
                                             {{
                                             item2.get("fileName")
                                                 .value
@@ -3374,15 +3380,7 @@
                                                     1
                                                     ) + "K"
                                             }})
-                                        </td>
-
-                                        <!-- <td>
-                                            {{
-                                                item2.get("sovanban")
-                                                    .value
-                                            }}
-                                        </td> -->
-                                        <td class="text-right">
+                                            </span>
                                             <i
                                                 style="
                                                             color: red;
@@ -3533,6 +3531,7 @@
                                             <!-- <i
                                                 class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
                                             ></i> -->
+                                            <span class="cursor-point" (click)="downLoadFile(item2)">
                                             {{
                                             item2.get("fileName")
                                                 .value
@@ -3562,15 +3561,7 @@
                                                     1
                                                     ) + "K"
                                             }})
-                                        </td>
-
-                                        <!-- <td>
-                                            {{
-                                                item2.get("sovanban")
-                                                    .value
-                                            }}
-                                        </td> -->
-                                        <td class="text-right">
+                                            </span>
                                             <i
                                                 style="
                                                             color: red;
@@ -3790,6 +3781,7 @@
                                 <!-- <i
                                     class="fa fa-file-text-o border-none mr-0 p-0 text-sky-500"
                                 ></i> -->
+                                <span class="cursor-point" (click)="downLoadFile(item2)">
                                 {{ item2.get("fileName").value }}
                                 ({{
                                 item2.get("size").value >
@@ -3797,16 +3789,17 @@
                                     ? (
                                     item2.get("size").value /
                                     (1024 * 1024)
-                                ).toFixed(1) + " MB"
+                                ).toFixed(1) + "MB"
                                     : item2.get("size").value > 1024
                                     ? (
                                         item2.get("size").value /
                                         1024
-                                    ).toFixed(1) + " KB"
+                                    ).toFixed(1) + "KB"
                                     : item2
                                         .get("size")
                                         .value.toFixed(1) + "K"
                                 }})
+                                </span>
                                 <i
                                     style="
                                                 color: red;

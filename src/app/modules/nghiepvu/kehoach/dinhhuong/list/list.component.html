@@ -1,80 +1,91 @@
 <div class="relative eco_conntent">
     <!--màn hình danh sách [value]='(new Date()).getFullYear()' -->
     <ng-container *ngIf="!actionClick">
-        <div class="bg-white p-3">
+        <div class="content-screen">
+            <div class="flex items-center justify-between header-custom">
+                <h1 class="title-component">DANH SÁCH BẢN ĐĂNG KÝ ĐỊNH HƯỚNG</h1>
+                <button class="add_button" (click)="addNew()"><i class="fa fa-plus"></i>
+                    Tạo mới bản đăng ký</button>
+            </div>
+            <!-- <div class="bg-white p-3">
         <div class="flex items-center justify-between ">
-            <!-- <h1 class="title-component">DANH SÁCH BẢN ĐĂNG KÝ ĐỊNH HƯỚNG</h1> -->
             <h1 class="title-component">DANH SÁCH BẢN ĐĂNG KÝ ĐỊNH HƯỚNG</h1>
             <button class="add_button" (click)="addNew()"><i class="fa fa-plus"></i>
                 Tạo mới bản đăng ký</button>
-        </div>
-        <div class="header-list-dinh-huong">
-            <div class="year-left">
-                <label for="">Năm</label>
-                <ng-select [items]="listYears"  bindLabel="name" bindValue="id" placeholder="Chọn năm" (change)="timKiem()"
-                    [(ngModel)]="selectedYear">
-                </ng-select>
-            </div>
-            <div class="statust-right">
-                <label for="">Trạng thái</label>
-                <ng-select [items]="listStatus" bindLabel="TEN_TRANG_THAI" bindValue="MA_TRANG_THAI" (change)="timKiem()" placeholder="Chọn trạng thái"
-                    [(ngModel)]="selectedStatus">
-                </ng-select>
-            </div>
-        </div>
-        <table class="table table_custom">
-            <thead>
-                <tr>
-                    <th class="stt_table">STT</th>
-                    <th>Tên bản đăng ký</th>
-                    <th>Đơn vị gửi</th>
-                    <th class="text-center">Người gửi</th>
-                    <th class="text-center">Ngày gửi</th>
-                    <th class="text-center">Năm</th>
-                    <th class="text-center">Trạng thái</th>
-                    <th class="text-center">Ý kiến người phê duyệt</th>
-                    <th class="text-center action-table">Thao tác</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let item of listDinhHuong; let i = index">
-                    <td class="stt_table">{{ (i+(pageIndex * pageSize))+ 1}}</td>
-                    <td>{{item.name}}</td>
-                    <td>{{item.tenDonVi}}</td>
-                    <td>{{item.nguoiGui}}</td>
-                    <td class="text-center">{{item.ngayGui}}</td>
-                    <td class="text-right">{{item.nam}}</td>
-                    <td >{{item.tenTrangThai}}</td>
-                    <td>{{item.ykienNguoiPheDuyet}}</td>
-                    <td class="action-table">
-                        <div class="flex justify-evenly"  style="float: left;">
-                            <i class="fa fa-info-circle cursor-point" [routerLink]="[item.maKeHoach]"  [queryParams]="{type: 'CHITIET'}" title="Xem chi tiết"></i>
-                            <i class="fa fa-clock-o cursor-point" (click)="lichsu(item)" title="Xem lịch sử"></i>
-                            <i *ngIf="item.maTrangThai=='SOAN' || item.maTrangThai=='Y_CAU_HIEU_CHINH' " class="fa fa-pencil cursor-point"  [routerLink]="[item.maKeHoach]" [queryParams]="{type: 'CHINHSUA'}" title="Chỉnh sửa"></i>
-                            <i *ngIf="item.maTrangThai=='SOAN' || item.maTrangThai=='Y_CAU_HIEU_CHINH' " class="fa fa-trash cursor-point" (click)="xoa(item)" title="Xóa bỏ"></i>
-                        </div>
-                    </td>
-                </tr>
-                <!-- <li class="nav-item">
+        </div> -->
+            <div class="content-page-all">
+                <div class="header-list-dinh-huong">
+                    <div class="serach-box">
+                            <div class="year-left">
+                                <label for="">Năm</label>
+                                <ng-select [items]="listYears" bindLabel="name" bindValue="id" placeholder="Chọn năm"
+                                    (ngModelChange)="timKiem()" [(ngModel)]="selectedYear">
+                                </ng-select>
+                            </div>
+                            <div class="statust-right">
+                                <label for="">Trạng thái</label>
+                                <ng-select [items]="listStatus" bindLabel="TEN_TRANG_THAI" bindValue="MA_TRANG_THAI"
+                                    (ngModelChange)="timKiem()" placeholder="Chọn trạng thái"
+                                    [(ngModel)]="selectedStatus">
+                                </ng-select>
+                            </div>
+                    </div>
+                </div>
+                <div class="table-fix-header" style="height: calc(100vh - 255px)">
+                    <table class="table table_custom">
+                        <thead>
+                            <tr>
+                                <th class="stt_table">STT</th>
+                                <th>Tên bản đăng ký</th>
+                                <th>Đơn vị gửi</th>
+                                <th class="text-center">Người gửi</th>
+                                <th class="text-center">Ngày gửi</th>
+                                <th class="text-center">Năm</th>
+                                <th class="text-center">Trạng thái</th>
+                                <th class="text-center">Ý kiến người phê duyệt</th>
+                                <th class="text-center action-table">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of listDinhHuong; let i = index">
+                                <td class="stt_table">{{ (i+(pageIndex * pageSize))+ 1}}</td>
+                                <td>{{item.name}}</td>
+                                <td>{{item.tenDonVi}}</td>
+                                <td>{{item.nguoiGui}}</td>
+                                <td class="text-center">{{item.ngayGui}}</td>
+                                <td class="text-right">{{item.nam}}</td>
+                                <td>{{item.tenTrangThai}}</td>
+                                <td>{{item.ykienNguoiPheDuyet}}</td>
+                                <td class="action-table">
+                                    <div class="icon-group-table">
+                                        <i class="fa  fa-ellipsis-h"></i>
+                                        <div class="flex">
+                                            <div (click)="detail(item)">  <i class="fa fa-info-circle cursor-point" title="Xem chi tiết"></i><span>Xem chi tiết</span></div>
+                                            <div (click)="lichsu(item)">  <i class="fa fa-clock-o cursor-point" title="Xem lịch sử"></i><span>Xem lịch sử</span></div>
+                                            <div (click)="editer(item)">  <i [class]="item.maTrangThai=='SOAN' || item.maTrangThai=='Y_CAU_HIEU_CHINH'?'':'khongthaotac'"
+                                            class="fa fa-pencil cursor-point" title="Chỉnh sửa"></i><span>Chỉnh sửa</span></div>
+                                            <div (click)="xoa(item)">  <i [class]="item.maTrangThai=='SOAN' || item.maTrangThai=='Y_CAU_HIEU_CHINH'?'':'khongthaotac'"
+                                            class="fa fa-trash cursor-point" title="Xóa bỏ"></i><span>Xóa bỏ</span></div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <!-- <li class="nav-item">
                     <a class="nav-link" 
                     [routerLink]="['/about']"
                     [queryParams]="{part: 'navbar',search: 'about', year: 2021 }">About</a>
                   </li> -->
-                
-            </tbody>
-        </table>
-        <mat-paginator
-        (page)="handlePageEvent($event)"
-        [length]="length"
-        [pageSize]="pageSize"
-        [showFirstLastButtons]="showFirstLastButtons"
-        [pageSizeOptions]="pageSizeOptions"
-        [pageIndex]="pageIndex"
-        aria-label="Select page"
-    >
-    </mat-paginator>
 
-</div>
+                        </tbody>
+                    </table>
+                </div>
+                <mat-paginator (page)="handlePageEvent($event)" [length]="length" [pageSize]="pageSize"
+                    [showFirstLastButtons]="showFirstLastButtons" [pageSizeOptions]="pageSizeOptions"
+                    [pageIndex]="pageIndex" aria-label="Select page">
+                </mat-paginator>
+
+            </div>
+        </div>
     </ng-container>
 
     <!-- details -->
