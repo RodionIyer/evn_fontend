@@ -10,6 +10,9 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { moneyDirective } from './fomat-money.directive';
 import { TextMaskModule } from 'angular2-text-mask';
 import { ServiceService } from './service/service.service';
+import { ViewFileComponent } from './component/view-file/view-file.component';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { BrowserModule } from '@angular/platform-browser';
 
 @NgModule({
     imports: [
@@ -17,8 +20,9 @@ import { ServiceService } from './service/service.service';
         FormsModule,
         ReactiveFormsModule, 
         NgSelectModule,
-        TextMaskModule
-    ],
+        TextMaskModule,
+        PdfViewerModule
+      ],
 
     declarations: [
         TablePlansComponent,
@@ -27,6 +31,7 @@ import { ServiceService } from './service/service.service';
         LichsuComponent,
         LichsuKeHoachComponent,
         moneyDirective,
+        ViewFileComponent
     ],
     exports: [
         CommonModule,
@@ -37,7 +42,8 @@ import { ServiceService } from './service/service.service';
         PopupConfirmComponent,
         LichsuComponent,
         LichsuKeHoachComponent,
-        moneyDirective
+        moneyDirective,
+        ViewFileComponent
     ]
     ,
     providers:[ServiceService],

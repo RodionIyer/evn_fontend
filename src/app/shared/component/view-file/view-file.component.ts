@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-view-file',
@@ -7,9 +8,29 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ViewFileComponent implements OnInit {
 
-  constructor() { }
+  pdfSrc;
+  constructor(
+
+    public dialog: MatDialog,
+    @Inject(MAT_DIALOG_DATA) private data: any,
+    private dialogRef: MatDialogRef<ViewFileComponent>
+  ) {
+    if (data) {
+      this.pdfSrc = data.file
+
+    }
+  }
+
 
   ngOnInit(): void {
+
   }
+
+
+  onCloseClick(): void {
+    this.dialogRef.close(true);
+  }
+
+
 
 }

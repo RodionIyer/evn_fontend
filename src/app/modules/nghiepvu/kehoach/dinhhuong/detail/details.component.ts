@@ -19,6 +19,7 @@ import { PopupCbkhComponent } from './popup-cbkh/popup-cbkh.component';
 import { User } from 'app/core/user/user.types';
 import { DOfficeService } from 'app/shared/service/doffice.service'
 import { DOfficeComponent } from 'app/shared/component/d-office/d-office.component';
+import { ViewFileComponent } from 'app/shared/component/view-file/view-file.component';
 
 @Component({
     selector: 'component-details',
@@ -446,8 +447,6 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
         // if(ext =='pdf'){
         //         window.open(url, "_blank");
         // }   
-        debugger
-       
         if (item.base64 != undefined && item.base64 != '') {
             let link = item.base64.split(',');
             let url = '';
@@ -473,14 +472,13 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
     let typeFile =  await this.detectMimeType(base64String, fileName);
     let mediaType = `data:${typeFile};base64,`;
     const downloadLink = document.createElement('a');
-    this._serviceApi.viewfile.next('rewrwerew');
-    //this._router.navigate(['http://localhost:4200/viewFile']);
-    this._router.navigateByUrl('viewfile');
         downloadLink.href = mediaType + base64String;
         downloadLink.download = fileName;
-
-       // window.open(mediaType + base64String); 
-        downloadLink.click();
+        if(typeFile == 'application/pdf'){
+        this.openAlertDialogViewFile(downloadLink.href)// popup view file pdf
+        }else{
+            downloadLink.click();
+        }
     }
 
    async detectMimeType(base64String, fileName) {
@@ -605,6 +603,20 @@ export class ApiDinhHuongDetailsComponent implements OnInit {
              })
             });
             
+    }
+
+
+    async openAlertDialogViewFile(base64) {
+        let data = this.dialog.open(ViewFileComponent, {
+            data: {
+                file: base64,
+            },
+            width: '1000px',
+            panelClass: 'custom-Popupviewfile',
+            position: {
+                top: '1px',
+            },
+        });
     }
 
     // addListDocChildView(tenFile,base64str,decoded,kyHieu) {
