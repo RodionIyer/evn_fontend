@@ -6,7 +6,7 @@
             border-color: #56BEEA;
         }
     }
-    .fa-times{
+    .fa-trash{
         color: red;
         &:hover {
             border-color: red;

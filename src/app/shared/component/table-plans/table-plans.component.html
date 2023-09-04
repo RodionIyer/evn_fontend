@@ -89,7 +89,7 @@
                                     <!-- <td><input type="text" class="form-control" formControlName="YKienNguoiPheDuyet" /></td> -->
                                     <td class="text-center action-table actiom-table-detail">
                                         <div class="flex justify-evenly" *ngIf="itemc.get('chiTiet').value ==0 && actionType !='CHITIET'">
-                                            <i (click)="removeItem(item,c,3)" class="fa fa-times" title="Xóa bỏ"></i>
+                                            <i (click)="removeItem(item,c,3)" class="fa fa-trash" title="Xóa bỏ"></i>
                                         </div>
                                     </td>
                                 </tr>
@@ -172,7 +172,7 @@
                                                 <!-- <td><input type="text" class="form-control" formControlName="YKienNguoiPheDuyet" /></td> -->
                                                 <td class="text-center action-table actiom-table-detail">
                                                     <div class="flex justify-evenly" *ngIf="actionType !='CHITIET'">
-                                                        <i (click)="removeItem(items,c,3)" class="fa fa-times"
+                                                        <i (click)="removeItem(items,c,3)" class="fa fa-trash"
                                                             title="Xóa bỏ"></i>
                                                     </div>
                                                 </td>
@@ -266,7 +266,7 @@
                                                             <td class="text-center action-table actiom-table-detail">
                                                                 <div class="flex justify-evenly" *ngIf="actionType !='CHITIET'">
                                                                     <i (click)="removeItem(items2,c,4)"
-                                                                        class="fa fa-times" title="Xóa bỏ"></i>
+                                                                        class="fa fa-trash" title="Xóa bỏ"></i>
                                                                 </div>
                                                             </td>
                                                         </tr>

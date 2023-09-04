@@ -146,6 +146,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
     public nguoiSua : any;
     public nguoiTao : any;
     public ngayTao : any;
+    public orgid : any;
 
     constructor(
         private _formBuilder: FormBuilder,
@@ -367,6 +368,7 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((user: any) => {
                 this.user = user;
+                this.orgid ==user.ORGID;
                 if(this.user != undefined && this.user != null && user.roles.length >0){
                     this.listRole = user.roles.map(item => {
                         return item.ROLECODE;
@@ -1177,21 +1179,23 @@ export class LstdetaicuatoiDetailsComponent implements OnInit {
     }
 
     onSubmit(status, method) {
+        let maDonVi = this.form.get('donViChuTri').value;
+        if(this.orgid != maDonVi && this.orgid !=124){
 
-        if (this.form.invalid) {
-            for (const control of Object.keys(this.form.controls)) {
-                this.form.controls[control].markAsTouched();
-            }
-            return;
-        }
-        
-        //if (method != 'CAPNHATHSTHUCHIEN'){
-            this.submitted.check = true;
+        }else{
             if (this.form.invalid) {
-                this._messageService.showWarningMessage("Thông báo", "Chưa nhập đủ trường bắt buộc!")
+                for (const control of Object.keys(this.form.controls)) {
+                    this.form.controls[control].markAsTouched();
+                }
                 return;
             }
-      // }
+                this.submitted.check = true;
+                if (this.form.invalid) {
+                    this._messageService.showWarningMessage("Thông báo", "Chưa nhập đủ trường bắt buộc!")
+                    return;
+                }
+        }
+       
         if (this.form.get('danhSachThanhVien').value.length > 0) {
             let listTV: any[] = this.form.get('danhSachThanhVien').value;
             if (listTV.filter(n => n.ten == null || n.ten == '').length > 0) {
